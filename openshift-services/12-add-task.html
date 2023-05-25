@@ -149,7 +149,7 @@
 </ol>
 </div>
 <div class="paragraph">
-<p>最終的には、下記のステップがタスクで自動実行されます（ここでは実施不要です）。</p>
+<p>まず、タスクで実装するtrivyによる脆弱性チェックを手動で実行してみましょう。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -157,7 +157,11 @@
 <p>OpenShiftのadmin user でログインし、image registry の default-route を取得します。</p>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u admin -p &lt;パスワード&gt; &lt;OpenShift API :6443&gt;
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># OpenShift APIへログイン
+oc login -u admin -p &lt;パスワード&gt; &lt;OpenShift API URL:6443&gt;
+# OpenShift Image RegistryのdefaultRouteを有効化
+oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge
+# Image Registryのrouteを取得
 export APISERVER=`oc get route default-route -n openshift-image-registry --template='{{ .spec.host }}'`</code></pre>
 </div>
 </div>
@@ -176,7 +180,7 @@ export APISERVER=`oc get route default-route -n openshift-image-registry --templ
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export TEKTON_TRIVY_IMAGE='aquasec/trivy:0.41.0'
 export OCP_USER=admin
-export OCP_TOKEN=sha256~11hnNe5tef3GOD84R6hNZtzTNjqAERZ722l2KvDj4r8</code></pre>
+export OCP_TOKEN=`oc whoami --show-token`</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -532,7 +536,14 @@ spec:
 </ol>
 </div>
 <div class="paragraph">
-<p>[参考] 以下のようにCLIからも実行できます。</p>
+<p>[参考] TknツールによりCLIからパイプラインを実行する場合は、下記のような指定になります。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>指定のファイルを作成していないため、このままでは動作しません</p>
+</li>
+</ul>
 </div>
 <div class="listingblock console-input">
 <div class="content">
