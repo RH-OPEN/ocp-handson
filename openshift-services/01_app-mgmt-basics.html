@@ -183,6 +183,13 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">アプリケーション管理の基礎</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>本コンテンツは、https://github.com/team-ohc-jp-place/openshift-cns-testdrive[MAD Workshop Ops Track] の内容と同じものになります。</p>
+</div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
 <div class="sectionbody">
@@ -206,9 +213,9 @@
 <div class="paragraph">
 <p>この演習ではまず、いくつかのリソースを保持するProjectを作成します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc new-project app-management</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc new-project app-management</code></pre>
 </div>
 </div>
 </div>
@@ -221,9 +228,9 @@
 <div class="paragraph">
 <p>次のようにQuay上に存在する特定のイメージを起動します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc new-app quay.io/openshiftroadshow/mapit</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc new-app quay.io/openshiftroadshow/mapit</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -271,9 +278,9 @@ g one or more of the commands below:
 <div class="paragraph">
 <p>Podの一覧は次のように取得できます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pods</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -300,9 +307,9 @@ Pod名はデプロイプロセスの一部として動的に生成されます�
 <div class="paragraph">
 <p><code>oc describe</code> コマンドを使うと、Podの詳細を知ることができます。上記のPod名の場合、</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc describe pod -l deployment=mapit</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc describe pod -l deployment=mapit</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -436,9 +443,9 @@ horaxe/mapit@sha256:8c7e0349b6a016e3436416f3c54debda4594ba09fd34b8a0dee0c4497102
 <div class="paragraph">
 <p>それではProject内の <strong>Service</strong> のリストを見てみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get services</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get services</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -465,9 +472,9 @@ mapit   ClusterIP   172.30.167.160   &lt;none&gt;        8080/TCP,8778/TCP,9779/
 <div class="paragraph">
 <p><strong>Pod</strong> と同じように、<strong>Service</strong> も <code>describe</code> で説明を表示することができます。OpenShiftではほとんどのオブジェクトを <code>describe</code> で説明を表示することができます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc describe service mapit</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc describe service mapit</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -504,9 +511,9 @@ etcdはデータをKeyとValueのペアとして格納し、このデータは�
 <div class="paragraph">
 <p><strong>Service</strong> のYAML出力を見てみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get service mapit -o yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get service mapit -o yaml</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -601,9 +608,9 @@ status:
 <p>同様に <strong>Pod</strong> のYAMLも調べてみて、OpenShiftがコンポーネント同士を繋げている様子を理解するのも面白いことです。<br>
 <code>mapit</code> Podの名前を探して、以下を実行します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pod -l deployment=mapit -o jsonpath='{.items[*].metadata.labels}' | jq -r</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pod -l deployment=mapit -o jsonpath='{.items[*].metadata.labels}' | jq -r</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -700,9 +707,9 @@ documentation</a> を参照してください。
 <p><strong>ReplicaSet</strong> と <strong>Deployment</strong> が何かが分かったので、それらがどのように動作し、どのように関連しているかを探ってみましょう。<br>
 OpenShiftに <code>mapit</code> イメージを立ち上げるように指示したときに作成された <strong>Deployment</strong> (deploy)を見てみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get deploy</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get deploy</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -720,9 +727,9 @@ mapit   1/1     1            1           76m</pre>
 <div class="paragraph">
 <p>OpenShiftに <code>mapit</code> イメージを立ち上げるように指示したときに作成された <strong>ReplicaSet (RS)</strong> を見てみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get rs</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get rs</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -743,17 +750,17 @@ mapit-764c5bf8b8   1         1         1       77m</pre>
 <div class="paragraph">
 <p><code>mapit</code> アプリケーションを2つのインスタンスまでスケールしてみましょう。これは scale コマンドで行うことができます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc scale --replicas=2 deploy/mapit</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc scale --replicas=2 deploy/mapit</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>以下のコマンドでレプリカの数が変更されたことを確認できます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get rs</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get rs</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -781,9 +788,9 @@ mapit-8695cb9c67   0         0         0       79m</pre>
 <div class="paragraph">
 <p>これで 2つのレプリカができたことがわかります。<code>oc get pods</code> コマンドでPodの数を確認してみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pods</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -799,9 +806,9 @@ mapit-764c5bf8b8-l49z7   1/1     Running   0          81m</pre>
 <div class="paragraph">
 <p>そして最後に、<strong>Service</strong> が2つのエンドポイントを正しく反映しているかを検証してみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc describe svc mapit</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc describe svc mapit</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -834,9 +841,9 @@ Events:            &lt;none&gt;</pre>
 <div class="paragraph">
 <p><strong>Service</strong> のエンドポイントを見る別の方法としては、次のようなものがあります。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get endpoints mapit</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get endpoints mapit</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -874,9 +881,9 @@ OpenShiftは既存のイメージの新しいインスタンスを起動して�
 <div class="paragraph">
 <p>現在2つの <strong>Pod</strong> が稼働しているので、1つを「誤って」killしてしまった場合にどうなるか見てみましょう。<code>oc get pods</code> コマンドをもう一度実行して、<strong>Pod</strong> 名を選択し、次のようにしてみます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pods</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -892,17 +899,17 @@ mapit-764c5bf8b8-rscss   1/1     Running   0          2m54s</pre>
 <div class="paragraph">
 <p><strong>Deployment</strong> <code>mapit</code> に属するPodを削除します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc delete pods -l deployment=mapit --wait=false</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc delete pods -l deployment=mapit --wait=false</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>再度 <code>oc get pods</code> コマンドを実行します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pods</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -932,9 +939,9 @@ mapit-764c5bf8b8-rscss   1/1     Running   0          2m54s</pre>
 <p>Routerの設定を覚えていますか？おそらく覚えていないと思います。それは、OpenShiftのインストール中にRouter用のOperatorがデプロイされ、OperatorがRouterを作成したからです。<br>
 Routerは <code>openshift-ingress</code> <strong>Project</strong> にあり、以下のコマンドでその情報を見ることができます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc describe deployment router-default -n openshift-ingress</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc describe deployment router-default -n openshift-ingress</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -947,9 +954,9 @@ Routerは <code>openshift-ingress</code> <strong>Project</strong> にあり、�
 <p><strong>Route</strong> の作成は非常に簡単なプロセスです。コマンドラインから <strong>Service</strong> を <code>exporse</code> するだけです。<br>
 先ほどの <strong>Service</strong> の名前は <code>mapit</code> となっています。<strong>Service</strong> 名があれば、<strong>Route</strong> の作成はコマンド1つで簡単にできます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc expose service mapit</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc expose service mapit</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -963,9 +970,9 @@ Routerは <code>openshift-ingress</code> <strong>Project</strong> にあり、�
 <div class="paragraph">
 <p>次のコマンドで <strong>Route</strong> が作成されたことを確認します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get route</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get route</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1012,9 +1019,9 @@ oc expose service mapit</pre>
 <div class="paragraph">
 <p>続ける前に、アプリケーションを1つのインスタンスにスケールダウンしてください。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc scale --replicas=1 deploy/mapit</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc scale --replicas=1 deploy/mapit</code></pre>
 </div>
 </div>
 </div>
@@ -1051,9 +1058,9 @@ Health</a> セクションを参照してください。</p>
 <code>mapit</code> アプリケーションはエンドポイントを公開していますので、それが生きていて応答する準備ができているかどうかを確認することができます。
 次のように <code>curl</code> を使ってテストすることが可能です。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">curl mapit-app-management.{{ ROUTE_SUBDOMAIN }}/health</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">curl mapit-app-management.{{ ROUTE_SUBDOMAIN }}/health</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1067,17 +1074,17 @@ Health</a> セクションを参照してください。</p>
 <div class="paragraph">
 <p>以下のコマンドを使用して、OpenShiftにこのエンドポイントが生きているかどうかを調べるように依頼することができます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc set probe deploy/mapit --liveness --get-url=http://:8080/health --initial-delay-seconds=30</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc set probe deploy/mapit --liveness --get-url=http://:8080/health --initial-delay-seconds=30</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><code>oc describe</code> の出力からこのProbeが定義されていることがわかります。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc describe deploy mapit</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc describe deploy mapit</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1103,9 +1110,9 @@ Health</a> セクションを参照してください。</p>
 <div class="paragraph">
 <p>Readyiness Probeも同様にできます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc set probe deploy/mapit --readiness --get-url=http://:8080/health --initial-delay-seconds=30</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc set probe deploy/mapit --readiness --get-url=http://:8080/health --initial-delay-seconds=30</code></pre>
 </div>
 </div>
 </div>
@@ -1117,9 +1124,9 @@ Health</a> セクションを参照してください。</p>
 <div class="paragraph">
 <p>次を実行して下さい。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get deployments</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get deployments</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1137,9 +1144,9 @@ mapit   1/1     1            1           131m</pre>
 <div class="paragraph">
 <p>以下を実行して下さい。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get replicasets</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get replicasets</code></pre>
 </div>
 </div>
 <div class="paragraph">
