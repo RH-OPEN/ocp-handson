@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>MachineSets, Machines, Nodes :: OpenShift Handson</title>
+    <title>ノードの動的管理 :: OpenShift Handson</title>
     <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/03_machinesets.html">
     <link rel="prev" href="02_app-storage-basics.html">
     <link rel="next" href="04_infra-nodes.html">
@@ -182,7 +182,7 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">MachineSets, Machines, Nodes</h1>
+<h1 class="page">ノードの動的管理</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
@@ -211,9 +211,9 @@
 <div class="paragraph">
 <p>以下を実行します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get machineset -n openshift-machine-api</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get machineset -n openshift-machine-api</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -233,9 +233,9 @@ cluster-f4a3-lpxbs-worker-us-east-2c   1         1         1       1           4
 <div class="paragraph">
 <p>※演習で使用する環境によっては、<code>Node</code> の数が異なる場合があります。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get machine -n openshift-machine-api</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get machine -n openshift-machine-api</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -243,13 +243,11 @@ cluster-f4a3-lpxbs-worker-us-east-2c   1         1         1       1           4
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>NAME                                         INSTANCE              STATE     TYPE         REGION      ZONE         AGE
-cluster-f4a3-lpxbs-master-0                  i-04280885cafad3130   running   m4.xlarge    us-east-2   us-east-2a   47h
-cluster-f4a3-lpxbs-master-1                  i-0def910edcae51d11   running   m4.xlarge    us-east-2   us-east-2b   47h
-cluster-f4a3-lpxbs-master-2                  i-0beb5e40214d706fc   running   m4.xlarge    us-east-2   us-east-2c   47h
-cluster-f4a3-lpxbs-worker-us-east-2a-b94pr   i-0a922c0fe765caa3c   running   m5.2xlarge   us-east-2   us-east-2a   47h
-cluster-f4a3-lpxbs-worker-us-east-2b-m8gbx   i-0fb8d960b8a3a3343   running   m5.2xlarge   us-east-2   us-east-2b   47h
-cluster-f4a3-lpxbs-worker-us-east-2c-5tmg7   i-0151c72cd85f85038   running   m5.2xlarge   us-east-2   us-east-2c   47h</pre>
+<pre>NAME                                          PHASE     TYPE           REGION      ZONE         AGE
+cluster-zbwlg-cbgq7-master-0                  Running   c6in.2xlarge   us-east-2   us-east-2a   4h24m
+cluster-zbwlg-cbgq7-worker-us-east-2a-67kp2   Running   m5a.4xlarge    us-east-2   us-east-2a   4h21m
+cluster-zbwlg-cbgq7-worker-us-east-2a-87hb8   Running   m5a.4xlarge    us-east-2   us-east-2a   4h21m
+cluster-zbwlg-cbgq7-worker-us-east-2a-8zlm4   Running   m5a.4xlarge    us-east-2   us-east-2a   4h21m</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -265,9 +263,9 @@ cluster-f4a3-lpxbs-worker-us-east-2c-5tmg7   i-0151c72cd85f85038   running   m5.
 <div class="paragraph">
 <p>最後に以下を実行します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get nodes</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get nodes</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -275,13 +273,11 @@ cluster-f4a3-lpxbs-worker-us-east-2c-5tmg7   i-0151c72cd85f85038   running   m5.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>NAME                                         STATUS   ROLES    AGE   VERSION
-ip-10-0-133-191.us-east-2.compute.internal   Ready    worker   44m   v1.16.2
-ip-10-0-136-83.us-east-2.compute.internal    Ready    master   51m   v1.16.2
-ip-10-0-152-132.us-east-2.compute.internal   Ready    worker   44m   v1.16.2
-ip-10-0-157-139.us-east-2.compute.internal   Ready    master   51m   v1.16.2
-ip-10-0-167-9.us-east-2.compute.internal     Ready    worker   44m   v1.16.2
-ip-10-0-169-121.us-east-2.compute.internal   Ready    master   51m   v1.16.2</pre>
+<pre>NAME                                         STATUS   ROLES                  AGE     VERSION
+ip-10-0-148-190.us-east-2.compute.internal   Ready    control-plane,master   4h25m   v1.25.7+eab9cc9
+ip-10-0-190-107.us-east-2.compute.internal   Ready    worker                 4h9m    v1.25.7+eab9cc9
+ip-10-0-199-105.us-east-2.compute.internal   Ready    worker                 4h9m    v1.25.7+eab9cc9
+ip-10-0-210-82.us-east-2.compute.internal    Ready    worker                 4h9m    v1.25.7+eab9cc9</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -294,36 +290,44 @@ ip-10-0-169-121.us-east-2.compute.internal   Ready    master   51m   v1.16.2</pr
 <div class="sect2">
 <h3 id="_クラスタのスケーリング"><a class="anchor" href="#_クラスタのスケーリング"></a>クラスタのスケーリング</h3>
 <div class="paragraph">
-<p><code>Operator</code> の「魔法」と、それを使った <code>Machine</code> と <code>Node</code> の管理のおかげで、OpenShift 4でのクラスタのスケーリングは非常に簡単に行えます。</p>
+<p><code>Operator</code> による管理と、それを使った <code>Machine</code> と <code>Node</code> の管理のおかげで、OpenShift 4でのクラスタのスケーリングは非常に簡単に行えます。</p>
 </div>
 <div class="paragraph">
 <p>もう一度、<code>MachineSet</code> のリストを見てみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get machineset -n openshift-machine-api</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get machineset -n openshift-machine-api</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>そのリストの中で。<code>MachineSet`のひとつを  oc scaleコマンドでスケールしてみましょう。あなたの `MachineSet</code> の名前はラボガイドの名前とは異なる可能性があるので、特に注意してください。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">CLUSTERNAME=$(oc get  infrastructures.config.openshift.io cluster  -o jsonpath='{.status.infrastructureName}')
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">CLUSTERNAME=$(oc get  infrastructures.config.openshift.io cluster  -o jsonpath='{.status.infrastructureName}')
 ZONENAME=$(oc get nodes -L topology.kubernetes.io/zone  --no-headers  | awk '{print $NF}' | tail -1)
-oc scale machineset ${CLUSTERNAME}-worker-${ZONENAME} -n openshift-machine-api --replicas=2</code></pre>
+oc scale machineset ${CLUSTERNAME}-worker-${ZONENAME} -n openshift-machine-api --replicas=4</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><code>MachineSet</code> が正常にスケーリングされたというメモが表示されているはずです。次に、<code>Machine</code> のリストを見てみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get machines -n openshift-machine-api</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get machines -n openshift-machine-api</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>おそらく、<code>STATE</code> が <code>Pending</code> となっている <code>Machine</code> の新しいエントリがすでに存在していると思います。しばらくすると、対応するEC2インスタンスIDが表示され、以下のように表示されます。</p>
+<p>おそらく、<code>STATE</code> が <code>Pending</code> となっている <code>Machine</code> の新しいエントリがすでに存在していると思います。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cluster-zbwlg-cbgq7-worker-us-east-2a-s7l7s   Provisioning   m5a.4xlarge    us-east-2   us-east-2a   7s</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>しばらくすると、対応するEC2インスタンスIDが表示され、以下のように表示されます。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -333,9 +337,9 @@ oc scale machineset ${CLUSTERNAME}-worker-${ZONENAME} -n openshift-machine-api -
 <div class="paragraph">
 <p>この時点では、バックグラウンドでは自動的にbootstrap処理が行われています。数分後(最大で5分程度)の出力を見てみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get nodes</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get nodes</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -343,7 +347,7 @@ oc scale machineset ${CLUSTERNAME}-worker-${ZONENAME} -n openshift-machine-api -
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>ip-10-0-166-103.us-east-2.compute.internal   Ready    worker   1m   v1.22.8</pre>
+<pre>ip-10-0-210-82.us-east-2.compute.internal    Ready    worker                 4h37m   v1.25.7+eab9cc9</pre>
 </div>
 </div>
 <div class="exampleblock">
@@ -359,9 +363,9 @@ oc scale machineset ${CLUSTERNAME}-worker-${ZONENAME} -n openshift-machine-api -
 <div class="paragraph">
 <p>${CLUSTERNAME}と${ZONENAME}変数が、数ステップ前のスケールアップ時に設定されていることを確認してください。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc scale machineset ${CLUSTERNAME}-worker-${ZONENAME} -n openshift-machine-api --replicas=1</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc scale machineset ${CLUSTERNAME}-worker-${ZONENAME} -n openshift-machine-api --replicas=3</code></pre>
 </div>
 </div>
 </div>
