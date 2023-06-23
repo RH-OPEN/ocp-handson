@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>インフラストラクチャノード と Operator :: OpenShift Handson</title>
+    <title>Infra ノードの作成 :: OpenShift Handson</title>
     <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/04_infra-nodes.html">
     <link rel="prev" href="03_machinesets.html">
     <link rel="next" href="05_ldap-groupsync.html">
@@ -88,18 +88,6 @@
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
-    <span class="nav-text">- - -</span>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <span class="nav-text">10. [WIP]OpenShift Logging</span>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <span class="nav-text">11. [WIP]OpenShift Monitoring</span>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <span class="nav-text">- - -</span>
-  </li>
-  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <span class="nav-text">20. OpenShift Pipeline Lab</span>
 <ul class="nav-list">
@@ -135,30 +123,6 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item" data-depth="1">
-    <span class="nav-text">- - -</span>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <span class="nav-text">70. [WIP]OpenShift Data Foundation</span>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <button class="nav-item-toggle"></button>
-    <span class="nav-text">71. [WIP]Advanced Cluster Management</span>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="32_Deploying_And_Importing_Clusters_Lab.html">1. Cluster Deployment</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="33_Pooling_And_Organizing_Clusters_Lab.html">2. Cluster management</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="34_Application_Lab.html">3. App Deployment</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="35_PoolSet_Optional_And_Cleanup.html">4. PoolSet</a>
-  </li>
-</ul>
-  </li>
 </ul>
   </li>
 </ul>
@@ -182,7 +146,7 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">インフラストラクチャノード と Operator</h1>
+<h1 class="page">Infra ノードの作成</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
@@ -246,9 +210,9 @@
 <div class="paragraph">
 <p><code>MachineSets</code> がどのように動作するかを理解するために、手順を進めていきましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">CLUSTERNAME=$(oc get  infrastructures.config.openshift.io cluster  -o jsonpath='{.status.infrastructureName}')
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">CLUSTERNAME=$(oc get  infrastructures.config.openshift.io cluster  -o jsonpath='{.status.infrastructureName}')
 ZONENAME=$(oc get nodes -L topology.kubernetes.io/zone  --no-headers  | awk '{print $NF}' | tail -1)
 oc get machineset -n openshift-machine-api -o yaml ${CLUSTERNAME}-worker-${ZONENAME}</code></pre>
 </div>
@@ -261,17 +225,18 @@ oc get machineset -n openshift-machine-api -o yaml ${CLUSTERNAME}-worker-${ZONEN
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-YAML hljs" data-lang="YAML">metadata:
-  creationTimestamp: 2019-01-25T16:00:34Z
-  generation: 1
+  annotations:
+    machine.openshift.io/GPU: "0"
+    machine.openshift.io/memoryMb: "65536"
+    machine.openshift.io/vCPU: "16"
+  creationTimestamp: "2023-06-19T03:17:34Z"
+  generation: 3
   labels:
-    machine.openshift.io/cluster-api-cluster: 190125-3
-    machine.openshift.io/cluster-api-machine-role: worker
-    machine.openshift.io/cluster-api-machine-type: worker
-  name: 190125-3-worker-us-east-1b
+    machine.openshift.io/cluster-api-cluster: cluster-zbwlg-cbgq7
+  name: cluster-zbwlg-cbgq7-worker-us-east-2a
   namespace: openshift-machine-api
-  resourceVersion: "9027"
-  selfLink: /apis/cluster.k8s.io/v1alpha1/namespaces/openshift-machine-api/machinesets/190125-3-worker-us-east-1b
-  uid: 591b4d06-20ba-11e9-a880-068acb199400</code></pre>
+  resourceVersion: "95996"
+  uid: 73341b44-0495-46c5-b6a2-90aa2650de3c</code></pre>
 </div>
 </div>
 <div class="exampleblock">
@@ -290,15 +255,15 @@ oc get machineset -n openshift-machine-api -o yaml ${CLUSTERNAME}-worker-${ZONEN
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-YAML hljs" data-lang="YAML">spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
-      machine.openshift.io/cluster-api-cluster: 190125-3
-      machine.openshift.io/cluster-api-machineset: 190125-3-worker-us-east-1b</code></pre>
+      machine.openshift.io/cluster-api-cluster: cluster-zbwlg-cbgq7
+      machine.openshift.io/cluster-api-machineset: cluster-zbwlg-cbgq7-worker-us-east-2a</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>この場合、クラスタ名は <code>190125-3</code> であり、セット全体のラベルが追加されています。</p>
+<p>この場合、クラスタ名は <code>cluster-zbwlg-cbgq7</code> であり、セット全体のラベルが追加されています。</p>
 </div>
 </div>
 </div>
@@ -311,12 +276,11 @@ oc get machineset -n openshift-machine-api -o yaml ${CLUSTERNAME}-worker-${ZONEN
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-YAML hljs" data-lang="YAML">  template:
     metadata:
-      creationTimestamp: null
       labels:
-        machine.openshift.io/cluster-api-cluster: 190125-3
+        machine.openshift.io/cluster-api-cluster: cluster-zbwlg-cbgq7
         machine.openshift.io/cluster-api-machine-role: worker
         machine.openshift.io/cluster-api-machine-type: worker
-        machine.openshift.io/cluster-api-machineset: 190125-3-worker-us-east-1b</code></pre>
+        machine.openshift.io/cluster-api-machineset: cluster-zbwlg-cbgq7-worker-us-east-2a</code></pre>
 </div>
 </div>
 <div class="sect3">
@@ -330,13 +294,13 @@ oc get machineset -n openshift-machine-api -o yaml ${CLUSTERNAME}-worker-${ZONEN
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-YAML hljs" data-lang="YAML">  spec:
-      metadata:
-        creationTimestamp: null
+<pre class="highlightjs highlight"><code class="language-YAML hljs" data-lang="YAML">    spec:
+      lifecycleHooks: {}
+      metadata: {}
       providerSpec:
         value:
           ami:
-            id: ami-08871aee06d13e584
+            id: ami-01af87a6ecc18023d
 ...</code></pre>
 </div>
 </div>
@@ -387,20 +351,115 @@ oc get machineset -n openshift-machine-api -o yaml ${CLUSTERNAME}-worker-${ZONEN
 </tr>
 </table>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">bash {{ HOME_PATH }}/support/machineset-generator.sh 1 infra 0 | oc create -f -
-export MACHINESET=$(oc get machineset -n openshift-machine-api -l machine.openshift.io/cluster-api-machine-role=infra -o jsonpath='{.items[0].metadata.name}')
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">bash {{ HOME_PATH }}/support/machineset-generator.sh 1 infra 0 | oc create -f -</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>以下を置換してください。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">export AMI=$(oc get machineset -n openshift-machine-api -l 'machine.openshift.io/os-id!=Windows' -o jsonpath='{.items[0].spec.template.spec.providerSpec.value.ami.id}')
+export CLUSTERID=$(oc get infrastructures.config.openshift.io cluster -o jsonpath='{.status.infrastructureName}')
+export REGION=$(oc get infrastructures.config.openshift.io cluster -o jsonpath='{.status.platformStatus.aws.region}')</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>cluster-zbwlg-cbgq7　&#8594; $CLUSTERID
+us-east-2 &#8594; $REGION
+ami-01af87a6ecc18023d &#8594; $AMI</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">---
+apiVersion: machine.openshift.io/v1beta1
+kind: MachineSet
+metadata:
+  labels:
+    machine.openshift.io/cluster-api-cluster: cluster-zbwlg-cbgq7
+    machine.openshift.io/cluster-api-machine-role: infra
+    machine.openshift.io/cluster-api-machine-type: infra
+  name: cluster-zbwlg-cbgq7-infra-us-east-2a
+  namespace: openshift-machine-api
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      machine.openshift.io/cluster-api-cluster: cluster-zbwlg-cbgq7
+      machine.openshift.io/cluster-api-machineset: cluster-zbwlg-cbgq7-infra-us-east-2a
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        machine.openshift.io/cluster-api-cluster: cluster-zbwlg-cbgq7
+        machine.openshift.io/cluster-api-machine-role: infra
+        machine.openshift.io/cluster-api-machine-type: infra
+        machine.openshift.io/cluster-api-machineset: cluster-zbwlg-cbgq7-infra-us-east-2a
+    spec:
+      metadata:
+        creationTimestamp: null
+        labels:
+          role: storage-node
+          node-role.kubernetes.io/worker: ""
+      providerSpec:
+        value:
+          ami:
+            id: ami-01af87a6ecc18023d
+          apiVersion: awsproviderconfig.openshift.io/v1beta1
+          blockDevices:
+          - ebs:
+              iops: 0
+              volumeSize: 120
+              volumeType: gp3
+          credentialsSecret:
+            name: aws-cloud-credentials
+          deviceIndex: 0
+          iamInstanceProfile:
+            id: cluster-zbwlg-cbgq7-worker-profile
+          instanceType: m5.4xlarge
+          kind: AWSMachineProviderConfig
+          metadata:
+            creationTimestamp: null
+          placement:
+            availabilityZone: us-east-2a
+            region: us-east-2
+          publicIp: null
+          securityGroups:
+          - filters:
+            - name: tag:Name
+              values:
+              - cluster-zbwlg-cbgq7-worker-sg
+          subnet:
+            filters:
+            - name: tag:Name
+              values:
+              - cluster-zbwlg-cbgq7-private-us-east-2a
+          tags:
+          - name: kubernetes.io/cluster/cluster-zbwlg-cbgq7
+            value: owned
+          userDataSecret:
+            name: worker-user-data
+      versions:
+    kubelet: ""</code></pre>
+</div>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">export MACHINESET=$(oc get machineset -n openshift-machine-api -l machine.openshift.io/cluster-api-machine-role=infra -o jsonpath='{.items[0].metadata.name}')
+
 oc patch machineset $MACHINESET -n openshift-machine-api --type='json' -p='[{"op": "add", "path": "/spec/template/spec/metadata/labels", "value":{"node-role.kubernetes.io/worker":"", "node-role.kubernetes.io/infra":""} }]'
-oc scale machineset $MACHINESET -n openshift-machine-api --replicas=3</code></pre>
+
+oc scale machineset $MACHINESET -n openshift-machine-api --replicas=1</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>次のように実行します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get machineset -n openshift-machine-api</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get machineset -n openshift-machine-api</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -408,9 +467,9 @@ oc scale machineset $MACHINESET -n openshift-machine-api --replicas=3</code></pr
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">...
-cluster-city-56f8-mc4pf-infra-us-east-2a    3         3                             13s
-...</code></pre>
+<pre class="highlightjs highlight"><code class="language-none hljs">NAME                                    DESIRED   CURRENT   READY   AVAILABLE   AGE
+cluster-zbwlg-cbgq7-infra-us-east-2a    2         2         1       1           49m
+cluster-zbwlg-cbgq7-worker-us-east-2a   3         3         3       3           3d6h</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -425,32 +484,28 @@ cluster-city-56f8-mc4pf-infra-us-east-2a    3         3                         
 </div>
 </div>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get nodes</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get nodes</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">NAME                                         STATUS   ROLES          AGE     VERSION
-ip-10-0-133-134.us-east-2.compute.internal   Ready    infra,worker   8m     v1.22.8
-ip-10-0-133-191.us-east-2.compute.internal   Ready    worker         61m    v1.22.8
-ip-10-0-136-83.us-east-2.compute.internal    Ready    master         67m    v1.22.8
-ip-10-0-138-24.us-east-2.compute.internal    Ready    infra,worker   8m1s   v1.22.8
-ip-10-0-139-81.us-east-2.compute.internal    Ready    infra,worker   8m3s   v1.22.8
-ip-10-0-152-132.us-east-2.compute.internal   Ready    worker         61m    v1.22.8
-ip-10-0-157-139.us-east-2.compute.internal   Ready    master         67m    v1.22.8
-ip-10-0-167-9.us-east-2.compute.internal     Ready    worker         61m    v1.22.8
-ip-10-0-169-121.us-east-2.compute.internal   Ready    master         67m    v1.22.8</code></pre>
+<pre class="highlightjs highlight"><code class="language-none hljs">NAME                                         STATUS   ROLES                  AGE    VERSION
+ip-10-0-148-190.us-east-2.compute.internal   Ready    control-plane,master   3d6h   v1.25.7+eab9cc9
+ip-10-0-153-230.us-east-2.compute.internal   Ready    worker                 3d1h   v1.25.7+eab9cc9
+ip-10-0-154-47.us-east-2.compute.internal    Ready    infra,worker           95m    v1.25.7+eab9cc9
+ip-10-0-190-107.us-east-2.compute.internal   Ready    worker                 3d5h   v1.25.7+eab9cc9
+ip-10-0-239-166.us-east-2.compute.internal   Ready    worker                 49m    v1.25.7+eab9cc9</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>どのノードが新しいノードなのか分からなくて困っている場合は、<code>AGE</code> カラムを見てみてください。
 また、<code>ROLES</code> 列では、新しいノードが <code>worker</code> と <code>infra</code> の両方のロールを持っていることに気づくでしょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get nodes -l node-role.kubernetes.io/infra</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get nodes -l node-role.kubernetes.io/infra</code></pre>
 </div>
 </div>
 </div>
@@ -459,9 +514,9 @@ ip-10-0-169-121.us-east-2.compute.internal   Ready    master         67m    v1.2
 <div class="paragraph">
 <p>この例では、一番若いノードは <code>ip-10-0-133-134.us-east-2.compute.internal</code> という名前でした。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">YOUNG_INFRA_NODE=$(oc get nodes -l node-role.kubernetes.io/infra  --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[0].metadata.name}')
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">YOUNG_INFRA_NODE=$(oc get nodes -l node-role.kubernetes.io/infra  --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[0].metadata.name}')
 oc get nodes ${YOUNG_INFRA_NODE} --show-labels | grep --color node-role</code></pre>
 </div>
 </div>
@@ -480,14 +535,11 @@ oc get nodes ${YOUNG_INFRA_NODE} --show-labels | grep --color node-role</code></
 <div class="sect2">
 <h3 id="_machinesetの追加スケール"><a class="anchor" href="#_machinesetの追加スケール"></a>MachineSetの追加(スケール)</h3>
 <div class="paragraph">
-<p>現実的な本番環境では、インフラストラクチャコンポーネントを保持するために、少なくとも3つの <code>MachineSets</code> が必要になります。ロギングアグリゲーションソリューションとサービスメッシュの両方がElasticSearchをデプロイするので、ElasticSearchは3つのノードに分散した3つのインスタンスを必要とします。なぜ3つの <code>MachineSets</code> が必要なのでしょうか。理論的には、異なるAZに複数の <code>MachineSets</code> を配置することで、AWSがAZを失った場合であっても完全にダウンすることを防ぐためです。</p>
-</div>
-<div class="paragraph">
-<p>スクリプトレットで作成した <code>MachineSet</code> はすでに3つのレプリカを作成しているので、今のところ何もする必要はありません。また、自分で追加のレプリカを作成する必要もありません。</p>
+<p>現実的な本番環境では、インフラストラクチャコンポーネントを保持するために、少なくとも3つの <code>MachineSets</code> が必要になります。ロギングアグリゲーションソリューションとサービスメッシュの両方がElasticSearchをデプロイするので、ElasticSearchは3つのノードに分散した3つのインスタンスを必要とします。なぜ3つの <code>MachineSets</code> が必要なのかですが、理論的には、異なるAZに複数の <code>MachineSets</code> を配置することで、AWSがAZを失った場合であっても完全にダウンすることを防ぐためです。</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_追加クレジット"><a class="anchor" href="#_追加クレジット"></a>追加クレジット</h3>
+<h3 id="_machine_api_controllers_のログ"><a class="anchor" href="#_machine_api_controllers_のログ"></a>machine-api-controllers のログ</h3>
 <div class="paragraph">
 <p><code>openshift-machine-api</code> プロジェクトにはいくつかの <code>Pods</code> があります。そのうちの一つは <code>machine-api-controllers-56bdc6874f-86jnb</code> のような名前です。その <code>Pod</code> のコンテナ上で <code>oc log</code> を使うと、ノードを実際に生成するためのさまざまな演算子のビットを見ることができます。</p>
 </div>
@@ -495,7 +547,7 @@ oc get nodes ${YOUNG_INFRA_NODE} --show-labels | grep --color node-role</code></
 </div>
 </div>
 <div class="sect1">
-<h2 id="_クイック演算子の背景"><a class="anchor" href="#_クイック演算子の背景"></a>クイック演算子の背景</h2>
+<h2 id="_operator_について"><a class="anchor" href="#_operator_について"></a>Operator について</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Operatorはただの <code>Pods</code> です。しかし 彼らは特別な <code>Pods</code> であり、Kubernetes環境でアプリケーションをデプロイして管理する方法を理解しているソフトウェアです。Operatorのパワーは、<code>CustomResourceDefinitions</code> (<code>CRD</code>)と呼ばれるKubernetesの機能に依存しています。<code>CRD</code> はまさにその名の通りの機能です。これらはカスタムリソースを定義する方法であり、本質的にはKubernetes APIを新しいオブジェクトで拡張するものです。</p>
@@ -517,19 +569,19 @@ oc get nodes ${YOUNG_INFRA_NODE} --show-labels | grep --color node-role</code></
 <div class="sect2">
 <h3 id="_ルータ"><a class="anchor" href="#_ルータ"></a>ルータ</h3>
 <div class="paragraph">
-<p>OpenShiftルータは <code>openshift-ingress-operator</code> という <code>Operator</code> によって管理されています。その <code>Pod</code> は <code>openshift-ingress-operator</code> プロジェクトに存在します。</p>
+<p>OpenShift ルータは <code>openshift-ingress-operator</code> という <code>Operator</code> によって管理されています。その <code>Pod</code> は <code>openshift-ingress-operator</code> プロジェクトに存在します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pod -n openshift-ingress-operator</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pod -n openshift-ingress-operator</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>実際のデフォルトのルータのインスタンスは <code>openshift-ingress</code> プロジェクトにあります。 <code>Pods</code> を見てみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods -n openshift-ingress -o wide</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pods -n openshift-ingress -o wide</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -537,17 +589,17 @@ oc get nodes ${YOUNG_INFRA_NODE} --show-labels | grep --color node-role</code></
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">NAME                              READY   STATUS    RESTARTS   AGE   IP           NODE                                        NOMINATED NODE
-router-default-7bc4c9c5cd-clwqt   1/1     Running   0          9h    10.128.2.7   ip-10-0-144-70.us-east-2.compute.internal   &lt;none&gt;
-router-default-7bc4c9c5cd-fq7m2   1/1     Running   0          9h    10.131.0.7   ip-10-0-138-38.us-east-2.compute.internal   &lt;none&gt;</code></pre>
+<pre class="highlightjs highlight"><code class="language-none hljs">NAME                              READY   STATUS    RESTARTS   AGE     IP            NODE                                         NOMINATED NODE   READINESS GATES
+router-default-6475c64c48-7q8kz   1/1     Running   1          6h30m   10.130.0.7    ip-10-0-154-47.us-east-2.compute.internal    &lt;none&gt;           &lt;none&gt;
+router-default-6475c64c48-lb7bl   1/1     Running   4          3d6h    10.128.2.10   ip-10-0-153-230.us-east-2.compute.internal   &lt;none&gt;           &lt;none&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>ルータが動作している <code>Node</code> を確認します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">ROUTER_POD_NODE=$(oc get pods -n openshift-ingress -o jsonpath='{.items[0].spec.nodeName}')
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ROUTER_POD_NODE=$(oc get pods -n openshift-ingress -o jsonpath='{.items[0].spec.nodeName}')
 oc get node ${ROUTER_POD_NODE}</code></pre>
 </div>
 </div>
@@ -566,9 +618,9 @@ ip-10-0-144-70.us-east-2.compute.internal   Ready    worker   9h    v1.12.4+5099
 <div class="paragraph">
 <p>OpenShiftのルーターオペレータは、<code>ingresses.config.openshift.io`という`CustomResourceDefinitions</code>(<code>CRD</code>)を使用して、クラスタのデフォルトルーティングサブドメインを定義します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get ingresses.config.openshift.io cluster -o yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get ingresses.config.openshift.io cluster -o yaml</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -579,24 +631,22 @@ ip-10-0-144-70.us-east-2.compute.internal   Ready    worker   9h    v1.12.4+5099
 <pre class="highlightjs highlight"><code class="language-YAML hljs" data-lang="YAML">apiVersion: config.openshift.io/v1
 kind: Ingress
 metadata:
-  creationTimestamp: 2019-04-08T14:37:49Z
+  creationTimestamp: "2023-06-19T03:16:35Z"
   generation: 1
   name: cluster
-  resourceVersion: "396"
-  selfLink: /apis/config.openshift.io/v1/ingresses/cluster
-  uid: e1ec463c-5a0b-11e9-93e8-028b0fb1636c
+  resourceVersion: "112433"
+  uid: c2c87e42-2d8e-46c7-82ff-05119d877697
 spec:
-  domain: {{ ROUTE_SUBDOMAIN }}
-status: {}</code></pre>
+  domain: apps.cluster-zbwlg.zbwlg.sandbox478.opentlc.com</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>個々のルータのデプロイは <code>ingresscontrollers.operator.openshift.io</code> CRD で管理されます。
 名前空間 <code>openshift-ingress-operator</code> に作成されたデフォルトのものがあります。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get ingresscontrollers.operator.openshift.io default -n openshift-ingress-operator -o yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get ingresscontrollers.operator.openshift.io default -n openshift-ingress-operator -o yaml</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -607,42 +657,77 @@ status: {}</code></pre>
 <pre class="highlightjs highlight"><code class="language-YAML hljs" data-lang="YAML">apiVersion: operator.openshift.io/v1
 kind: IngressController
 metadata:
-  creationTimestamp: 2019-04-08T14:46:15Z
+  creationTimestamp: "2023-06-19T03:20:37Z"
   finalizers:
-  - ingress.openshift.io/ingress-controller
+  - ingresscontroller.operator.openshift.io/finalizer-ingresscontroller
   generation: 2
   name: default
   namespace: openshift-ingress-operator
-  resourceVersion: "2056085"
-  selfLink: /apis/operator.openshift.io/v1/namespaces/openshift-ingress-operator/ingresscontrollers/default
-  uid: 0fac160d-5a0d-11e9-a3bb-02d64e703494
+  resourceVersion: "131344"
+  uid: c4e657a3-d449-484a-8267-2d2692a7aba1
 spec: {}
 status:
   availableReplicas: 2
   conditions:
-  - lastTransitionTime: 2019-04-08T14:47:14Z
+  - lastTransitionTime: "2023-06-19T03:20:39Z"
+    reason: Valid
     status: "True"
-    type: Available
-  domain: apps.cluster-f4a3.f4a3.openshiftworkshop.com
+    type: Admitted
+  - lastTransitionTime: "2023-06-19T03:34:49Z"
+    status: "True"
+    type: PodsScheduled
+  ...
+  domain: apps.cluster-zbwlg.zbwlg.sandbox478.opentlc.com
   endpointPublishingStrategy:
+    loadBalancer:
+      dnsManagementPolicy: Managed
+      providerParameters:
+        aws:
+          classicLoadBalancer:
+            connectionIdleTimeout: 0s
+          type: Classic
+        type: AWS
+      scope: External
     type: LoadBalancerService
-  selector: ingress.operator.openshift.io/ingress-controller-deployment=default</code></pre>
+  observedGeneration: 2
+  selector: ingresscontroller.operator.openshift.io/deployment-ingresscontroller=default</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>ルータPodがインフラストラクチャノードにヒットするように指示する <code>nodeSelector</code> を指定するには、以下の設定を適用します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc apply -f {{ HOME_PATH }}/support/ingresscontroller.yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">vi ingresscontroller.yaml</code></pre>
+</div>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">apiVersion: operator.openshift.io/v1
+kind: IngressController
+metadata:
+  finalizers:
+  - ingresscontroller.operator.openshift.io/finalizer-ingresscontroller
+  name: default
+  namespace: openshift-ingress-operator
+spec:
+  nodePlacement:
+    nodeSelector:
+      matchLabels:
+        node-role.kubernetes.io/infra: ""</code></pre>
+</div>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc apply -f ingresscontroller.yaml</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>実行:</p>
+<p>実行：</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pod -n openshift-ingress -o wide</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pod -n openshift-ingress -o wide</code></pre>
 </div>
 </div>
 <div class="exampleblock">
@@ -659,219 +744,6 @@ status:
 <code>Terminating</code> Podはワーカーノードの1つで動作していました。
 実行中の <code>Running</code> Podは最終的に <code>infra</code> ロールを持つノードの1つで動作しています。</p>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_レジストリ"><a class="anchor" href="#_レジストリ"></a>レジストリ</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>レジストリは、オペレータが実際のレジストリPodをどのように展開するかを設定するために、同様の <code>CRD</code> メカニズムを使用します。
-このCRDは <code>configs.imageregistry.operator.openshift.io</code> です。
-このCRDに <code>nodeSelector</code> を追加するために <code>cluster</code> のCRDオブジェクトを編集します。まず、それを見てみましょう。</p>
-</div>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get configs.imageregistry.operator.openshift.io/cluster -o yaml</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>以下のように確認できます。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-YAML hljs" data-lang="YAML">apiVersion: imageregistry.operator.openshift.io/v1
-kind: Config
-metadata:
-  creationTimestamp: "2019-08-06T13:57:22Z"
-  finalizers:
-  - imageregistry.operator.openshift.io/finalizer
-  generation: 2
-  name: cluster
-  resourceVersion: "13218"
-  selfLink: /apis/imageregistry.operator.openshift.io/v1/configs/cluster
-  uid: 1cb6272a-b852-11e9-9a54-02fdf1f6ca7a
-spec:
-  defaultRoute: false
-  httpSecret: fff8bb0952d32e0aa56adf0ac6f6cf5267e0627f7b42e35c508050b5be426f8fd5e5108bea314f4291eeacc0b95a2ea9f842b54d7eb61522238f2a2dc471f131
-  logging: 2
-  managementState: Managed
-  proxy:
-    http: ""
-    https: ""
-    noProxy: ""
-  readOnly: false
-  replicas: 1
-  requests:
-    read:
-      maxInQueue: 0
-      maxRunning: 0
-      maxWaitInQueue: 0s
-    write:
-      maxInQueue: 0
-      maxRunning: 0
-      maxWaitInQueue: 0s
-  storage:
-    s3:
-      bucket: image-registry-us-east-2-0a598598fc1649d8b96ed91a902b982c-1cbd
-      encrypt: true
-      keyID: ""
-      region: us-east-2
-      regionEndpoint: ""
-status:
-...</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>次のコマンドを実行します。</p>
-</div>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc patch configs.imageregistry.operator.openshift.io/cluster -p '{"spec":{"nodeSelector":{"node-role.kubernetes.io/infra": ""}}}' --type=merge</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>上記コマンドによって、レジストリCRの <code>.spec</code> を修正し、<code>nodeSelector</code> を追加します。</p>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>この時点では、画像レジストリは演算子のために別のプロジェクトを使用していません。
-演算子とオペランドは両方とも <code>openshift-image-registry</code> プロジェクトの中にあります。</p>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>パッチコマンドを実行すると、レジストリPodがinfraノードに移動しているのがわかるはずです。
-レジストリは <code>openshift-image-registry</code> プロジェクトにあります。</p>
-</div>
-<div class="paragraph">
-<p>以下を素早く実行してみてください。</p>
-</div>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pod -n openshift-image-registry</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>古いレジストリPodが終了し、新しいレジストリPodが起動しているのがわかるかもしれません。
-レジストリはS3バケットによってバックアップされているので、新しいレジストリPodのインスタンスがどのノードにあるかは問題ではありません。
-これはAPI経由でオブジェクトストアと通信しているので、そこに保存されている既存のイメージはすべてアクセス可能なままです。</p>
-</div>
-<div class="paragraph">
-<p>また、デフォルトのレプリカ数は1であることにも注意してください。
-現実の環境では、可用性やネットワークのスループットなどの理由から、このレプリカ数を増やしたいと思うかもしれません。</p>
-</div>
-<div class="paragraph">
-<p>レジストリが着地したノード(ルータのセクションを参照)を見てみると、それが現在infraワーカー上で実行されていることに気づくでしょう。</p>
-</div>
-<div class="paragraph">
-<p>最後に、イメージレジストリの設定のための <code>CRD</code> が名前空間ではなく、クラスタスコープになっていることに注目してください。
-OpenShiftクラスタごとに内部/統合レジストリは1つしかありません。</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_monitoring"><a class="anchor" href="#_monitoring"></a>Monitoring</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Cluster Monitoring operatorは、Prometheus+Grafana+AlertManagerによるクラスタ監視スタックの展開と状態管理を担当します。これは、クラスタの初期インストール時にデフォルトでインストールされます。このオペレータは <code>openshift-monitoring</code> プロジェクトの <code>ConfigMap</code> を利用して、監視スタックの動作のために様々なチューニングや設定を行います。</p>
-</div>
-<div class="paragraph">
-<p>以下の <code>ConfigMap</code> 定義は、インフラストラクチャノードにデプロイされる監視ソリューションを設定するものです。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: cluster-monitoring-config
-  namespace: openshift-monitoring
-data:
-  config.yaml: |+
-    alertmanagerMain:
-      nodeSelector:
-        node-role.kubernetes.io/infra: ""
-    prometheusK8s:
-      nodeSelector:
-        node-role.kubernetes.io/infra: ""
-    prometheusOperator:
-      nodeSelector:
-        node-role.kubernetes.io/infra: ""
-    grafana:
-      nodeSelector:
-        node-role.kubernetes.io/infra: ""
-    k8sPrometheusAdapter:
-      nodeSelector:
-        node-role.kubernetes.io/infra: ""
-    kubeStateMetrics:
-      nodeSelector:
-        node-role.kubernetes.io/infra: ""
-    telemeterClient:
-      nodeSelector:
-        node-role.kubernetes.io/infra: ""</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>インストールの一部として作成された <code>ConfigMap</code> は存在しません。これがない場合、Operatorはデフォルトの設定を仮定します。
-クラスタに <code>ConfigMap</code> が定義されていないことを確認してください。</p>
-</div>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get configmap cluster-monitoring-config -n openshift-monitoring</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>以下のように出力されるはずです。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">Error from server (NotFound): configmaps "cluster-monitoring-config" not found</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Operatorは、様々なモニタリングスタックコンポーネントのためにいくつかの <code>ConfigMap</code> オブジェクトを作成します。</p>
-</div>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get configmap -n openshift-monitoring</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>次のコマンドで新しいモニタリング設定を作成できます。</p>
-</div>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -f {{ HOME_PATH }}/support/cluster-monitoring-configmap.yaml</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>モニタリングPodが <code>worker</code> から <code>infra</code> <code>Nodes</code> に移動するのを見てみましょう。</p>
-</div>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">watch 'oc get pod -n openshift-monitoring'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>または</p>
-</div>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pod -w -n openshift-monitoring</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><span class="keyseq"><kbd>Ctrl</kbd>+<kbd>C</kbd></span>を押すと終了できます。</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_logging"><a class="anchor" href="#_logging"></a>Logging</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>OpenShiftのログ集約ソリューションはデフォルトではインストールされていません。
-ロギングの設定とデプロイメントを行う専用のラボ演習があります。</p>
 </div>
 </div>
 </div>
