@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Taint と Toleration :: OpenShift Handson</title>
     <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/10_taints-and-tolerations.html">
-    <link rel="prev" href="09_networking.html">
-    <link rel="next" href="10-pipeline-install.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -53,7 +51,7 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <span class="nav-text">01. [WIP]OpenShift 基礎</span>
+    <span class="nav-text">01. OpenShift 基礎</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
@@ -68,22 +66,10 @@
     <a class="nav-link" href="04_infra-nodes.html">4. Infra ノードの作成</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="05_ldap-groupsync.html">5. 外部認証プロバイダ設定</a>
+    <a class="nav-link" href="06_template-quota-limits.html">wic 5. Project のクオータ/制限</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="06_template-quota-limits.html">6. プロジェクトのクオータ設定</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="08_disabling-project-self-provisioning.html">8. Project セルフプロビジョニング</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="09_networking.html">9. Network Policy</a>
-  </li>
-  <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="10_taints-and-tolerations.html">10. Taint/Toleration</a>
+    <a class="nav-link" href="07_clusterresourcequota.html">wic 6. クラスタのクオータ設定</a>
   </li>
 </ul>
   </li>
@@ -138,8 +124,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
-    <li>01. [WIP]OpenShift 基礎</li>
-    <li><a href="10_taints-and-tolerations.html">10. Taint/Toleration</a></li>
+    <li><a href="10_taints-and-tolerations.html">Taint と Toleration</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/10_taints-and-tolerations.adoc">Edit this Page</a></div>
@@ -218,17 +203,17 @@
 <div class="paragraph">
 <p>ノードを調べるには、<code>kubeadmin</code> で実行していることを確認してください。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u kubeadmin -p {{ KUBEADMIN_PASSWORD }}</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u kubeadmin -p {{ KUBEADMIN_PASSWORD }}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>インフラノードとストレージノード以外の、ワーカーノードをリストします。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get nodes -l 'node-role.kubernetes.io/worker,!node-role.kubernetes.io/infra,!cluster.ocs.openshift.io/openshift-storage'</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get nodes -l 'node-role.kubernetes.io/worker,!node-role.kubernetes.io/infra,!cluster.ocs.openshift.io/openshift-storage'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -237,9 +222,9 @@
 <div class="paragraph">
 <p>では、これらのワーカーノードに、何か Taint が設定されてないか見てみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc describe nodes -l 'node-role.kubernetes.io/worker,!node-role.kubernetes.io/infra,!cluster.ocs.openshift.io/openshift-storage' | grep Taint</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc describe nodes -l 'node-role.kubernetes.io/worker,!node-role.kubernetes.io/infra,!cluster.ocs.openshift.io/openshift-storage' | grep Taint</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -255,9 +240,9 @@
 <p>このアプリをデプロイする前に、この演習の期間中はノードにラベルを付ける必要があります。
 アプリケーションは <code>appnode=welome-php</code> というラベルのついたノードにデプロイします。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get nodes -l 'node-role.kubernetes.io/worker,!node-role.kubernetes.io/infra,!cluster.ocs.openshift.io/openshift-storage' -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | xargs -I{} oc label node {} appnode=welcome-php</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get nodes -l 'node-role.kubernetes.io/worker,!node-role.kubernetes.io/infra,!cluster.ocs.openshift.io/openshift-storage' -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | xargs -I{} oc label node {} appnode=welcome-php</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -266,17 +251,17 @@
 <div class="paragraph">
 <p>ノードの名前をメモしながら、ノードがラベル付けされていることを確認します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get nodes -l appnode=welcome-php</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get nodes -l appnode=welcome-php</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>ホームディレクトリで提供されているYAMLマニフェストを使ってアプリケーションをデプロイすることができます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -f ~/support/welcome-php.yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc create -f ~/support/welcome-php.yaml</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -301,9 +286,9 @@
 <div class="paragraph">
 <p>ここから <code>tt-lab</code> プロジェクトで作業しますので、切り替えます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc project tt-lab</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc project tt-lab</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -311,9 +296,9 @@
 デフォルトのスケジューラは、アプリを均等に分散させようとします。
 また、ロールアウトが完了するのを待ちます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">NODE_NUMBER=$(oc get nodes --no-headers -l appnode=welcome-php | wc -l)
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">NODE_NUMBER=$(oc get nodes --no-headers -l appnode=welcome-php | wc -l)
 oc scale deploy welcome-php --replicas=${NODE_NUMBER}
 oc rollout status deploy welcome-php</code></pre>
 </div>
@@ -321,18 +306,18 @@ oc rollout status deploy welcome-php</code></pre>
 <div class="paragraph">
 <p>アプリケーションがロールアウトされたら、すべてのノードでリバランスされるように Pod を削除してみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc delete pods --all
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc delete pods --all
 oc rollout status deploy welcome-php</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Pod がworkerに均等に広がっていることを確認してください。各ノードに1つの Pod があるはずです。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">clear
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">clear
 oc get pods -o=custom-columns=NAME:.metadata.name,NODE:.spec.nodeName
 oc get nodes -l appnode=welcome-php</code></pre>
 </div>
@@ -406,35 +391,35 @@ oc get nodes -l appnode=welcome-php</code></pre>
 <div class="paragraph">
 <p>構文は　oc adm taint node ${nodename} key=value:Effect　です。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">TTNODE=$(oc get nodes -l 'node-role.kubernetes.io/worker,!node-role.kubernetes.io/infra,!cluster.ocs.openshift.io/openshift-storage' -o jsonpath='{range .items[0]}{.metadata.name}')
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">TTNODE=$(oc get nodes -l 'node-role.kubernetes.io/worker,!node-role.kubernetes.io/infra,!cluster.ocs.openshift.io/openshift-storage' -o jsonpath='{range .items[0]}{.metadata.name}')
 oc adm taint node ${TTNODE} welcome-php=run:NoSchedule</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>デプロイしたノードを調べて、そのうちの1つのノードに Taint が適用されていることを確認します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc describe nodes -l appnode=welcome-php | grep Taint</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc describe nodes -l appnode=welcome-php | grep Taint</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><code>NoSchedule</code> を使用しているので、Podはまだそこにあるはずです。
 <code>NoSchedule</code> はノード上での新しいPodの生成を停止するだけであることを覚えておいてください（コマンドは <code>1</code> を返すはずです）。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods -o wide | grep -c ${TTNODE}</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pods -o wide | grep -c ${TTNODE}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Pod を削除して <code>replicaSet</code> が再配置するのを待ちましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc delete pods --all
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc delete pods --all
 oc rollout status deploy welcome-php</code></pre>
 </div>
 </div>
@@ -442,17 +427,17 @@ oc rollout status deploy welcome-php</code></pre>
 <p>このデプロイメントには Toleration がないので、スケジューラは、Taint されたノードを除いたすべてのノードに Pod をデプロイします。
 このコマンドは <code>0</code> を返すはずです。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods -o wide | grep -c ${TTNODE}</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pods -o wide | grep -c ${TTNODE}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Pod が実行されている場所を調べる。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">clear
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">clear
 oc get pods -o=custom-columns=NAME:.metadata.name,NODE:.spec.nodeName
 oc get nodes -l appnode=welcome-php</code></pre>
 </div>
@@ -494,41 +479,41 @@ oc get nodes -l appnode=welcome-php</code></pre>
 <div class="paragraph">
 <p>Deployment の <code>spec.template.spec</code> セクションでこの Toleration を適用します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc patch deployment welcome-php --patch '{"spec":{"template":{"spec":{"tolerations":[{"key":"welcome-php","operator":"Equal","value":"run","effect":"NoSchedule"}]}}}}'</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc patch deployment welcome-php --patch '{"spec":{"template":{"spec":{"tolerations":[{"key":"welcome-php","operator":"Equal","value":"run","effect":"NoSchedule"}]}}}}'</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>パッチを当てると別の展開が始まるので、展開が終わるのを待つことにします。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc rollout status deploy welcome-php</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc rollout status deploy welcome-php</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>デプロイメントYAMLを見ることで、Toleration の設定を見ることができます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get deploy welcome-php -o yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get deploy welcome-php -o yaml</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>さて、Toleration を設定したので、Taint を持つノードで実行してみましょう (これは <code>1</code> を返すはずです)。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods -o wide | grep -c ${TTNODE}</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pods -o wide | grep -c ${TTNODE}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>すべてのPodをリストアップすると、それらが均等に広がっているはずです</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">clear
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">clear
 oc get pods -o=custom-columns=NAME:.metadata.name,NODE:.spec.nodeName
 oc get nodes -l appnode=welcome-php</code></pre>
 </div>
@@ -542,17 +527,17 @@ oc get nodes -l appnode=welcome-php</code></pre>
 <div class="paragraph">
 <p>次の演習では <code>kubeadmin</code> でログインしてください。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u kubeadmin -p {{ KUBEADMIN_PASSWORD }}</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u kubeadmin -p {{ KUBEADMIN_PASSWORD }}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>他の演習も Taint の影響を受ける可能性があるので、やったことを元に戻しておきましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc delete project tt-lab
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc delete project tt-lab
 oc adm taint node ${TTNODE} welcome-php-
 oc get nodes -l 'node-role.kubernetes.io/worker,!node-role.kubernetes.io/infra,!cluster.ocs.openshift.io/openshift-storage' -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}' | xargs -I{} oc label node {} appnode-</code></pre>
 </div>
@@ -560,28 +545,24 @@ oc get nodes -l 'node-role.kubernetes.io/worker,!node-role.kubernetes.io/infra,!
 <div class="paragraph">
 <p>ノードの Taint が除去されていることを確認してください。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc describe nodes -l 'node-role.kubernetes.io/worker,!node-role.kubernetes.io/infra,!cluster.ocs.openshift.io/openshift-storage' | grep Taint</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc describe nodes -l 'node-role.kubernetes.io/worker,!node-role.kubernetes.io/infra,!cluster.ocs.openshift.io/openshift-storage' | grep Taint</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>また、作業していたノードにラベルが存在しないことを確認してください。
 このコマンドはノードを返さないはずです。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get nodes -l appnode=welcome-php</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get nodes -l appnode=welcome-php</code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<nav class="pagination">
-  <span class="prev"><a href="09_networking.html">9. Network Policy</a></span>
-  <span class="next"><a href="10-pipeline-install.html">インストール</a></span>
-</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>

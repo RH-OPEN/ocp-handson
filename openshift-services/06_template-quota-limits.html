@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>プロジェクト・リクエスト・テンプレートとクォータ/制限 :: OpenShift Handson</title>
+    <title>Project のクオータ/制限 :: OpenShift Handson</title>
     <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/06_template-quota-limits.html">
-    <link rel="prev" href="05_ldap-groupsync.html">
+    <link rel="prev" href="04_infra-nodes.html">
     <link rel="next" href="07_clusterresourcequota.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
@@ -53,7 +53,7 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <span class="nav-text">01. [WIP]OpenShift 基礎</span>
+    <span class="nav-text">01. OpenShift 基礎</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
@@ -67,23 +67,11 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="04_infra-nodes.html">4. Infra ノードの作成</a>
   </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="05_ldap-groupsync.html">5. 外部認証プロバイダ設定</a>
-  </li>
   <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="06_template-quota-limits.html">6. プロジェクトのクオータ設定</a>
+    <a class="nav-link" href="06_template-quota-limits.html">wic 5. Project のクオータ/制限</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="08_disabling-project-self-provisioning.html">8. Project セルフプロビジョニング</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="09_networking.html">9. Network Policy</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="10_taints-and-tolerations.html">10. Taint/Toleration</a>
+    <a class="nav-link" href="07_clusterresourcequota.html">wic 6. クラスタのクオータ設定</a>
   </li>
 </ul>
   </li>
@@ -138,15 +126,15 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
-    <li>01. [WIP]OpenShift 基礎</li>
-    <li><a href="06_template-quota-limits.html">6. プロジェクトのクオータ設定</a></li>
+    <li>01. OpenShift 基礎</li>
+    <li><a href="06_template-quota-limits.html">wic 5. Project のクオータ/制限</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/06_template-quota-limits.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">プロジェクト・リクエスト・テンプレートとクォータ/制限</h1>
+<h1 class="page">Project のクオータ/制限</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
@@ -157,9 +145,6 @@
 <div class="sect1">
 <h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>アプリケーション管理のベーシック・ラボでは、OpenShift の基本的なビルディング・ブロックを扱いましたが、これらはすべて <strong>プロジェクト</strong> 内に含まれています。</p>
-</div>
 <div class="paragraph">
 <p>OpenShiftでは、1つの <strong>プロジェクト</strong> 内で使用できるオブジェクトの数やリソース（CPU、メモリなど）を制限しません。
 さらに、ユーザーは無制限に <strong>プロジェクト</strong> を作成することができます。制約のない世界や POC(Proof Of Concept) の環境では、それはそれでいいでしょう。
@@ -177,9 +162,9 @@
 <div class="paragraph">
 <p>組み込みのデフォルトの <strong>プロジェクト・リクエスト・テンプレート</strong> を表示するには、以下のコマンドを実行します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc adm create-bootstrap-project-template -o yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc adm create-bootstrap-project-template -o yaml</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -200,9 +185,9 @@ parameters:
 <div class="paragraph">
 <p>次に、 <code>oc new-project</code> コマンドのヘルプ出力を見てみましょう:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc new-project -h</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc new-project -h</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -211,7 +196,7 @@ parameters:
 </div>
 <div class="paragraph">
 <p><code>new-project</code> ワークフローでは、ユーザーがプロジェクト・リクエストを満たすための情報を提供します。
-リクエストを受けるとOpenShiftはこの要求を許可すべきかどうかを決定します。（例えば、ユーザーは <strong>プロジェクト</strong> を作成する許可を持っているのか？このユーザーは <strong>プロジェクト</strong> を作りすぎてないか？)
+リクエストを受けるとOpenShiftはこの要求を許可すべきかどうかを決定します。（例えば、ユーザーは <strong>プロジェクト</strong> を作成する許可を持っているのか？ このユーザーは <strong>プロジェクト</strong> を作りすぎてないか？)
 もし、要求が許可できる場合は、 <strong>テンプレート</strong> を処理します。</p>
 </div>
 <div class="paragraph">
@@ -229,9 +214,8 @@ parameters:
 これらはより複雑で関連性の高いコンポーネントを OpenShift に素早くデプロイする事に使う事ができ、
 ソフトウェアの開発ライフサイクル(SDLC: Software Development Lifecycle)においても有用な部品となりうるでしょう。
 詳細な情報は次のリンク先で確認できます。
-<a href="https://docs.openshift.com/container-platform/4.9/openshift_images/using-templates.html" target="_blank" rel="noopener">template
+<a href="https://docs.openshift.com/container-platform/4.12/openshift_images/using-templates.html" target="_blank" rel="noopener">template
 documentation</a>
-このエクササイズでは、<strong>テンプレート</strong> の更なる詳細については深掘りしません。
 </td>
 </tr>
 </table>
@@ -246,9 +230,125 @@ documentation</a>
 <div class="paragraph">
 <p><strong>プロジェクト・リクエスト・テンプレート</strong> :</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cat {{ HOME_PATH }}/support/project_request_template.yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">vi project_request_template.yaml</code></pre>
+</div>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: project-request-new
+objects:
+- apiVersion: v1
+  kind: Project
+  metadata:
+    annotations:
+      openshift.io/description: ${PROJECT_DESCRIPTION}
+      openshift.io/display-name: ${PROJECT_DISPLAYNAME}
+      openshift.io/requester: ${PROJECT_REQUESTING_USER}
+    creationTimestamp: null
+    name: ${PROJECT_NAME}
+  spec: {}
+  status: {}
+- apiVersion: v1
+  kind: ResourceQuota
+  metadata:
+    name: ${PROJECT_NAME}-quota
+  spec:
+    hard:
+      pods: 10
+      requests.cpu: 4000m
+      requests.memory: 8Gi
+      resourcequotas: 1
+      requests.storage: 50Gi
+      persistentvolumeclaims: 5
+- apiVersion: v1
+  kind: LimitRange
+  metadata:
+    name: ${PROJECT_NAME}-limits
+    creationTimestamp: null
+  spec:
+    limits:
+      -
+        type: Container
+        max:
+          cpu: 4000m
+          memory: 1024Mi
+        min:
+          cpu: 10m
+          memory: 5Mi
+        default:
+          cpu: 4000m
+          memory: 1024Mi
+        defaultRequest:
+          cpu: 100m
+          memory: 512Mi
+- apiVersion: v1
+  groupNames:
+  - system:serviceaccounts:${PROJECT_NAME}
+  kind: RoleBinding
+  metadata:
+    creationTimestamp: null
+    name: system:image-pullers
+    namespace: ${PROJECT_NAME}
+  roleRef:
+    name: system:image-puller
+  subjects:
+  - kind: SystemGroup
+    name: system:serviceaccounts:${PROJECT_NAME}
+  userNames: null
+- apiVersion: v1
+  groupNames: null
+  kind: RoleBinding
+  metadata:
+    creationTimestamp: null
+    name: system:image-builders
+    namespace: ${PROJECT_NAME}
+  roleRef:
+    name: system:image-builder
+  subjects:
+  - kind: ServiceAccount
+    name: builder
+  userNames:
+  - system:serviceaccount:${PROJECT_NAME}:builder
+- apiVersion: v1
+  groupNames: null
+  kind: RoleBinding
+  metadata:
+    creationTimestamp: null
+    name: system:deployers
+    namespace: ${PROJECT_NAME}
+  roleRef:
+    name: system:deployer
+  subjects:
+  - kind: ServiceAccount
+    name: deployer
+  userNames:
+  - system:serviceaccount:${PROJECT_NAME}:deployer
+- apiVersion: v1
+  groupNames: null
+  kind: RoleBinding
+  metadata:
+    creationTimestamp: null
+    name: admin
+    namespace: ${PROJECT_NAME}
+  roleRef:
+    name: admin
+  subjects:
+  - kind: User
+    name: ${PROJECT_ADMIN_USER}
+  userNames:
+  - ${PROJECT_ADMIN_USER}
+parameters:
+- name: PROJECT_NAME
+- name: PROJECT_DISPLAYNAME
+- name: PROJECT_DESCRIPTION
+- name: PROJECT_ADMIN_USER
+- name: PROJECT_REQUESTING_USER</code></pre>
 </div>
 </div>
 </div>
@@ -256,7 +356,7 @@ documentation</a>
 <div class="sect2">
 <h3 id="_resourcequota"><a class="anchor" href="#_resourcequota"></a>ResourceQuota</h3>
 <div class="paragraph">
-<p><a href="https://docs.openshift.com/container-platform/4.9/applications/quotas/quotas-setting-per-project.html" target="_blank" rel="noopener">quota
+<p><a href="https://docs.openshift.com/container-platform/4.12/applications/quotas/quotas-setting-per-project.html" target="_blank" rel="noopener">quota
 documentation</a> のリンク先に <strong>ResourceQuota</strong> についての詳細があります。:</p>
 </div>
 <div class="listingblock">
@@ -506,17 +606,17 @@ quota</a> を見て下さい。この演習の中では、複数プロジェク�
 <div class="paragraph">
 <p>次に以下を実行します。:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -f {{ HOME_PATH }}/support/project_request_template.yaml -n openshift-config</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc create -f project_request_template.yaml -n openshift-config</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>これで、<code>openshift-config</code> <strong>プロジェクト</strong> 内に <strong>テンプレート</strong> オブジェクトが作成されました。:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get template -n openshift-config</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get template -n openshift-config</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -524,8 +624,9 @@ quota</a> を見て下さい。この演習の中では、複数プロジェク�
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>NAME              DESCRIPTION   PARAMETERS    OBJECTS
-project-request                 5 (5 blank)   7</pre>
+<pre>NAME                  DESCRIPTION   PARAMETERS    OBJECTS
+project-request                     5 (5 blank)   8
+project-request-new                 5 (5 blank)   7</pre>
 </div>
 </div>
 </div>
@@ -536,9 +637,9 @@ project-request                 5 (5 blank)   7</pre>
 この設定は最終的に <code>openshift-apiserver</code> プロジェクト内の <strong>ConfigMap</strong> に格納されます。
 API Server の構成は、以下のコマンドで表示できます。:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get cm config -n openshift-apiserver -o jsonpath --template="{.data.config\.yaml}" | jq</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get cm config -n openshift-apiserver -o jsonpath --template="{.data.config\.yaml}" | jq</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -566,7 +667,7 @@ metadata:
 spec:
   projectRequestMessage: ""
   projectRequestTemplate:
-    name: "project-request"</code></pre>
+    name: "project-request-new"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -577,27 +678,27 @@ spec:
 この <strong>CR</strong> が作成されると、OpenShift のオペレータは <strong>CR</strong> に気付き、構成の変更を適用します。
 この <strong>CustomResource</strong> を作成するには、次のコマンドを発行します。:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc apply -f {{ HOME_PATH }}/support/cr_project_request.yaml -n openshift-config</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc apply -f {{ HOME_PATH }}/support/cr_project_request.yaml -n openshift-config</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>このコマンドを実行すると、OpenShift API Server の設定が Operator によって更新されます。
 この更新には数分かかります。 <code>apiserver</code> のDeploymentの状況を見ることで更新状況を確認することができます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sleep 30
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">sleep 30
 oc rollout status deploy apiserver -n openshift-apiserver</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>ConfigMapを見ることで設定の更新を確認できます。:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get cm config -n openshift-apiserver -o jsonpath --template="{.data.config\.yaml}" | jq</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get cm config -n openshift-apiserver -o jsonpath --template="{.data.config\.yaml}" | jq</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -621,17 +722,17 @@ oc rollout status deploy apiserver -n openshift-apiserver</code></pre>
 <p>新しいプロジェクトを作成すると、 <strong>Quota</strong> と <strong>LimitRange</strong> が一緒に作成されているのがわかるはずです。
 <code>template-test</code> という新しいプロジェクトを作成します。:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc new-project template-test</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc new-project template-test</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>そして、 <code>describe</code> を使って、この <strong>プロジェクトの</strong> 詳細を見てください:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc describe project template-test</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc describe project template-test</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -683,9 +784,9 @@ Resource limits:
 <div class="paragraph">
 <p>また、 <strong>Quota</strong> と <strong>LimitRange</strong> オブジェクトが作成されたことがわかります。：</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc describe quota -n template-test</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc describe quota -n template-test</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -708,9 +809,9 @@ resourcequotas          1     1</pre>
 <div class="paragraph">
 <p>そして:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get limitrange -n template-test</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get limitrange -n template-test</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -746,17 +847,17 @@ template-test-limits   2020-12-16T00:16:39Z</pre>
 <div class="paragraph">
 <p>他のラボに移る前に、先ほど作成した <strong>プロジェクト</strong> を削除してください:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc delete project template-test</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc delete project template-test</code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="05_ldap-groupsync.html">5. 外部認証プロバイダ設定</a></span>
-  <span class="next"><a href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a></span>
+  <span class="prev"><a href="04_infra-nodes.html">4. Infra ノードの作成</a></span>
+  <span class="next"><a href="07_clusterresourcequota.html">wic 6. クラスタのクオータ設定</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

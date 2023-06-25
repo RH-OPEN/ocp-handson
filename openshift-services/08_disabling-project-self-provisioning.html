@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Projectのセルフプロビジョニングの無効化 :: OpenShift Handson</title>
     <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/08_disabling-project-self-provisioning.html">
-    <link rel="prev" href="07_clusterresourcequota.html">
-    <link rel="next" href="09_networking.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -53,7 +51,7 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <span class="nav-text">01. [WIP]OpenShift 基礎</span>
+    <span class="nav-text">01. OpenShift 基礎</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
@@ -68,22 +66,10 @@
     <a class="nav-link" href="04_infra-nodes.html">4. Infra ノードの作成</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="05_ldap-groupsync.html">5. 外部認証プロバイダ設定</a>
+    <a class="nav-link" href="06_template-quota-limits.html">wic 5. Project のクオータ/制限</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="06_template-quota-limits.html">6. プロジェクトのクオータ設定</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
-  </li>
-  <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="08_disabling-project-self-provisioning.html">8. Project セルフプロビジョニング</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="09_networking.html">9. Network Policy</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="10_taints-and-tolerations.html">10. Taint/Toleration</a>
+    <a class="nav-link" href="07_clusterresourcequota.html">wic 6. クラスタのクオータ設定</a>
   </li>
 </ul>
   </li>
@@ -138,8 +124,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
-    <li>01. [WIP]OpenShift 基礎</li>
-    <li><a href="08_disabling-project-self-provisioning.html">8. Project セルフプロビジョニング</a></li>
+    <li><a href="08_disabling-project-self-provisioning.html">Projectのセルフプロビジョニングの無効化</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/08_disabling-project-self-provisioning.adoc">Edit this Page</a></div>
@@ -217,17 +202,17 @@
 </div>
 </div>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u kubeadmin -p {{ KUBEADMIN_PASSWORD }}</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u kubeadmin -p {{ KUBEADMIN_PASSWORD }}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><code>oc describe</code> コマンドを実行して、<code>self-provisioners</code> の <code>clusterrolebinding</code> の使用状況を確認して下さい。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc describe clusterrolebinding.rbac self-provisioners</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc describe clusterrolebinding.rbac self-provisioners</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -261,9 +246,9 @@ Access Control (RBAC)</a> のドキュメントで詳しく説明されていま
 <div class="paragraph">
 <p>設定を確認するには、以下を実行してYAMLを調査します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get clusterrolebinding.rbac self-provisioners -o yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get clusterrolebinding.rbac self-provisioners -o yaml</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -296,25 +281,25 @@ subjects:
 <div class="paragraph">
 <p>グループ <code>system:authenticated:oauth</code> から <code>self-provisioner</code> クラスタロールを削除するには、ロールバインディングからグループを削除する必要があります。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc patch clusterrolebinding.rbac self-provisioners -p '{"subjects": null}'</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc patch clusterrolebinding.rbac self-provisioners -p '{"subjects": null}'</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>自動更新が有効な場合は、クラスタロールをデフォルトの状態にリセットします。これを無効にするには、annotation <code>rbac.authorization.kubernetes.io/autoupdate</code> を <code>false</code> に設定して実行する必要があります。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc patch clusterrolebinding.rbac self-provisioners -p '{ "metadata": { "annotations": { "rbac.authorization.kubernetes.io/autoupdate": "false" } } }'</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc patch clusterrolebinding.rbac self-provisioners -p '{ "metadata": { "annotations": { "rbac.authorization.kubernetes.io/autoupdate": "false" } } }'</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>新しい設定を表示します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get clusterrolebinding.rbac self-provisioners -o yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get clusterrolebinding.rbac self-provisioners -o yaml</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -340,9 +325,9 @@ roleRef:
 <div class="paragraph">
 <p><code>fancyuser1</code> としてログインして、Projectを作成できるかテストしてみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u fancyuser1 -p Op#nSh1ft
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u fancyuser1 -p Op#nSh1ft
 oc new-project fancyuserproject</code></pre>
 </div>
 </div>
@@ -357,9 +342,9 @@ oc new-project fancyuserproject</code></pre>
 <div class="paragraph">
 <p>次の演習のために <code>kubeadmin</code> としてログインします。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u kubeadmin -p {{ KUBEADMIN_PASSWORD }}</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u kubeadmin -p {{ KUBEADMIN_PASSWORD }}</code></pre>
 </div>
 </div>
 </div>
@@ -371,9 +356,9 @@ oc new-project fancyuserproject</code></pre>
 <div class="paragraph">
 <p>例えば、ユーザにProjectをリクエストするチケットを提出させることができます。これを行うには、以下のようにテキストを変更して、指示を含むようにすることができます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc patch --type=merge project.config.openshift.io cluster -p '{"spec":{"projectRequestMessage":"Please visit https://ticket.example.com to request a project"}}'</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc patch --type=merge project.config.openshift.io cluster -p '{"spec":{"projectRequestMessage":"Please visit https://ticket.example.com to request a project"}}'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -383,18 +368,18 @@ oc new-project fancyuserproject</code></pre>
 <div class="paragraph">
 <p>この新しいメッセージを表示する前に、<code>apiserver</code> アプリケーションが変更をロールアウトするのを待つ必要があります。これはロールアウトに時間がかかることがあり、特に忙しいクラスタではそうです。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sleep 30
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">sleep 30
 oc rollout status -n openshift-apiserver deploy/apiserver</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>これで、ユーザはProjectを作成しようとするときにこのメッセージを受け取るようになります。<code>fancyuser1</code> になってProjectを作成してみてください。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u fancyuser1 -p Op#nSh1ft
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u fancyuser1 -p Op#nSh1ft
 oc new-project fancyuserproject</code></pre>
 </div>
 </div>
@@ -415,17 +400,17 @@ oc new-project fancyuserproject</code></pre>
 <div class="paragraph">
 <p>次のラボでは必ず <code>kubeadmin</code> でログインしてください。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u kubeadmin -p {{ KUBEADMIN_PASSWORD }}</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u kubeadmin -p {{ KUBEADMIN_PASSWORD }}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>他のラボでは <code>self-provisioners</code> ロールが必要になるかもしれないので、このラボでやったことを元に戻しましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc patch clusterrolebinding.rbac self-provisioners -p '{"subjects":[{"apiGroup":"rbac.authorization.k8s.io","kind":"Group","name":"system:authenticated:oauth"}]}'
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc patch clusterrolebinding.rbac self-provisioners -p '{"subjects":[{"apiGroup":"rbac.authorization.k8s.io","kind":"Group","name":"system:authenticated:oauth"}]}'
 oc patch clusterrolebinding.rbac self-provisioners -p '{"metadata":{"annotations":{"rbac.authorization.kubernetes.io/autoupdate":"true"}}}'
 oc patch --type=json project.config.openshift.io cluster -p '[{"op": "remove", "path": "/spec/projectRequestMessage"}]'</code></pre>
 </div>
@@ -434,10 +419,6 @@ oc patch --type=json project.config.openshift.io cluster -p '[{"op": "remove", "
 </div>
 </div>
 </div>
-<nav class="pagination">
-  <span class="prev"><a href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a></span>
-  <span class="next"><a href="09_networking.html">9. Network Policy</a></span>
-</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>

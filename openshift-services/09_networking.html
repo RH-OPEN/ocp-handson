@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>OpenShift の Network Policy ベースの SDN :: OpenShift Handson</title>
     <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/09_networking.html">
-    <link rel="prev" href="08_disabling-project-self-provisioning.html">
-    <link rel="next" href="10_taints-and-tolerations.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -53,7 +51,7 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <span class="nav-text">01. [WIP]OpenShift 基礎</span>
+    <span class="nav-text">01. OpenShift 基礎</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
@@ -68,22 +66,10 @@
     <a class="nav-link" href="04_infra-nodes.html">4. Infra ノードの作成</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="05_ldap-groupsync.html">5. 外部認証プロバイダ設定</a>
+    <a class="nav-link" href="06_template-quota-limits.html">wic 5. Project のクオータ/制限</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="06_template-quota-limits.html">6. プロジェクトのクオータ設定</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="08_disabling-project-self-provisioning.html">8. Project セルフプロビジョニング</a>
-  </li>
-  <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="09_networking.html">9. Network Policy</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="10_taints-and-tolerations.html">10. Taint/Toleration</a>
+    <a class="nav-link" href="07_clusterresourcequota.html">wic 6. クラスタのクオータ設定</a>
   </li>
 </ul>
   </li>
@@ -138,8 +124,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
-    <li>01. [WIP]OpenShift 基礎</li>
-    <li><a href="09_networking.html">9. Network Policy</a></li>
+    <li><a href="09_networking.html">OpenShift の Network Policy ベースの SDN</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/09_networking.adoc">Edit this Page</a></div>
@@ -158,11 +143,16 @@
 <h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>OpenShift は プラットフォーム内部に Open vSwitch をベースにしたOpenShiftSDN（Software Defined Network）を持っています。
-しかしこのラボで使用するクラスタではCNIとしてOVNKubernetes SDNを使用します。OVNKubernetesは Open Virtual Network をベースとしており、将来的にOpenShiftのデフォルトになることが計画されています。OVNKubernetes は OpenShiftSDN に対し後方互換性を持っています。より詳しく知りたい場合、<a href="https://docs.openshift.com/container-platform/4.9/networking/ovn_kubernetes_network_provider/about-ovn-kubernetes.html">公式ドキュメント</a>を参照して下さい。</p>
+<p>OpenShift Container Platform クラスターは、Pod ネットワークに仮想化ネットワークを使用します。</p>
 </div>
 <div class="paragraph">
-<p>この SDN は OpenShift 環境内のアプリケーションコンポーネント間の接続性を提供するために使用されます。
+<p>Red Hat OpenShift Networking の一部である OVN-Kubernetes ネットワークプラグインは、OpenShift Container Platform のデフォルトのネットワークプロバイダーです。OVN-Kubernetes は Open Virtual Network (OVN) に基づいており、オーバーレイベースのネットワーキング実装を提供します。OVN-Kubernetes プラグインを使用するクラスターでは、各ノードで Open vSwitch (OVS) も実行されます。OVNは各ノード上でOVSを設定し、宣言されたネットワーク構成を実装します。</p>
+</div>
+<div class="paragraph">
+<p>OpenShift は プラットフォーム内部に Open vSwitch をベースにしたOpenShiftSDN（Software Defined Network）が以前デフォルトでした。OVN-Kubernetes は OpenShiftSDN に対し後方互換性を持っています。より詳しく知りたい場合、<a href="https://docs.openshift.com/container-platform/4.12/networking/ovn_kubernetes_network_provider/about-ovn-kubernetes.html">公式ドキュメント</a>を参照して下さい。</p>
+</div>
+<div class="paragraph">
+<p>これらは OpenShift 環境内のアプリケーションコンポーネント間の接続性を提供するために使用されます。
 ネットワークにはデフォルトのネットワーク範囲があらかじめ設定されていますが、既存のインフラストラクチャと競合する場合やその他の理由で変更することも可能です。</p>
 </div>
 <div class="paragraph">
@@ -175,9 +165,9 @@
 <p>続行する前に、クラスタ内に存在する<strong>Project</strong>を使用していることを確認してください。
 前の演習で最後に<strong>Project</strong>を削除した場合、この演習のスクリプトでエラーが発生します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc project default</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc project default</code></pre>
 </div>
 </div>
 </div>
@@ -190,9 +180,9 @@
 <p>それでは、用意されているスクリプトを実行しましょう。
 2つの <strong>Project</strong> が作成され、 <strong>Deployment</strong> を使って、<strong>Pod</strong> が展開されます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">bash {{ HOME_PATH }}/support/create-net-projects.sh</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">bash {{ HOME_PATH }}/support/create-net-projects.sh</code></pre>
 </div>
 </div>
 </div>
@@ -202,9 +192,9 @@
 <p><code>netproj-a</code> と <code>netproj-b</code> の 2 つの <strong>Project</strong> が作成されました。
 以下のコマンドを実行して、作成されたリソースを確認します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods -n netproj-a</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pods -n netproj-a</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -220,9 +210,9 @@ ose-1-deploy   1/1     Running             0          16s</code></pre>
 <div class="paragraph">
 <p>同様に……:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods -n netproj-b</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pods -n netproj-b</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -247,9 +237,9 @@ ose-1-vj2gn    1/1     Running     0          30s</code></pre>
 <div class="paragraph">
 <p>2つの Pod 間の接続性をテストするには、次のコマンドを実行します。:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">bash {{ HOME_PATH }}/support/test-connectivity.sh</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">bash {{ HOME_PATH }}/support/test-connectivity.sh</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -299,9 +289,9 @@ spec:
 <div class="paragraph">
 <p><code>netproj-b</code> <strong>Project</strong>の Pod へのアクセスを制限するには、上記の NetworkPolicy CR を適用します。:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -n netproj-b -f {{ HOME_PATH }}/support/network-policy-block-all.yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc create -n netproj-b -f {{ HOME_PATH }}/support/network-policy-block-all.yaml</code></pre>
 </div>
 </div>
 </div>
@@ -313,9 +303,9 @@ spec:
 <div class="paragraph">
 <p>次のコマンドでテストを行います。:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">bash {{ HOME_PATH }}/support/test-connectivity.sh</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">bash {{ HOME_PATH }}/support/test-connectivity.sh</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -335,9 +325,9 @@ Checking connectivity between Pod A and Pod B............ FAILED!</code></pre>
 <div class="paragraph">
 <p>適用されている <code>NetworkPolicy</code> を表示には以下を実行します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get networkpolicy -n netproj-b</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get networkpolicy -n netproj-b</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -394,9 +384,9 @@ spec:
 <div class="paragraph">
 <p><code>netproj-b</code> <strong>Project</strong>内の Pod へのアクセスを <code>netproj-a</code> <strong>Project</strong>内のすべての Pod から許可するには、上記の NetworkPolicy を以下のコマンドで適用します。:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -n netproj-b -f {{ HOME_PATH }}/support/network-policy-allow-all-from-netproj-a.yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc create -n netproj-b -f {{ HOME_PATH }}/support/network-policy-allow-all-from-netproj-a.yaml</code></pre>
 </div>
 </div>
 </div>
@@ -408,9 +398,9 @@ spec:
 <div class="paragraph">
 <p>次を実行する事でテストします。:</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">bash {{ HOME_PATH }}/support/test-connectivity.sh</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">bash {{ HOME_PATH }}/support/test-connectivity.sh</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -430,10 +420,6 @@ Checking connectivity between Pod A and Pod B... worked</code></pre>
 </div>
 </div>
 </div>
-<nav class="pagination">
-  <span class="prev"><a href="08_disabling-project-self-provisioning.html">8. Project セルフプロビジョニング</a></span>
-  <span class="next"><a href="10_taints-and-tolerations.html">10. Taint/Toleration</a></span>
-</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>

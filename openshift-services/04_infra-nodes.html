@@ -6,7 +6,7 @@
     <title>Infra ノードの作成 :: OpenShift Handson</title>
     <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/04_infra-nodes.html">
     <link rel="prev" href="03_machinesets.html">
-    <link rel="next" href="05_ldap-groupsync.html">
+    <link rel="next" href="06_template-quota-limits.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -53,7 +53,7 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <span class="nav-text">01. [WIP]OpenShift 基礎</span>
+    <span class="nav-text">01. OpenShift 基礎</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
@@ -68,22 +68,10 @@
     <a class="nav-link" href="04_infra-nodes.html">4. Infra ノードの作成</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="05_ldap-groupsync.html">5. 外部認証プロバイダ設定</a>
+    <a class="nav-link" href="06_template-quota-limits.html">wic 5. Project のクオータ/制限</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="06_template-quota-limits.html">6. プロジェクトのクオータ設定</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="08_disabling-project-self-provisioning.html">8. Project セルフプロビジョニング</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="09_networking.html">9. Network Policy</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="10_taints-and-tolerations.html">10. Taint/Toleration</a>
+    <a class="nav-link" href="07_clusterresourcequota.html">wic 6. クラスタのクオータ設定</a>
   </li>
 </ul>
   </li>
@@ -138,7 +126,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
-    <li>01. [WIP]OpenShift 基礎</li>
+    <li>01. OpenShift 基礎</li>
     <li><a href="04_infra-nodes.html">4. Infra ノードの作成</a></li>
   </ul>
 </nav>
@@ -150,7 +138,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>本コンテンツは、<a href="https://github.com/team-ohc-jp-place/openshift-cns-testdrive">MAD Workshop Ops Track</a> の内容を利用しています。</p>
+<p>本コンテンツは、<a href="https://github.com/team-ohc-jp-place/openshift-cns-testdrive">MAD Workshop Ops Track</a> の内容をベースに、一部変更しています。</p>
 </div>
 </div>
 </div>
@@ -749,7 +737,7 @@ spec:
 </div>
 <nav class="pagination">
   <span class="prev"><a href="03_machinesets.html">3. ノードの動的管理</a></span>
-  <span class="next"><a href="05_ldap-groupsync.html">5. 外部認証プロバイダ設定</a></span>
+  <span class="next"><a href="06_template-quota-limits.html">wic 5. Project のクオータ/制限</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
