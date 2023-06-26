@@ -3,10 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>外部認証プロバイダ(LDAP)の設定 :: OpenShift Handson</title>
+    <title>[WIP]外部認証プロバイダ(LDAP)の設定 :: OpenShift Handson</title>
     <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/05_ldap-groupsync.html">
-    <link rel="prev" href="04_infra-nodes.html">
-    <link rel="next" href="06_template-quota-limits.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -53,7 +51,7 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <span class="nav-text">01. [WIP]OpenShift 基礎</span>
+    <span class="nav-text">01. OpenShift 基礎</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
@@ -67,23 +65,11 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="04_infra-nodes.html">4. Infra ノードの作成</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="05_ldap-groupsync.html">5. 外部認証プロバイダ設定</a>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="06_template-quota-limits.html">5. Project のクオータ/制限</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="06_template-quota-limits.html">6. プロジェクトのクオータ設定</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="08_disabling-project-self-provisioning.html">8. Project セルフプロビジョニング</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="09_networking.html">9. Network Policy</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="10_taints-and-tolerations.html">10. Taint/Toleration</a>
+    <a class="nav-link" href="07_clusterresourcequota.html">6. クラスタのクオータ設定</a>
   </li>
 </ul>
   </li>
@@ -138,19 +124,18 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
-    <li>01. [WIP]OpenShift 基礎</li>
-    <li><a href="05_ldap-groupsync.html">5. 外部認証プロバイダ設定</a></li>
+    <li><a href="05_ldap-groupsync.html">[WIP]外部認証プロバイダ(LDAP)の設定</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/05_ldap-groupsync.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">外部認証プロバイダ(LDAP)の設定</h1>
+<h1 class="page">[WIP]外部認証プロバイダ(LDAP)の設定</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>本コンテンツは、<a href="https://github.com/team-ohc-jp-place/openshift-cns-testdrive">MAD Workshop Ops Track</a> の内容を利用しています。</p>
+<p>本コンテンツは、<a href="https://github.com/team-ohc-jp-place/openshift-cns-testdrive">MAD Workshop Ops Track</a> の内容をベースに、一部変更しています。</p>
 </div>
 </div>
 </div>
@@ -167,6 +152,9 @@ identity provider configuration</a> に記載されています。最も一般�
 <hr>
 <div class="sect2">
 <h3 id="_前提知識_ldapの構造"><a class="anchor" href="#_前提知識_ldapの構造"></a>前提知識: LDAPの構造</h3>
+<div class="paragraph">
+<p>LDAP についてはすでに構築されているものを使います。講師から提供される ldapsearch コマンドを使って、どのようなユーザグループが作成されているか確認してください。　※確認①</p>
+</div>
 <div class="paragraph">
 <p>この環境では、以下のユーザグループでLDAPを提供しています。</p>
 </div>
@@ -229,11 +217,11 @@ identity provider configuration</a> に記載されています。最も一般�
 <div class="sect3">
 <h4 id="_oauth_の設定を調べる"><a class="anchor" href="#_oauth_の設定を調べる"></a>OAuth の設定を調べる</h4>
 <div class="paragraph">
-<p>この環境は何も手を加えていない「バニラ」なOpenShift 4のインストールなので、デフォルトのOAuthリソースを持っています。そのOAuth設定を以下で調べることができます。</p>
+<p>この環境は何も手を加えていないOpenShift 4のインストールなので、デフォルトのOAuthリソースを持っています。そのOAuth設定を以下で調べることができます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get oauth cluster -o yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get oauth cluster -o yaml</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -249,119 +237,29 @@ metadata:
     include.release.openshift.io/self-managed-high-availability: "true"
     include.release.openshift.io/single-node-developer: "true"
     release.openshift.io/create-only: "true"
-  creationTimestamp: "2022-02-09T23:06:59Z"
-  generation: 1
+  creationTimestamp: "2023-06-19T03:17:20Z"
+  generation: 2
   name: cluster
   ownerReferences:
   - apiVersion: config.openshift.io/v1
     kind: ClusterVersion
     name: version
-    uid: c9cbd13c-99bf-4e82-b2ad-690810a01f2f
-  resourceVersion: "1715"
-  uid: 1bedd82d-b235-4e39-af98-e40f411c3c8e
-spec: {}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>ここで注意すべきことがいくつかあります。まず、ここには基本的に何もありません!では、<code>kubeadmin</code> ユーザはどのように動作するのでしょうか?OpenShift OAuthシステムは、<code>kube-system</code> <strong>Namespace</strong> にある`kubeadmin` <strong>Secret</strong> を探すことができます。次のように調べることができます。</p>
-</div>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get secret -n kube-system kubeadmin -o yaml</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>以下のように表示されます。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
-data:
-  kubeadmin: JDJhJDEwJFYwcVBXRjZGTlNOOU1RYUN6SGtJVGV4T3I5Ym9DbGRTT0VmNS44UGl2cWZOUGdsTnkvb3hT
-kind: Secret
-metadata:
-  creationTimestamp: "2022-02-09T23:06:14Z"
-  name: kubeadmin
-  namespace: kube-system
-  resourceVersion: "576"
-  uid: 834a86fd-96e6-4d6a-8c16-6eca251b10f0
-type: Opaque</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>この <code>Secret</code> には、<code>kubeadmin</code> パスワードがエンコードされたハッシュが含まれています。このアカウントは、新しい <code>OAuth</code> を設定した後も動作します。このアカウントを無効にしたい場合は、Secretを削除する必要があります。</p>
-</div>
-<div class="paragraph">
-<p>実際の環境では、既存のID管理ソリューションと統合することをお勧めします。このラボでは、<code>identityProvider</code> としてLDAPを構成しています。以下はOAuth構成の例です。<code>identityProviders</code> で <code>type.LDAP</code> の要素に注目してみましょう。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: config.openshift.io/v1
-kind: OAuth
-metadata:
-  name: cluster
+    uid: f7ab1da3-d33b-4dc2-b9a6-792cfc6d2c94
+  resourceVersion: "21651"
+  uid: 999e83ec-6cfc-430a-b356-15ea390f4013
 spec:
   identityProviders:
-  - name: ldap <i class="conum" data-value="1"></i><b>(1)</b>
-    challenge: false
-    login: true
-    mappingMethod: claim <i class="conum" data-value="2"></i><b>(2)</b>
-    type: LDAP
-    ldap:
-      attributes: <i class="conum" data-value="3"></i><b>(3)</b>
-        id:
-        - dn
-        email:
-        - mail
-        name:
-        - cn
-        preferredUsername:
-        - uid
-      bindDN: "uid=openshiftworkshop,ou=Users,o=5e615ba46b812e7da02e93b5,dc=jumpcloud,dc=com" <i class="conum" data-value="4"></i><b>(4)</b>
-      bindPassword: <i class="conum" data-value="5"></i><b>(5)</b>
-        name: ldap-secret
-      ca: <i class="conum" data-value="6"></i><b>(6)</b>
-        name: ca-config-map
-      insecure: false
-      url: "ldaps://ldap.jumpcloud.com/ou=Users,o=5e615ba46b812e7da02e93b5,dc=jumpcloud,dc=com?uid?sub?(memberOf=cn=ose-user,ou=Users,o=5e615ba46b812e7da02e93b5,dc=jumpcloud,dc=com)" <i class="conum" data-value="7"></i><b>(7)</b>
-  tokenConfig:
-    accessTokenMaxAgeSeconds: 86400</code></pre>
+  - htpasswd:
+      fileData:
+        name: htpasswd-secret
+    mappingMethod: claim
+    name: htpasswd_provider
+    type: HTPasswd</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>identityProviders:</code> 下にあるいくつかの注目すべきフィールド</p>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>name</code>: プロバイダの一意のID。OpenShift環境では複数の認証プロバイダを持つことが可能で、OpenShiftはそれらを区別することができます。</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td><code>mappingMethod: claim</code>: このセクションは、複数のプロバイダが構成されている場合に、OpenShiftクラスタ内でユーザ名がどのように割り当てられるかに関係しています。詳細については、<a href="https://docs.openshift.com/container-platform/4.5/authentication/understanding-identity-provider.html#identity-provider-parameters-understanding-identity-provider">Identity provider parameters</a> のセクションを参照してください。</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td><code>attributes</code>: このセクションでは、OpenShiftユーザの「アカウント」のフィールドに反復して割り当てるLDAPフィールドを定義します。リストを検索する際に属性が見つからない場合や、属性が入力されていない場合は認証全体が失敗します。上の例の場合は、LDAP <code>dn</code> からidを、LDAP <code>mail</code> からemailアドレスを、LDAP <code>cn</code> からの名前を、LDAP <code>uid</code> からユーザ名を、それぞれ関連付けます。</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
-<td><code>bindDN</code>: LDAPを検索する際に、このユーザとしてサーバーにバインドします。</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="5"></i><b>5</b></td>
-<td><code>bindPassword</code>: 検索時にバインドする際に使用するパスワードを持つSecretを参照します。</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="6"></i><b>6</b></td>
-<td><code>ca</code>: LDAPサーバーのSSL証明書を検証するために使用するCA証明書を含むConfigMapを参照します。</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="7"></i><b>7</b></td>
-<td><code>url</code>: LDAPサーバーのURLです。</td>
-</tr>
-</table>
+<p>すでに一つの 認証プロバイダが設定してあります。
+これに加えて、このラボでは、認証プロバイダである <code>identityProvider</code> としてLDAPを構成します。</p>
 </div>
 <div class="paragraph">
 <p>OpenShiftにおけるLDAP認証の具体的な詳細については、<a href="https://docs.openshift.com/container-platform/4.10/authentication/identity_providers/configuring-ldap-identity-provider.html">Configuring
@@ -386,25 +284,20 @@ an LDAP identity provider</a>のドキュメントを参照してください。
 <div class="paragraph">
 <p><code>kubeadmin</code> ユーザとして <code>oc</code> で OAuth 設定を適用します。</p>
 </div>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u kubeadmin -p {{ KUBEADMIN_PASSWORD }}</code></pre>
-</div>
-</div>
 <div class="paragraph">
 <p>次のコマンドは、openshift-config ネームスペースに ldap-secret という名前の Kubernetes Secretを、1つのデータアイテムで作成します。データアイテムは "bindPassword" という名前で、その値は "b1ndP^ssword" に設定されています。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create secret generic ldap-secret --from-literal=bindPassword=b1ndP^ssword -n openshift-config</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc create secret generic ldap-secret --from-literal=bindPassword=b1ndP^ssword -n openshift-config</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>次のコマンドで、証明書をダウンロードし 'ca.crt' というファイルに保存します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">wget https://certs.godaddy.com/repository/gd-class2-root.crt -O {{ HOME_PATH }}/support/ca.crt</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">wget https://certs.godaddy.com/repository/gd-class2-root.crt -O ca.crt</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -413,27 +306,62 @@ an LDAP identity provider</a>のドキュメントを参照してください。
 </div>
 </div>
 <div class="paragraph">
-<p>次のコマンドをクリックすると、openshift-config ネームスペースに ca-config-map という名前の新しい ConfigMap が作成されます。このConfigMapには、{{ HOME_PATH }}/support/ca.cltというファイルの内容が入力されます。そして、そのファイルを適用します。</p>
+<p>次のコマンドをクリックすると、openshift-config ネームスペースに ca-config-map という名前の新しい ConfigMap が作成されます。このConfigMapには、ca.cltというファイルの内容が入力されます。そして、そのファイルを適用します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create configmap ca-config-map --from-file={{ HOME_PATH }}/support/ca.crt -n openshift-config
-oc apply -f {{ HOME_PATH }}/support/oauth-cluster.yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc create configmap ca-config-map --from-file=ca.crt -n openshift-config</code></pre>
 </div>
 </div>
-<div class="exampleblock">
+<div class="listingblock console-input">
 <div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">vi oauth-cluster.yaml</code></pre>
+</div>
+</div>
 <div class="paragraph">
-<p><code>apply</code> を使うのは既存の <code>OAuth</code> オブジェクトがあるためです。もし <code>create</code> を使用した場合、オブジェクトが既に存在しているというエラーが発生するでしょう。<code>apply</code> でも警告が表示されますが、それは問題ありません。</p>
+<p>identityProviders: 配下に以下をコピー＆ペーストします。
+bindDN: と、url: の情報は講師から取得してください。</p>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre>apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  name: cluster
+spec:
+  identityProviders:
+  - name: ldap
+    challenge: false
+    login: true
+    mappingMethod: claim
+    type: LDAP
+    ldap:
+      attributes:
+        id:
+        - dn
+        email:
+        - mail
+        name:
+        - cn
+        preferredUsername:
+        - uid
+      bindDN: "uid=openshiftworkshop,ou=Users,o=5e615ba46b812e7da02e93b5,dc=jumpcloud,dc=com"
+      bindPassword:
+        name: ldap-secret
+      ca:
+        name: ca-config-map
+      insecure: false
+      url: "ldaps://ldap.jumpcloud.com/ou=Users,o=5e615ba46b812e7da02e93b5,dc=jumpcloud,dc=com?uid?sub?(memberOf=cn=ose-user,ou=Users,o=5e615ba46b812e7da02e93b5,dc=jumpcloud,dc=com)"
+  tokenConfig:
+    accessTokenMaxAgeSeconds: 86400</pre>
 </div>
 </div>
 <div class="paragraph">
 <p>これにより、oAuth Operatorの再デプロイが開始されます。次のコマンドでロールアウトを監視することができます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc rollout status deployment/oauth-openshift -n openshift-authentication</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc rollout status deployment/oauth-openshift -n openshift-authentication</code></pre>
 </div>
 </div>
 </div>
@@ -446,13 +374,41 @@ oc apply -f {{ HOME_PATH }}/support/oauth-cluster.yaml</code></pre>
 <div class="paragraph">
 <p>このラボでは次のような <code>groupsync</code> の設定ファイルを提供しています。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cat {{ HOME_PATH }}/support/groupsync.yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">vi groupsync.yaml</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>あまり詳細には触れませんが (ドキュメントを見ることができます)、<code>groupsync</code> 設定ファイルは以下のようなことをします。</p>
+<p>bindDN: 、bindPassword:、baseDN: の情報は講師から取得してください。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>kind: LDAPSyncConfig
+apiVersion: v1
+url: ldaps://ldap.jumpcloud.com
+bindDN: uid=openshiftworkshop,ou=Users,o=5e615ba46b812e7da02e93b5,dc=jumpcloud,dc=com
+bindPassword: b1ndP^ssword
+rfc2307:
+  groupsQuery:
+    baseDN: ou=Users,o=5e615ba46b812e7da02e93b5,dc=jumpcloud,dc=com
+    derefAliases: never
+    filter: '(|(cn=ose-*))'
+  groupUIDAttribute: dn
+  groupNameAttributes:
+  - cn
+  groupMembershipAttributes:
+  - member
+  usersQuery:
+    baseDN: ou=Users,o=5e615ba46b812e7da02e93b5,dc=jumpcloud,dc=com
+    derefAliases: never
+  userUIDAttribute: dn
+  userNameAttributes:
+  - uid</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>groupsync</code> 設定ファイルは以下のようなことをします。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -476,9 +432,9 @@ oc apply -f {{ HOME_PATH }}/support/oauth-cluster.yaml</code></pre>
 <div class="paragraph">
 <p><code>groupsync</code> を実行します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc adm groups sync --sync-config={{ HOME_PATH }}/support/groupsync.yaml --confirm</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc adm groups sync --sync-config=groupsync.yaml --confirm</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -498,9 +454,9 @@ group/ose-teamed-app</pre>
 <div class="paragraph">
 <p>作成された <strong>Groups</strong> を見たい場合は、以下を実行して下さい。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get groups</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get groups</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -518,32 +474,9 @@ ose-user         fancyuser1, fancyuser2, normaluser1, teamuser1, teamuser2</pre>
 <div class="paragraph">
 <p>YAMLで特定のグループを見てみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get group ose-fancy-dev -o yaml</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>YAMLは以下のようになっています。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">aapiVersion: user.openshift.io/v1
-kind: Group
-metadata:
-  annotations:
-    openshift.io/ldap.sync-time: "2022-02-10T01:49:07Z"
-    openshift.io/ldap.uid: cn=ose-fancy-dev,ou=Users,o=5e615ba46b812e7da02e93b5,dc=jumpcloud,dc=com
-    openshift.io/ldap.url: ldap.jumpcloud.com:636
-  creationTimestamp: "2022-02-10T01:49:07Z"
-  labels:
-    openshift.io/ldap.host: ldap.jumpcloud.com
-  name: ose-fancy-dev
-  resourceVersion: "68628"
-  uid: 374c463a-bdd2-4da1-ae1a-619eca0994f6
-users:
-- fancyuser1
-- fancyuser2</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get group ose-fancy-dev -o yaml</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -552,9 +485,9 @@ users:
 <div class="paragraph">
 <p><strong>Users</strong> をリストアップするとどうなるでしょうか?</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get user</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get user</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -562,11 +495,12 @@ users:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>No resources found.</pre>
+<pre>NAME    UID                                    FULL NAME   IDENTITIES
+admin   211b4143-f317-42a8-b3c6-252b9a63c7ec               htpasswd_provider:admin</pre>
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Users</strong> は <strong>Group</strong> の定義に明確にリストされているのに、なぜ <strong>Users</strong> が見つからないのでしょうか?</p>
+<p><strong>Users</strong> は <strong>Group</strong> の定義に明確にリストされているのに、なぜ LDAP の認証プロバイダの <strong>Users</strong> が見つからないのでしょうか?</p>
 </div>
 <div class="paragraph">
 <p><strong>Users</strong> は、最初にログインしようとするまで実際には作成されません。<strong>Group</strong> の定義に表示されているのは、OpenShiftがその特定のIDを持つ <strong>User</strong> に遭遇した場合、その <strong>User</strong> を <strong>Group</strong> に関連付けるべきであるとOpenShiftに伝えているだけのプレースホルダーです。</p>
@@ -580,9 +514,9 @@ users:
 <div class="paragraph">
 <p><code>ose-fancy-dev</code> <strong>Group</strong> のポリシーを変更します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc adm policy add-cluster-role-to-group cluster-reader ose-fancy-dev</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc adm policy add-cluster-role-to-group cluster-reader ose-fancy-dev</code></pre>
 </div>
 </div>
 <div class="exampleblock">
@@ -598,17 +532,17 @@ users:
 <div class="paragraph">
 <p>通常のユーザでログインしてみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u normaluser1 -p Op#nSh1ft</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u normaluser1 -p Op#nSh1ft</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><strong>Projects</strong> をリストしてみると、</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get projects</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get projects</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -622,9 +556,9 @@ users:
 <div class="paragraph">
 <p>次に <code>ose-fancy-dev</code> のメンバーとしてログインします。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u fancyuser1 -p Op#nSh1ft</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u fancyuser1 -p Op#nSh1ft</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -646,23 +580,23 @@ users:
 <div class="paragraph">
 <p>これで、OpenShift Container PlatformのRBACがどのように機能するか理解し始めているはずです。</p>
 </div>
+<div class="paragraph">
+<p>cluster-admin としてログインし直しておきましょう。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u admin -p &lt;*** ivpn13A5E4t3GCKG のようなパスワード ***&gt;</code></pre>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_コラボレーションのためのprojectの作成"><a class="anchor" href="#_コラボレーションのためのprojectの作成"></a>コラボレーションのためのProjectの作成</h4>
 <div class="paragraph">
-<p>cluster-admin としてログインしてください。</p>
-</div>
-<div class="listingblock execute">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u kubeadmin -p {{ KUBEADMIN_PASSWORD }}</code></pre>
-</div>
-</div>
-<div class="paragraph">
 <p>そして、複数の人で共同作業を行うためにいくつかの <strong>Project</strong> を作成してください。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc adm new-project app-dev --display-name="Application Development"
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc adm new-project app-dev --display-name="Application Development"
 oc adm new-project app-test --display-name="Application Testing"
 oc adm new-project app-prod --display-name="Application Production"</code></pre>
 </div>
@@ -696,26 +630,26 @@ oc adm new-project app-prod --display-name="Application Production"</code></pre>
 <div class="paragraph">
 <p>先ほど見たように、OpenShift内にはいくつかのロールがあらかじめ設定されています。 <strong>Project</strong> に関しても同様に、閲覧(View)、編集(Edit)、管理者アクセスを付与することができます。<code>ose-teamed-app</code> のユーザにDevelopment ProjectとTest Projectを編集するためのアクセス権を与えてみましょう。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc adm policy add-role-to-group edit ose-teamed-app -n app-dev
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc adm policy add-role-to-group edit ose-teamed-app -n app-dev
 oc adm policy add-role-to-group edit ose-teamed-app -n app-test</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>そして、Productionを閲覧するためのアクセス権を与えます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc adm policy add-role-to-group view ose-teamed-app -n app-prod</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc adm policy add-role-to-group view ose-teamed-app -n app-prod</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>次に、<code>ose-fancy-dev</code> グループにProduction Projectの編集アクセス権を与えます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc adm policy add-role-to-group edit ose-fancy-dev -n app-prod</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc adm policy add-role-to-group edit ose-fancy-dev -n app-prod</code></pre>
 </div>
 </div>
 </div>
@@ -724,9 +658,9 @@ oc adm policy add-role-to-group edit ose-teamed-app -n app-test</code></pre>
 <div class="paragraph">
 <p><code>normaluser1</code> としてログインし、どのような <strong>Projects</strong> が表示されるか確認します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u normaluser1 -p Op#nSh1ft
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u normaluser1 -p Op#nSh1ft
 oc get projects</code></pre>
 </div>
 </div>
@@ -741,9 +675,9 @@ oc get projects</code></pre>
 <div class="paragraph">
 <p>次に <code>ose-teamed-app</code> グループの <code>teamuser1</code> で試してみます。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u teamuser1 -p Op#nSh1ft
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u teamuser1 -p Op#nSh1ft
 oc get projects</code></pre>
 </div>
 </div>
@@ -761,9 +695,9 @@ app-test   Application Testing       Active</pre>
 <div class="paragraph">
 <p>チームユーザにはProduction Projectへの編集アクセス権が付与されていません。次に、Production Projectに <code>teamuser1</code> として何かを作成してみてください。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc project app-prod
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc project app-prod
 oc new-app docker.io/siamaksade/mapit</code></pre>
 </div>
 </div>
@@ -808,17 +742,17 @@ See 'oc new-app -h' for examples.</pre>
 <div class="paragraph">
 <p><code>cluster-reader</code> 権限を持つユーザでログインします。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u fancyuser1 -p Op#nSh1ft</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u fancyuser1 -p Op#nSh1ft</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><code>prometheus</code> の <code>Route</code> を検索します。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get route prometheus-k8s -n openshift-monitoring -o jsonpath='{.spec.host}{"\n"}'</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get route prometheus-k8s -n openshift-monitoring -o jsonpath='{.spec.host}{"\n"}'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -826,7 +760,7 @@ See 'oc new-app -h' for examples.</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>prometheus-k8s-openshift-monitoring.{{ ROUTE_SUBDOMAIN }}</pre>
+<pre>prometheus-k8s-openshift-monitoring.apps.cluster-vfg6m.vfg6m.sandbox2574.opentlc.com</pre>
 </div>
 </div>
 <div class="exampleblock">
@@ -837,9 +771,8 @@ See 'oc new-app -h' for examples.</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>インストーラは、デフォルトでPrometheus用の`Route`を設定しています。
-link:https://prometheus-k8s-openshift-monitoring.{{ ROUTE_SUBDOMAIN }}[Prometheus Link]
-をcontrol+クリックしてブラウザで開きます。ログイン画面が出てきたら <strong>Log in with OpenShift</strong> ボタンをクリックして <code>ldap</code> auth を選択し、先ほど <code>cluster-reader</code> 権限を付与した <code>fancyuser1</code> ユーザを使用します。</p>
+<p>https:// + 上記で取得した Link + /api をブラウザで開きます。
+ログイン画面が出てきたら <strong>Log in with OpenShift</strong> ボタンをクリックして <code>ldap</code> auth を選択し、先ほど <code>cluster-reader</code> 権限を付与した <code>fancyuser1</code> ユーザを使用します。</p>
 </div>
 <div class="paragraph">
 <p>より細かく言えば、<code>ose-fancy-dev</code> グループに <code>cluster-reader</code> 権限があり、<code>fancyuser1</code> がメンバーです。これらのユーザのパスワードはすべて <code>Op#nSh1ft</code> です。自己署名証明書のため、証明書エラーが出ると思います。必ず承諾するようにしましょう。</p>
@@ -867,19 +800,15 @@ link:https://prometheus-k8s-openshift-monitoring.{{ ROUTE_SUBDOMAIN }}[Prometheu
 <div class="paragraph">
 <p>これが終わったら、管理者ユーザーとして再度ログインしてください。</p>
 </div>
-<div class="listingblock execute">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc login -u kubeadmin -p {{ KUBEADMIN_PASSWORD }}</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u kubeadmin -p {{ KUBEADMIN_PASSWORD }}</code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<nav class="pagination">
-  <span class="prev"><a href="04_infra-nodes.html">4. Infra ノードの作成</a></span>
-  <span class="next"><a href="06_template-quota-limits.html">6. プロジェクトのクオータ設定</a></span>
-</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>

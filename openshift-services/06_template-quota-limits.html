@@ -68,10 +68,10 @@
     <a class="nav-link" href="04_infra-nodes.html">4. Infra ノードの作成</a>
   </li>
   <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="06_template-quota-limits.html">wic 5. Project のクオータ/制限</a>
+    <a class="nav-link" href="06_template-quota-limits.html">5. Project のクオータ/制限</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="07_clusterresourcequota.html">wic 6. クラスタのクオータ設定</a>
+    <a class="nav-link" href="07_clusterresourcequota.html">6. クラスタのクオータ設定</a>
   </li>
 </ul>
   </li>
@@ -127,7 +127,7 @@
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
     <li>01. OpenShift 基礎</li>
-    <li><a href="06_template-quota-limits.html">wic 5. Project のクオータ/制限</a></li>
+    <li><a href="06_template-quota-limits.html">5. Project のクオータ/制限</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/06_template-quota-limits.adoc">Edit this Page</a></div>
@@ -159,6 +159,14 @@
 </div>
 <div class="sect3">
 <h4 id="_デフォルトの_プロジェクトリクエストテンプレート_を見てみる"><a class="anchor" href="#_デフォルトの_プロジェクトリクエストテンプレート_を見てみる"></a>デフォルトの プロジェクト・リクエスト・テンプレート を見てみる</h4>
+<div class="paragraph">
+<p>新しいプロジェクトのテンプレートを作成します。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get template -n openshift-config</code></pre>
+</div>
+</div>
 <div class="paragraph">
 <p>組み込みのデフォルトの <strong>プロジェクト・リクエスト・テンプレート</strong> を表示するには、以下のコマンドを実行します。</p>
 </div>
@@ -649,10 +657,7 @@ API Server の構成は、以下のコマンドで表示できます。:</p>
 <p>言い換えれば、 その OpenShift オペレーターは <strong>ConfigMap</strong> の作成/変更に最終的な責任を持っています。</p>
 </div>
 <div class="paragraph">
-<p><code>jq</code> の出力を見ると、 <code>projectRequestMessage</code> はありますが、<code>projectRequestTemplate</code> は定義されていません。</p>
-</div>
-<div class="paragraph">
-<p>現在のところ CR には何も指定されていないので、オペレータはクラスタを標準の設定で設定しています。</p>
+<p><code>jq</code> の出力を見ると、 <code>projectRequestMessage</code> はありますが、<code>projectRequestTemplate</code> は "project-request" が定義されています。</p>
 </div>
 <div class="paragraph">
 <p>デフォルトのプロジェクト・リクエスト・テンプレートの設定を追加するには、CR を作成する必要があります。 <strong>CustomResource</strong> は次のようになります。:</p>
@@ -680,7 +685,25 @@ spec:
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc apply -f {{ HOME_PATH }}/support/cr_project_request.yaml -n openshift-config</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">vi cr_project_request.yaml</code></pre>
+</div>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">apiVersion: "config.openshift.io/v1"
+kind: "Project"
+metadata:
+  name: "cluster"
+  namespace: ""
+spec:
+  projectRequestMessage: ""
+  projectRequestTemplate:
+    name: "project-request-new"</code></pre>
+</div>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc apply -f cr_project_request.yaml -n openshift-config</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -710,7 +733,7 @@ oc rollout status deploy apiserver -n openshift-apiserver</code></pre>
   "kind": "OpenShiftAPIServerConfig",
   "projectConfig": {
     "projectRequestMessage": "",
-    "projectRequestTemplate": "openshift-config/project-request"
+    "projectRequestTemplate": "openshift-config/project-request-new"
   },
 ...</code></pre>
 </div>
@@ -820,7 +843,7 @@ resourcequotas          1     1</pre>
 <div class="listingblock">
 <div class="content">
 <pre>NAME                   CREATED AT
-template-test-limits   2020-12-16T00:16:39Z</pre>
+template-test-limits   2023-06-26T00:02:47Z</pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -857,7 +880,7 @@ template-test-limits   2020-12-16T00:16:39Z</pre>
 </div>
 <nav class="pagination">
   <span class="prev"><a href="04_infra-nodes.html">4. Infra ノードの作成</a></span>
-  <span class="next"><a href="07_clusterresourcequota.html">wic 6. クラスタのクオータ設定</a></span>
+  <span class="next"><a href="07_clusterresourcequota.html">6. クラスタのクオータ設定</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
