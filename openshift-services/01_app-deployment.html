@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Webコンソールからのデプロイ :: OpenShift Handson</title>
+    <title>Webコンソールからのコンテナのデプロイ :: OpenShift Handson</title>
     <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/01_app-deployment.html">
     <link rel="prev" href="01_app-mgmt-basics.html">
     <link rel="next" href="02_app-storage-basics.html">
@@ -137,71 +137,21 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Webコンソールからのデプロイ</h1>
+<h1 class="page">Webコンソールからのコンテナのデプロイ</h1>
 <div class="sect1">
 <h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>このモジュールでは、『コンテナデプロイと管理』でコマンドラインでデプロイしたアプリを、Webコンソールを用いてデプロイします。</p>
+<p>このモジュールでは、Webコンソールを用いてコンテナのデプロイを行います。</p>
 </div>
 <hr>
 <div class="sect2">
-<h3 id="_web_コンソールを使ったデプロイ_コンテナイメージ"><a class="anchor" href="#_web_コンソールを使ったデプロイ_コンテナイメージ"></a>Web コンソールを使ったデプロイ （コンテナイメージ）</h3>
-<div class="imageblock">
-<div class="content">
-<img src="_images/basics/appdeploy/deploy-1.png" alt="deploy 1">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/basics/appdeploy/deploy-2.png" alt="deploy 2">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/basics/appdeploy/deploy-3.png" alt="deploy 3">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/basics/appdeploy/deploy-4.png" alt="deploy 4">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/basics/appdeploy/deploy-5.png" alt="deploy 5">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/basics/appdeploy/deploy-6.png" alt="deploy 6">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/basics/appdeploy/deploy-7.png" alt="deploy 7">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/basics/appdeploy/deploy-8.png" alt="deploy 8">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/basics/appdeploy/deploy-9.png" alt="deploy 9">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/basics/appdeploy/deploy-10.png" alt="deploy 10">
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_web_コンソールを使ったデプロイ_レポジトリ"><a class="anchor" href="#_web_コンソールを使ったデプロイ_レポジトリ"></a>Web コンソールを使ったデプロイ （レポジトリ）</h3>
+<h3 id="_web_コンソールを使ったコンテナのデプロイ_レポジトリ"><a class="anchor" href="#_web_コンソールを使ったコンテナのデプロイ_レポジトリ"></a>Web コンソールを使ったコンテナのデプロイ （レポジトリ）</h3>
 <div class="sect3">
 <h4 id="_developer_パースペクティブ"><a class="anchor" href="#_developer_パースペクティブ"></a>Developer パースペクティブ</h4>
+<div class="paragraph">
+<p>OpenShift の Web コンソールを活用することで、アプリケーションのデプロイメントを GUI から行うことができるようになります。</p>
+</div>
 <div class="paragraph">
 <p>OpenShift Container PlatformのWebコンソールには、Administrator パースペクティブとDeveloperパースペクティブの2つのパースペクティブがあります。Developerパースペクティブでは、開発者のユースケースに特化したワークフローを提供します。</p>
 </div>
@@ -405,6 +355,81 @@ DS: Daemonset</p>
 <div class="content">
 <img src="_images/basics/appdeploy/s2i_10.png" alt="s2i 10">
 </div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_web_コンソールを使ったコンテナのデプロイ_コンテナイメージ"><a class="anchor" href="#_web_コンソールを使ったコンテナのデプロイ_コンテナイメージ"></a>Web コンソールを使ったコンテナのデプロイ （コンテナイメージ）</h3>
+<div class="paragraph">
+<p>ここでは、『コンテナデプロイと管理』でコマンドラインでデプロイしたアプリを、Webコンソールを用いてデプロイします。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Administrator パースペクティブ（管理者向け表示 ）から新しい Project を作成します。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>ここでは、Project 名に <code>app-management-2</code> としています。
+image::basics/appdeploy/deploy-1.png[]
+image::basics/appdeploy/deploy-2.png[]
+image::basics/appdeploy/deploy-3.png[]</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Developer パースペクティブ（開発者向け表示）に切り替えます。
+image::basics/appdeploy/deploy-4.png[]
+image::basics/appdeploy/deploy-5.png[]</p>
+</li>
+<li>
+<p><code>+追加</code> &#8594; <code>コンテナーイメージ</code> を選択します。</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/basics/appdeploy/deploy-6.png" alt="deploy 6">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>外部レジストリーからのイメージ名</code> には、前回利用した以下のイメージを利用します。コピー＆ペースト後は <code>作成</code> をクリックします。</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">quay.io/openshiftroadshow/mapit</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/basics/appdeploy/deploy-7.png" alt="deploy 7">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/basics/appdeploy/deploy-8.png" alt="deploy 8">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>右上の矢印をクリックし、アプリケーションのURLにアクセスします。</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/basics/appdeploy/deploy-9.png" alt="deploy 9">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/basics/appdeploy/deploy-10.png" alt="deploy 10">
 </div>
 </div>
 </div>
