@@ -141,7 +141,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>本コンテンツは、<a href="https://github.com/team-ohc-jp-place/openshift-cns-testdrive">MAD Workshop Ops Track</a> の内容を利用しています。</p>
+<p>本コンテンツは、<a href="https://github.com/team-ohc-jp-place/openshift-cns-testdrive">MAD Workshop Ops Track</a> の内容をベースに、一部変更しています。</p>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -159,7 +159,7 @@
 <p>前の演習では、<strong>Project</strong> にクォータを適用する方法を見ました。デフォルトのクォータを設定したので、誰かが新しい <strong>Project</strong> をリクエストしたときにはいつでもデフォルトのクォータが割り当てられます。このような <strong>Project</strong> クォータは、クラスタ内のリソースを制御するのに最適です。</p>
 </div>
 <div class="paragraph">
-<p>しかし、クォータを個々の <strong>Project</strong> ではなく、<strong>Project</strong>を跨って適用したい場合はどうでしょうか？</p>
+<p>しかし、クォータを個々の <strong>Project</strong> ではなく、<strong>Project</strong>を跨って適用したい場合には、別のやり方が必要です。それが、ClusterResourceQuota です。</p>
 </div>
 <hr>
 <div class="sect2">
@@ -196,6 +196,18 @@
     --hard pods=10</code></pre>
 </div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>clusterquota</code> は、 <code>clusterresourcequotas</code> の略です (<code>oc api-resources | grep clusterresourcequotas</code> のコマンドで確認できます)。
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>設定を表示します。</p>
 </div>
@@ -228,7 +240,7 @@ spec:
 </div>
 </div>
 <div class="paragraph">
-<p>ユーザ <code>user1</code> は、自身が作成したすべての <strong>Project</strong> で10個以下の <strong>Pod</strong> を作成することができます。これはこのユーザが作成した <strong>Project</strong> (<code>openshift.io/requester: user1</code> annotationに基づく) にのみ適用され、このユーザがアクセスできるその他の<strong>Project</strong>には適用されません。これについては後ほど説明します。</p>
+<p>ユーザ <code>user1</code> は、自身が作成したすべての <strong>Project</strong> で10個以下の <strong>Pod</strong> を作成することができます。これはこのユーザが作成した <strong>Project</strong> (<code>openshift.io/requester: user1</code> annotationに基づく) にのみ適用され、このユーザがアクセスできるその他の<strong>Project</strong>（他のユーザが作成したproject）には適用されません。これについては後ほど説明します。</p>
 </div>
 <div class="paragraph">
 <p>では <code>user1</code> でログインしてみましょう。</p>
@@ -239,10 +251,6 @@ spec:
 </div>
 </div>
 <div class="paragraph">
-<p>oc login -u admin -p 73IgRQzKEbbjowfz
-oc login -u user1 -p i60zZVXH277teZyH</p>
-</div>
-<div class="paragraph">
 <p>現在の <strong>Project</strong> をリストアップします。</p>
 </div>
 <div class="listingblock console-input">
@@ -251,7 +259,7 @@ oc login -u user1 -p i60zZVXH277teZyH</p>
 </div>
 </div>
 <div class="paragraph">
-<p>このユーザは <strong>Project</strong> を持っていないはずなので、このような出力が表示されるはずです。(もし持っていても気にしなくて大丈夫です)</p>
+<p>このユーザは <strong>Project</strong> を持っていないはずなので、このような出力が表示されるはずです。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -299,11 +307,11 @@ php2-1-ljw9w   1/1     Running   0          4m20s</pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>kubeadmin</code> ユーザーに変更してクォータを確認してみましょう。</p>
+<p><code>admin</code> ユーザーに変更してクォータを確認してみましょう。</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u kubeadmin -p &lt;*** パスワード ***&gt;</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u admin -p &lt;*** パスワード ***&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -340,7 +348,7 @@ pods		2	10</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>出力は以下のようになるはずです。特にannotationに注意してください。</p>
+<p>出力は以下のようになるはずです。特にannotationに注意してください。<code>openshift.io/requester</code> が `user1`です。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -376,8 +384,12 @@ status:
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u user1 -p &lt;*** パスワード ***&gt;
-oc scale deploy/php1 -n welcome1 --replicas=5
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u user1 -p &lt;*** パスワード ***&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc scale deploy/php1 -n welcome1 --replicas=5
 oc scale deploy/php2 -n welcome2 --replicas=6</code></pre>
 </div>
 </div>
@@ -413,8 +425,12 @@ den: exceeded quota: for-user-user1, requested: pods=1, used: pods=10, limited: 
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u admin -p &lt;*** パスワード ***&gt;
-oc describe clusterresourcequotas for-user-user1</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u admin -p &lt;*** パスワード ***&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc describe clusterresourcequotas for-user-user1</code></pre>
 </div>
 </div>
 <div class="literalblock">
@@ -514,8 +530,12 @@ pods            0       5</pre>
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u user1 -p &lt;*** パスワード ***&gt;
-oc new-app -n pricelist-frontend --name frontend quay.io/redhatworkshops/pricelist:frontend
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u user1 -p &lt;*** パスワード ***&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc new-app -n pricelist-frontend --name frontend quay.io/redhatworkshops/pricelist:frontend
 oc new-app -n pricelist-backend --name backend quay.io/redhatworkshops/pricelist:backend</code></pre>
 </div>
 </div>
@@ -524,8 +544,12 @@ oc new-app -n pricelist-backend --name backend quay.io/redhatworkshops/pricelist
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u admin -p &lt;*** パスワード ***&gt;
-oc describe clusterresourcequotas for-pricelist</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u admin -p &lt;*** パスワード ***&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc describe clusterresourcequotas for-pricelist</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -548,7 +572,7 @@ pods            2       5</pre>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p><code>user1</code> は、<code>admin</code> によって <code>pricelist-frontend</code> と <code>pricelist-backend</code> のユーザとして割り当てられているため、決められた数の <strong>Pod</strong> を作成することができます。<code>user1</code> は <strong>Project</strong> を作成していないので、<code>openshift.io/requester=user1</code> annotationはありません。あなたの環境に合わせてQuotar のポリシーを設定させたりすることができます。</p>
+<p><code>user1</code> は、<code>admin</code> によって <code>pricelist-frontend</code> と <code>pricelist-backend</code> のユーザとして割り当てられているため、決められた数の <strong>Pod</strong> を作成することができます。<code>user1</code> は <strong>Project</strong> を作成していないので、<code>openshift.io/requester=user1</code> annotationはありません。仕様に合わせてQuota のポリシーを設定することができます。</p>
 </div>
 </div>
 </div>
@@ -557,8 +581,12 @@ pods            2       5</pre>
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u user1 -p &lt;*** パスワード ***&gt;
-oc scale -n pricelist-frontend deploy/frontend --replicas=3
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc login -u user1 -p &lt;*** パスワード ***&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc scale -n pricelist-frontend deploy/frontend --replicas=3
 oc scale -n pricelist-backend deploy/backend --replicas=3</code></pre>
 </div>
 </div>

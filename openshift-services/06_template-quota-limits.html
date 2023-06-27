@@ -160,7 +160,7 @@
 このワークフローの中で、新たに要求されたプロジェクトを作成するためにデフォルトのプロジェクト・リクエスト・ <strong>テンプレート</strong> が処理されます。</p>
 </div>
 <div class="sect3">
-<h4 id="_デフォルトの_プロジェクトリクエストテンプレート_を見てみる"><a class="anchor" href="#_デフォルトの_プロジェクトリクエストテンプレート_を見てみる"></a>デフォルトの プロジェクト・リクエスト・テンプレート を見てみる</h4>
+<h4 id="_デフォルトの_プロジェクトリクエストテンプレート"><a class="anchor" href="#_デフォルトの_プロジェクトリクエストテンプレート"></a>デフォルトの プロジェクト・リクエスト・テンプレート</h4>
 <div class="paragraph">
 <p>新しいプロジェクトのテンプレートを作成します。</p>
 </div>
@@ -580,8 +580,8 @@ range documentation</a>を参考してください.</p>
 <td class="content">
 Quota と Limits は、<strong>プロジェクト</strong> レベルで適用されます。
 <strong>ユーザー</strong> は複数の <strong>プロジェクト</strong> にアクセスすることができますが、Quota と Limits は <strong>ユーザー</strong> には直接適用されません。
-複数の <strong>プロジェクト</strong> に1つの Quota を適用したい場合は、
-<a href="https://docs.openshift.com/container-platform/4.9/applications/quotas/quotas-setting-across-multiple-projects.html" target="_blank" rel="noopener">multi-project
+複数の <strong>プロジェクト</strong> に1つの Quota を適用したい場合は、ClusterReqoureQuotaの記載のある
+<a href="https://docs.openshift.com/container-platform/4.12/applications/quotas/quotas-setting-across-multiple-projects.html" target="_blank" rel="noopener">multi-project
 quota</a> を参照して下さい。
 </td>
 </tr>
@@ -591,7 +591,7 @@ quota</a> を参照して下さい。
 <div class="sect2">
 <h3 id="_プロジェクトリクエストテンプレートをインストールする"><a class="anchor" href="#_プロジェクトリクエストテンプレートをインストールする"></a>プロジェクト・リクエスト・テンプレートをインストールする</h3>
 <div class="paragraph">
-<p>この背景を踏まえて、実際に OpenShift にこの新しい <strong>プロジェクト・リクエスト・テンプレート</strong> を使用するように指示してみましょう。</p>
+<p>この背景を踏まえて、実際に OpenShift にこの新しい <strong>プロジェクト・リクエスト・テンプレート</strong> を使用するように変更をしていきます。</p>
 </div>
 <div class="sect3">
 <h4 id="_template_を作成する"><a class="anchor" href="#_template_を作成する"></a>Template を作成する</h4>
@@ -639,10 +639,10 @@ API Server の構成は、以下のコマンドで表示できます。:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>様々な <strong>CustomResource</strong> （CR）インスタンスを見て、定義したコンフィグレーションがクラスタに適用されていることを保証するための OpenShift オペレーター があります。</p>
+<p>様々な <strong>CustomResource</strong> （CR）インスタンスを見て、定義したコンフィグレーションがクラスタに適用されていることを保証するための OpenShift の Operator があります。</p>
 </div>
 <div class="paragraph">
-<p>言い換えれば、 その OpenShift オペレーターは <strong>ConfigMap</strong> の作成/変更に最終的な責任を持っています。</p>
+<p>言い換えれば、 その OpenShift Operator は <strong>ConfigMap</strong> の作成/変更に最終的な責任を持っています。</p>
 </div>
 <div class="paragraph">
 <p><code>jq</code> の出力を見ると、 <code>projectRequestMessage</code> はありますが、<code>projectRequestTemplate</code> は "project-request" が定義されています。</p>
@@ -662,9 +662,6 @@ spec:
   projectRequestTemplate:
     name: "project-request-new"</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p><strong>projectRequestTemplate</strong> の名前が、以前に <code>openshift-config</code> プロジェクトで作成したテンプレートの名前と一致していることに注意してください。</p>
 </div>
 <div class="paragraph">
 <p>次にこの <strong>CustomResource</strong> を作成します。
@@ -782,15 +779,20 @@ Resource limits:
         Container       memory          5Mi     1Gi     512Mi       1Gi     -</pre>
 </div>
 </div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>Quota と Resource limits のセクションが表示されていない場合は、コマンド実行が早すぎた可能性があります。
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Quota と Resource limits のセクションが表示されていない場合は、コマンド実行が早すぎた可能性があります。
 オペレータは必要なことをすべて実行するのに多少の時間がかかることを覚えておいてください。
 マスターが新しい設定を読み込む前にプロジェクトを作成した可能性があります。
-その場合 <code>oc delete project template-test</code> を削除して、しばらくしてから再作成してください。</p>
-</div>
-</div>
+その場合 <code>oc delete project template-test</code> を削除して、しばらくしてから再作成してください。
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>また、 <strong>Quota</strong> と <strong>LimitRange</strong> オブジェクトが作成されたことがわかります。：</p>
@@ -841,7 +843,7 @@ template-test-limits   2023-06-26T00:02:47Z</pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>project-request</code> テンプレートが <code>openshift-config</code> プロジェクト内に作成されていることを確認してください。
+<code>project-request-new</code> テンプレートが <code>openshift-config</code> プロジェクト内に作成されていることを確認してください。
 テンプレートを作成せずに OpenShift API サーバー設定で定義すると、新規プロジェクトの作成に失敗します。
 </td>
 </tr>
@@ -851,10 +853,6 @@ template-test-limits   2023-06-26T00:02:47Z</pre>
 </div>
 <div class="sect2">
 <h3 id="_クリーンナップ"><a class="anchor" href="#_クリーンナップ"></a>クリーンナップ</h3>
-<div class="paragraph">
-<p>アプリケーション管理の基礎ラボのアプリケーションをこの <code>template-test</code> プロジェクトの中にデプロイして、 <strong>Quota</strong> と <strong>LimitRange</strong> がどのように適用されているかを観察することもできます。
-その際には、 <strong>DeploymentConfig</strong> や <strong>Pod</strong> などの JSON/YAML 出力 (<code>oc get &#8230;&#8203; -o yaml</code>) を確認してみてください。</p>
-</div>
 <div class="paragraph">
 <p>他のラボに移る前に、先ほど作成した <strong>プロジェクト</strong> を削除してください:</p>
 </div>
