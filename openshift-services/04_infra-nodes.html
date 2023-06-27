@@ -324,24 +324,36 @@ echo $AMI</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>cluster-zbwlg-cbgq7-private-us-east-2a &#8594; 既存の Worker 用 MachineSets から取得（ここでは cluster-8trtb-rlgsx-private-us-east-2b）</p>
+<p>cluster-zbwlg-cbgq7-private-us-east-2a &#8594; subnet情報。既存の Worker 用 MachineSets から取得（下図参照。ここでは cluster-8trtb-rlgsx-private-us-east-2b）</p>
 </li>
 <li>
-<p>us-east-2a &#8594; 既存の Worker 用 MachineSets から取得（ここでは us-east-2b）</p>
+<p><code>us-east-2a</code> &#8594; AZ情報。既存の Worker 用 MachineSets から取得（ここでは us-east-2b）</p>
 </li>
 <li>
-<p>us-east-2 &#8594; $REGION</p>
+<p><code>us-east-2</code> &#8594; $REGION</p>
 </li>
 <li>
-<p>cluster-zbwlg-cbgq7　&#8594; $CLUSTERID</p>
+<p><code>cluster-zbwlg-cbgq7</code> &#8594; $CLUSTERID</p>
 </li>
 <li>
-<p>us-east-2 &#8594; $REGION</p>
+<p><code>us-east-2</code> &#8594; $REGION</p>
 </li>
 <li>
-<p>ami-01af87a6ecc18023d &#8594; $AMI</p>
+<p><code>ami-01af87a6ecc18023d</code> &#8594; $AMI</p>
 </li>
 </ul>
+</div>
+<div class="imageblock text-center unresolved">
+<div class="content">
+<img src="basics/machinesets/machinesets-subnet.png" alt="machinesets subnet">
+</div>
+<div class="title">Figure 1. subnet情報</div>
+</div>
+<div class="imageblock text-center unresolved">
+<div class="content">
+<img src="basics/machinesets/machinesets-az.png" alt="machinesets az">
+</div>
+<div class="title">Figure 2. AZ情報</div>
 </div>
 <div class="listingblock console-input">
 <div class="content">
