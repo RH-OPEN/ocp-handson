@@ -319,12 +319,13 @@ echo $AMI</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>以下のテンプレートを、上記で取得した値に置換して、マニフェストを完成させます。</p>
+<p>以下のテンプレートを、上記で取得した値に置換して、マニフェストを完成させます。
+※Terapadなどテキストツールにコピー＆ペーストして、全て置換してください。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>cluster-zbwlg-cbgq7-private-us-east-2a &#8594; subnet情報。既存の Worker 用 MachineSets から取得（下図参照。ここでは cluster-8trtb-rlgsx-private-us-east-2b）</p>
+<p><code>cluster-zbwlg-cbgq7-private-us-east-2a</code> &#8594; subnet情報。既存の Worker 用 MachineSets から取得（下図参照。ここでは cluster-8trtb-rlgsx-private-us-east-2b）</p>
 </li>
 <li>
 <p><code>us-east-2a</code> &#8594; AZ情報。既存の Worker 用 MachineSets から取得（ここでは us-east-2b）</p>
@@ -442,6 +443,15 @@ spec:
 <pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc create -f machineset-infra.yaml</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Web コンソールから新しいMachinesetが作成されているか確認してみてください。</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/basics/machinesets/machinesets-1.png" alt="machinesets 1">
+</div>
+<div class="title">Figure 3. MachineSetの確認</div>
+</div>
 <div class="listingblock console-input">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">export MACHINESET=$(oc get machineset -n openshift-machine-api -l machine.openshift.io/cluster-api-machine-role=infra -o jsonpath='{.items[0].metadata.name}')
@@ -465,7 +475,7 @@ oc scale machineset $MACHINESET -n openshift-machine-api --replicas=2</code></pr
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">NAME                                    DESIRED   CURRENT   READY   AVAILABLE   AGE
-cluster-zbwlg-cbgq7-infra-us-east-2a    1         1         1       1           49m
+cluster-zbwlg-cbgq7-infra-us-east-2a    2         2         2       2           49m
 cluster-zbwlg-cbgq7-worker-us-east-2a   3         3         3       3           3d6h</code></pre>
 </div>
 </div>
