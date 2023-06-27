@@ -582,11 +582,8 @@ oc get nodes ${YOUNG_INFRA_NODE} --show-labels | grep --color node-role</code></
 <div class="paragraph">
 <p>これで Infra ノードができたので、インフラストラクチャのコンポーネントをその上に移動させることができます。</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_レジストリ"><a class="anchor" href="#_レジストリ"></a>レジストリ</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_レジストリ"><a class="anchor" href="#_レジストリ"></a>レジストリ</h3>
 <div class="paragraph">
 <p>レジストリは、オペレータが実際のレジストリPodをどのように展開するかを設定するために、同様の <code>CRD</code> メカニズムを使用します。
 このCRDは <code>configs.imageregistry.operator.openshift.io</code> です。
@@ -645,15 +642,20 @@ status:
 </div>
 </div>
 <div class="paragraph">
-<p>次のコマンドを実行します。</p>
+<p>次のコマンドを実行します。<code>image-registry-xxxxxxxxx-xxxxx</code> が、レジストリを指す Pod でこの Pod をInfra ノードへ移動させます。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pod -n openshift-image-registry -o wide</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>それでは、以下のコマンドによって、レジストリCRの <code>.spec</code> を修正し、<code>nodeSelector</code> を追加します。</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc patch configs.imageregistry.operator.openshift.io/cluster -p '{"spec":{"nodeSelector":{"node-role.kubernetes.io/infra": ""}}}' --type=merge</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>上記コマンドによって、レジストリCRの <code>.spec</code> を修正し、<code>nodeSelector</code> を追加します。</p>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -672,12 +674,11 @@ status:
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pod -n openshift-image-registry</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc get pod -n openshift-image-registry -o wide</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>古いレジストリPodが終了し、新しいレジストリPodが起動しているのがわかるかもしれません。
-レジストリはS3バケットによってバックアップされているので、新しいレジストリPodのインスタンスがどのノードにあるかは問題ではありません。
+<p>レジストリはS3バケットによってバックアップされているので、新しいレジストリPodのインスタンスがどのノードにあるかは問題ではありません。
 これはAPI経由でオブジェクトストアと通信しているので、そこに保存されている既存のイメージはすべてアクセス可能なままです。</p>
 </div>
 <div class="paragraph">
@@ -685,11 +686,12 @@ status:
 現実の環境では、可用性やネットワークのスループットなどの理由から、このレプリカ数を増やしたいと思うかもしれません。</p>
 </div>
 <div class="paragraph">
-<p>レジストリが着地したノード(ルータのセクションを参照)を見てみると、それが現在infraワーカー上で実行されていることに気づくでしょう。</p>
+<p>レジストリのPodが稼働しているノードを見てみると、それが現在infraワーカー上で実行されていることに気づくでしょう。</p>
 </div>
 <div class="paragraph">
 <p>最後に、イメージレジストリの設定のための <code>CRD</code> が名前空間ではなく、クラスタスコープになっていることに注目してください。
 OpenShiftクラスタごとに内部/統合レジストリは1つしかありません。</p>
+</div>
 </div>
 </div>
 </div>
