@@ -657,13 +657,17 @@ status:
 <pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc patch configs.imageregistry.operator.openshift.io/cluster -p '{"spec":{"nodeSelector":{"node-role.kubernetes.io/infra": ""}}}' --type=merge</code></pre>
 </div>
 </div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>この時点では、イメージレジストリは演算子のために別のプロジェクトを使用していません。
-演算子とオペランドは両方とも <code>openshift-image-registry</code> プロジェクトの中にあります。</p>
-</div>
-</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+この時点では、イメージレジストリは演算子のために別のプロジェクトを使用していません。演算子とオペランドは両方とも <code>openshift-image-registry</code> プロジェクトの中にあります。
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>パッチコマンドを実行すると、レジストリPodがinfraノードに移動しているのがわかるはずです。

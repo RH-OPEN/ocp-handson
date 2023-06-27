@@ -150,8 +150,7 @@
 <div class="sectionbody">
 <div class="paragraph">
 <p>OpenShiftでは、1つの <strong>プロジェクト</strong> 内で使用できるオブジェクトの数やリソース（CPU、メモリなど）を制限しません。
-さらに、ユーザーは無制限に <strong>プロジェクト</strong> を作成することができます。制約のない世界や POC(Proof Of Concept) の環境では、それはそれでいいでしょう。
-しかし、現実には少し制約をつける必要があります。</p>
+さらに、ユーザーは無制限に <strong>プロジェクト</strong> を作成することができます。しかし、現実的には少し制約をつける必要があります。</p>
 </div>
 <hr>
 <div class="sect2">
@@ -206,13 +205,8 @@ parameters:
 このオプションはデフォルトの <strong>テンプレート</strong> の出力で見た <code>PROJECT_DISPLAYNAME</code> パラメータに対応します。</p>
 </div>
 <div class="paragraph">
-<p><code>new-project</code> ワークフローでは、ユーザーがプロジェクト・リクエストを満たすための情報を提供します。
-リクエストを受けるとOpenShiftはこの要求を許可すべきかどうかを決定します。（例えば、ユーザーは <strong>プロジェクト</strong> を作成する許可を持っているのか？ このユーザーは <strong>プロジェクト</strong> を作りすぎてないか？)
-もし、要求が許可できる場合は、 <strong>テンプレート</strong> を処理します。</p>
-</div>
-<div class="paragraph">
-<p><strong>テンプレート</strong> で定義されているオブジェクトを見てみると、クォータや制限についての言及がないことに気づくでしょう。
-こちらを変更してみましょう。</p>
+<p><strong>テンプレート</strong> で定義されているオブジェクトを見てみると、クォータや制限についての記載がまだありません。
+こちらを変更していきます。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -223,8 +217,7 @@ parameters:
 <td class="content">
 <strong>テンプレート</strong> は、ユーザーがパラメーターと共にOpenShift のオブジェクト群を繰り返し作成可能とする強力なツールです。
 これらはより複雑で関連性の高いコンポーネントを OpenShift に素早くデプロイする事に使う事ができ、
-ソフトウェアの開発ライフサイクル(SDLC: Software Development Lifecycle)においても有用な部品となりうるでしょう。
-詳細な情報は次のリンク先で確認できます。
+ソフトウェアの開発ライフサイクルにおいても有用です。詳細な情報は次のリンク先で確認できます。
 <a href="https://docs.openshift.com/container-platform/4.12/openshift_images/using-templates.html" target="_blank" rel="noopener">template
 documentation</a>
 </td>
@@ -235,8 +228,7 @@ documentation</a>
 <div class="sect3">
 <h4 id="_プロジェクトリクエストテンプレート_を編集する"><a class="anchor" href="#_プロジェクトリクエストテンプレート_を編集する"></a>プロジェクト・リクエスト・テンプレート を編集する</h4>
 <div class="paragraph">
-<p>このラボでは実際にテンプレートの変更を行う必要はありません。変更したものを既に作成済みです。
-<code>cat</code>、<code>less</code> もしくは、好きなエディターを使って、変更を確認します。</p>
+<p>このラボでは実際にテンプレートの変更を行う必要はありません。変更したものを既に作成済みです。</p>
 </div>
 <div class="paragraph">
 <p><strong>プロジェクト・リクエスト・テンプレート</strong> :</p>
@@ -377,7 +369,7 @@ documentation</a> のリンク先に <strong>ResourceQuota</strong> について
 </div>
 </div>
 <div class="paragraph">
-<p>私たちの場合は、CPU, memory, storage, persistentvolumeclaims と Pods に特定のクォータを設定しています。
+<p>今回は、CPU, memory, storage, persistentvolumeclaims と Pods に特定のクォータを設定しています。
 <code>project_request_template.yaml</code> ファイルの <code>ResourceQuota</code> セクションを見てみましょう。</p>
 </div>
 <div class="listingblock">
@@ -436,7 +428,7 @@ documentation</a> を参照してください。</p>
 <div class="paragraph">
 <p>LimitRangeの概要については
 <a href="https://docs.openshift.com/container-platform/4.9/nodes/clusters/nodes-cluster-limit-ranges.html" target="_blank" rel="noopener">limit
-range documentation</a> のリンクに良い情報があります。:</p>
+range documentation</a> のリンクに情報があります。:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -479,9 +471,7 @@ range documentation</a> のリンクに良い情報があります。:</p>
 </div>
 </div>
 <div class="paragraph">
-<p>リクエストとデフォルトのリミットの違いは重要で、それについては次のリンク中で説明しています。
-<a href="https://docs.openshift.com/container-platform/4.9/nodes/clusters/nodes-cluster-limit-ranges.html" target="_blank" rel="noopener">limit
-range documentation</a>.</p>
+<p>Request と Limit の違いは重要で、それについては次のリンク中で説明しています。</p>
 </div>
 <div class="paragraph">
 <p>上記のyamlの例では:</p>
@@ -494,7 +484,7 @@ range documentation</a>.</p>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td><code>min</code> は limits と requests に指定できる最低の値です。</td>
+<td><code>min</code> は limits や requests に指定できる最低の値です。</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
@@ -507,16 +497,11 @@ range documentation</a>.</p>
 </table>
 </div>
 <div class="paragraph">
-<p>これらのトピックに加えて、 <strong>Quality of Service</strong> や <strong>Limit</strong> : <strong>Request</strong> の比率 のようなものがあります。
-<a href="https://docs.openshift.com/container-platform/4.9/nodes/clusters/nodes-cluster-limit-ranges.html" target="_blank" rel="noopener">limit
-range documentation</a>で確認してみて下さい。</p>
+<p>詳しくは、<a href="https://docs.openshift.com/container-platform/4.12/nodes/clusters/nodes-cluster-limit-ranges.html" target="_blank" rel="noopener">limit
+range documentation</a>を参考してください.</p>
 </div>
 <div class="paragraph">
-<p>簡潔に言うと、OpenShiftにはサービス品質とリソース管理の複雑で強力なシステムが存在します。
-クラスタで実行されるワークロードの種類を理解することは、これらすべての設定に賢明な値を設定するために重要です。</p>
-</div>
-<div class="paragraph">
-<p>適切な設定を行うことで、以下のようにプロジェクトを制限することができます。：</p>
+<p>以下のようにプロジェクトを制限することができます。：</p>
 </div>
 <div class="ulist">
 <ul>
@@ -593,11 +578,11 @@ range documentation</a>で確認してみて下さい。</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Quota と Limits は、<strong>プロジェクト</strong> レベルで適用されることを覚えておいてください。
+Quota と Limits は、<strong>プロジェクト</strong> レベルで適用されます。
 <strong>ユーザー</strong> は複数の <strong>プロジェクト</strong> にアクセスすることができますが、Quota と Limits は <strong>ユーザー</strong> には直接適用されません。
 複数の <strong>プロジェクト</strong> に1つの Quota を適用したい場合は、
 <a href="https://docs.openshift.com/container-platform/4.9/applications/quotas/quotas-setting-across-multiple-projects.html" target="_blank" rel="noopener">multi-project
-quota</a> を見て下さい。この演習の中では、複数プロジェクトのクォータをカバーすることはありません。
+quota</a> を参照して下さい。
 </td>
 </tr>
 </table>
