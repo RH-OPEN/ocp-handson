@@ -334,7 +334,7 @@ $ terraform apply rosa.tfplan</code></pre>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>&lt;b&gt;NOTE:&lt;/b&gt; ここではAWSリージョンのシングルアベイラビリティーゾーン(Single-AZ)に、ROSA HCPクラスターのワーカーノードを作成することを前提として、VPCを作成しています。マルチアベイラビリティーゾーン(Multi-AZ)にワーカーノードを作成して、AZ単位で冗長性を確保したい場合は、<code>terraform plan</code> コマンド実行時に、リージョンにあるAZのIDを3つ指定します。</p>
+<p>ここではAWSリージョンのシングルアベイラビリティーゾーン(Single-AZ)に、ROSA HCPクラスターのワーカーノードを作成することを前提として、VPCを作成しています。マルチアベイラビリティーゾーン(Multi-AZ)にワーカーノードを作成して、AZ単位で冗長性を確保したい場合は、<code>terraform plan</code> コマンド実行時に、リージョンにあるAZのIDを3つ指定します。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -543,8 +543,8 @@ I: To watch your cluster installation logs, run 'rosa logs install -c hcp-01 --w
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ rosa list cluster
-ID                                NAME    STATE       TOPOLOGY
-280scqkn8ocjoochasq423tg4donvpaq  hcp-01  installing  Hosted CP</code></pre>
+ID                                NAME    STATE  TOPOLOGY
+280scqkn8ocjoochasq423tg4donvpaq  hcp-01  ready  Hosted CP</code></pre>
 </div>
 </div>
 <div class="paragraph">
