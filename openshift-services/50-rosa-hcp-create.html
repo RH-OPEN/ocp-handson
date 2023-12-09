@@ -187,7 +187,7 @@
 <div class="paragraph">
 <p>AWS CLIを
 <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html">インストール</a>して、
-<a href="https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-chap-configure.html">設定</a>します。このとき、`~/.aws/credentials`で、次の情報を設定する必要があります。</p>
+<a href="https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-chap-configure.html">設定</a>します。このとき、<code>~/.aws/credentials</code> で、次の情報を設定する必要があります。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -200,7 +200,7 @@
 </ul>
 </div>
 <div class="paragraph">
-<p>また、デフォルトで利用するリージョンを指定する場合、`~/.aws/config`で設定できます。</p>
+<p>また、デフォルトで利用するリージョンを指定する場合、<code>~/.aws/config</code> で設定できます。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -327,7 +327,7 @@ I: Current OpenShift Client Version: 4.14.5</code></pre>
 <div class="sect2">
 <h3 id="_rosa_hcpクラスターに必要なaws_vpcやiamロールポリシーの作成"><a class="anchor" href="#_rosa_hcpクラスターに必要なaws_vpcやiamロールポリシーの作成"></a>ROSA HCPクラスターに必要なAWS VPCやIAMロール/ポリシーの作成</h3>
 <div class="paragraph">
-<p>ROSA HCPクラスター作成に必要なAWS VPCを作成します。AWS VPCはAWSコンソールから作成できますが、TerraformでVPCを作成するためのテンプレートが用意されているので、それを利用することもできます。TerraformでVPCを作成するためには、次のコマンドを実行します。`terraform plan`コマンドでは、HCPクラスターが作成できるAWSリージョンのIDを指定する必要があります。</p>
+<p>ROSA HCPクラスター作成に必要なAWS VPCを作成します。AWS VPCはAWSコンソールから作成できますが、TerraformでVPCを作成するためのテンプレートが用意されているので、それを利用することもできます。TerraformでVPCを作成するためには、次のコマンドを実行します。<code>terraform plan</code> コマンドでは、HCPクラスターが作成できるAWSリージョンのIDを指定する必要があります。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -342,7 +342,7 @@ $ terraform apply rosa.tfplan</code></pre>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>Note: ここではAWSリージョンのシングルアベイラビリティーゾーン(Single-AZ)に、ROSA HCPクラスターのワーカーノードを作成することを前提として、VPCを作成しています。マルチアベイラビリティーゾーン(Multi-AZ)にワーカーノードを作成して、AZ単位で冗長性を確保したい場合は、`terraform plan`コマンド実行時に、リージョンにあるAZのIDを3つ指定します。</p>
+<p>&lt;font color="red"&gt;NOTE&lt;/font&gt; ここではAWSリージョンのシングルアベイラビリティーゾーン(Single-AZ)に、ROSA HCPクラスターのワーカーノードを作成することを前提として、VPCを作成しています。マルチアベイラビリティーゾーン(Multi-AZ)にワーカーノードを作成して、AZ単位で冗長性を確保したい場合は、<code>terraform plan</code> コマンド実行時に、リージョンにあるAZのIDを3つ指定します。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -353,7 +353,7 @@ $ terraform apply rosa.tfplan</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>AWS VPCの作成が完了していることを、`terraform output`コマンドで確認します。このとき、作られるサブネットのIDがHCPクラスター作成に必要となるので、`export`コマンドで`SUBNET_IDS`変数に代入しておきます。</p>
+<p>AWS VPCの作成が完了していることを、<code>terraform output</code> コマンドで確認します。このとき、作られるサブネットのIDがHCPクラスター作成に必要となるので、<code>export</code> コマンドで`SUBNET_IDS` 変数に代入しておきます。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -403,8 +403,7 @@ I: To create an OIDC Config, run the following command:
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>Note:
-OpenShift Cluster Manager(OCM)は、OpenShiftクラスターのインストール、修正、操作、およびアップグレードを可能にする管理サービスです。OCMを使用すると、単一のダッシュボードからすべてのOpenShiftクラスターを操作できるようになります。詳細については、
+<p>&lt;font color="red"&gt;NOTE&lt;/font&gt; OpenShift Cluster Manager(OCM)は、OpenShiftクラスターのインストール、修正、操作、およびアップグレードを可能にする管理サービスです。OCMを使用すると、単一のダッシュボードからすべてのOpenShiftクラスターを操作できるようになります。詳細については、
 <a href="https://access.redhat.com/documentation/ja-jp/red_hat_openshift_service_on_aws/4/html-single/red_hat_openshift_cluster_manager/index">OCMの公式ドキュメント</a>もご参照ください。</p>
 </div>
 </div>
@@ -424,14 +423,22 @@ I: Created OIDC provider with ARN 'arn:aws:iam::XXXXXXXXX:oidc-provider/rh-oidc.
 <div class="sect2">
 <h3 id="_rosa_hcpクラスターの作成"><a class="anchor" href="#_rosa_hcpクラスターの作成"></a>ROSA HCPクラスターの作成</h3>
 <div class="paragraph">
-<p>ROSA HCPクラスターの作成コマンドを実行します。<code>--version`オプションを指定しない場合、自動的に最新版のOpenShiftが利用されます。</code>--dry-run`オプションを付けると、正常に実行可能かどうかを事前確認できます。この`rosa create cluster`コマンドの実行例では、デフォルトのパラメーターを指定しています。</p>
+<p>ROSA HCPクラスターの作成コマンドを実行します。` --version` オプションを指定しない場合、自動的に最新版のOpenShiftが利用されます。` --dry-run` オプションを付けると、正常に実行可能かどうかを事前確認できます。この`rosa create cluster` コマンドの実行例では、デフォルトのパラメーターを指定しています。</p>
 </div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>Note: ワーカーノードの最小台数は、下記となります。
-* Single-AZの場合: 2台
-* Multi-AZの場合: 3台</p>
+<p>&lt;font color="red"&gt;NOTE&lt;/font&gt; ワーカーノードの最小台数は、下記となります。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Single-AZの場合: 2台</p>
+</li>
+<li>
+<p>Multi-AZの場合: 3台</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>AWSリージョンで利用可能なEC2インスタンスのタイプにも依存しますが、最小で 4vCPU/RAM8GiB のインスタンスを、ワーカーノードとして利用できます。</p>
@@ -539,7 +546,7 @@ I: To watch your cluster installation logs, run 'rosa logs install -c hcp-01 --w
 </div>
 </div>
 <div class="paragraph">
-<p>クラスターのデプロイ状態は、次のコマンドで確認できます。STATEが「installing」から「ready」に変更されるまで、大体10分ほど待ちます。</p>
+<p>クラスターのデプロイ状態は、次のコマンドで確認できます。<code>STATE</code> が`installing` から`ready` に変更されるまで、大体10分ほど待ちます。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -552,7 +559,7 @@ ID                                NAME    STATE       TOPOLOGY
 <p>これによって、コントロールプレーンのデプロイが、Red Hat SREチームのAWSアカウントにデプロイされます。このコントロールプレーンは、ユーザーには見えず、かつ、AWSリソース利用料金も請求されません。</p>
 </div>
 <div class="paragraph">
-<p>コントロールプレーンのデプロイ完了後に、ROSA HCPクラスターにログインするための管理者権限を持つアカウントを作成しておきます。これには、`rosa create admin`コマンドを実行します。</p>
+<p>コントロールプレーンのデプロイ完了後に、ROSA HCPクラスターにログインするための管理者権限を持つアカウントを作成しておきます。これには、<code>rosa create admin</code> コマンドを実行します。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -568,7 +575,7 @@ I: It may take several minutes for this access to become active.</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>そしてワーカーノードのデプロイが完了されるまで待ちます。`rosa list machinepool`コマンドで、「REPLICAS」が指定した台数分デプロイされるのを確認できます。</p>
+<p>そしてワーカーノードのデプロイが完了されるまで待ちます。<code>rosa list machinepool</code> コマンドで、<code>REPLICAS</code> が指定した台数分デプロイされるのを確認できます。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -578,7 +585,7 @@ workers  No           2/2       m5.xlarge                          us-east-2a   
 </div>
 </div>
 <div class="paragraph">
-<p>ワーカーノードのデプロイが完了すると、ROSA HCPクラスターのコンソールにログインできるようになります。このコンソールのURLは、次のコマンドで確認できます。ユーザー名とパスワードは、`rosa create admin`コマンド実行時に表示されたものを使います。</p>
+<p>ワーカーノードのデプロイが完了すると、ROSA HCPクラスターのコンソールにログインできるようになります。このコンソールのURLは、次のコマンドで確認できます。ユーザー名とパスワードは、<code>rosa create admin</code> コマンド実行時に表示されたものを使います。</p>
 </div>
 <div class="listingblock">
 <div class="content">
