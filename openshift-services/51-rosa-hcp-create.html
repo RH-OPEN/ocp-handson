@@ -343,6 +343,7 @@ $ terraform apply rosa.tfplan</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ terraform plan -out rosa.tfplan -var region=us-east-2 \
+  -var single_az_only=false \
   -var 'subnet_azs=["use2-az1", "use2-az2", "use2-az3"]'</code></pre>
 </div>
 </div>
