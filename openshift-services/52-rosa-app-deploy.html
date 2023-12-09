@@ -161,14 +161,14 @@
 <div class="paragraph">
 <p>アプリケーションの作成場所となる「プロジェクト」を、「新規プロジェクトを作成します」をクリックして作成します。この例では、「test-project20」を入力しています。同じ名前を持つプロジェクトを複数作成できませんので、プロジェクト名は適宜変更してください。</p>
 </div>
-<div class="imageblock">
+<div class="imageblock unresolved">
 <div class="content">
-<img src="_images/rosa/app-deploy/project-create1.png" alt="project create1">
+<img src="rosa/app-deploy/project-create1.png" alt="project create1">
 </div>
 </div>
-<div class="imageblock">
+<div class="imageblock unresolved">
 <div class="content">
-<img src="_images/rosa/app-deploy/project-create2.png" alt="project create2">
+<img src="rosa/app-deploy/project-create2.png" alt="project create2">
 </div>
 </div>
 </div>
@@ -177,53 +177,53 @@
 <div class="paragraph">
 <p>プロジェクトの作成が完了したら、「+追加」からサンプルアプリケーションを作成します。「すべてのサービス」を選択して、「Node.js + PostgreSQL」を選択します。名前に「(Ephemeral)」が付いていないことを確認してください。「テンプレートのインスタンス化」を選択して、最後に「作成」をクリックします。入力パラメータは全てデフォルトのままにします。</p>
 </div>
-<div class="imageblock">
+<div class="imageblock unresolved">
 <div class="content">
-<img src="_images/rosa/app-deploy/add-console.png" alt="add console">
+<img src="rosa/app-deploy/add-console.png" alt="add console">
 </div>
 </div>
-<div class="imageblock">
+<div class="imageblock unresolved">
 <div class="content">
-<img src="_images/rosa/app-deploy/nodejs-select.png" alt="nodejs select">
+<img src="rosa/app-deploy/nodejs-select.png" alt="nodejs select">
 </div>
 </div>
-<div class="imageblock">
+<div class="imageblock unresolved">
 <div class="content">
-<img src="_images/rosa/app-deploy/nodejs-create1.png" alt="nodejs create1">
+<img src="rosa/app-deploy/nodejs-create1.png" alt="nodejs create1">
 </div>
 </div>
-<div class="imageblock">
+<div class="imageblock unresolved">
 <div class="content">
-<img src="_images/rosa/app-deploy/nodejs-create2.png" alt="nodejs create2">
+<img src="rosa/app-deploy/nodejs-create2.png" alt="nodejs create2">
 </div>
 </div>
 <div class="paragraph">
 <p>Node.jsとPostgreSQLアプリの作成が完了すると、「トポロジー」メニューからデプロイしたアプリのトポロジーを確認できます。トポロジーにある、Node.jsアイコンの右上部にある「矢印」アイコンをクリックすると、デプロイしたNode.jsアプリにアクセスできます。</p>
 </div>
-<div class="imageblock">
+<div class="imageblock unresolved">
 <div class="content">
-<img src="_images/rosa/app-deploy/nodejs-route.png" alt="nodejs route">
+<img src="rosa/app-deploy/nodejs-route.png" alt="nodejs route">
 </div>
 </div>
-<div class="imageblock">
+<div class="imageblock unresolved">
 <div class="content">
-<img src="_images/rosa/app-deploy/nodejs-app.png" alt="nodejs app">
+<img src="rosa/app-deploy/nodejs-app.png" alt="nodejs app">
 </div>
 </div>
 <div class="paragraph">
 <p>このサンプルアプリは、バックエンドのデータベースとしてPostgreSQLを使用しており、Webブラウザで入力したデータを保存します。例えば、Nameに「banana」、数字に「15」を入力して、「SAVE」をクリックすると、入力値が保存されていることを確認できます。</p>
 </div>
-<div class="imageblock">
+<div class="imageblock unresolved">
 <div class="content">
-<img src="_images/rosa/app-deploy/data-create.png" alt="data create">
+<img src="rosa/app-deploy/data-create.png" alt="data create">
 </div>
 </div>
 <div class="paragraph">
 <p>保存したデータは、コンテナアプリであるPostgreSQL Pod(Kubernetes/OpenShift上でのコンテナアプリの実行単位。詳細は後述)に接続された永続ボリュームに保存されます。これは、サンプルアプリを作成するテンプレートにより、「Administrator」パースペクティブ(コンソール左上の「Developer」パースペクティブをクリックして、「Administrator」パースペクティブに切り替えます)の「永続ボリューム要求(Persistent Volume Claim, PVC)」で、「postgresql」という名前の要求に応じて、外部ストレージにデータを保存する永続ボリューム(Persistent Volume, PV)が作成されていることによります。PVC, PVの利用方法の詳細は、後の演習で扱います。</p>
 </div>
-<div class="imageblock">
+<div class="imageblock unresolved">
 <div class="content">
-<img src="_images/rosa/app-deploy/postgresql-pvc.png" alt="postgresql pvc">
+<img src="rosa/app-deploy/postgresql-pvc.png" alt="postgresql pvc">
 </div>
 </div>
 </div>
@@ -232,9 +232,9 @@
 <div class="paragraph">
 <p>コンテナアプリであるPostgreSQL Podを再起動してみます。「Developer」パースペクティブの「トポロジー」から、Podの数を設定できます。PostgreSQLアプリケーションを選択して、詳細タブから「↓矢印」をクリックしてPodの数を0にし、「^」をクリックしてPodの数を1にします。永続ボリュームを利用していない場合は、コンテナを再起動すると、コンテナ起動元となるコンテナイメージに保存されていないデータは失われますが、先ほど入力したデータが永続ボリュームとして外部ストレージに保存されているため、Podの再起動でもユーザが入力したデータが失われません。これは、Node.jsアプリに再度アクセスすることで確認できます。</p>
 </div>
-<div class="imageblock">
+<div class="imageblock unresolved">
 <div class="content">
-<img src="_images/rosa/app-deploy/pod-num.png" alt="pod num">
+<img src="rosa/app-deploy/pod-num.png" alt="pod num">
 </div>
 </div>
 </div>
