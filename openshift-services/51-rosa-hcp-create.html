@@ -422,20 +422,14 @@ I: Created OIDC provider with ARN 'arn:aws:iam::XXXXXXXXX:oidc-provider/rh-oidc.
 <div class="paragraph">
 <p>ROSA HCPクラスターの作成コマンドを実行します。<code>version</code> オプションを指定しない場合、自動的に最新版のOpenShiftが利用されます。<code>dry-run</code> オプションを付けると、正常に実行可能かどうかを事前確認できます。この <code>rosa create cluster</code> コマンドの実行例では、デフォルトのパラメーターを指定しています。</p>
 </div>
+<div class="paragraph">
+<p>Multi-AZ構成のパブリッククラスターにする場合は、`subnet-ids`オプションで、VPCのサブネットを4つまたは6つ指定します。</p>
+</div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>ワーカーノードの最小台数は、下記となります。</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Single-AZの場合: 2台</p>
-</li>
-<li>
-<p>Multi-AZの場合: 3台</p>
-</li>
-</ul>
+<p>ROSA HCPクラスターのワーカーノードの
+<a href="https://docs.openshift.com/rosa/rosa_architecture/rosa_policy_service_definition/rosa-hcp-service-definition.html#rosa-sdpolicy-instance-types_rosa-hcp-service-definition">最小台数は2台、最大台数は51台</a>です。これは、Single-AZ, Multi-AZで共通しています。</p>
 </div>
 <div class="paragraph">
 <p>AWSリージョンで利用可能なEC2インスタンスのタイプにも依存しますが、最小で 4vCPU/RAM8GiB のインスタンスを、ワーカーノードとして利用できます。</p>
