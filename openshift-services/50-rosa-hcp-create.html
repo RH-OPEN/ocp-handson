@@ -118,7 +118,7 @@
     <span class="nav-text">51. Red Hat OpenShift Service on AWS (ROSA) Lab</span>
 <ul class="nav-list">
   <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="50-rosa-hcp-create.html">(デモ) ROSA HCPクラスターの作成</a>
+    <a class="nav-link" href="50-rosa-hcp-create.html">(デモ) 1. ROSA HCPクラスターの作成</a>
   </li>
 </ul>
   </li>
@@ -138,7 +138,7 @@
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
     <li>51. Red Hat OpenShift Service on AWS (ROSA) Lab</li>
-    <li><a href="50-rosa-hcp-create.html">(デモ) ROSA HCPクラスターの作成</a></li>
+    <li><a href="50-rosa-hcp-create.html">(デモ) 1. ROSA HCPクラスターの作成</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/50-rosa-hcp-create.adoc">Edit this Page</a></div>
@@ -231,14 +231,6 @@ region = us-east-2</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>IAMロールが作成されると、次のような画面を確認できます。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/hcp-create/iam-elb-role.png" alt="iam elb role">
-</div>
-</div>
-<div class="paragraph">
 <p>AWSサービスクォータがROSA HCPクラスター用の要件を満たしており、ELB用のロールが作成されていると、次の画面が表示されます。ここから画面一番下にある「Red Hatに進む」ボタンをクリックして、AWSとRed Hatアカウントをリンクします。</p>
 </div>
 <div class="imageblock">
@@ -247,7 +239,7 @@ region = us-east-2</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>「Red Hatに進む」ボタンをクリックすると、次の画面が表示されます。このとき、Red Hatアカウントにログインしていない場合、ログイン画面が表示されますので、ログインしておきます。ここで「I have read and agreed to the terms and conditions」にチェックを入れて、「Connect accounts」ボタンをクリックすると、AWSとRed Hatアカウントのリンクが完了します。</p>
+<p>「Red Hatに進む」ボタンをクリックすると、次の画面が表示されます。ここで、Red Hatアカウントにログインしていない場合、ログイン画面が表示されますので、ログインしておきます。ここで「I have read and agreed to the terms and conditions」にチェックを入れて、「Connect accounts」ボタンをクリックすると、AWSとRed Hatアカウントのリンクが完了します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -342,7 +334,7 @@ $ terraform apply rosa.tfplan</code></pre>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>&lt;font color="red"&gt;NOTE&lt;/font&gt; ここではAWSリージョンのシングルアベイラビリティーゾーン(Single-AZ)に、ROSA HCPクラスターのワーカーノードを作成することを前提として、VPCを作成しています。マルチアベイラビリティーゾーン(Multi-AZ)にワーカーノードを作成して、AZ単位で冗長性を確保したい場合は、<code>terraform plan</code> コマンド実行時に、リージョンにあるAZのIDを3つ指定します。</p>
+<p>&lt;b&gt;NOTE:&lt;/b&gt; ここではAWSリージョンのシングルアベイラビリティーゾーン(Single-AZ)に、ROSA HCPクラスターのワーカーノードを作成することを前提として、VPCを作成しています。マルチアベイラビリティーゾーン(Multi-AZ)にワーカーノードを作成して、AZ単位で冗長性を確保したい場合は、<code>terraform plan</code> コマンド実行時に、リージョンにあるAZのIDを3つ指定します。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -353,7 +345,7 @@ $ terraform apply rosa.tfplan</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>AWS VPCの作成が完了していることを、<code>terraform output</code> コマンドで確認します。このとき、作られるサブネットのIDがHCPクラスター作成に必要となるので、<code>export</code> コマンドで`SUBNET_IDS` 変数に代入しておきます。</p>
+<p>AWS VPCの作成が完了していることを、<code>terraform output</code> コマンドで確認します。このとき、作られるサブネットのIDがHCPクラスター作成に必要となるので、<code>export</code> コマンドで <code>SUBNET_IDS</code> 変数に代入しておきます。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -403,7 +395,7 @@ I: To create an OIDC Config, run the following command:
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>&lt;font color="red"&gt;NOTE&lt;/font&gt; OpenShift Cluster Manager(OCM)は、OpenShiftクラスターのインストール、修正、操作、およびアップグレードを可能にする管理サービスです。OCMを使用すると、単一のダッシュボードからすべてのOpenShiftクラスターを操作できるようになります。詳細については、
+<p>OpenShift Cluster Manager(OCM)は、OpenShiftクラスターのインストール、修正、操作、およびアップグレードを可能にする管理サービスです。OCMを使用すると、単一のダッシュボードからすべてのOpenShiftクラスターを操作できるようになります。詳細については、
 <a href="https://access.redhat.com/documentation/ja-jp/red_hat_openshift_service_on_aws/4/html-single/red_hat_openshift_cluster_manager/index">OCMの公式ドキュメント</a>もご参照ください。</p>
 </div>
 </div>
@@ -423,12 +415,12 @@ I: Created OIDC provider with ARN 'arn:aws:iam::XXXXXXXXX:oidc-provider/rh-oidc.
 <div class="sect2">
 <h3 id="_rosa_hcpクラスターの作成"><a class="anchor" href="#_rosa_hcpクラスターの作成"></a>ROSA HCPクラスターの作成</h3>
 <div class="paragraph">
-<p>ROSA HCPクラスターの作成コマンドを実行します。` --version` オプションを指定しない場合、自動的に最新版のOpenShiftが利用されます。` --dry-run` オプションを付けると、正常に実行可能かどうかを事前確認できます。この`rosa create cluster` コマンドの実行例では、デフォルトのパラメーターを指定しています。</p>
+<p>ROSA HCPクラスターの作成コマンドを実行します。<code>version</code> オプションを指定しない場合、自動的に最新版のOpenShiftが利用されます。<code>dry-run</code> オプションを付けると、正常に実行可能かどうかを事前確認できます。この <code>rosa create cluster</code> コマンドの実行例では、デフォルトのパラメーターを指定しています。</p>
 </div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>&lt;font color="red"&gt;NOTE&lt;/font&gt; ワーカーノードの最小台数は、下記となります。</p>
+<p>ワーカーノードの最小台数は、下記となります。</p>
 </div>
 <div class="ulist">
 <ul>
