@@ -205,16 +205,31 @@ Web Terminal Operatorをインストールしてください。インストー�
 </div>
 </div>
 <div class="paragraph">
-<p>すると、下記の画面が表示されますので、「開始」をクリックして、Web Terminalを実行します。</p>
+<p>すると、下記の画面が表示されますので、「開始」をクリックして、Web Terminalを実行します。
+オプションでタイムアウト値と、Web Terminalに利用するカスタムのコンテナイメージのURLを指定できますが、
+ここではデフォルトのままにしておきます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="_images/rosa/web-terminal/init.png" alt="init">
 </div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+「タイムアウト」オプションでは、Terminalを操作していない場合のタイムアウト値(ミリ秒/秒/分/時間単位)を指定できます。
+デフォルトのタイムアウト値は15分です。タイムアウトになると、Web TerminalのPodが自動削除されます。
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Web Terminalを実行すると、選択したプロジェクトに「workspace」という接頭辞が付いたPodが自動的に実行されます。
-このPodが実行されている間、Terminalの情報は保存されます。永続ボリュームによるデータ保存はしていないため、
+永続ボリュームによるデータ保存はしていないため、
 ワーカーノードが削除されると、Terminal上で作成したファイルなども削除されますので、ご注意ください。</p>
 </div>
 <div class="imageblock">
