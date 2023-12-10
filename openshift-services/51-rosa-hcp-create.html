@@ -553,22 +553,6 @@ ID                                NAME    STATE  TOPOLOGY
 <p>これによって、コントロールプレーンのデプロイが、Red Hat SREチームのAWSアカウントにデプロイされます。このコントロールプレーンは、ユーザーには見えず、かつ、AWSリソース利用料金も請求されません。</p>
 </div>
 <div class="paragraph">
-<p>コントロールプレーンのデプロイ完了後に、ROSA HCPクラスターにログインするための管理者権限を持つアカウントを作成しておきます。これには、<code>rosa create admin</code> コマンドを実行します。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa create admin --cluster hcp-01
-
-I: Admin account has been added to cluster 'hcp-01'.
-I: Please securely store this generated password. If you lose this password you can delete and recreate the cluster admin user.
-I: To login, run the following command:
-
-   oc login https://api.hcp-01.240p.p3.openshiftapps.com:443 --username cluster-admin --password XXXXX-XXXXX-XXXXX-XXXXX
-
-I: It may take several minutes for this access to become active.</code></pre>
-</div>
-</div>
-<div class="paragraph">
 <p>そしてワーカーノードのデプロイが完了されるまで待ちます。<code>rosa list machinepool</code> コマンドで、<code>REPLICAS</code> が指定した台数分デプロイされるのを確認できます。</p>
 </div>
 <div class="listingblock">
@@ -576,15 +560,6 @@ I: It may take several minutes for this access to become active.</code></pre>
 <pre class="highlightjs highlight"><code class="language-none hljs">$ rosa list machinepool -c hcp-01
 ID       AUTOSCALING  REPLICAS  INSTANCE TYPE  LABELS    TAINTS    AVAILABILITY ZONE  SUBNET                    VERSION  AUTOREPAIR
 workers  No           2/2       m5.xlarge                          us-east-2a         subnet-0087cb7bb3f628793  4.14.2   Yes</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>ワーカーノードのデプロイが完了すると、ROSA HCPクラスターのコンソールにログインできるようになります。このコンソールのURLは、次のコマンドで確認できます。ユーザー名とパスワードは、<code>rosa create admin</code> コマンド実行時に表示されたもの(ユーザー名は <code>cluster-admin</code> )を使います。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa describe cluster -c hcp-01 |grep Console
-Console URL:                https://console-openshift-console.apps.rosa.hcp-01.240p.p3.openshiftapps.com</code></pre>
 </div>
 </div>
 <div class="exampleblock">
@@ -608,6 +583,81 @@ Console URL:                https://console-openshift-console.apps.rosa.hcp-01.2
 </div>
 </div>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rosa_hcpクラスターへのアクセス"><a class="anchor" href="#_rosa_hcpクラスターへのアクセス"></a>ROSA HCPクラスターへのアクセス</h3>
+<div class="paragraph">
+<p>ROSA HCPクラスターのコントロールプレーンのデプロイ完了後に、ROSA HCPクラスターにログインするための管理者権限を持つアカウントを作成できます。これには、<code>rosa create admin</code> コマンドを実行します。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa create admin --cluster hcp-01
+
+I: Admin account has been added to cluster 'hcp-01'.
+I: Please securely store this generated password. If you lose this password you can delete and recreate the cluster admin user.
+I: To login, run the following command:
+
+   oc login https://api.hcp-01.240p.p3.openshiftapps.com:443 --username cluster-admin --password XXXXX-XXXXX-XXXXX-XXXXX
+
+I: It may take several minutes for this access to become active.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>これで、ROSA HCPクラスターのコンソールにログインできるようになります。このコンソールのURLは、次のコマンドで確認できます。ユーザー名とパスワードは、<code>rosa create admin</code> コマンド実行時に表示されたもの(ユーザー名は <code>cluster-admin</code> )を使えます。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa describe cluster -c hcp-01 |grep Console
+Console URL:                https://console-openshift-console.apps.rosa.hcp-01.240p.p3.openshiftapps.com</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>また、ROSA HCPクラスターでは、ローカルユーザーを利用するために、
+<a href="https://docs.openshift.com/rosa/authentication/sd-configuring-identity-providers.html">外部の認証プロバイダとの連携設定</a>が可能です。ROSA HCPクラスターでサポートされている認証プロバイダは下記となります。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>GitHub または GitHub Enterprise</p>
+</li>
+<li>
+<p>GitLab</p>
+</li>
+<li>
+<p>Google</p>
+</li>
+<li>
+<p>LDAP</p>
+</li>
+<li>
+<p>OpenID Connect</p>
+</li>
+<li>
+<p>htpasswd</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>htpasswdの場合、 <code>cluster-admin</code> ユーザー以外での、汎用的な認証プロバイダとしての利用をサポートしていませんので、ご注意ください。次のコマンドは、一時的な検証用途としてhtpasswdを利用するための設定例です。 <code>testuser1</code> ~ <code>testuser100</code> のパスワード情報を記載したファイル <code>users.htpasswd</code> を、ROSA HCPクラスターの認証プロバイダとして設定しています。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ htpasswd -cbB users.htpasswd testuser1 &lt;適当なランダム文字列のパスワード&gt;
+$ for i in {2..100}; do htpasswd -bB users.htpasswd testuser$i &lt;適当なランダム文字列のパスワード&gt;; done
+
+
+$ rosa create idp --type=htpasswd --name=testuser-htpasswd01 --cluster=hcp-01 --from-file=users.htpasswd
+I: Configuring IDP for cluster 'hcp-01'
+I: Identity Provider 'testuser-htpasswd01' has been created.
+   It may take several minutes for this access to become active.
+   To add cluster administrators, see 'rosa grant user --help'.
+
+I: To log in to the console, open https://console-openshift-console.apps.rosa.hcp-01.240p.p3.openshiftapps.com and click on 'testuser-htpasswd01'.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>rosa create idp</code> コマンドの実行によって、<code>htpasswd</code> コマンドで作成した <code>users.htpasswd</code> ファイルにある <code>testuserX</code> ユーザーを使ってログインできるようになります。</p>
 </div>
 </div>
 </div>
