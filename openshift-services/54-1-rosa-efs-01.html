@@ -293,11 +293,20 @@ ROSAクラスターがあるリージョンと同じリージョンを選択し�
 そのため、ユーザーID/グループIDについてはどの数値を指定してもいいのですが、
 NFSで利用される匿名ユーザ「nobody」のIDとして、「65534」を指定することにします。</p>
 </div>
-<div class="paragraph">
-<p>「1777」というパーミッションの「1」は、
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+「1777」というパーミッションの「1」は、
 <a href="https://www.redhat.com/sysadmin/suid-sgid-sticky-bit">Linuxのスティッキービット(Sticky Bit)</a>を意味します。
 これが設定されている共有ディレクトリの中に作成されたファイル/ディレクトリは、
-それらの所有者や管理権限を持つrootユーザー以外は削除できなくなります。</p>
+それらの所有者や管理権限を持つrootユーザー以外は削除できなくなります。
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>他の値は空欄のままにしておいて、「アクセスポイントを作成」をクリックして、アクセスポイントを作成します。
@@ -324,14 +333,19 @@ ROSAクラスターに管理者権限を持つユーザー( <code>cluster-admin<
 <img src="_images/rosa/efs-01/aws-efs-operator-install1.png" alt="aws efs operator install1">
 </div>
 </div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>Operatorは、Kubernetes/OpenShift上で実行されるコンテナアプリの運用(自動構築や削除など)を自動化するための、
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Operatorは、Kubernetes/OpenShift上で実行されるコンテナアプリの運用(自動構築や削除など)を自動化するための、
 専用コンテナとなります。Operatorは、対象となるコンテナアプリを運用するためのインタフェースを提供します。
-なお、Operator自身も通常のアプリケーションと同様に、Podとして実行されます。</p>
-</div>
-</div>
+なお、Operator自身も通常のアプリケーションと同様に、Podとして実行されます。
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>「AWS EFS Operator」を選択したあとは、全てデフォルトの値を利用してインストールを完了します。</p>
