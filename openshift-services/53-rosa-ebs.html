@@ -206,14 +206,19 @@
 <img src="_images/rosa/ebs/pvc-create.png" alt="pvc create">
 </div>
 </div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>PVCはプロジェクトという名前空間の中にあるリソースです。そのため、各プロジェクトにおいて、同じ名前のPVCが存在できます。
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+PVCはプロジェクトという名前空間の中にあるリソースです。そのため、各プロジェクトにおいて、同じ名前のPVCが存在できます。
 例えば、プロジェクト1の中にPVC1、プロジェクト2の中にPVC1を作ることができます。
-ただし、1つのプロジェクトの中のリソース名の重複は許可されていないため、この例の場合だと、プロジェクト1の中にPVC1を2つ作ることはできません。</p>
-</div>
-</div>
+ただし、1つのプロジェクトの中のリソース名の重複は許可されていないため、この例の場合だと、プロジェクト1の中にPVC1を2つ作ることはできません。
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>このgp3ストレージクラスは、ボリュームバインディングモードが「WaitForFirstConsumer」と指定されており、
@@ -232,15 +237,20 @@
 <p>Podを作成します。「Podの作成」から、次のYAMLファイルを入力してPodを作成します。
 下記の「claimName: test-pvc-20」となっているところは、作成したPVCの名前に応じて、適宜変更してください。</p>
 </div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>PodはKubernetes/OpenShift上でのコンテナアプリの実行単位です。
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+PodはKubernetes/OpenShift上でのコンテナアプリの実行単位です。
 下記のYAMLファイルにあるとおり、コンテナ(この例ではCentOSコンテナの最新版を利用)や
 コンテナが利用する永続ボリュームの設定などをまとめたものになります。
-Podにはコンテナを複数まとめることもできますが、基本的には1つのPodには1つのコンテナを含むことを推奨しています。</p>
-</div>
-</div>
+Podにはコンテナを複数まとめることもできますが、基本的には1つのPodには1つのコンテナを含むことを推奨しています。
+</td>
+</tr>
+</table>
 </div>
 <div class="listingblock console-input">
 <div class="content">
