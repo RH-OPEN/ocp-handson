@@ -213,11 +213,11 @@ IAMユーザー作成手順は、
 </div>
 </div>
 <div class="paragraph">
-<p>この時に作成した、AWS IAMユーザーのアクセスキーとシークレットアクセスキーをメモしておきます。</p>
+<p>この時に作成した、AWS IAMユーザーのアクセスキーとシークレットアクセスキーをメモします。</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_openshift_logging_operatorのインストールと設定"><a class="anchor" href="#_openshift_logging_operatorのインストールと設定"></a>OpenShift Logging Operatorのインストールと設定</h3>
+<h3 id="_openshift_logging_operatorのインストール"><a class="anchor" href="#_openshift_logging_operatorのインストール"></a>OpenShift Logging Operatorのインストール</h3>
 <div class="paragraph">
 <p>OpenShiftには「Red Hat OpenShift Logging Operator」というOperatorがあり、
 OpenShiftのロギングスタックを運用するために利用されます。
@@ -225,7 +225,7 @@ OpenShiftのロギングスタックを運用するために利用されます�
 </div>
 <div class="paragraph">
 <p>OperatorHubから、「Red Hat OpenShift Logging Operator」をインストールします。
-これはcluster-adminユーザーで実行します。
+これは <code>cluster-admin</code> ユーザーで実行します。
 インストールには、インストールモードで「クラスターの特定のnamespace」を選択すること以外、
 全てデフォルトのパラメータを利用します。</p>
 </div>
@@ -239,8 +239,11 @@ OpenShiftのロギングスタックを運用するために利用されます�
 <img src="_images/rosa/log-01/logging-operator-install2.png" alt="logging operator install2">
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_ロギングの設定"><a class="anchor" href="#_ロギングの設定"></a>ロギングの設定</h3>
 <div class="paragraph">
-<p>インストールが完了したら、最初に、vectorによるクラスターロギングを設定します。
+<p>vectorによるクラスターロギングを設定します。
 「インストール済みのOperator」の「Red Hat OpenShift Logging」Operatorを選択して、
 「Cluster Logging」の下にある「インスタンスの作成」から、次のYAMLを入力して「作成」をクリックします。</p>
 </div>
@@ -276,13 +279,17 @@ spec:
 <p>この段階では、logstore or logforward destination(ログ保存先またはログ転送先)の設定が無いために、
 ログ収集/転送に利用するvectorを実行するPodが起動されません。</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_ログ転送の設定"><a class="anchor" href="#_ログ転送の設定"></a>ログ転送の設定</h3>
 <div class="paragraph">
-<p>次にログ転送設定を行います。「CloudWatch用のAWS IAMユーザーの作成」で取得したアクセスキーとシークレットアクセスキーを、
+<p>ログ転送設定を行います。
+「CloudWatch用のAWS IAMユーザーの作成」で作成したアクセスキーとシークレットアクセスキーを、
 AWS認証情報としてOpenShiftのシークレットリソースに保存します。</p>
 </div>
 <div class="paragraph">
 <p>「OpenShift Logging Operator」をインストールした「openshift-logging」プロジェクトを選択して、
-左サイドメニューの「シークレット」に移動します。
+左サイドメニューの「管理者向け表示」→「Workloads」→「シークレット」に移動します。
 そして、「作成」から「キーと値のシークレット」をクリックして、次の値を入力して「作成」をクリックします。</p>
 </div>
 <div class="ulist">
@@ -306,7 +313,7 @@ AWS認証情報としてOpenShiftのシークレットリソースに保存し�
 次のYAMLを入力して「作成」をクリックします。</p>
 </div>
 <div class="paragraph">
-<p>この例では、 <code>region: ap-northeast-1</code> を指定して、東京リージョンのCloudWatchへのログ転送を指定しています。
+<p>ここでは、 <code>region: ap-northeast-1</code> を指定して、東京リージョンのCloudWatchへのログ転送を指定しています。
 また、前述の手順で作成した「cw-secret」シークレットも指定します。</p>
 </div>
 <div class="listingblock console-input">
@@ -344,6 +351,8 @@ spec:
 <img src="_images/rosa/log-01/loggingforwarder-instance-create2.png" alt="loggingforwarder instance create2">
 </div>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="paragraph">
 <p>どの種類のログを転送するかについては、前述したYAMLの <code>inputRefs:</code> 以下の項目で指定できます。</p>
 </div>
@@ -363,6 +372,8 @@ Kubernetes apiserver、OpenShift apiserverの監査ログを収集します。�
 </li>
 </ul>
 </div>
+</div>
+</div>
 <div class="paragraph">
 <p>これでログ転送先の設定が完了したため、先ほど作成したLoggingインスタンスによって、
 自動的に <code>collector-<strong></code> という名前のPod(内部ではvectorが実行)が、「openshift-logging」プロジェクトに作成されます。
@@ -373,19 +384,21 @@ Kubernetes apiserver、OpenShift apiserverの監査ログを収集します。�
 <img src="_images/rosa/log-01/logging-pods.png" alt="logging pods">
 </div>
 </div>
-<div class="paragraph">
-<p>これでCloudWatchへのログ転送設定は完了です。</p>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>AWSアカウントでのIAMユーザー作成が許可されていない場合、ROSAクラスターインストールの時と同様に、
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+AWSアカウントでのIAMユーザー作成が許可されていない場合、ROSAクラスターインストールの時と同様に、
 AWS STSを利用したログ転送の設定が可能です。この場合、AWS IAMの一時的な認証情報として利用される、
 専用のAWS IAMロール(CloudWatchへのログ転送に必要)を作成する必要があります。
 この設定方法については、
-<a href="https://docs.openshift.com/rosa/logging/log_collection_forwarding/log-forwarding.html#rosa-cluster-logging-collector-log-forward-sts-cloudwatch_log-forwarding">公式ドキュメント</a>をご参照ください。</p>
-</div>
-</div>
+<a href="https://docs.openshift.com/rosa/logging/log_collection_forwarding/log-forwarding.html#rosa-cluster-logging-collector-log-forward-sts-cloudwatch_log-forwarding">公式ドキュメント</a>をご参照ください。
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
