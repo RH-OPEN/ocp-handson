@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Setup :: OpenShift Handson</title>
-    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/00-setup.html">
+    <title>Web Terminalの利用 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/55-rosa-web-terminal.html">
+    <link rel="prev" href="54-2-rosa-efs-02.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -131,7 +132,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="54-2-rosa-efs-02.html">5. Amazon EFSの利用</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="55-rosa-web-terminal.html">6. Web Terminalの利用</a>
   </li>
 </ul>
@@ -151,17 +152,78 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
-    <li><a href="00-setup.html">Setup</a></li>
+    <li>51. Red Hat OpenShift Service on AWS (ROSA) Lab</li>
+    <li><a href="55-rosa-web-terminal.html">6. Web Terminalの利用</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/00-setup.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/55-rosa-web-terminal.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Setup</h1>
+<h1 class="page">Web Terminalの利用</h1>
+<div class="sect1">
+<h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>準備中。</p>
+<p>このモジュールでは、ROSAクラスターのコンソール上で、Web Terminalを実行します。</p>
 </div>
+<hr>
+<div class="sect2">
+<h3 id="_web_terminalの利用"><a class="anchor" href="#_web_terminalの利用"></a>Web Terminalの利用</h3>
+<div class="paragraph">
+<p>OpenShiftでは、Webコンソール上でTerminalを実行するための「Web Terminal Operator」を標準で提供しています。
+OperatorHubからWeb Terminal Operatorをインストールするだけで、Web Terminalを利用できるようになります。</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>本演習をワークショップ形式で実施している場合、予めWeb Terminal Operatorがインストールされている
+ROSAクラスターを利用します。自習する場合は、cluster-adminユーザーなどで、OperatorHubから
+Web Terminal Operatorをインストールしてください。インストール時のパラメーターは、全てデフォルト値を利用します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/web-terminal/operator.png" alt="operator">
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Web Terminal Operatorがインストールされている場合、OpenShiftのWebコンソール上で、
+<code>&gt;_</code> アイコンが表示されていますので、これをクリックします。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/web-terminal/icon.png" alt="icon">
+</div>
+</div>
+<div class="paragraph">
+<p>すると、下記の画面が表示されますので、「開始」をクリックして、Web Terminalを実行します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/web-terminal/init.png" alt="init">
+</div>
+</div>
+<div class="paragraph">
+<p>Web Terminalを実行すると、選択したプロジェクトに「workspace」という接頭辞が付いたPodが自動的に実行されます。
+このPodが実行されている間、Terminalの情報は保存されます。永続ボリュームによるデータ保存はしていないため、
+ワーカーノードが削除されるとセッション情報なども削除されますので、ご注意ください。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/web-terminal/terminal.png" alt="terminal">
+</div>
+</div>
+<div class="paragraph">
+<p>このTerminalでは、OpenShift CLI(ocコマンド)やsshなどが利用できます。色々試してみてください。</p>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="54-2-rosa-efs-02.html">5. Amazon EFSの利用</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
