@@ -290,7 +290,7 @@ AWS認証情報としてOpenShiftのシークレットリソースに保存し�
 <div class="paragraph">
 <p>「OpenShift Logging Operator」をインストールした「openshift-logging」プロジェクトを選択して、
 左サイドメニューの「管理者向け表示」→「Workloads」→「シークレット」に移動します。
-そして、「作成」から「キーと値のシークレット」をクリックして、次の値を入力して「作成」をクリックします。</p>
+そして、「作成」から「キーと値のシークレット」をクリックして、次の値を入力して作成します。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -298,7 +298,8 @@ AWS認証情報としてOpenShiftのシークレットリソースに保存し�
 <p>シークレット名: AWS認証情報として保存するOpenShiftリソースの任意の名前。この例では「cw-secret」を指定。</p>
 </li>
 <li>
-<p>キー/値: AWSアクセスキー(aws_access_key_id)とシークレットアクセスキー(aws_secret_access_key)を入力。</p>
+<p>キー/値: 「CloudWatch用のAWS IAMユーザーの作成」で作成した、
+AWSアクセスキー(aws_access_key_id)とシークレットアクセスキー(aws_secret_access_key)を入力。</p>
 </li>
 </ul>
 </div>
@@ -354,7 +355,7 @@ spec:
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>どの種類のログを転送するかについては、前述したYAMLの <code>inputRefs:</code> 以下の項目で指定できます。</p>
+<p>どの種類のログを転送するかについては、前述したYAMLの <code>inputRefs:</code> の項目で指定できます。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -362,7 +363,7 @@ spec:
 <p><code>application</code> : アプリケーションログの収集。利用者が作成したプロジェクトにデプロイされるアプリケーションのログ(stdoutとstderrに出力されるログ)を収集します。後述のインフラストラクチャー関連のログは除きます。</p>
 </li>
 <li>
-<p><code>infrastructure</code> : インフラストラクチャーログの収集。ROSAクラスター作成時にデフォルトで作成される <code>openshift-<strong></code> , <code>kube-</strong></code> などのプロジェクトにある、インフラストラクチャー関連のログを収集します。</p>
+<p><code>infrastructure</code> : インフラストラクチャーログの収集。ROSAクラスター作成時にデフォルトで作成される <code>openshift-*</code> , <code>kube-\*</code> などのプロジェクトにある、インフラストラクチャー関連のログを収集します。</p>
 </li>
 <li>
 <p><code>audit</code> : セキュリティ監査に関連するログの収集。ノード監査システム(auditd)で生成されるログ(/var/log/audit/audit.log)、
@@ -376,8 +377,8 @@ Kubernetes apiserver、OpenShift apiserverの監査ログを収集します。�
 </div>
 <div class="paragraph">
 <p>これでログ転送先の設定が完了したため、先ほど作成したLoggingインスタンスによって、
-自動的に <code>collector-<strong></code> という名前のPod(内部ではvectorが実行)が、「openshift-logging」プロジェクトに作成されます。
-この <code>collector-</strong></code> Podは、全てのワーカーノードで自動的に実行されます。</p>
+自動的に <code>collector-*</code> という名前のPod(内部ではvectorが実行)が、「openshift-logging」プロジェクトに作成されます。
+この <code>collector-\*</code> Podは、全てのワーカーノードで自動的に実行されます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
