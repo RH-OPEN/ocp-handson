@@ -3,10 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Amazon EBSの利用 :: OpenShift Handson</title>
-    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/53-rosa-ebs.html">
-    <link rel="prev" href="52-rosa-app-deploy.html">
-    <link rel="next" href="54-rosa-efs-01.html">
+    <title>Amazon EFSの利用 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/55-rosa-efs-02.html">
+    <link rel="prev" href="54-rosa-efs-01.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -124,13 +123,13 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="52-rosa-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="53-rosa-ebs.html">3. Amazon EBSの利用</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="54-rosa-efs-01.html">4. Amazon EFSの利用準備 [デモ]</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="55-rosa-efs-02.html">5. Amazon EFSの利用</a>
   </li>
 </ul>
@@ -151,157 +150,167 @@
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
     <li>51. Red Hat OpenShift Service on AWS (ROSA) Lab</li>
-    <li><a href="53-rosa-ebs.html">3. Amazon EBSの利用</a></li>
+    <li><a href="55-rosa-efs-02.html">5. Amazon EFSの利用</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/53-rosa-ebs.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/55-rosa-efs-02.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Amazon EBSの利用</h1>
+<h1 class="page">Amazon EFSの利用</h1>
 <div class="sect1">
 <h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>このモジュールでは、受講生がAmazon EBSを利用した、コンテナアプリのデータ保存を実施します。</p>
+<p>このモジュールでは、受講生がAmazon EFSを利用した、コンテナアプリのデータ保存を実施します。</p>
 </div>
 <hr>
 <div class="sect2">
-<h3 id="_永続ボリューム要求persistent_volume_claim_pvcの作成"><a class="anchor" href="#_永続ボリューム要求persistent_volume_claim_pvcの作成"></a>永続ボリューム要求(Persistent Volume Claim, PVC)の作成</h3>
+<h3 id="_aws_efs_operatorを利用したpvcの作成"><a class="anchor" href="#_aws_efs_operatorを利用したpvcの作成"></a>AWS EFS Operatorを利用したPVCの作成</h3>
 <div class="paragraph">
-<p>ROSAには、Amazon Elastic Block Store (EBS) ボリュームを使用するストレージクラスが事前に設定されています。
-このため、
-<a href="https://aws.amazon.com/jp/ebs/general-purpose/">Amazon EBSのgp2, gp3ボリュームタイプ</a>がすぐに使えるようになっています。</p>
+<p>前の手順で用意したAmazon EFS上のファイルシステムを、Podが利用する永続ボリュームとして利用してみます。
+「AWS EFS Operator」を選択して、「インスタンスの作成」をクリックします。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/ebs/storage-class.png" alt="storage class">
+<img src="_images/rosa/efs-02/sv-create1.png" alt="sv create1">
 </div>
 </div>
 <div class="paragraph">
-<p>このうち、デフォルトのストレージクラスがgp3として設定されており、
-外部ストレージを永続ボリュームとして利用する際のデフォルトとして利用されます。</p>
+<p>「名前」には、任意の名前(この例では、sv20)を入力します。
+本演習をワークショップ形式で実施している場合、
+インストラクターによって案内される「Access Point ID」と「File System ID」を入力します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/ebs/gp3.png" alt="gp3">
+<img src="_images/rosa/efs-02/sv-create2.png" alt="sv create2">
 </div>
 </div>
 <div class="paragraph">
-<p>ここでgp3ストレージクラスを利用するために、新しく永続ボリューム要求(Persistent Volume Claim, PVC)を作成します。
-「PersistentVolumeClaimの作成」をクリックして、PVCの名前は、任意の名前(ここではtest-pvc-20)を入力し、
-要求するサイズは1GiBと指定します。</p>
+<p>最後に「作成」をクリックすると、SharedVolume(この例では、sv20)が作成されます。
+SharedVolumeが表示されない場合、「現在のnamespaceのみ」を選択してください。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/ebs/pvc-create.png" alt="pvc create">
-</div>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>PVCはプロジェクトという名前空間の中にあるリソースです。そのため、各プロジェクトにおいて、同じ名前のPVCが存在できます。
-例えば、プロジェクト1の中にPVC1、プロジェクト2の中にPVC1を作ることができます。
-ただし、1つのプロジェクトの中のリソース名の重複は許可されていないため、この例の場合だと、プロジェクト1の中にPVC1を2つ作ることはできません。</p>
-</div>
+<img src="_images/rosa/efs-02/sv-create3.png" alt="sv create3">
 </div>
 </div>
 <div class="paragraph">
-<p>このgp3ストレージクラスは、ボリュームバインディングモードが「WaitForFirstConsumer」と指定されており、
-最初にPodから永続ボリューム要求が利用されるまで、永続ボリュームの割り当てが行われない(ステータスがPendingのまま)ようになっています。
-なお、ボリュームバインディングモードが「Immediate」となっている場合、PVC作成後すぐに永続ボリュームの割り当てが行われます。</p>
+<p>それに対応した永続ボリューム要求であるPVC
+(この例では、pvc-sv20. <code>pvc-&lt;SharedVolumeの名前&gt;</code> という名前が自動付与)が自動的に作成されます。
+なお、容量が1GiBと表示されていますが、実容量はこれより大きいものとなっています。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/ebs/pvc-info.png" alt="pvc info">
+<img src="_images/rosa/efs-02/sv-pvc-confirm.png" alt="sv pvc confirm">
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_pvcを利用するpodの作成"><a class="anchor" href="#_pvcを利用するpodの作成"></a>PVCを利用するPodの作成</h3>
 <div class="paragraph">
-<p>Podを作成します。「Podの作成」から、次のYAMLファイルを入力してPodを作成します。
-下記の「claimName: test-pvc-20」となっているところは、作成したPVCの名前に応じて、適宜変更してください。</p>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>PodはKubernetes/OpenShift上でのコンテナアプリの実行単位です。
-下記のYAMLファイルにあるとおり、コンテナ(この例ではCentOSコンテナの最新版を利用)や
-コンテナが利用する永続ボリュームの設定などをまとめたものになります。
-Podにはコンテナを複数まとめることもできますが、基本的には1つのPodには1つのコンテナを含むことを推奨しています。</p>
-</div>
-</div>
+<p>作成したPVCをもとに、Amazon EBSをPodから利用する時と同様の手順で、Podを作成します。
+Podを作成するためのYAMLファイルは、次のものを利用してください。
+このとき、受講者が作成したPVCの名前に応じて、「pvc-sv20」となっている所を適宜修正してください。</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">apiVersion: v1
 kind: Pod
 metadata:
- name: test-ebs
+ name: test-efs1
 spec:
  volumes:
-   - name: ebs-storage-vol
+   - name: efs-storage-vol
      persistentVolumeClaim:
-       claimName: test-pvc-20
+       claimName: pvc-sv20
  containers:
-   - name: test-ebs
+   - name: test-efs
      image: centos:latest
      command: [ "/bin/bash", "-c", "--" ]
-     args: [ "while true; do touch /mnt/ebs-data/verify-ebs &amp;&amp; echo 'hello ebs' &amp;&amp; sleep 30; done;" ]
+     args: [ "while true; do echo 'hello efs' &amp;&amp; sleep 30; done;" ]
      volumeMounts:
-       - mountPath: "/mnt/ebs-data"
-         name: ebs-storage-vol</code></pre>
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/ebs/pod-create1.png" alt="pod create1">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/ebs/pod-create2.png" alt="pod create2">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/ebs/pod-create3.png" alt="pod create3">
+       - mountPath: "/mnt/efs-data"
+         name: efs-storage-vol</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>test-ebsという名前でPodが作成されて、Podにより「test-pvc-20」PVCが利用されて、永続ボリュームとして外部ストレージの利用が開始されます。</p>
+<p>Podの作成が完了したら、当該Podの「ターミナル」タブから、
+EFS上に作成したファイルシステムのマウント状況(NFS v4プロトコルを利用)と、
+マウントポイント先となるディレクトリに対してファイルが作成できることを確認します。</p>
+</div>
+<div class="paragraph">
+<p>下記画像では、2GiBのファイルを作成して、PVCの画面で確認した見せかけの容量(1GiB)より大きな容量を利用できることを確認しています。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/ebs/pod-pvc.png" alt="pod pvc">
+<img src="_images/rosa/efs-02/sv-pvc-confirm.png" alt="sv pvc confirm">
 </div>
 </div>
 <div class="paragraph">
-<p>このPodのターミナルやログから、永続ボリュームのマウント状況や動作状況を確認できます。</p>
+<p>この画像で実行しているコマンドは、下記からコピーできます。</p>
 </div>
-<div class="imageblock">
+<div class="listingblock console-input">
 <div class="content">
-<img src="_images/rosa/ebs/pod-log.png" alt="pod log">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/ebs/pod-terminal.png" alt="pod terminal">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">df -h |grep efs
+mount |grep efs
+ls -lhd /mnt/efs-data/
+cd /mnt/efs-data/
+dd if=/dev/zero of=zero20.img bs=1M count=2048
+ls -lh /mnt/efs-data/</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>ここで上記画像にあるように、Podのターミナルから、echoコマンドなどで永続ボリュームのマウントポイントである
-<code>/mnt/ebs-data</code> ディレクトリに、適当なファイルを作成します。
-Podを削除(該当Podを選択して、「アクション」&#8594;「Podの削除」を選択)した後に、
-再度「test-pvc-20」PVCを指定してPodを作成すると、作成したテストファイルが残っていることを確認できます。</p>
+<p>ここで作成したPodとは別のPodを新しく作成して、複数のPodから同じPVCを利用することで、1つのファイルシステムを共有できることを確認します。
+前述のPod作成に利用したYAMLファイルで、「name: test-efs1」を、「name: test-efs2」などに変更することで、
+変更したPod名で新規Podを実行してみます。</p>
+</div>
+<div class="paragraph">
+<p>「test-efs2」Podでもマウント先のディレクトリへのファイル作成/削除や、
+「test-efs1」Podで作成したファイルの修正ができることを、当該Podの「ターミナル」タブから確認してみてください。</p>
+</div>
+<div class="paragraph">
+<p>ちなみに、本演習環境では、Amazon EFS上に作成した1つのアクセスポイントを受講者全員で共有する設定にしていますが、
+他の受講者が作成したファイルと同じ名前を持つファイルを作成したり、
+他の受講者が作成したファイルを削除することができないようになっています。</p>
+</div>
+<div class="paragraph">
+<p>これは、Podに含まれるコンテナを実行するユーザ権限が、OpenShiftのプロジェクトごとに異なるようになっており(OpenShiftのデフォルト設定)、
+かつ、前の手順で設定したスティッキービットが共有ディレクトリに設定されていることで、
+所有者以外は、ファイル/ディレクトリの変更や削除ができないようになっているためです。</p>
+</div>
+<div class="paragraph">
+<p>なお、AWS EFS Operatorによって作成された「pvc-sv20」を見てみると、
+アクセスモードが「ReadWriteMany(RWX. 複数台のコンピュートノードから利用可能)」となっています。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/efs-02/pvc-sv-info.png" alt="pvc sv info">
+</div>
+</div>
+<div class="paragraph">
+<p>デフォルトのストレージクラス(gp3タイプのEBS)を利用して作成したPVCは、
+アクセスモードが「ReadWriteOnce(RWO. 1台のコンピュートノードからのみ利用可能)」となります。
+EFSによって利用可能になる、RWXのアクセスモードに対応したPVCを利用することで、
+複数ノード上でレプリケーション構成を取るアプリケーション(Amazon EFSに保存したデータを共有)をROSAクラスター上で実行できるようになります。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_efs利用のためのpvcを削除"><a class="anchor" href="#_efs利用のためのpvcを削除"></a>EFS利用のためのPVCを削除</h3>
+<div class="paragraph">
+<p>ちなみに、Pod削除などによって、不要になったPVCを削除したい場合、
+AWS EFS Operatorによって作成した、SharedVolumeを削除します。これによりSharedVolumeに対応したPVCが自動削除されます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/efs-02/sv-delete.png" alt="sv delete">
+</div>
 </div>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="52-rosa-app-deploy.html">2. サンプルアプリケーションのデプロイ</a></span>
-  <span class="next"><a href="54-rosa-efs-01.html">4. Amazon EFSの利用準備 [デモ]</a></span>
+  <span class="prev"><a href="54-rosa-efs-01.html">4. Amazon EFSの利用準備 [デモ]</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
