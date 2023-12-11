@@ -300,9 +300,10 @@ Kubernetesの
 <p>また、利用者が作成したプロジェクトのモニタリングについては、
 <a href="https://docs.openshift.com/rosa/monitoring/sd-disabling-monitoring-for-user-defined-projects.html">無効化</a>することもできますので、参考にしてください。</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="paragraph">
-<p>===
-利用者のプロジェクトに関するメトリクスデータは、デフォルトでは永続ボリュームに保存される設定にはなっていません。
+<p>利用者のプロジェクトに関するメトリクスデータは、デフォルトでは永続ボリュームに保存される設定にはなっていません。
 このため、ROSAクラスターのアップグレードや障害発生に伴う再起動などにより、利用者のメトリクスデータが失われる可能性があります。</p>
 </div>
 <div class="paragraph">
@@ -311,8 +312,22 @@ Kubernetesの
 次のYAMLファイルで置き換えることで、自動的にデフォルトのストレージクラス(gp3)を用いたPVCが作成されて、
 メトリクスデータが保存されるようになります。</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Kubernetesの
+<a href="https://kubernetes.io/docs/concepts/configuration/configmap/">ConfigMap</a>は、
+アプリケーションの構成データを、key/value形式で保存するためのリソースです。
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
-<p>OpenShiftのConfigMapは、「管理者向け表示」→「Workloads」→「ConfigMaps」から設定します。
+<p>OpenShiftでのConfigMapは、「管理者向け表示」→「Workloads」→「ConfigMaps」から設定できます。
 OpenShift CLIを用いた設定方法については、
 <a href="https://docs.openshift.com/rosa/monitoring/configuring-the-monitoring-stack.html#configuring-a-local-persistent-volume-claim_configuring-the-monitoring-stack">公式ドキュメント</a>もご参照ください。</p>
 </div>
@@ -334,8 +349,7 @@ data:
               storage: 200Gi</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>===</p>
+</div>
 </div>
 </div>
 </div>
