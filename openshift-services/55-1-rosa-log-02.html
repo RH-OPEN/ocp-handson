@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Welcome to OpenShift Handson :: OpenShift Handson</title>
-    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/index.html">
-    <link rel="next" href="01_app-mgmt-basics.html">
+    <title>Amazon CloudWatchでのログ確認 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/55-1-rosa-log-02.html">
+    <link rel="prev" href="55-1-rosa-log-01.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -132,7 +132,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="55-1-rosa-log-01.html">5. ROSAクラスターのロギング設定 [デモ]</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="55-1-rosa-log-02.html">6. Amazon CloudWatchでのログ確認</a>
   </li>
 </ul>
@@ -148,23 +148,95 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="index.html" class="home-link is-current"></a>
+  <a href="index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
-    <li><a href="index.html">Welcome to OpenShift Handson</a></li>
+    <li>51. Red Hat OpenShift Service on AWS (ROSA) Lab</li>
+    <li><a href="55-1-rosa-log-02.html">6. Amazon CloudWatchでのログ確認</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/55-1-rosa-log-02.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Welcome to OpenShift Handson</h1>
+<h1 class="page">Amazon CloudWatchでのログ確認</h1>
+<div class="sect1">
+<h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>OpenShift Handsonページへようこそ。本ページは、OpenShiftに関する複数のハンズオンガイドを提供します。</p>
+<p>このモジュールでは、Amazon CloudWatchのコンソールから、転送されたログを確認します。</p>
+</div>
+<hr>
+<div class="sect2">
+<h3 id="_amazon_cloudwatchコンソールでのログ確認"><a class="anchor" href="#_amazon_cloudwatchコンソールでのログ確認"></a>Amazon CloudWatchコンソールでのログ確認</h3>
+<div class="paragraph">
+<p><a href="https://console.aws.amazon.com/cloudwatch/home">Amazon CloudWatchのコンソール</a>にアクセスして、
+ROSAクラスターのリージョン(本演習環境では東京リージョン. <code>ap-northeast-1</code> )を選択します。
+すると、ROSAクラスターから転送されたログのグループを確認できます。
+アプリケーション(application)、監査(audit)、インフラストラクチャー(infrastructure)に関するロググループが作成されています。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+本演習をワークショップ形式で実施している場合、AWSコンソールにアクセスするためのアカウントは、インストラクターが案内します。
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/log-02/loggroup.png" alt="loggroup">
+</div>
+</div>
+<div class="paragraph">
+<p>末尾に「application」という名前が付いているロググループを選択して、ログストリームの1つを選択します。
+ここでは、 <code>test-ebs</code> Podのログを確認することにしてみます。
+各ログストリームには受講者が作成したプロジェクト名(下の画像だと、 <code>test-project20</code> )が付いていますので、
+自身が作成したプロジェクト名が付いたログストリームを選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/log-02/logstream.png" alt="logstream">
+</div>
+</div>
+<div class="paragraph">
+<p>前の演習で作成した　<code>test-ebs</code> Podは、「hello ebs」というログを30秒間隔で出力し続けており、
+そのログが <code>message</code> の所で表示されています。
+これによって、ログ転送が正常に機能していることを確認できます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/log-02/logforward-confirm.png" alt="logforward confirm">
+</div>
+</div>
+<div class="paragraph">
+<p>ログ転送については、他のアプリケーションをデプロイすることでも確認してみることができます。
+色々試してみてください。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+こうしたログをもとに、ROSAの利用者は
+<a href="https://docs.aws.amazon.com/ja_jp/AmazonCloudWatch/latest/logs/Subscriptions.html">CloudWatchのサブスクリプションを使用したログデータのリアルタイム処理</a>
+などを実行できるようになります。
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
 </div>
 <nav class="pagination">
-  <span class="next"><a href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a></span>
+  <span class="prev"><a href="55-1-rosa-log-01.html">5. ROSAクラスターのロギング設定 [デモ]</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
