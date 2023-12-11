@@ -308,9 +308,9 @@ Kubernetesの
 </div>
 <div class="paragraph">
 <p>利用者のメトリクスデータを、200GiBの永続ボリュームを利用して30日間保存するような設定をしたい場合、
-「openshift-user-workload-monitoring」プロジェクトのPodが利用する設定情報(ConfigMap)を
-次のYAMLファイルで置き換えることで、自動的にデフォルトのストレージクラス(gp3)を用いたPVCが作成されて、
-メトリクスデータが保存されるようになります。</p>
+「openshift-user-workload-monitoring」プロジェクトの <code>user-workload-monitoring-config</code> という名前の
+設定情報(ConfigMap)を次のYAMLファイルで置き換えることで、
+自動的にデフォルトのストレージクラス(gp3)を用いたPVCが作成されて、メトリクスデータが保存されるようになります。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -321,7 +321,7 @@ Kubernetesの
 <td class="content">
 Kubernetesの
 <a href="https://kubernetes.io/docs/concepts/configuration/configmap/">ConfigMap</a>は、
-アプリケーションの構成データを、key/value形式で保存します。
+アプリケーションで利用される構成データを保存します。
 </td>
 </tr>
 </table>
