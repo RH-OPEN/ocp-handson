@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>ワーカーノードの追加・削除 :: OpenShift Handson</title>
+    <title>ワーカーノードの追加と削除 :: OpenShift Handson</title>
     <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/56-rosa-nodes.html">
     <link rel="prev" href="55-4-rosa-alert.html">
     <meta name="generator" content="Antora 3.0.0">
@@ -145,7 +145,7 @@
     <a class="nav-link" href="55-4-rosa-alert.html">9. アラート設定</a>
   </li>
   <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="56-rosa-nodes.html">10. ワーカーノードの追加・削除</a>
+    <a class="nav-link" href="56-rosa-nodes.html">10. ワーカーノードの追加と削除</a>
   </li>
 </ul>
   </li>
@@ -165,23 +165,23 @@
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
     <li>51. Red Hat OpenShift Service on AWS (ROSA) Lab</li>
-    <li><a href="56-rosa-nodes.html">10. ワーカーノードの追加・削除</a></li>
+    <li><a href="56-rosa-nodes.html">10. ワーカーノードの追加と削除</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/56-rosa-nodes.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">ワーカーノードの追加・削除</h1>
+<h1 class="page">ワーカーノードの追加と削除</h1>
 <div class="sect1">
 <h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>このモジュールでは、ワーカーノードの(自動的な)追加・削除を実施します。</p>
+<p>このモジュールでは、ワーカーノードの(自動的な)追加と削除を実施します。</p>
 </div>
 <hr>
 <div class="sect2">
-<h3 id="_ワーカーノードの追加削除"><a class="anchor" href="#_ワーカーノードの追加削除"></a>ワーカーノードの追加・削除</h3>
+<h3 id="_ワーカーノードの追加と削除"><a class="anchor" href="#_ワーカーノードの追加と削除"></a>ワーカーノードの追加と削除</h3>
 <div class="paragraph">
 <p>実行するアプリケーションの数が多くなり、ワーカーノードのリソース(CPUやメモリ)使用率が逼迫した場合、
 ROSA CLI(rosaコマンド)を使用して、ワーカーノードを簡単に追加・削除できます。
@@ -245,11 +245,20 @@ SingleAZ構成/MultiAZ構成の両方で、ワーカーノードを最低1台か
 <p>Replicasで、作成するワーカーノードの台数(ここでは1台)を指定します。
 Autorepairは、ワーカーノードの反応が無くなったとき、新規作成したワーカーノードに置換することを意味します。</p>
 </div>
-<div class="paragraph">
-<p>NOET: 2023年12月時点では、ROSA HCPクラスターではEC2スポットインスタンスの利用はできません。</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+2023年12月時点では、ROSA HCPクラスターではEC2スポットインスタンスの利用はできません。
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>再度「rosa list machinepool」コマンドを実行して、machinepool <code>mp20</code> が正常に作成されたかを確認します。
+<p>再度 <code>rosa list machinepool</code> コマンドを実行して、machinepool <code>mp20</code> が正常に作成されたかを確認します。
 ワーカーノードに紐づいたEC2インスタンスの作成完了まで、5~10分ほどかかります。</p>
 </div>
 <div class="listingblock">
@@ -332,7 +341,7 @@ I: Updated machine pool 'mp20' on hosted cluster 'hcp-01'</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-本演習をワークショップ形式で実施している場合、OCMへのアクセス権限を持たないことを想定します。
+本演習をワークショップ形式で実施している場合、OCMへアクセスできません。
 </td>
 </tr>
 </table>
@@ -421,14 +430,13 @@ Machinepoolに紐づいたワーカーノードにラベルが付与されない
 </div>
 <div class="paragraph">
 <p>ここで、実際にサンプルジョブを投入して確認してみましょう。
-適当なプロジェクト(この例では、 <code>autoscale-ex20</code> )を作成し、
-次のYAMLファイルで <code>busybox</code> Podを15個並列に実行するジョブを投入します。</p>
+次のYAMLファイルで <code>busybox</code> Podを15個並列に実行するジョブを投入します。
+このとき、先ほど確認したラベルを利用して、
+このジョブによって作成されるPodが、受講者が作成したmachinepool内だけで実行されるように、
+「nodeSelector」を指定します。</p>
 </div>
 <div class="paragraph">
-<p>このとき、先ほど確認したラベルを利用して、
-このジョブによって作成されるPodが、受講者が作成したmachinepool内だけで実行されるように、
-「nodeSelector」を指定します。
-ラベルの「key: value」の「value」に相当する文字列(この例では、<code>hcp-01-mp20</code> )は、
+<p>ラベルの「key: value」の「value」に相当する文字列(この例では、<code>hcp-01-mp20</code> )は、
 ダブルクォーテーションで囲む必要があります。
 これを忘れると、「value」の値が文字列として認識されないため、ラベルの指定ができず、
 CPU/メモリのリソースが空いている任意のワーカーノードでPodが実行されるようになるため、注意してください。</p>
@@ -474,17 +482,13 @@ spec:
 ワーカーノード「ip-10-0-0-138.XXX」が自動的に追加され、
 ジョブのPodを並列に実行していっていることを示しています。</p>
 </div>
-<div class="imageblock unresolved">
+<div class="imageblock">
 <div class="content">
-<img src="rosa/nodes/job-status.png" alt="job status">
+<img src="_images/rosa/nodes/job-status.png" alt="job status">
 </div>
 </div>
 <div class="paragraph">
-<p>![ジョブの実行状況](./images/job-status.png)
-&lt;div style="text-align: center;"&gt;ジョブの実行状況&lt;/div&gt;</p>
-</div>
-<div class="paragraph">
-<p>この他にも、管理者アカウントで、ROSAクラスターの「コンピュート」→「Nodes」の情報を見ることで、
+<p>この他にも、管理者アカウントで、ROSAクラスターのコンソールの「コンピュート」→「Node」メニューから、
 自動的にワーカーノードが追加されている状況を確認できます。</p>
 </div>
 <div class="paragraph">
