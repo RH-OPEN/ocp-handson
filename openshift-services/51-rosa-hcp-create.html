@@ -409,7 +409,8 @@ I: To create an OIDC Config, run the following command:
 </div>
 </div>
 <div class="paragraph">
-<p>AWSコンソールから、ROSAクラスター作成に必要なIAMロールが作成されていることを確認できます。</p>
+<p>AWSコンソールから、ROSAクラスター作成に必要なIAMロールが作成されていることを確認できます。
+このIAMロールは、複数のクラスターにわたって使用されます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -417,21 +418,9 @@ I: To create an OIDC Config, run the following command:
 </div>
 </div>
 <div class="paragraph">
-<p>ROSA HCPクラスターを
-<a href="https://console.redhat.com/openshift">OpenShift Cluster Manager</a>に登録するための、OpenID Connectの設定を作成します。</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-OpenShift Cluster Manager(OCM)は、OpenShiftクラスターのインストール、修正、操作、およびアップグレードを可能にするRed Hat提供の管理サービスです。OCMを使用すると、単一のダッシュボードからすべてのOpenShiftクラスターを操作できるようになります。詳細については、
-<a href="https://access.redhat.com/documentation/ja-jp/red_hat_openshift_service_on_aws/4/html-single/red_hat_openshift_cluster_manager/index">OCMの公式ドキュメント</a>もご参照ください。
-</td>
-</tr>
-</table>
+<p>ROSA HCPクラスターの
+<a href="https://www.redhat.com/en/topics/containers/what-is-a-kubernetes-operator">Operator</a>が、
+専用のIAMロールを作成して利用するために必要となる、OpenID Connectの設定を作成します。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -590,7 +579,23 @@ workers  No           2/2       m5.xlarge                          us-east-2a   
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>作成したROSA HCPクラスターの情報は、OCMの画面からも確認できます。下記の画像は、SingleAZ構成(ワーカーノード2台)とMultiAZ構成(ワーカーノード2台と3台)の例です。</p>
+<p>作成したROSA HCPクラスターの情報は、OpenShift Cluster Manager (OCM)の画面からも確認できます。
+下記の画像は、SingleAZ構成(ワーカーノード2台)とMultiAZ構成(ワーカーノード2台と3台)の例です。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+OCMは、OpenShiftクラスターのインストール、
+修正、操作、およびアップグレードを可能にするRed Hat提供の管理サービスです。
+OCMを使用すると、単一のダッシュボードからすべてのOpenShiftクラスターを操作できるようになります。詳細については、
+<a href="https://access.redhat.com/documentation/ja-jp/red_hat_openshift_service_on_aws/4/html-single/red_hat_openshift_cluster_manager/index">OCMの公式ドキュメント</a>もご参照ください。
+</td>
+</tr>
+</table>
 </div>
 <div class="imageblock">
 <div class="content">
