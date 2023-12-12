@@ -413,9 +413,11 @@ I: Updated machine pool 'mp20' on hosted cluster 'hcp-01'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Machinepoolに紐づくワーカーノードに自動付与されるラベルのうち、
+<p>Machinepoolに紐づくワーカーノードに自動付与されるラベルのうち、ROSAクラスターのコンソールの、
+「コンピュート」→「Node」メニューから当該ノードを選択して、「詳細」タブの「ラベル」に表示されている
 <code>hypershift.openshift.io/nodePool=&lt;ROSAクラスター名&gt;-&lt;Machinepool名&gt;</code> を使います。
-下記の画像の例では、 <code>hypershift.openshift.io/nodePool=hcp-01-mp20</code> というラベルが付与されています。</p>
+下記の画像の例では、 <code>hypershift.openshift.io/nodePool=hcp-01-mp20</code> というラベルが、
+ワーカーノードに付与されています。</p>
 </div>
 <div class="imageblock">
 <div class="content">
