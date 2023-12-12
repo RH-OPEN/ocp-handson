@@ -142,6 +142,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="55-3-rosa-project-metrics.html">8. プロジェクトのメトリクスデータの確認</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-4-rosa-alert.html">9. プロジェクトのアラート設定</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -681,6 +684,20 @@ I: To log in to the console, open https://console-openshift-console.apps.rosa.hc
 </div>
 <div class="paragraph">
 <p><code>rosa create idp</code> コマンドの実行によって、<code>htpasswd</code> コマンドで作成した <code>users.htpasswd</code> ファイルにある <code>testuserX</code> ユーザーを使ってログインできるようになります。</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>作成したローカルユーザーに対して、ROSAクラスターの管理者権限を付与(grant)または削除(revoke)する場合、
+<code>rosa grant user</code> コマンドと <code>rosa revoke user</code> コマンドを利用します。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa grant user cluster-admin --user &lt;ユーザー名&gt; --cluster &lt;ROSAクラスター名&gt;
+$ rosa revoke user cluster-admin --user &lt;ユーザー名&gt; --cluster &lt;ROSAクラスター名&gt;</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
