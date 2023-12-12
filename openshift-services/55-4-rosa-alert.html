@@ -317,9 +317,21 @@ spec:
 </div>
 <div class="paragraph">
 <p>先ほどYAML形式のテキストを入力した時と同様に、
-「prometheus-example-app」サービスを作成したプロジェクトを選択して、「+」アイコンをクリックしてServiceMonitorを作成します。
+「+」アイコンをクリックしてServiceMonitorを作成します。
 「interval: 30s」で、メトリクスデータをスクレイピング(収集・加工)する間隔を30秒と設定しています。
 また、「selector」を指定して、「app: prometheus-example-app」ラベルを持つServiceを対象としています。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+「prometheus-example-app」Serviceを作成したプロジェクトを選択して、ServiceMonitorを作成します。
+</td>
+</tr>
+</table>
 </div>
 <div class="listingblock console-input">
 <div class="content">
