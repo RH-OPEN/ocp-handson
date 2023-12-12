@@ -185,10 +185,10 @@
 <div class="ulist">
 <ul>
 <li>
-<p>ROSAクラスター全体のモニタリング (openshift-monitoring)</p>
+<p>ROSAクラスター全体のモニタリング</p>
 </li>
 <li>
-<p>ROSAの利用者が作成したプロジェクトのモニタリング (openshift-user-workload-monitoring)</p>
+<p>利用者が作成したプロジェクトのモニタリング (User-defined projects monitoring)</p>
 </li>
 </ul>
 </div>
@@ -302,6 +302,20 @@ Kubernetesの
 <div class="content">
 <img src="_images/rosa/monitoring/openshift-user-workload-monitoring-pods.png" alt="openshift user workload monitoring pods">
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+ROSA HCPクラスターでは、 <code>rosa create cluster</code> でHCPクラスター作成時に、
+<code>disable-workload-monitoring</code> オプションで、利用者が作成したプロジェクトの
+モニタリングを無効化できます。
+</td>
+</tr>
+</table>
 </div>
 <div class="exampleblock">
 <div class="content">
