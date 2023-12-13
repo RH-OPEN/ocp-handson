@@ -148,6 +148,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="56-rosa-nodes.html">10. ワーカーノードの追加と削除</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="57-rosa-upgrade.html">11. ROSA HCPクラスターの更新 [デモ]</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -178,7 +181,7 @@
 <h2 id="_デモの概要"><a class="anchor" href="#_デモの概要"></a>デモの概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>このモジュールでは、インストラクターによるROSA HCPクラスター作成方法の概要をご紹介します。</p>
+<p>このモジュールでは、インストラクターがROSA HCPクラスター作成方法の概要をご紹介します。</p>
 </div>
 <hr>
 <div class="sect2">
@@ -580,7 +583,8 @@ workers  No           2/2       m5.xlarge                          us-east-2a   
 <div class="content">
 <div class="paragraph">
 <p>作成したROSA HCPクラスターの情報は、OpenShift Cluster Manager (OCM)の画面からも確認できます。
-下記の画像は、SingleAZ構成(ワーカーノード2台)とMultiAZ構成(ワーカーノード2台と3台)の例です。</p>
+下記の画像は、SingleAZ構成(ワーカーノード2台)とMultiAZ構成(ワーカーノード2台と3台)の例です。
+なお、どちらの構成でも、コントロールプレーンはMultiAZ構成となります。</p>
 </div>
 <div class="admonitionblock note">
 <table>
