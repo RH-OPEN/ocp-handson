@@ -130,13 +130,13 @@
     <a class="nav-link" href="54-rosa-web-terminal.html">4. Web Terminalの利用</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="55-1-rosa-log-01.html">5. ROSAクラスターのロギング設定 [デモ]</a>
+    <a class="nav-link" href="55-1-rosa-log-01.html">5. ロギング設定 [デモ]</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="55-1-rosa-log-02.html">6. Amazon CloudWatchでのログ確認</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="55-2-rosa-monitoring.html">7. ROSAクラスターのモニタリング</a>
+    <a class="nav-link" href="55-2-rosa-monitoring.html">7. モニタリング</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="55-3-rosa-project-metrics.html">8. プロジェクトのメトリクスデータの確認</a>
@@ -329,10 +329,10 @@ OCMでMachinepoolを更新する場合、約5分後に更新がスケジュー�
 <p>ワーカーノードの更新は、インプレースアップグレードではなく、
 新規ワーカーノードの追加と既存ワーカーノードの削除を実行します。
 Machinepoolに複数台のワーカーノードが紐づいている場合、台数分のワーカーノードを一括作成および削除するのではなく、
-1台ずつワーカーノードの新規追加と削除が自動実行されていきます。</p>
+ワーカーノードの新規追加と削除が1台ずつ自動実行されていきます。</p>
 </div>
 <div class="paragraph">
-<p>更新の際に、削除対象のワーカーノード上でPodが実行している場合、Podの停止と再作成が実行されますので、
+<p>更新の際に、削除対象のワーカーノード上でPodが実行している場合、Podの停止(SIGTERM)と再作成が実行されますので、
 冗長性を考慮してPodのレプリカ数を複数個設定しておくことを推奨します。</p>
 </div>
 <div class="admonitionblock note">
@@ -350,10 +350,8 @@ Kubernetesのワークロード(デプロイ設定に利用するDeploymentな�
 </table>
 </div>
 <div class="paragraph">
-<p>なお、ワーカーノードの更新にかかる所要時間は、ワーカーノード上で実行されているPodの停止に必要な時間に依存します。
-既存ワーカーノードの削除の際に、一定時間以上停止できなかったPodについては、強制的に削除されます。
-Pod削除前の猶予時間について、OCMの当該クラスターの「Settings」タブから指定できます。
-デフォルトの猶予時間は「1時間」となっており、これはいくつかの選択肢から指定して変更できます。</p>
+<p>なお、1台のワーカーノードの更新(新規ノード作成と既存ノードの削除)にかかる所要時間は、
+およそ5~10分ほどです。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -362,15 +360,11 @@ Pod削除前の猶予時間について、OCMの当該クラスターの「Setti
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-2023年12月時点では、ROSA HCPクラスターの場合、ROSA CLIでこの猶予時間を設定できないようになっています。
+ROSA HCPクラスターでは、
+ワーカーノード更新に伴うPodの強制停止(SIGKILL)実行前の猶予時間(Pod Disruption Budget)は、設定できません。
 </td>
 </tr>
 </table>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/upgrade/node-drain.png" alt="node drain">
-</div>
 </div>
 </div>
 <div class="sect2">
