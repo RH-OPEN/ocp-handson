@@ -484,6 +484,29 @@ Quarkusアプリケーションを終了します。終了しないままブラ�
 アプリケーションが実行したままとなり、今回の例だと、
 他のWorkspaceでのアプリケーション実行時に、8081ポートが使えなくなりますので、ご注意ください。</p>
 </div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>Workspaceの停止や削除は、左サイドメニューの「Workspaces」から、対象のWorkspaceの
+「Stop Workspace」や「Delete Workspace」から実行できます。Workspace自身も、
+<code>&lt;ユーザーアカウント名&gt;-devspaces</code> プロジェクトにあるPodとして実行されており、
+Workspaceの停止や削除を実行すると、それに対応したPodも削除されます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/dev-spaces/workspace-menu.png" alt="workspace menu">
+</div>
+</div>
+<div class="paragraph">
+<p>Workspace内にある特定のディレクトリ(ソースコードがある <code>/projects</code> など)については、
+デフォルトの設定では永続ボリュームで外部保存されているため、停止したWorkspaceを再起動しても、
+利用者が加えた変更は残ったままとなっていることを確認できます。</p>
+</div>
+<div class="paragraph">
+<p>「Delete Workspace」からWorkspaceを削除すると、利用者が加えた変更は完全に消去されます。</p>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_gitリポジトリのソースコードからのアプリケーションデプロイ"><a class="anchor" href="#_gitリポジトリのソースコードからのアプリケーションデプロイ"></a>Gitリポジトリのソースコードからのアプリケーションデプロイ</h3>
@@ -524,7 +547,7 @@ OpenShiftのS2I機能を利用した、アプリケーションデプロイを�
 </div>
 <div class="paragraph">
 <p>あとは、しばらく待つと、アプリケーションのビルドとデプロイが自動的に完了しますので、
-前の演習の時と同様に、「トポロジー」メニューから、デプロイしたQuarkusアプリケーションのURLにアクセスします。</p>
+前の演習の時と同様に、「トポロジー」メニューからデプロイしたQuarkusアプリケーションのURLにアクセスします。</p>
 </div>
 <div class="imageblock">
 <div class="content">
