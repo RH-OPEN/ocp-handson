@@ -196,12 +196,12 @@
 <p>Red Hat OpenShift Dev Spaces (以降はDev Spacesと記載)は、OpenShift上で使える
 KubernetesネイティブなWeb IDEであり、オープンソースプロジェクトの
 <a href="https://eclipse.dev/che/">Eclipse Che</a>をベースとして開発・提供しています。
-Dev Spacesは、OpenShiftの標準機能の1つであるため、ROSA HCPクラスターの利用者は、
-追加料金を支払う必要なく、使うことができます。</p>
+Dev Spacesは、OpenShiftの標準機能の1つであるため、ROSA HCPクラスターの利用者は
+追加料金を支払う必要なく利用できます。</p>
 </div>
 <div class="paragraph">
 <p>Dev Spacesは、OpenShiftのOperatorとして提供されており、
-Operatorからインストールすることで、簡単に使えるようになっています。</p>
+Operatorからインストールすることで、簡単に利用できるようになっています。</p>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -212,14 +212,14 @@ Operatorからインストールすることで、簡単に使えるようにな
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-本演習をワークショップ形式で実施している場合、Dev Spacesは既にインストールして設定されています。
+本演習をワークショップ形式で実施している場合、Dev Spacesは既にインストール済みです。
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Dev Spacesをインストールする場合、OpenShiftの管理者アカウントで、OperatorHubから
-<code>Red Hat OpenShift Dev Spaces</code> を最初にインストールします。Operatorインストール時の
+<p>Dev Spacesをインストールする場合、最初にOpenShiftの管理者アカウントで、OperatorHubから
+<code>Red Hat OpenShift Dev Spaces</code> をインストールします。Operatorインストール時の
 パラメーターは、全てデフォルト値を利用します。</p>
 </div>
 <div class="imageblock">
@@ -239,7 +239,7 @@ Operatorからインストールすることで、簡単に使えるようにな
 </div>
 </div>
 <div class="paragraph">
-<p>デフォルトで「YAMLビュー」選択されていますが、一旦「フォームビュー」を選択して、
+<p>デフォルトで「YAMLビュー」が選択されていますが、一旦「フォームビュー」を選択して、
 再度「YAMLビュー」を選択することで、インスタンス作成時のパラメーターが表示されるようになります。
 ここで編集しておくと、便利なパラメーターを記載します。</p>
 </div>
@@ -247,10 +247,10 @@ Operatorからインストールすることで、簡単に使えるようにな
 <ul>
 <li>
 <p><code>maxNumberOfRunningWorkspacesPerUser</code> : OpenShiftの各ユーザーアカウントで、同時に実行できる
-Workspaceの数。デフォルトは「1」となっていて、同時実行数は1です。「-1」とすると、無制限になります。</p>
+Workspaceの数。デフォルトの数は「1」となっています。「-1」とすると、無制限になります。</p>
 </li>
 <li>
-<p><code>secondsOfInactivityBeforeIdling</code> : Workspaceを操作しなかったときに、Workspaceが停止するまでの秒数であり、
+<p><code>secondsOfInactivityBeforeIdling</code> : Workspaceを操作しなかったときに、Workspaceが停止するまでの秒数。
 デフォルトは1800秒です。「-1」とすると、無制限になります。</p>
 </li>
 </ul>
@@ -311,6 +311,11 @@ Dev Spacesにログインします。</p>
 <a href="https://www.redhat.com/ja/topics/cloud-native-apps/what-is-quarkus">Quarkus</a>の
 開発環境が一通り揃っているWorkspaceを起動します。</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/dev-spaces/quarkus-select.png" alt="quarkus select">
+</div>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -330,7 +335,7 @@ Gitリポジトリに置いたDevfileをもとに、カスタムのWorkspaceも�
 <div class="paragraph">
 <p>クリックすると、Webブラウザの新しいタブが自動的に開かれて、しばらく待つと、
 IDEの画面が表示されます。ここに記載してあるメッセージのとおり、
-このIDEは、Visual Studio Code (VS Code)のように利用することができます。</p>
+このIDEは、Visual Studio Codeのように利用することができます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -350,10 +355,8 @@ IDEの画面が表示されます。ここに記載してあるメッセージ�
 </div>
 <div class="paragraph">
 <p>すると下部にTerminalが開きますので、サンプルアプリのうちの1つが入っている
-<code>getting-started</code> ディレクトリに <code>cd</code> コマンドで移動します。</p>
-</div>
-<div class="paragraph">
-<p>Mavenの実行ファイルやソースコード一式が入っていますので、ここから、次のMavenコマンドを実行して、
+<code>getting-started</code> ディレクトリに <code>cd</code> コマンドで移動します。
+Mavenの実行ファイルやソースコード一式が入っていますので、ここから、次の <code>mvn</code> コマンドを実行して、
 サンプルアプリを実行してみます。</p>
 </div>
 <div class="admonitionblock note">
@@ -405,9 +408,9 @@ Quarkusのアプリケーションが実行されます。正常に実行が完�
 <div class="content">
 <div class="paragraph">
 <p>「Open in New Tab」などが表示されるメニューが消えてしまった場合、
-下記のように、 `&#8230;&#8203; more options&gt; `の所で、半角「q」を入力することで、
-Quarkusアプリケーションを終了できますので、停止後に再度Quarkusアプリケーションを、
-Mavenコマンドで実行してください。</p>
+下記のように、 <code>\[h] for more options&gt; `の所で、半角「q」を入力することで、
+Quarkusアプリケーションを終了できますので、終了後に再度Quarkusアプリケーションを、
+`mvn</code> コマンドで実行してください。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -455,7 +458,7 @@ getting-started $</code></pre>
 <div class="paragraph">
 <p>このコードでは、アプリケーションのURLの末尾に <code>/hello</code> を付与すると、
 <code>hello</code> メッセージが表示されるようになっています。
-実際に、これを確認してみてください。下記のように、URLの末尾に <code>/hello</code> を加えて、
+実際に、これを確認してみてください。下記のように、URLの末尾に <code>/hello</code> を加えて
 アクセスすることで、<code>hello</code> というメッセージだけの画面が表示されます。</p>
 </div>
 <div class="listingblock">
@@ -481,8 +484,7 @@ getting-started $</code></pre>
 <div class="paragraph">
 <p>メッセージ変更の確認後は、Terminalから半角「q」を入力して、
 Quarkusアプリケーションを終了します。終了しないままブラウザを閉じてしまうと、
-アプリケーションが実行したままとなり、今回の例だと、
-他のWorkspaceでのアプリケーション実行時に、8081ポートが使えなくなりますので、ご注意ください。</p>
+アプリケーションが実行したままとなりますので、ご注意ください。</p>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -559,6 +561,24 @@ OpenShiftのS2I機能を利用した、アプリケーションデプロイを�
 というメッセージが表示される画面と同じ画面が表示されます。そして、アプリケーションURLの末尾に、
 <code>/hello</code> を付与してアクセスすると、 <code>hello!! &lt;YOUR_NAME&gt;!!!!</code>
 というメッセージが表示されることを確認できます。</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>Dev Spacesでは、Visual Studio Codeの拡張機能を使えます。
+そのため、
+<a href="https://aws.amazon.com/jp/codewhisperer/">Amazon CodeWhisperer</a>が使える状態だと、
+<a href="https://marketplace.visualstudio.com/items?itemName=AmazonWebServices.aws-toolkit-vscode&amp;ssr=false#version-history">AWS Toolkit</a>
+拡張機能のファイルを手動でダウンロードして、Dev Spacesの各Workspaceにインポートすることで、
+Amazon CodeWhispererによるコード補完機能などが使えるようになります。
+こちらは本演習では扱いませんが、ご興味がありましたらお試し下さい。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/dev-spaces/amazon-codewhisperer.png" alt="amazon codewhisperer">
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
