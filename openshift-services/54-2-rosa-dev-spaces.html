@@ -233,9 +233,9 @@ Operatorからインストールすることで、簡単に利用できるよう
 「インストール済みのOperator」からDev SpacesのOperatorを選択して、
 「インスタンスの作成」をクリックします。</p>
 </div>
-<div class="imageblock unresolved">
+<div class="imageblock">
 <div class="content">
-<img src="rosa/dev-spaces/instance-create1.png" alt="instance create1">
+<img src="_images/rosa/dev-spaces/instance-create1.png" alt="instance create1">
 </div>
 </div>
 <div class="paragraph">
@@ -270,9 +270,9 @@ Workspaceの数。デフォルトの数は「1」となっています。「-1�
 <div class="paragraph">
 <p>ワークショップ用の環境として、下記の画像のように設定変更して、「作成」をクリックします。</p>
 </div>
-<div class="imageblock unresolved">
+<div class="imageblock">
 <div class="content">
-<img src="rosa/dev-spaces/instance-create2.png" alt="instance create2">
+<img src="_images/rosa/dev-spaces/instance-create2.png" alt="instance create2">
 </div>
 </div>
 <div class="paragraph">
@@ -375,7 +375,8 @@ Mavenの実行ファイルやソースコード一式が入っていますので
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">getting-started $ mvn quarkus:dev -Dquarkus.http.port=8081</code></pre>
+<pre class="highlightjs highlight"><code class="language-none hljs">quarkus-quickstarts $ cd getting-started
+getting-started $ mvn quarkus:dev -Dquarkus.http.port=8081</code></pre>
 </div>
 </div>
 <div class="imageblock">
@@ -384,8 +385,8 @@ Mavenの実行ファイルやソースコード一式が入っていますので
 </div>
 </div>
 <div class="paragraph">
-<p>このコマンド実行によって、必要なパッケージがダウンロードされ、jarファイルが作成されて、
-Quarkusのアプリケーションが実行されます。正常に実行が完了すると、
+<p>このコマンド実行によって、ビルドに必要なパッケージのダウンロード、jarファイルの作成後に、
+Quarkusのアプリケーションが実行されます。正常に実行されると、
 次のような表示になります。ここで、上のメッセージの方にある「yes」をクリックして、
 「Open in New Tab」→「Open」をクリックすることで、Quarkusアプリケーションにアクセスできます。</p>
 </div>
@@ -408,8 +409,8 @@ Quarkusのアプリケーションが実行されます。正常に実行が完�
 <div class="content">
 <div class="paragraph">
 <p>「Open in New Tab」などが表示されるメニューが消えてしまった場合、
-下記のように、 <code>[h] for more options&gt; ` の所で、半角「q」を入力することで、
-Quarkusアプリケーションを終了できますので、終了後に再度Quarkusアプリケーションを、
+下記のように、 <code>[h] for more options\&gt; ` の所で半角「q」を入力することで、
+Quarkusアプリケーションを終了できますので、終了後に再度Quarkusアプリケーションを
 `mvn</code> コマンドで実行してください。</p>
 </div>
 <div class="listingblock">
@@ -447,7 +448,7 @@ getting-started $</code></pre>
 ソースコードを変更してみます。</p>
 </div>
 <div class="paragraph">
-<p>左サイドに表示されている <code>getting-started</code> ディレクトリから辿っていって、
+<p>左サイドに表示されている <code>getting-started</code> ディレクトリの「src」→「main」→「java」と辿っていき、
 <code>GreetingResource.java</code> ファイルを開きます。</p>
 </div>
 <div class="imageblock">
