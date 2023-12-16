@@ -459,7 +459,7 @@ getting-started $</code></pre>
 <div class="paragraph">
 <p>このコードでは、アプリケーションのURLの末尾に <code>/hello</code> を付与すると、
 <code>hello</code> メッセージが表示されるようになっています。
-実際に、これを確認してみてください。下記のように、URLの末尾に <code>/hello</code> を加えて
+実際に、これを確認してみてください。下記のように、先ほど開いたURLの末尾に <code>/hello</code> を加えて
 アクセスすることで、<code>hello</code> というメッセージだけの画面が表示されます。</p>
 </div>
 <div class="listingblock">
@@ -470,7 +470,7 @@ getting-started $</code></pre>
 <div class="paragraph">
 <p>この表示されるメッセージを変更してみます。
 <code>return "hello";</code> の記載を、 <code>return "hello!! &lt;YOUR_NAME&gt;!!!!";</code>
-に変更して、Control-sキーなどで、 <code>GreetingResource.java</code> ファイルを上書き保存します。</p>
+に変更して、「Control + s」キーなどで <code>GreetingResource.java</code> ファイルを上書き保存します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -516,8 +516,8 @@ Workspaceの停止や削除を実行すると、それに対応したPodも削�
 <div class="paragraph">
 <p>Web IDEを使って開発したコードををGitリポジトリに置いておくことで、
 OpenShiftのS2I機能を利用した、アプリケーションデプロイを実行できます。
-前の手順で利用したWorkspaceのTerminalでは、OpenShift CLI(ocコマンド), ssh, gitコマンドなどが
-使えるため、開発したコードをそのままGitリポジトリに保存できます。</p>
+前の手順で利用したWorkspaceのTerminalでは、OpenShift CLI(ocコマンド)やsshだけでなく、
+gitコマンドなども使えるため、開発したコードをそのままGitリポジトリに保存できます。</p>
 </div>
 <div class="paragraph">
 <p>本演習では各受講者用のGitリポジトリは提供していないため、
