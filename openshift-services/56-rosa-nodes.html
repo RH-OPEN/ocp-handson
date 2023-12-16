@@ -219,8 +219,22 @@ workers  No           2/2       m5.xlarge                          us-east-2a   
 </div>
 </div>
 <div class="paragraph">
-<p>ワーカーノードに対応したAWS EC2インスタンス(デフォルトはm5.xlarge)を2台起動しているという設定を確認できます。
-ここにmachinepoolを新しく作成して、ワーカーノードを1台追加します。 <code>rosa create machinepool</code> コマンドを実行します。</p>
+<p>上記の例では、ワーカーノードに対応したAWS EC2インスタンス(デフォルトはm5.xlarge)を2台起動しているという設定を確認できます。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+このコマンドの出力結果は、受講生が利用しているROSA HCPクラスターによって変わることがあります。
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>ここにmachinepoolを新しく作成して、ワーカーノードを1台追加します。 <code>rosa create machinepool</code> コマンドを実行します。</p>
 </div>
 <div class="admonitionblock note">
 <table>
