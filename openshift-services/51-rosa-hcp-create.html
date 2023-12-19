@@ -418,9 +418,7 @@ I: To create an OIDC Config, run the following command:
 </div>
 </div>
 <div class="paragraph">
-<p>AWSコンソールから、ROSAクラスター作成に必要な
-<a href="https://docs.aws.amazon.com/rosa/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-rosamanagedpolicies-account-roles">IAMロール</a>
-が作成されていることを確認できます。
+<p>AWSコンソールから、ROSAクラスター作成に必要なIAMロールが作成されていることを確認できます。
 このIAMロールは、複数のクラスターにわたって使用されます。</p>
 </div>
 <div class="imageblock">
@@ -430,9 +428,8 @@ I: To create an OIDC Config, run the following command:
 </div>
 <div class="paragraph">
 <p>ROSA HCPクラスターの
-<a href="https://www.redhat.com/en/topics/containers/what-is-a-kubernetes-operator">Operator</a>が、専用の
-<a href="https://docs.aws.amazon.com/rosa/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-rosamanagedpolicies-operator-roles">IAMロール</a>
-を作成して利用するために必要となる、OpenID Connectの設定を作成します。</p>
+<a href="https://www.redhat.com/en/topics/containers/what-is-a-kubernetes-operator">Operator</a>が、
+専用のIAMロールを作成して利用するために必要となる、OpenID Connectの設定を作成します。</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -443,6 +440,28 @@ I: To create Operator Roles for this OIDC Configuration, run the following comma
 If you are going to create a Hosted Control Plane cluster please include '--hosted-cp'
 I: Creating OIDC provider using 'arn:aws:iam::XXXXXXXXX:user/testuser01'
 I: Created OIDC provider with ARN 'arn:aws:iam::XXXXXXXXX:oidc-provider/rh-oidc.s3.us-east-1.amazonaws.com/280rqooan3kqqn4o1us1ip073fsrkfm8'</code></pre>
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ROSA CLIを使ってROSA HCPクラスターを作成する時に必要となるIAMロールは、次の2種類です。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>アカウントロール(account roles): Red Hat SREチームがクラスターの管理に利用します。</p>
+</li>
+<li>
+<p>オペレーターロール(operator roles): OpenShiftのOperatorがAWSリソースの管理に利用します。
+クラスターごとに個別に作成されます。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>これらのIAMロールに割り当てられるIAMポリシーについては、
+<a href="https://docs.aws.amazon.com/rosa/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-rosamanagedpolicies-account-roles">公式ドキュメント</a>をご参照ください。</p>
+</div>
 </div>
 </div>
 </div>
