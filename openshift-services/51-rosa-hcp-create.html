@@ -468,7 +468,10 @@ I: Created OIDC provider with ARN 'arn:aws:iam::XXXXXXXXX:oidc-provider/rh-oidc.
 <div class="sect2">
 <h3 id="_rosa_hcpクラスターの作成"><a class="anchor" href="#_rosa_hcpクラスターの作成"></a>ROSA HCPクラスターの作成</h3>
 <div class="paragraph">
-<p>ROSA HCPクラスターの作成コマンドを実行します。<code>version</code> オプションを指定しない場合、自動的に最新版のOpenShiftが利用されます。<code>dry-run</code> オプションを付けると、正常に実行可能かどうかを事前確認できます。次のコマンドによって <code>hcp-01</code> という名前のROSA HCPクラスター( <code>m5.xlarge</code> のワーカーノード)が自動的に作成されます。指定するサブネットIDによって、SingleAZ構成とMultiAZ構成のどちらになるかが自動的に決まります。今まで実行してきたコマンド例だと、パブリック/プライベートサブネットを1つずつ指定することになるので、SingleAZのワーカーノード2台構成のROSA HCPクラスターが作成されます。</p>
+<p>ROSA HCPクラスターの作成コマンドを実行します。<code>version</code> オプションを指定しない場合、自動的に最新版のOpenShiftが利用されます。<code>dry-run</code> オプションを付けると、正常に実行可能かどうかを事前確認できます。次のコマンドによって <code>hcp-01</code> という名前のROSA HCPクラスター( <code>m5.xlarge</code> のワーカーノード)が自動的に作成されます。</p>
+</div>
+<div class="paragraph">
+<p>このとき、指定するサブネットIDによって、SingleAZ構成とMultiAZ構成のどちらになるかが自動的に決まります。今まで実行してきたコマンド例だと、パブリック/プライベートサブネットIDを1つずつ指定することになるので、ワーカーノード2台のSingleAZ構成としてROSA HCPクラスターが作成されます。</p>
 </div>
 <div class="listingblock">
 <div class="content">
