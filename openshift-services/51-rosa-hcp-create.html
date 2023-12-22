@@ -468,7 +468,14 @@ I: Created OIDC provider with ARN 'arn:aws:iam::XXXXXXXXX:oidc-provider/rh-oidc.
 <div class="sect2">
 <h3 id="_rosa_hcpクラスターの作成"><a class="anchor" href="#_rosa_hcpクラスターの作成"></a>ROSA HCPクラスターの作成</h3>
 <div class="paragraph">
-<p>ROSA HCPクラスターの作成コマンドを実行します。<code>version</code> オプションを指定しない場合、自動的に最新版のOpenShiftが利用されます。<code>dry-run</code> オプションを付けると、正常に実行可能かどうかを事前確認できます。この <code>rosa create cluster</code> コマンドの実行例では、デフォルトのパラメーターを指定しています。</p>
+<p>ROSA HCPクラスターの作成コマンドを実行します。<code>version</code> オプションを指定しない場合、自動的に最新版のOpenShiftが利用されます。<code>dry-run</code> オプションを付けると、正常に実行可能かどうかを事前確認できます。次のコマンドによって ` hcp-01 `という名前のROSA HCPクラスターが自動的に作成されます。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa create cluster --cluster-name=hcp-01 --mode=auto --yes --hosted-cp \
+  --oidc-config-id 280rqooan3kqqn4o1us1ip073fsrkfm8 \
+  --subnet-ids=$SUBNET_IDS --region=us-east-2 --version 4.14.2</code></pre>
+</div>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -483,6 +490,10 @@ I: Created OIDC provider with ARN 'arn:aws:iam::XXXXXXXXX:oidc-provider/rh-oidc.
 <p>AWSリージョンで利用可能なEC2インスタンスのタイプにも依存しますが、最小で 4vCPU/RAM8GiB のインスタンスを、ワーカーノードとして利用できます。</p>
 </div>
 </div>
+</div>
+<div class="paragraph">
+<p>対話モードによりオプションを指定しながら作成することもできます。
+次のコマンドでは、それぞれデフォルトのパラメーターを指定しています。</p>
 </div>
 <div class="listingblock">
 <div class="content">
