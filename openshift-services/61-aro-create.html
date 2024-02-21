@@ -3,10 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>はじめに :: OpenShift Handson</title>
-    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/50-rosa-info.html">
-    <link rel="prev" href="23-Helm.html">
-    <link rel="next" href="51-rosa-hcp-create.html">
+    <title>[デモ] AROクラスターの作成 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/61-aro-create.html">
+    <link rel="prev" href="60-aro-info.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -118,7 +117,7 @@
     <button class="nav-item-toggle"></button>
     <span class="nav-text">51. Red Hat OpenShift Service on AWS (ROSA) Lab</span>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="50-rosa-info.html">0. はじめに</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -166,7 +165,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="60-aro-info.html">0. はじめに</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="61-aro-create.html">1. AROクラスターの作成 [デモ]</a>
   </li>
 </ul>
@@ -186,54 +185,45 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
-    <li>51. Red Hat OpenShift Service on AWS (ROSA) Lab</li>
-    <li><a href="50-rosa-info.html">0. はじめに</a></li>
+    <li>61. Azure Red Hat OpenShift (ARO) Lab</li>
+    <li><a href="61-aro-create.html">1. AROクラスターの作成 [デモ]</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/50-rosa-info.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/61-aro-create.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">はじめに</h1>
-<div id="preamble">
+<h1 class="page">[デモ] AROクラスターの作成</h1>
+<div class="sect1">
+<h2 id="_デモの概要"><a class="anchor" href="#_デモの概要"></a>デモの概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Red Hat OpenShift Service on AWS (ROSA) Lab プロジェクトは、
-インストラクター主導のデモ紹介またはセルフペースの演習で、ROSAを効果的に紹介及び体感していただくことを目的としています。</p>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>ROSAの概要について学習する場合、
-AWSのマネージドなコンテナオーケストレーションサービスである、
-Amazon ECS/EKS, ROSAの特徴の違いや想定される用途をご紹介している資料を参考にしてください。</p>
-</div>
-<div class="paragraph">
-<p>この資料では、Kubernetesに興味のある人から特に聞かれることの多い、EKSとROSAについて、
-いくつかのサンプルユースケースと共に、両者の違いも合わせてご紹介しています。</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://rh-open.github.io/ocp-handson/openshift-services/_images/rosa/pdf/2023-rosa-hcp-infomation.pdf">ECS/EKS/ROSAの比較情報とROSAの紹介資料(PDFファイル)</a></p>
-</li>
-</ul>
-</div>
-</div>
+<p>このモジュールでは、インストラクターがAROクラスター作成方法の概要をご紹介します。</p>
 </div>
 <hr>
+<div class="sect2">
+<h3 id="_前準備"><a class="anchor" href="#_前準備"></a>前準備</h3>
+<div class="paragraph">
+<p>AROは、Red Hatによるお客様の既存Azureアカウントへのデプロイを可能にするモデルを提供します。
+AROクラスターを作成するためには、次の条件が必要です。</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_演習の前提要件"><a class="anchor" href="#_演習の前提要件"></a>演習の前提要件</h2>
-<div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p>AWSにアクセス可能なネットワーク環境</p>
+<p>Azureアカウント</p>
 </li>
 <li>
-<p>ROSAクラスターにアクセス可能なWebブラウザ</p>
+<p>Azure CLIのバージョン2.30.0以降 (2024年2月時点)</p>
+</li>
+<li>
+<p>Azureのリソースクォータの引き上げ (トータルで40vCPU以上)</p>
+</li>
+<li>
+<p>AROクラスター用のAzureリソースグループ</p>
+</li>
+<li>
+<p>AROクラスター用のAzureサービスプリンシパル作成のための
+<a href="https://learn.microsoft.com/ja-jp/azure/openshift/tutorial-create-cluster#verify-your-permissions">Microsoft Entraアクセス許可</a> (管理者が作成した既存サービスプリンシパルの利用も可能)</p>
 </li>
 </ul>
 </div>
@@ -244,52 +234,147 @@ Amazon ECS/EKS, ROSAの特徴の違いや想定される用途をご紹介して
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<a href="https://access.redhat.com/articles/4763741">「Browsers and Client Tools」表</a>にある、
-最新版のOpenShiftに対応したWebブラウザ(Firefox/MS Edge/Chrome/Safari)のいずれかを利用します。
+AROクラスターには、Azure APIで操作するためのMicrosoft Entraサービスプリンシパルが必要です。
+このサービスプリンシパルは、Azureのロードバランサーや、Azure Container Registry (ACR)などの、
+Azureリソースを動的に作成、管理、アクセスするために利用されます。
 </td>
 </tr>
 </table>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_演習の進め方"><a class="anchor" href="#_演習の進め方"></a>演習の進め方</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>本Labをワークショップ形式で実施する場合、[デモ]と分類している項目の内容は実施せずに、
-そのまま読み進めて次の項目に進んで下さい。これらの内容は、すでに適用済みのROSAクラスターをご利用いただきます。
-ROSAクラスターのアクセス情報は、インストラクターがご案内します。</p>
-</li>
-<li>
-<p>本Labを自習形式で実施する場合、全てのコンテンツを実施してください。</p>
-</li>
-</ul>
-</div>
-<div class="exampleblock">
-<div class="content">
 <div class="paragraph">
-<p>次のものを用意することで、このLabを自習できます。</p>
+<p>また、AzureでAROクラスターの機能を有効化するための
+<a href="https://learn.microsoft.com/ja-jp/azure/azure-resource-manager/management/resource-providers-and-types">リソースプロバイダー</a>を登録します。</p>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ az provider register -n Microsoft.RedHatOpenShift --wait
+$ az provider register -n Microsoft.Compute --wait
+$ az provider register -n Microsoft.Storage --wait
+$ az provider register -n Microsoft.Authorization --wait</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>続いて、AROクラスターで使用するための、Red Hat プルシークレットをダウンロードします。
+このプルシークレットにより、AROクラスターがRed Hatのコンテナレジストリにアクセスして、
+OperatorHubなどからRed Hat提供のコンテナイメージをダウンロードして利用できるようになります。</p>
+</div>
+<div class="paragraph">
+<p>Red Hatの
+<a href="https://console.redhat.com/openshift/downloads#tool-pull-secret">Hybrid Cloud Console</a>に
+Red Hatアカウントでログインして、「Pull Secret」をコピーかダウンロードして保存します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/create/pull-secret.png" alt="pull secret">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_azure_portalでのaroクラスターの作成"><a class="anchor" href="#_azure_portalでのaroクラスターの作成"></a>Azure PortalでのAROクラスターの作成</h3>
+<div class="paragraph">
+<p>AROクラスターを作成します。
+Azure PortalのMarketplaceの検索画面から「Azure Red Hat OpenShift」を検索して、
+「作成」から「Azure Red Hat OpenShift Cluster」をクリックします。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/create/marketplace.png" alt="marketplace">
+</div>
+</div>
+<div class="paragraph">
+<p>予め作成しておいたAzureのリソースグループを選択(または新規作成)して、
+「OpenShiftクラスター名」には任意の名前(下記画像の例では「myaro01」)を入力します。
+また、AROクラスター作成時に、OpenShiftクラスターバージョンを選択できます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/create/section1.png" alt="section1">
+</div>
+</div>
+<div class="paragraph">
+<p>次に、「認証」セクションに進み、
+前に保存しておいたRed Hatのプルシークレットを入力して、「ネットワーク」セクションに進みます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/create/section2.png" alt="section2">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+AROクラスター用のサービスプリンシパルについては、「新規作成」と
+管理者が事前に作成した「既存サービスプリンシパル」のいずれかを指定できます。
+サービスプリンシパルの作成については、
+<a href="https://learn.microsoft.com/ja-jp/azure/openshift/howto-create-service-principal">こちらのドキュメント</a>を参考にしてください。
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>「ネットワーク」セクションでは、全てデフォルト値を利用します。
+AROクラスターが利用するサブネットやクラスターをプライベート化する場合は、
+適宜設定を変更します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/create/section3.png" alt="section3">
+</div>
+</div>
+<div class="paragraph">
+<p>最後に「レビューと作成」セクションに進みます。
+次のような画面で「検証に成功しました」と表示されていれば、
+AROクラスターの作成準備が完了していますので、
+「作成」ボタンをクリックして、AROクラスターを作成します。
+デフォルト構成(コントローラー3台、コンピュート3台)のAROクラスター作成には、
+およそ45分ほどかかります。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_aroクラスターへのアクセス"><a class="anchor" href="#_aroクラスターへのアクセス"></a>AROクラスターへのアクセス</h3>
+<div class="paragraph">
+<p>AROクラスターのデプロイ完了後に、Azure Portal上で、
+AROクラスターにアクセスするためのコンソールURLや、管理者アカウント(kubeadmin)と
+パスワード情報が表示されますので、これを使ってAROクラスターにログインできます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/create/info1.png" alt="info1">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/create/info2.png" alt="info2">
+</div>
+</div>
+<div class="paragraph">
+<p>オプションとして、AROクラスターのアイデンティティープロバイダーを設定して、
+ローカルユーザーとして利用することができます。
+<a href="https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.14/html-single/authentication_and_authorization/index#configuring-htpasswd-identity-provider">HTPasswdファイルの認証情報を利用</a>したり、
+<a href="https://learn.microsoft.com/ja-jp/azure/openshift/configure-azure-ad-ui">Microsoft Entra認証を利用</a>するような設定が可能です。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_参考情報"><a class="anchor" href="#_参考情報"></a>参考情報</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>有償サービスを利用可能なAWSアカウント</p>
+<p><a href="https://learn.microsoft.com/ja-jp/azure/openshift/tutorial-create-cluster">チュートリアル:Azure Red Hat OpenShift 4 クラスターを作成する</a></p>
 </li>
 <li>
-<p>無料で作成可能な
-<a href="https://cloud.redhat.com/">Red Hatアカウント</a> ( <code>Create an account</code> から作成)</p>
+<p><a href="https://learn.microsoft.com/ja-jp/azure/openshift/quickstart-portal">クイックスタート: Azure portal を使用した Azure Red Hat OpenShift クラスターのデプロイ</a></p>
 </li>
 </ul>
-</div>
 </div>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="23-Helm.html">3. Helmインテグレーション</a></span>
-  <span class="next"><a href="51-rosa-hcp-create.html">1. ROSA HCPクラスターの作成 [デモ]</a></span>
+  <span class="prev"><a href="60-aro-info.html">0. はじめに</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
