@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Amazon EFSの利用 :: OpenShift Handson</title>
-    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/59-X-rosa-efs-02.html">
+    <title>Azure DiskとAzure Filesの利用 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/63-aro-storage.html">
+    <link rel="prev" href="62-aro-app-deploy.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -170,7 +171,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="62-aro-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="63-aro-storage.html">3. Azure DiskとAzure Filesの利用</a>
   </li>
 </ul>
@@ -190,35 +191,48 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
-    <li><a href="59-X-rosa-efs-02.html">Amazon EFSの利用</a></li>
+    <li>61. Azure Red Hat OpenShift (ARO) Lab</li>
+    <li><a href="63-aro-storage.html">3. Azure DiskとAzure Filesの利用</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/59-X-rosa-efs-02.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/63-aro-storage.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Amazon EFSの利用</h1>
+<h1 class="page">Azure DiskとAzure Filesの利用</h1>
 <div class="sect1">
 <h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>このモジュールでは、Amazon EFSを利用した、コンテナアプリのデータ保存を実行します。</p>
+<p>このモジュールでは、Azure DiskとAzure Filesを利用した、
+コンテナアプリのデータ保存を実行します。</p>
 </div>
 <hr>
 <div class="sect2">
-<h3 id="_aws_efs_operatorを利用したpvcの作成"><a class="anchor" href="#_aws_efs_operatorを利用したpvcの作成"></a>AWS EFS Operatorを利用したPVCの作成</h3>
+<h3 id="_azure_disk用の永続ボリューム要求persistent_volume_claim_pvcの作成"><a class="anchor" href="#_azure_disk用の永続ボリューム要求persistent_volume_claim_pvcの作成"></a>Azure Disk用の永続ボリューム要求(Persistent Volume Claim, PVC)の作成</h3>
 <div class="paragraph">
-<p>前の手順で用意したAmazon EFS上のファイルシステムを、Podが利用する永続ボリュームとして利用してみます。
-「AWS EFS Operator」を選択して、「インスタンスの作成」をクリックします。</p>
+<p>AROには、Azure Diskを使用するストレージクラス(managed-csi)が、予めデフォルトとして設定されています。
+これにより、https://azure.microsoft.com/ja-jp/pricing/details/managed-disks/[Azure DiskのPremium SSD LRS]
+(Locally Redundant Storage. ローカル冗長ストレージ)オプションがすぐに使えるように設定されています。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/efs-02/sv-create1.png" alt="sv create1">
+<img src="_images/aro/storage/storage-class.png" alt="storage class">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/storage/managed-csi.png" alt="managed csi">
 </div>
 </div>
 <div class="paragraph">
-<p>「名前」には、任意の名前(この例では、sv20)を入力し、
-前の手順で作成したAmazon EFSのファイルシステムの「Access Point ID」と「File System ID」を入力します。</p>
+<p>ここでmanaged-csiストレージクラスを利用するために、新しく永続ボリューム要求(PVC)を作成します。
+PVCの名前は任意の名前(下記画像の例では、test-pvc-20)を入力し、サイズは1GiBと指定します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/storage/pvc-create1.png" alt="pvc create1">
+</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -227,149 +241,213 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-本演習をワークショップ形式で実施している場合、
-インストラクターが案内する「Access Point ID」と「File System ID」を入力します。
+PVCはプロジェクトという名前空間の中にあるリソースです。
+そのため、プロジェクトごとに同じ名前のPVCが存在できます。
+例えば、プロジェクト1の中にPVC1、プロジェクト2の中にPVC1を作ることができます。
+ただし、1つのプロジェクトの中のリソース名の重複は許可されていないため、
+この例の場合だと、プロジェクト1の中にPVC1を2つ作ることはできません。
 </td>
 </tr>
 </table>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-02/sv-create2.png" alt="sv create2">
-</div>
-</div>
 <div class="paragraph">
-<p>最後に「作成」をクリックすると、SharedVolume(この例では、sv20)が作成されます。
-SharedVolumeが表示されない場合、「現在のnamespaceのみ」を選択してください。</p>
+<p>このmanaged-csiストレージクラスは、ボリュームバインディングモードが
+「WaitForFirstConsumer」と指定されており、 最初にPodから永続ボリューム要求が利用されるまで、
+永続ボリュームの割り当てが行われない(ステータスがPendingのまま)ようになっています。
+なお、ボリュームバインディングモードが「Immediate」となっている場合、
+PVC作成後すぐに永続ボリュームの割り当てが行われます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/efs-02/sv-create3.png" alt="sv create3">
-</div>
-</div>
-<div class="paragraph">
-<p>それに対応した永続ボリューム要求であるPVC
-(この例では、pvc-sv20. <code>pvc-&lt;SharedVolumeの名前&gt;</code> という名前が自動付与)が自動的に作成されます。
-なお、容量が1GiBと表示されていますが、実容量はこれより大きいものとなっています。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-02/sv-pvc-confirm.png" alt="sv pvc confirm">
+<img src="_images/aro/storage/pvc-info1.png" alt="pvc info1">
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_pvcを利用するpodの作成"><a class="anchor" href="#_pvcを利用するpodの作成"></a>PVCを利用するPodの作成</h3>
+<h3 id="_azure_disk用のpvcを利用するpodの作成"><a class="anchor" href="#_azure_disk用のpvcを利用するpodの作成"></a>Azure Disk用のPVCを利用するPodの作成</h3>
 <div class="paragraph">
-<p>作成したPVCをもとに、Amazon EBSをPodから利用する時と同様の手順で、Podを作成します。
-Podを作成するためのYAMLファイルは、次のものを利用してください。
-このとき、受講者が作成したPVCの名前に応じて、「pvc-sv20」となっている所を適宜修正してください。</p>
+<p>Podを作成します。「Podの作成」から、次のYAMLファイルを入力してPodを作成します。
+下記の「claimName: test-pvc-20」となっているところは、作成したPVCの名前に応じて、適宜変更してください。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+PodはKubernetes/OpenShift上でのコンテナアプリの実行単位です。
+下記のYAMLファイルにあるとおり、コンテナ(この例ではCentOSコンテナの最新版を利用)や
+コンテナが利用する永続ボリュームの設定などをまとめたものになります。
+Podにはコンテナを複数まとめることもできますが、基本的には1つのPodには1つのコンテナを含むことを推奨しています。
+</td>
+</tr>
+</table>
 </div>
 <div class="listingblock console-input">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">apiVersion: v1
 kind: Pod
 metadata:
- name: test-efs1
+ name: test-disk
 spec:
  volumes:
-   - name: efs-storage-vol
+   - name: disk-storage-vol
      persistentVolumeClaim:
-       claimName: pvc-sv20
+       claimName: test-pvc-20
  containers:
-   - name: test-efs
+   - name: test-disk
      image: centos:latest
      command: [ "/bin/bash", "-c", "--" ]
-     args: [ "while true; do echo 'hello efs' &amp;&amp; sleep 30; done;" ]
+     args: [ "while true; do touch /mnt/disk-data/verify-disk &amp;&amp; echo 'hello disk' &amp;&amp; sleep 30; done;" ]
      volumeMounts:
-       - mountPath: "/mnt/efs-data"
-         name: efs-storage-vol</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Podの作成が完了したら、当該Podの「ターミナル」タブから、
-EFS上に作成したファイルシステムのマウント状況(NFS v4プロトコルを利用)と、
-マウントポイント先となるディレクトリに対してファイルが作成できることを確認します。</p>
-</div>
-<div class="paragraph">
-<p>下記画像では、2GiBのファイルを作成して、PVCの画面で確認した見せかけの容量(1GiB)より大きな容量を利用できることを確認しています。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-02/sv-pvc-confirm.png" alt="sv pvc confirm">
+       - mountPath: "/mnt/disk-data"
+         name: disk-storage-vol</code></pre>
 </div>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/efs-02/pod-efs-test.png" alt="pod efs test">
+<img src="_images/aro/storage/pod-create1.png" alt="pod create1">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/storage/pod-create2.png" alt="pod create2">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/storage/pod-create3.png" alt="pod create3">
 </div>
 </div>
 <div class="paragraph">
-<p>この画像で実行しているコマンドは、下記からコピーできます。</p>
+<p>test-diskという名前でPodが作成されて、Podにより「test-pvc-20」PVCが利用されて、
+永続ボリュームとして外部ストレージの利用が開始されます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/storage/pod-pvc.png" alt="pod pvc">
+</div>
+</div>
+<div class="paragraph">
+<p>このPodのログやターミナルから、永続ボリュームのマウント状況や動作状況を確認できます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/storage/pod-log1.png" alt="pod log1">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/storage/pod-terminal1.png" alt="pod terminal1">
+</div>
+</div>
+<div class="paragraph">
+<p>ここで上記画像にあるように、Podのターミナルから、echoコマンドなどで永続ボリュームのマウントポイントである
+<code>/mnt/disk-data</code> ディレクトリに、適当なファイルを作成します。
+Podを削除(該当Podを選択して、「アクション」&#8594;「Podの削除」を選択)した後に、
+再度「test-pvc-20」PVCを指定してPodを作成すると、作成したテストファイルが残っていることを確認できます。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_azure_files用のpvcの作成"><a class="anchor" href="#_azure_files用のpvcの作成"></a>Azure Files用のPVCの作成</h3>
+<div class="paragraph">
+<p>Azure Diskと同様に、Azure Filesを利用するためのストレージクラス(azurefile-csi)が、
+デフォルトで作成されています。これはデフォルトのストレージクラスではありませんが、
+明示的に指定することで利用できるようになっています。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/storage/azurefile-csi.png" alt="azurefile csi">
+</div>
+</div>
+<div class="paragraph">
+<p>Azure Diskの時と同様に、azurefile-csiストレージクラスを利用した、
+PVCを作成します。このとき、アクセスモードに「共有アクセス(RWX)」を選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/storage/pvc-create2.png" alt="pvc create2">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/storage/pvc-info2.png" alt="pvc info2">
+</div>
+</div>
+<div class="paragraph">
+<p>RWXは複数台のコンピュートノードから利用可能なアクセスモードです。
+RWXのアクセスモードに対応したPVCを利用することで、
+複数ノード上でレプリケーション構成を取るアプリケーション(Azure Filesに保存したデータを共有)を
+ARO上で実行できるようになります。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_azure_files用のpvcを利用するpodの作成"><a class="anchor" href="#_azure_files用のpvcを利用するpodの作成"></a>Azure Files用のPVCを利用するPodの作成</h3>
+<div class="paragraph">
+<p>Azure Diskの時と同様に、次のYAMLファイルを入力して、
+作成した「test-pvc-21」PVCを利用したPodを実行します。</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">df -h |grep efs
-mount |grep efs
-ls -lhd /mnt/efs-data/
-cd /mnt/efs-data/
-dd if=/dev/zero of=zero20.img bs=1M count=2048
-ls -lh /mnt/efs-data/</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">apiVersion: v1
+kind: Pod
+metadata:
+ name: test-files
+spec:
+ volumes:
+   - name: files-storage-vol
+     persistentVolumeClaim:
+       claimName: test-pvc-21
+ containers:
+   - name: test-files
+     image: centos:latest
+     command: [ "/bin/bash", "-c", "--" ]
+     args: [ "while true; do touch /mnt/files-data/verify-files &amp;&amp; echo 'hello files' &amp;&amp; sleep 30; done;" ]
+     volumeMounts:
+       - mountPath: "/mnt/files-data"
+         name: files-storage-vol</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>ここで作成したPodとは別のPodを新しく作成して、複数のPodから同じPVCを利用することで、1つのファイルシステムを共有できることを確認します。
-前述のPod作成に利用したYAMLファイルで、「name: test-efs1」を、「name: test-efs2」などに変更することで、
-変更したPod名で新規Podを実行します。</p>
+<p>作成したPodのターミナルからAzure Filesのマウント状況を確認すると、
+CIFSプロトコルでマウントされていることを確認できます。</p>
 </div>
-<div class="paragraph">
-<p>「test-efs2」Podでもマウント先のディレクトリへのファイル作成/削除や、
-「test-efs1」Podで作成したファイルの修正ができることを、当該Podの「ターミナル」タブから確認してみてください。</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/storage/pod-terminal2.png" alt="pod terminal2">
+</div>
 </div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>本演習環境では、Amazon EFS上に作成した1つのアクセスポイントを受講者全員で共有する設定にしていますが、
-他の受講者が作成したファイルと同じ名前を持つファイルを作成したり、
-他の受講者が作成したファイルを削除することができないようになっています。</p>
-</div>
-<div class="paragraph">
-<p>これは、Podに含まれるコンテナを実行するユーザ権限が、OpenShiftのプロジェクトごとに異なるようになっており(OpenShiftのデフォルト設定)、
-かつ、前の手順で設定したスティッキービットが共有ディレクトリに設定されていることで、
-所有者以外は、ファイル/ディレクトリの変更や削除ができないようになっているためです。</p>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>AWS EFS Operatorによって作成された「pvc-sv20」を見てみると、
-アクセスモードが「ReadWriteMany(RWX. 複数台のコンピュートノードから利用可能)」となっています。</p>
+<p>PVCによって作成されたAzure Filesは、Azure Portalからも確認できます。
+Azureの <code>aro-infra-XXXXX-&lt;AROクラスター名&gt;</code> リソースグループに、
+Azure Filesを利用するためのAzureストレージアカウントが自動作成され、
+その中の「ファイル共有」から <code>pvc-</code> という接頭辞が付いたAzure Filesが作成されていることを確認できます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/efs-02/pvc-sv-info.png" alt="pvc sv info">
+<img src="_images/aro/storage/azure-portal-files.png" alt="azure portal files">
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
-<p>デフォルトのストレージクラス(gp3タイプのEBS)を利用して作成したPVCは、
-アクセスモードが「ReadWriteOnce(RWO. 1台のコンピュートノードからのみ利用可能)」となります。
-EFSによって利用可能になる、RWXのアクセスモードに対応したPVCを利用することで、
-複数ノード上でレプリケーション構成を取るアプリケーション(Amazon EFSに保存したデータを共有)をROSAクラスター上で実行できるようになります。</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_efs利用のためのpvcを削除"><a class="anchor" href="#_efs利用のためのpvcを削除"></a>EFS利用のためのPVCを削除</h3>
-<div class="paragraph">
-<p>Pod削除などによって、不要になったPVCを削除したい場合、
-AWS EFS Operatorによって作成した、SharedVolumeを削除します。これによりSharedVolumeに対応したPVCが自動削除されます。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-02/sv-delete.png" alt="sv delete">
+<p>ここで作成したPodとは別のPodを新しく作成して、複数のPodから同じPVCを利用することで、
+1つのファイルシステムを共有できることを確認します。
+前述のPod作成に利用したYAMLファイルで、「name: test-files」を「name: test-files-new」などに
+変更することで、変更したPod名で新規Podを実行してみます。
+「test-files-new」Podでもマウント先のディレクトリへのファイル作成/削除や、
+「test-files」Podで作成したファイルの修正ができることを、
+当該Podの「ターミナル」タブから確認してみてください。</p>
 </div>
 </div>
 </div>
 </div>
-</div>
+<nav class="pagination">
+  <span class="prev"><a href="62-aro-app-deploy.html">2. サンプルアプリケーションのデプロイ</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
