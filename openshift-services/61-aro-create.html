@@ -333,11 +333,28 @@ AROクラスターの作成準備が完了していますので、
 デフォルト構成(コントローラー3台、コンピュート3台)のAROクラスター作成には、
 およそ45分ほどかかります。</p>
 </div>
+<div class="paragraph">
+<p>AROクラスターの作成が完了すると、`aro-infra-XXXXXXX-&lt;AROクラスター名&gt;`という名前の
+Azureリソースグループが自動的に作成され、AROクラスター作成に必要となる
+Azureリソース(ストレージアカウント/ロードバランサー/仮想マシン/ネットワークインターフェイスなど)が
+ここに作成されます。これらを見ることで、
+AROクラスターにどのようなAzureリソースが利用されているかを確認できます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/create/aro-infra-rg.png" alt="aro infra rg">
+</div>
+</div>
+<div class="paragraph">
+<p>この自動作成されたリソースグループは、
+<a href="https://learn.microsoft.com/ja-jp/azure/openshift/tutorial-delete-cluster">AROクラスターを削除</a>
+する時に、自動的に削除されるようになっています。</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_aroクラスターへのアクセス"><a class="anchor" href="#_aroクラスターへのアクセス"></a>AROクラスターへのアクセス</h3>
 <div class="paragraph">
-<p>AROクラスターのデプロイ完了後に、Azure Portal上で、
+<p>AROクラスターの作成完了後に、Azure Portal上で、
 AROクラスターにアクセスするためのコンソールURLや、管理者アカウント(kubeadmin)と
 パスワード情報が表示されますので、これを使ってAROクラスターにログインできます。</p>
 </div>
