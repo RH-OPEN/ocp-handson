@@ -337,6 +337,8 @@ AROのデフォルトだと、この機能は無効化されています。
 Kubernetesの
 <a href="https://kubernetes.io/docs/concepts/configuration/configmap/">ConfigMap</a>は、
 アプリケーションで利用される構成データを保存します。
+OpenShiftでは、コンソールの「管理者向け表示」→「Workloads」→「ConfigMaps」から作成、
+または、既存のConfigMapを編集できます。
 </td>
 </tr>
 </table>
@@ -401,10 +403,6 @@ Kubernetesの
 設定情報(ConfigMap)を次のYAMLファイルで作成することで、
 自動的にデフォルトのストレージクラス(managed-csi)を用いたPVCが作成されて、
 メトリクスデータが保存されるようになります。</p>
-</div>
-<div class="paragraph">
-<p>OpenShiftでのConfigMapは、コンソールの「管理者向け表示」→「Workloads」→「ConfigMaps」から作成、
-または、既存のConfigMapを編集できます。</p>
 </div>
 <div class="admonitionblock note">
 <table>
