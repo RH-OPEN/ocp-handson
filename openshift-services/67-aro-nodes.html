@@ -241,7 +241,7 @@ ARO/OpenShiftのワーカーノードは、MachineSetというリソース単位
 <p>デフォルトで利用されているMachineSetは、
 「管理者向け表示」の「MachineSets」メニューから確認できます。
 Japan EastリージョンにあるAROを利用している場合、デフォルトで3つのアベイラビリティーゾーンに
-対応したマシンセットが1つずつ存在します。これらのマシンセットの中に1台ずつコンピュートノードが含まれています。</p>
+対応したマシンセットが1つずつ存在します。これらのマシンセットの中に1台ずつワーカーノードが含まれています。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -286,7 +286,7 @@ Azureの仕様により、Japan WestリージョンにあるAROの場合は、
 <div class="paragraph">
 <p>前述した画像にある「MachineSet」のメニューから「MachineSetの作成」をクリックして、
 下記のようなMachineSetを定義したYAMLファイルを入力して、MachineSetを作成します。
-新規MachineSetの作成に伴い、自動的にコンピュートノードが1台( <code>replicas: 1</code> の指定によるもの)
+新規MachineSetの作成に伴い、自動的にワーカーノードが1台( <code>replicas: 1</code> の指定によるもの)
 追加されます。</p>
 </div>
 <div class="listingblock console-input">
@@ -394,7 +394,7 @@ spec:
 <div class="paragraph">
 <p>これらの変数を設定した、
 <a href="https://rh-open.github.io/ocp-handson/openshift-services/_images/aro/nodes/aro-machineset-japaneast3.yaml">MachineSetのサンプルファイル</a>がありますので参考にしてください。
-このサンプルでは、 <code>vmSize: Standard_F4s_v2</code> でAROで利用可能な最小サイズのコンピュートノードを指定し、
+このサンプルでは、 <code>vmSize: Standard_F4s_v2</code> でAROで利用可能な最小サイズのワーカーノードを指定し、
 <code>zone: “3”</code> で3番目のアベイラビリティーゾーンを指定しています。</p>
 </div>
 <div class="imageblock">
@@ -409,7 +409,7 @@ spec:
 </div>
 <div class="paragraph">
 <p>MachineSetの作成に伴い、対応したワーカーノードに、
-前述したMachineSet作成時に指定したラベル(この例では、 <code>type=hkojima-worker-nodes</code> )が
+前述したMachineSet作成時に指定したラベル(下記画像の例では、一番下のラベル <code>type=hkojima-worker-nodes</code> )が
 自動的に付与されます。
 このラベルを利用して、Podを特定のラベルが付いたワーカーノードで実行できるようになります。</p>
 </div>
@@ -427,7 +427,7 @@ spec:
 <div class="ulist">
 <ul>
 <li>
-<p><code>Cluster Autoscaler</code> : クラスター全体のオートスケールの設定。クラスター全体のコントローラおよびコンピュートノードの上限値、CPU/メモリの最小/最大値などを設定</p>
+<p><code>Cluster Autoscaler</code> : クラスター全体のオートスケールの設定。クラスター全体のコントローラおよびワーカーノードの上限値、CPU/メモリの最小/最大値などを設定</p>
 </li>
 <li>
 <p><code>Machine Autoscaler</code> : MachineSetに対するオートスケールの設定。最小台数と最大台数を設定</p>
