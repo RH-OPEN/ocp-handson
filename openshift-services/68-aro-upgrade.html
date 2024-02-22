@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>[デモ] Amazon EFSの利用準備 :: OpenShift Handson</title>
-    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/59-X-rosa-efs-01.html">
+    <title>[デモ] AROクラスターの更新 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/68-aro-upgrade.html">
+    <link rel="prev" href="67-aro-nodes.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -191,7 +192,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="67-aro-nodes.html">9. ワーカーノードの追加と削除</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="68-aro-upgrade.html">10. AROクラスターの更新[デモ]</a>
   </li>
 </ul>
@@ -211,138 +212,38 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
-    <li><a href="59-X-rosa-efs-01.html">[デモ] Amazon EFSの利用準備</a></li>
+    <li>61. Azure Red Hat OpenShift (ARO) Lab</li>
+    <li><a href="68-aro-upgrade.html">10. AROクラスターの更新[デモ]</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/59-X-rosa-efs-01.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/68-aro-upgrade.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">[デモ] Amazon EFSの利用準備</h1>
+<h1 class="page">[デモ] AROクラスターの更新</h1>
 <div class="sect1">
 <h2 id="_デモの概要"><a class="anchor" href="#_デモの概要"></a>デモの概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>このモジュールでは、インストラクターによるAmazon EFSを利用するための準備方法をご紹介します。</p>
+<p>このモジュールでは、インストラクターがAROクラスター更新方法の概要をご紹介します。</p>
 </div>
 <hr>
 <div class="sect2">
-<h3 id="_nfsトラフィックのアクセス許可ルールの追加"><a class="anchor" href="#_nfsトラフィックのアクセス許可ルールの追加"></a>NFSトラフィックのアクセス許可ルールの追加</h3>
+<h3 id="_前準備"><a class="anchor" href="#_前準備"></a>前準備</h3>
 <div class="paragraph">
-<p>ROSAクラスターの複数のコンピュートノードから同時に読み書き可能な永続ボリュームとして、
-<a href="https://aws.amazon.com/jp/efs/">Amazon Elastic File System (EFS)</a>を利用するように設定できます。
-それには、Amazon EFSを利用するための、ファイルシステムとアクセスポイントをAWS上で作成しておく必要があります。</p>
-</div>
-<div class="paragraph">
-<p>最初にAWS EC2コンソールにアクセスして、ROSAがデプロイされているリージョンに移動します。
-下記の画像はオハイオリージョン(us-east-2)の例ですが、「worker」という名前が付いているノードを1台選択します。
-この選択したインスタンスが利用している、
-VPC ID(下記の例では、 <code>vpc-0727149c80d7f166f</code> )と
-セキュリティグループID(下記の例では、 <code>sg-0ddba81d81762ce55</code> )をメモしておきます。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/vpc-security-id1.png" alt="vpc security id1">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/vpc-security-id2.png" alt="vpc security id2">
-</div>
+<p>AROクラスターは、セルフマネージド版のOpenShiftと同様に、
+WebコンソールやOpenShift CLIを使用したアップグレードが可能です。
+ここでは、OpenShiftのWebコンソールを利用した、AROクラスターのアップグレード方法をご紹介します。</p>
 </div>
 <div class="paragraph">
-<p>ROSAクラスターからのEFSへのNFS接続のため、NFSトラフィックのアクセス許可ルールをセキュリティグループに追加します。
-セキュリティタブのセキュリティグループID(この例では、 <code>sg-0ddba81d81762ce55</code> )をクリックして、
-「インバウンドのルールを編集」をクリックします。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/inbound-rule-list.png" alt="inbound rule list">
-</div>
+<p>OpenShiftクラスターのrootユーザーであるkubeadminユーザー、または、
+クラスター管理権限となるcluster-adminロールが割り当てられたユーザーで、
+AROクラスターにログインして、「管理」の「クラスター設定」画面に移動します。</p>
 </div>
 <div class="paragraph">
-<p>スクロールして、「ルールを追加」をクリックして、プライベートCIDRからNFSトラフィックを許可するルールを追加します。
-「タイプ」はNFS、ソース(アクセス元)は「カスタム」で「10.0.0.0/16」を入力します。
-この例では、この「10.0.0.0/16」が、ROSAの各コンピュートノードが、
-ROSAクラスター内で利用するプライベートのネットワークアドレスとなっています。
-ルールの一番下に追加されていることを確認した後に、「ルールを保存」をクリックして追加したルールを保存します。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/inbound-rule-add1.png" alt="inbound rule add1">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/inbound-rule-add2.png" alt="inbound rule add2">
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_amazon_efsのファイルシステムとアクセスポイントの作成"><a class="anchor" href="#_amazon_efsのファイルシステムとアクセスポイントの作成"></a>Amazon EFSのファイルシステムとアクセスポイントの作成</h3>
-<div class="paragraph">
-<p>Amazon EFSのコンソールに移動して、
-ROSAクラスターがあるリージョンと同じリージョンを選択して、「ファイルシステムの作成」をクリックします。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/amazon-efs-top.png" alt="amazon efs top">
-</div>
-</div>
-<div class="paragraph">
-<p>「ファイルシステムの作成」をクリックした後に表示される画面の「カスタマイズ」をクリックして、次の操作を実行します。</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>ステップ1の「ファイルシステムの設定」は全てデフォルト値のまま「次へ」をクリック</p>
-</li>
-<li>
-<p>ステップ2の「ネットワークアクセス」で、前述の手順でメモしておいたVPC IDとセキュリティグループIDを指定して、「次へ」をクリック</p>
-</li>
-<li>
-<p>ステップ3の「ファイスシステムポリシー」は全てデフォルト値のまま「次へ」をクリック</p>
-</li>
-<li>
-<p>ステップ4「確認して作成する」ではスクロールして、ページ下部にある「作成」ボタンをクリックすると、ファイルシステムの作成が完了</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/efs-network-access.png" alt="efs network access">
-</div>
-</div>
-<div class="paragraph">
-<p>作成したファイルシステムID(下記画像の例では、 <code>fs-0829e3db1df054edb</code> )をから、
-ファイルシステムに接続するためのアクセスポイントを作成します。
-「アクセスポイント」タブから「アクセスポイントを作成」をクリックします。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/accesspoint-create1.png" alt="accesspoint create1">
-</div>
-</div>
-<div class="paragraph">
-<p>「ルートディレクトリパス」に任意のPATH(この例では、 <code>/efs-mount</code> )を入力し、
-「ルートディレクトリ作成のアクセス許可 - オプション」で、
-所有者ユーザーIDと所有者グループIDに <code>65534</code> 、
-ルートディレクトリパスに適用する POSIX アクセス許可に <code>1777</code> を入力します。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/accesspoint-create2.png" alt="accesspoint create2">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/accesspoint-create3.png" alt="accesspoint create3">
-</div>
-</div>
-<div class="paragraph">
-<p>ここでは、アクセス許可を「1777」として、どのユーザー権限でもファイルの読み書きを可能にする共有ファイルシステムとすることを想定します。
-そのため、ユーザーID/グループIDについてはどの数値を指定してもいいのですが、
-NFSで利用される匿名ユーザ「nobody」のIDとして、「65534」を指定することにします。</p>
+<p>AROクラスターのデフォルトだと、更新チャネルが未設定の状態なので、チャネルを設定します。
+未設定の横の鉛筆マークをクリックして、チャネル名(この例では、stable-4.10)を入力して、
+「保存」をクリックします。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -351,37 +252,176 @@ NFSで利用される匿名ユーザ「nobody」のIDとして、「65534」を�
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-「1777」というパーミッションの「1」は、
-<a href="https://www.redhat.com/sysadmin/suid-sgid-sticky-bit">Linuxのスティッキービット(Sticky Bit)</a>を意味します。
-これが設定されている共有ディレクトリの中に作成されたファイル/ディレクトリは、
-それらの所有者や管理権限を持つrootユーザー以外は削除できなくなります。
+AROでは、
+<a href="https://learn.microsoft.com/en-us/azure/openshift/support-lifecycle#upgrade-channels">「stable」チャネルのみがサポート対象のチャネル</a>
+となります。
 </td>
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>他の値は空欄のままにしておいて、「アクセスポイントを作成」をクリックして、アクセスポイントを作成します。
-Amazon EFSで利用可能なファイルシステムとアクセスポイントの作成が完了したら、それぞれのIDをメモしておきます。
-下記画像の例だと、ファイルシステムIDが <code>fs-0829e3db1df054edb</code> で、
-アクセスポイントIDが <code>fsap-088d532e0518f15b0</code>	となります。</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/upgrade/channel-config1.png" alt="channel config1">
+</div>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/efs-01/efs-id.png" alt="efs id">
+<img src="_images/aro/upgrade/channel-config2.png" alt="channel config2">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/upgrade/channel-config3.png" alt="channel config3">
+</div>
+</div>
+<div class="paragraph">
+<p>一部のワーカノードを更新対象外にする(カナリアロールアウト更新)ことができます。
+その場合は、ラベルをつけた特定のノードのプール(Machine Config Pool, MCP)を作成する必要があります。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ : ↓AROクラスターにkubeadminユーザでログイン
+$ oc login --token=sha256~XXXXX --server=https://api.testmydomain01.japaneast.aroapp.io:6443
+
+
+$ : ↓AROクラスターのコンピュートノードのリスト表示
+$ oc get -l 'node-role.kubernetes.io/master!=' -o 'jsonpath={range .items[*]}{.metadata.name}{"\n"}{end}' nodes
+testmyaro01-jnlll-worker-japaneast1-t676g
+testmyaro01-jnlll-worker-japaneast2-8nbm2
+testmyaro01-jnlll-worker-japaneast3-6tqgr
+$ : ↓「oc label」コマンドによる「node-role.kubernetes.io/workerpool-canary=」ラベルの付与
+$ oc label node testmyaro01-jnlll-worker-japaneast3-6tqgr node-role.kubernetes.io/workerpool-canary=
+node/testmyaro01-jnlll-worker-japaneast3-6tqgr labeled
+
+
+$ : ↓「node-role.kubernetes.io/workerpool-canary=」ラベルが付与されたノードを対象とする
+$ :   OpenShiftのMachineConfigPoolリソースを作成
+$ cat &lt;&lt; EOF &gt; worker-canary.yaml
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfigPool
+metadata:
+  name: workerpool-canary
+spec:
+  machineConfigSelector:
+    matchExpressions:
+      - {
+         key: machineconfiguration.openshift.io/role,
+         operator: In,
+         values: [worker,workerpool-canary]
+        }
+  nodeSelector:
+    matchLabels:
+      node-role.kubernetes.io/workerpool-canary: ""
+EOF
+$ oc create -f worker-canary.yaml
+machineconfigpool.machineconfiguration.openshift.io/workerpool-canary created
+
+
+$ : ↓OpenShiftのMachineConfigPoolリソース一覧を表示
+$ oc get mcp
+NAME                CONFIG                                                        UPDATED   UPDATING   DEGRADED   MACHINECOUNT   READYMACHINECOUNT   UPDATEDMACHINECOUNT   DEGRADEDMACHINECOUNT   AGE
+master              rendered-master-b3a0f025835fde2aeb292b6344891769              True      False      False      3              3                   3                     0                      5h8m
+worker              rendered-worker-e3b5c7f3534a74ba469358659178d170              True      False      False      2              2                   2                     0                      5h8m
+workerpool-canary   rendered-workerpool-canary-e3b5c7f3534a74ba469358659178d170   True      False      False      1              1                   1                     0                      60s</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ここで作成したMCP「workerpool-canary」を指定して、
+ワーカーノードのアップグレード対象外にすることが可能です。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_aroクラスターのアップグレード"><a class="anchor" href="#_aroクラスターのアップグレード"></a>AROクラスターのアップグレード</h3>
+<div class="paragraph">
+<p>「クラスター設定」画面から「Select a version」をクリックして、
+アップグレードするバージョン(リリース)を選択します。
+このとき、「Full cluster update」を選択すると、全てのコントローラ/ワーカーノードがアップグレードされます。</p>
+</div>
+<div class="paragraph">
+<p>「Partial cluster update」を選択すると、一部または全てのワーカーノードをアップグレードから除外できます。
+ここでは、前述したMCP「workerpool-canary」に含まれるワーカーノードを選択しています。
+そして「更新」をクリックして、AROクラスターのアップグレードを開始します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/upgrade/aro-upgrade-select1.png" alt="aro upgrade select1">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/upgrade/aro-upgrade-select2.png" alt="aro upgrade select2">
+</div>
+</div>
+<div class="paragraph">
+<p>アップグレードを開始すると、次のような画面が表示されます。
+ここでは、「Partial cluster update」を選択して、
+1台のワーカーノードをアップグレード対象外としています。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/upgrade/aro-upgrade-status1.png" alt="aro upgrade status1">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/upgrade/aro-upgrade-status2.png" alt="aro upgrade status2">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/upgrade/aro-upgrade-status3.png" alt="aro upgrade status3">
+</div>
+</div>
+<div class="paragraph">
+<p>アップグレードしたワーカーノードでアプリケーションが問題なく実行されることを確認したら、
+「Resume update」をクリックして、残り1台のワーカーノードのアップグレードを完了できます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/upgrade/aro-upgrade-status4.png" alt="aro upgrade status4">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/upgrade/aro-upgrade-status5.png" alt="aro upgrade status5">
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_rosaでのaws_efs_operatorのインストール"><a class="anchor" href="#_rosaでのaws_efs_operatorのインストール"></a>ROSAでのAWS EFS Operatorのインストール</h3>
+<h3 id="_aroクラスターのマイナーリリース間のアップグレード"><a class="anchor" href="#_aroクラスターのマイナーリリース間のアップグレード"></a>AROクラスターのマイナーリリース間のアップグレード</h3>
 <div class="paragraph">
-<p>ここからはROSAクラスターでの操作となります。
-ROSAクラスターに管理者権限を持つユーザー( <code>cluster-admin</code> など)でログインして、
-左サイドメニューにある、OperatorHubから、Amazon EFSをPodから自動的に利用できるようにするための、
-「AWS EFS Operator」を選択します。</p>
+<p>ARO/OpenShiftは、4.10から4.11など、マイナーリリース間のアップグレードも可能です。
+AROクラスターの更新情報と更新イメージを配布するサービスは、Red Hatによって管理されています。
+そのため、セルフマネージド版OpenShiftのマイナーリリース間のアップグレードパスが
+Red Hatによって提供開始されたタイミングで、AROクラスターでも当該アップグレードパスを利用できるようになります。</p>
+</div>
+<div class="paragraph">
+<p>AROクラスターで、マイナーリリース間のアップグレードが可能になった場合、
+次のような画面が表示されて、
+アップグレード対象のstableチャネルが利用可能であることが分かるようになっています。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/efs-01/aws-efs-operator-install1.png" alt="aws efs operator install1">
+<img src="_images/aro/upgrade/aro-minor-upgrade-path.png" alt="aro minor upgrade path">
+</div>
+</div>
+<div class="paragraph">
+<p>このとき、前述と同様の手順で、更新チャネルを「stable-4.10」から「stable-4.11」に変更すると、
+4.11へのアップグレードを選択・実施できるようになります。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/upgrade/aro-stable-411.png" alt="aro stable 411">
+</div>
+</div>
+<div class="paragraph">
+<p>上記画像にある <code>+ その他</code> をクリックすることで、
+現在更新可能なリリースの一覧を確認できます。「stable-4.11」チャネルを設定しても、
+4.11系だけでなく4.10系にもアップグレードが可能です。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/upgrade/aro-upgrade-list.png" alt="aro upgrade list">
 </div>
 </div>
 <div class="admonitionblock note">
@@ -391,27 +431,25 @@ ROSAクラスターに管理者権限を持つユーザー( <code>cluster-admin<
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Operatorは、Kubernetes/OpenShift上で実行されるコンテナアプリの運用(自動構築や削除など)を自動化するための、
-専用コンテナとなります。Operatorは、対象となるコンテナアプリを運用するためのインタフェースを提供します。
-Operator自身も通常のアプリケーションと同様に、Podとして実行されます。
+AROの正式リリースとして提供開始される前に、
+ARO利用者がstableチャネルで利用可能な最新リリースにアップグレードすることは可能であり、
+かつ、サポート対象となります。
+ここで挙げてきた例のように、ARO v4.11がリリースされる前に、
+利用者が「stable-4.11」チャネルを設定して、
+ARO 4.10からARO 4.11にアップグレードできるため、
+アップグレードの先行テストなどに利用できます。
+こちらの情報については、
+<a href="https://learn.microsoft.com/en-us/azure/openshift/support-lifecycle#red-hat-openshift-container-platform-version-support-policy">Microsoftの公式ドキュメント</a>もご参照ください。
 </td>
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>「AWS EFS Operator」を選択したあとは、全てデフォルトの値を利用してインストールを完了します。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/aws-efs-operator-install2.png" alt="aws efs operator install2">
-</div>
-</div>
-<div class="paragraph">
-<p>これで、ROSAクラスターで、永続ボリュームとしてAmazon EFSを利用する設定が完了しました。</p>
 </div>
 </div>
 </div>
-</div>
+<nav class="pagination">
+  <span class="prev"><a href="67-aro-nodes.html">9. ワーカーノードの追加と削除</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
