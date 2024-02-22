@@ -268,7 +268,7 @@ Azureの仕様により、Japan WestリージョンにあるAROの場合は、
 </div>
 <div class="paragraph">
 <p>デフォルトで用意されているマシンセットのうち、いずれかを選択して、
-「必要なカウント」にあるマシン台数を編集することで、
+「アクション」→「マシン数の編集」から、マシン台数を編集することで、
 ワーカーノードを簡単に追加・削除できるようになっています。</p>
 </div>
 <div class="imageblock">
@@ -369,8 +369,10 @@ spec:
 <p><code>key, value</code> : マシンセットで指定する任意のラベル名。(例:「key」に「type」、「value」に「hkojima-worker-nodes」を指定。このラベルは後に使いますので、他の受講者と被らないようなラベルを付けて下さい)</p>
 </li>
 <li>
-<p><code>リージョン名</code> : AROクラスターが作成されたリージョン名。(例: japaneast)
-ネットワークリソースグループ名: AROが利用するVirtual Networkリソースがあるリソースグループ名。(例: openenv-hkctf)</p>
+<p><code>リージョン名</code> : AROクラスターが作成されたリージョン名。(例: japaneast)</p>
+</li>
+<li>
+<p><code>ネットワークリソースグループ名</code> : AROが利用するVirtual Networkリソースがあるリソースグループ名。(例: openenv-hkctf)</p>
 </li>
 <li>
 <p><code>AROクラスターのインフラID</code> : AROクラスターに付けられたID。(例: myopendomain01)</p>
@@ -392,7 +394,7 @@ spec:
 <div class="paragraph">
 <p>これらの変数を設定した、
 <a href="https://rh-open.github.io/ocp-handson/openshift-services/_images/aro/nodes/aro-machineset-japaneast3.yaml">MachineSetのサンプルファイル</a>がありますので参考にしてください。
-なお、 <code>vmSize: Standard_F4s_v2</code> でAROで利用可能な最小サイズのコンピュートノードを指定し、
+このサンプルでは、 <code>vmSize: Standard_F4s_v2</code> でAROで利用可能な最小サイズのコンピュートノードを指定し、
 <code>zone: “3”</code> で3番目のアベイラビリティーゾーンを指定しています。</p>
 </div>
 <div class="imageblock">
@@ -407,7 +409,7 @@ spec:
 </div>
 <div class="paragraph">
 <p>MachineSetの作成に伴い、対応したワーカーノードに、
-前述したMachineSet作成時に指定したラベル(この例では、「type=hkojima-worker-nodes」)が
+前述したMachineSet作成時に指定したラベル(この例では、 <code>type=hkojima-worker-nodes</code> )が
 自動的に付与されます。
 このラベルを利用して、Podを特定のラベルが付いたワーカーノードで実行できるようになります。</p>
 </div>
@@ -484,9 +486,9 @@ spec:
 <p>Cluster Autoscalerが作成されると、下記の画像のように、 <code>default</code> という名前で
 作成されていることが確認できます。</p>
 </div>
-<div class="imageblock unresolved">
+<div class="imageblock">
 <div class="content">
-<img src="aro/nodes/cluster-settings-autoscaler.png" alt="cluster settings autoscaler">
+<img src="_images/aro/nodes/cluster-settings-autoscaler.png" alt="cluster settings autoscaler">
 </div>
 </div>
 <div class="paragraph">
@@ -563,8 +565,8 @@ spec:
 </div>
 <div class="paragraph">
 <p>最後に受講生が作成したMachineSetを削除します。
-当該MachineSetを選択して、「MachineSetの削除」から削除できます。
-これによって、MachineSet及びそれに紐づく全てのワーカーノードが削除されます。</p>
+当該MachineSetを選択して、「MachineSetの削除」を選択することで、
+MachineSet及びそれに紐づく全てのワーカーノードが削除されます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
