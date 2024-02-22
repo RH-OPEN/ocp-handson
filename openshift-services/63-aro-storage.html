@@ -262,6 +262,20 @@ PVC作成後すぐに永続ボリュームの割り当てが行われます。</
 <img src="_images/aro/storage/pvc-info1.png" alt="pvc info1">
 </div>
 </div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>PVCによって作成されたAzure Diskは、Azure Portalからも確認できます。
+Azureの <code>aro-infra-XXXXX-&lt;AROクラスター名&gt;</code> リソースグループに、
+<code>pvc-</code> という接頭辞が付いたAzure Diskが作成されていることを確認できます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/storage/azure-portal-disk.png" alt="azure portal disk">
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_azure_disk用のpvcを利用するpodの作成"><a class="anchor" href="#_azure_disk用のpvcを利用するpodの作成"></a>Azure Disk用のPVCを利用するPodの作成</h3>
@@ -381,6 +395,21 @@ RWXのアクセスモードに対応したPVCを利用することで、
 複数ノード上でレプリケーション構成を取るアプリケーション(Azure Filesに保存したデータを共有)を
 ARO上で実行できるようになります。</p>
 </div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>PVCによって作成されたAzure Filesは、Azure Portalからも確認できます。
+Azureの <code>aro-infra-XXXXX-&lt;AROクラスター名&gt;</code> リソースグループに、
+Azure Filesを利用するためのAzureストレージアカウントが自動作成され、
+その中の「ファイル共有」から <code>pvc-</code> という接頭辞が付いたAzure Filesが作成されていることを確認できます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/storage/azure-portal-files.png" alt="azure portal files">
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_azure_files用のpvcを利用するpodの作成"><a class="anchor" href="#_azure_files用のpvcを利用するpodの作成"></a>Azure Files用のPVCを利用するPodの作成</h3>
@@ -416,21 +445,6 @@ CIFSプロトコルでマウントされていることを確認できます。<
 <div class="imageblock">
 <div class="content">
 <img src="_images/aro/storage/pod-terminal2.png" alt="pod terminal2">
-</div>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>PVCによって作成されたAzure Filesは、Azure Portalからも確認できます。
-Azureの <code>aro-infra-XXXXX-&lt;AROクラスター名&gt;</code> リソースグループに、
-Azure Filesを利用するためのAzureストレージアカウントが自動作成され、
-その中の「ファイル共有」から <code>pvc-</code> という接頭辞が付いたAzure Filesが作成されていることを確認できます。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/aro/storage/azure-portal-files.png" alt="azure portal files">
-</div>
-</div>
 </div>
 </div>
 <div class="paragraph">
