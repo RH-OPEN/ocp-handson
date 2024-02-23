@@ -351,7 +351,8 @@ Dev Spacesにログインします。</p>
 </div>
 <div class="paragraph">
 <p>最初は何もWorkspaceが起動されていない状態です。
-「Java 11 with Quarkus」をクリックして、JDK, Maven,
+「Java 11 with Quarkus」(無い場合はQuarkusのロゴがあるカタログ)をクリックして、
+JDK, Maven,
 <a href="https://www.redhat.com/ja/topics/cloud-native-apps/what-is-quarkus">Quarkus</a>の
 開発環境が一通り揃っているWorkspaceを起動します。</p>
 </div>
@@ -536,7 +537,8 @@ Quarkusアプリケーションを終了します。終了しないままブラ�
 <div class="paragraph">
 <p>Workspaceの停止や削除は、左サイドメニューの「Workspaces」から、対象のWorkspaceの
 「Stop Workspace」や「Delete Workspace」から実行できます。Workspace自身も、
-<code>&lt;ユーザーアカウント名&gt;-devspaces</code> プロジェクトにあるPodとして実行されており、
+<code>&lt;ユーザーアカウント名&gt;-devspaces</code> といった文字列を含む名前が付けられた
+(自動作成される)プロジェクトにあるPodとして実行されており、
 Workspaceの停止や削除を実行すると、それに対応したPodも削除されます。</p>
 </div>
 <div class="imageblock">
@@ -550,7 +552,8 @@ Workspaceの停止や削除を実行すると、それに対応したPodも削�
 利用者が加えた変更は残ったままとなっていることを確認できます。</p>
 </div>
 <div class="paragraph">
-<p>「Delete Workspace」からWorkspaceを削除すると、利用者が加えた変更は完全に消去されます。</p>
+<p>「Delete Workspace」からWorkspaceを削除すると、
+利用者が加えた変更は永続ボリュームも含めて完全に消去されます。</p>
 </div>
 </div>
 </div>
