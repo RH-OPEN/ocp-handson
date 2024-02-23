@@ -3,8 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>[デモ] Amazon EFSの利用準備 :: OpenShift Handson</title>
-    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/59-X-rosa-efs-01.html">
+    <title>モニタリング :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/67-1-aro-monitoring.html">
+    <link rel="prev" href="66-aro-logging.html">
+    <link rel="next" href="67-2-aro-project-metrics.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -182,7 +184,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="66-aro-logging.html">6. ロギング</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="67-1-aro-monitoring.html">7. モニタリング</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -214,138 +216,38 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
-    <li><a href="59-X-rosa-efs-01.html">[デモ] Amazon EFSの利用準備</a></li>
+    <li>61. Azure Red Hat OpenShift (ARO) Lab</li>
+    <li><a href="67-1-aro-monitoring.html">7. モニタリング</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/59-X-rosa-efs-01.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/67-1-aro-monitoring.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">[デモ] Amazon EFSの利用準備</h1>
+<h1 class="page">モニタリング</h1>
 <div class="sect1">
-<h2 id="_デモの概要"><a class="anchor" href="#_デモの概要"></a>デモの概要</h2>
+<h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>このモジュールでは、インストラクターによるAmazon EFSを利用するための準備方法をご紹介します。</p>
+<p>このモジュールでは、Prometheusによるモニタリングを学習します。</p>
 </div>
 <hr>
-<div class="sect2">
-<h3 id="_nfsトラフィックのアクセス許可ルールの追加"><a class="anchor" href="#_nfsトラフィックのアクセス許可ルールの追加"></a>NFSトラフィックのアクセス許可ルールの追加</h3>
 <div class="paragraph">
-<p>ROSAクラスターの複数のコンピュートノードから同時に読み書き可能な永続ボリュームとして、
-<a href="https://aws.amazon.com/jp/efs/">Amazon Elastic File System (EFS)</a>を利用するように設定できます。
-それには、Amazon EFSを利用するための、ファイルシステムとアクセスポイントをAWS上で作成しておく必要があります。</p>
-</div>
-<div class="paragraph">
-<p>最初にAWS EC2コンソールにアクセスして、ROSAがデプロイされているリージョンに移動します。
-下記の画像はオハイオリージョン(us-east-2)の例ですが、「worker」という名前が付いているノードを1台選択します。
-この選択したインスタンスが利用している、
-VPC ID(下記の例では、 <code>vpc-0727149c80d7f166f</code> )と
-セキュリティグループID(下記の例では、 <code>sg-0ddba81d81762ce55</code> )をメモしておきます。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/vpc-security-id1.png" alt="vpc security id1">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/vpc-security-id2.png" alt="vpc security id2">
-</div>
-</div>
-<div class="paragraph">
-<p>ROSAクラスターからのEFSへのNFS接続のため、NFSトラフィックのアクセス許可ルールをセキュリティグループに追加します。
-セキュリティタブのセキュリティグループID(この例では、 <code>sg-0ddba81d81762ce55</code> )をクリックして、
-「インバウンドのルールを編集」をクリックします。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/inbound-rule-list.png" alt="inbound rule list">
-</div>
-</div>
-<div class="paragraph">
-<p>スクロールして、「ルールを追加」をクリックして、プライベートCIDRからNFSトラフィックを許可するルールを追加します。
-「タイプ」はNFS、ソース(アクセス元)は「カスタム」で「10.0.0.0/16」を入力します。
-この例では、この「10.0.0.0/16」が、ROSAの各コンピュートノードが、
-ROSAクラスター内で利用するプライベートのネットワークアドレスとなっています。
-ルールの一番下に追加されていることを確認した後に、「ルールを保存」をクリックして追加したルールを保存します。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/inbound-rule-add1.png" alt="inbound rule add1">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/inbound-rule-add2.png" alt="inbound rule add2">
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_amazon_efsのファイルシステムとアクセスポイントの作成"><a class="anchor" href="#_amazon_efsのファイルシステムとアクセスポイントの作成"></a>Amazon EFSのファイルシステムとアクセスポイントの作成</h3>
-<div class="paragraph">
-<p>Amazon EFSのコンソールに移動して、
-ROSAクラスターがあるリージョンと同じリージョンを選択して、「ファイルシステムの作成」をクリックします。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/amazon-efs-top.png" alt="amazon efs top">
-</div>
-</div>
-<div class="paragraph">
-<p>「ファイルシステムの作成」をクリックした後に表示される画面の「カスタマイズ」をクリックして、次の操作を実行します。</p>
+<p>AROクラスターは、デフォルトでPrometheusをベースとしたモニタリング機能が有効になっており、
+下記の2つのユースケースで利用できるようになっています。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>ステップ1の「ファイルシステムの設定」は全てデフォルト値のまま「次へ」をクリック</p>
+<p>AROクラスター全体のモニタリング (Platform monitoring)</p>
 </li>
 <li>
-<p>ステップ2の「ネットワークアクセス」で、前述の手順でメモしておいたVPC IDとセキュリティグループIDを指定して、「次へ」をクリック</p>
-</li>
-<li>
-<p>ステップ3の「ファイスシステムポリシー」は全てデフォルト値のまま「次へ」をクリック</p>
-</li>
-<li>
-<p>ステップ4「確認して作成する」ではスクロールして、ページ下部にある「作成」ボタンをクリックすると、ファイルシステムの作成が完了</p>
+<p>利用者が作成したプロジェクトのモニタリング (User-defined projects monitoring)</p>
 </li>
 </ul>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/efs-network-access.png" alt="efs network access">
-</div>
-</div>
 <div class="paragraph">
-<p>作成したファイルシステムID(下記画像の例では、 <code>fs-0829e3db1df054edb</code> )をから、
-ファイルシステムに接続するためのアクセスポイントを作成します。
-「アクセスポイント」タブから「アクセスポイントを作成」をクリックします。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/accesspoint-create1.png" alt="accesspoint create1">
-</div>
-</div>
-<div class="paragraph">
-<p>「ルートディレクトリパス」に任意のPATH(この例では、 <code>/efs-mount</code> )を入力し、
-「ルートディレクトリ作成のアクセス許可 - オプション」で、
-所有者ユーザーIDと所有者グループIDに <code>65534</code> 、
-ルートディレクトリパスに適用する POSIX アクセス許可に <code>1777</code> を入力します。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/accesspoint-create2.png" alt="accesspoint create2">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/accesspoint-create3.png" alt="accesspoint create3">
-</div>
-</div>
-<div class="paragraph">
-<p>ここでは、アクセス許可を「1777」として、どのユーザー権限でもファイルの読み書きを可能にする共有ファイルシステムとすることを想定します。
-そのため、ユーザーID/グループIDについてはどの数値を指定してもいいのですが、
-NFSで利用される匿名ユーザ「nobody」のIDとして、「65534」を指定することにします。</p>
+<p>この2つについて、どのようにAROクラスターで利用されているかを確認していきます。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -354,38 +256,92 @@ NFSで利用される匿名ユーザ「nobody」のIDとして、「65534」を�
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-「1777」というパーミッションの「1」は、
-<a href="https://www.redhat.com/sysadmin/suid-sgid-sticky-bit">Linuxのスティッキービット(Sticky Bit)</a>を意味します。
-これが設定されている共有ディレクトリの中に作成されたファイル/ディレクトリは、
-それらの所有者や管理権限を持つrootユーザー以外は削除できなくなります。
+本演習をワークショップ形式で実施している場合、このモジュールでは、設定作業を実施しません。
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_クラスター全体のモニタリング"><a class="anchor" href="#_クラスター全体のモニタリング"></a>クラスター全体のモニタリング</h3>
+<div class="paragraph">
+<p>AROクラスター全体のリソース利用状況のモニタリング、
+いわゆる「プラットフォームモニタリング」と公式ドキュメントで定義しているものについては、
+MicrosoftとRed HatのSREチームによって利用されています。
+<a href="https://learn.microsoft.com/ja-jp/azure/openshift/responsibility-matrix">AROの責任分担マトリクス</a>によって、
+プラットフォームモニタリングについては、MicrosoftとRed Hatに責任があると定義しているため、
+AROの利用者は、ワーカーノードにおけるユーザーアプリの利用状況の監視に集中できるようになっています。</p>
+</div>
+<div class="paragraph">
+<p>AROクラスターでは、プラットフォームモニタリング機能を提供するPodが、
+「openshift-monitoring」というプロジェクトで実行されています。
+これらのモニタリングで監視対象となっている項目については、
+OpenShiftのコンソールの「モニタリング」メニューのメトリクスターゲットなどから確認できるようになっています。
+こうした項目やワーカーノードなどが、SREチームによって監視されています。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/monitoring/metrics-targets.png" alt="metrics targets">
+</div>
+</div>
+<div class="paragraph">
+<p>これらの情報は、AROクラスターの管理者アカウント( <code>kubeadmin</code> など)でログインすることで確認できます。
+ログインすると、「openshift-monitoring」プロジェクトで実行されているPodのリストも見ることができます。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+本演習をワークショップ形式で実施している場合、インストラクターが管理者アカウントを案内します。
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/monitoring/projects.png" alt="projects">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/monitoring/monitoring-pods.png" alt="monitoring pods">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+「openshift-monitoring」プロジェクトのコンポーネントは、
+MicrosoftとRed Hat SREチームの管理下に置かれており、
+<a href="https://learn.microsoft.com/ja-jp/azure/openshift/support-policies-v4#logging-and-monitoring">利用者が設定を変更することを、基本的にサポートしていません</a>。
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>他の値は空欄のままにしておいて、「アクセスポイントを作成」をクリックして、アクセスポイントを作成します。
-Amazon EFSで利用可能なファイルシステムとアクセスポイントの作成が完了したら、それぞれのIDをメモしておきます。
-下記画像の例だと、ファイルシステムIDが <code>fs-0829e3db1df054edb</code> で、
-アクセスポイントIDが <code>fsap-088d532e0518f15b0</code>	となります。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/efs-id.png" alt="efs id">
-</div>
+<p>なお、プラットフォームモニタリングによって監視されているメトリクスデータは、
+PVによる永続化はされていません。
+そのため、AROのユーザーが利用するプロジェクトのメトリクスデータだけでも永続化したい場合、
+後述するカスタム設定によって、データ永続化の設定を適用します。</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_rosaでのaws_efs_operatorのインストール"><a class="anchor" href="#_rosaでのaws_efs_operatorのインストール"></a>ROSAでのAWS EFS Operatorのインストール</h3>
+<h3 id="_利用者が作成したプロジェクトのモニタリング"><a class="anchor" href="#_利用者が作成したプロジェクトのモニタリング"></a>利用者が作成したプロジェクトのモニタリング</h3>
 <div class="paragraph">
-<p>ここからはROSAクラスターでの操作となります。
-ROSAクラスターに管理者権限を持つユーザー( <code>cluster-admin</code> など)でログインして、
-左サイドメニューにある、OperatorHubから、Amazon EFSをPodから自動的に利用できるようにするための、
-「AWS EFS Operator」を選択します。</p>
+<p>利用者が作成したプロジェクトのモニタリングに関するカスタム設定を適用することもできます。
+この機能を「User-defined projects monitoring」と定義しており、
+プロジェクトのメトリクスデータの永続化や、アラート設定などが可能になります。</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/aws-efs-operator-install1.png" alt="aws efs operator install1">
-</div>
+<div class="paragraph">
+<p>これらの機能を提供するPodは、「openshift-user-workload-monitoring」プロジェクトで実行されますが、
+AROのデフォルトだと、この機能は無効化されています。
+そのため、この機能を使う場合、「openshift-monitoring」プロジェクトの <code>cluster-monitoring-config</code>
+という名前の設定情報(ConfigMap)の末尾を、次のように置き換えて有効化する必要があります。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -394,27 +350,113 @@ ROSAクラスターに管理者権限を持つユーザー( <code>cluster-admin<
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Operatorは、Kubernetes/OpenShift上で実行されるコンテナアプリの運用(自動構築や削除など)を自動化するための、
-専用コンテナとなります。Operatorは、対象となるコンテナアプリを運用するためのインタフェースを提供します。
-Operator自身も通常のアプリケーションと同様に、Podとして実行されます。
+Kubernetesの
+<a href="https://kubernetes.io/docs/concepts/configuration/configmap/">ConfigMap</a>は、
+アプリケーションで利用される構成データを保存します。
+OpenShiftでは、コンソールの「管理者向け表示」→「Workloads」→「ConfigMaps」から作成、
+または、既存のConfigMapを編集できます。
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+本演習をワークショップ形式で実施している場合、この設定はすでに適用済みとなっています。
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">...
+data:
+  config.yaml: |
+    enableUserWorkload: true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>この設定を <code>cluster-monitoring-config</code> ConfigMapに適用すると、
+モニタリングに関するカスタム設定を適用するためのPodが、「openshift-user-workload-monitoring」
+プロジェクトで実行されます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/aro/monitoring/user-workload-monitoring-pods.png" alt="user workload monitoring pods">
+</div>
+</div>
+<div class="paragraph">
+<p>この「openshift-user-workload-monitoring」プロジェクトにあるPodは、
+ KubernetesのnodeSelctorを利用して、
+<a href="https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.14/html/nodes/nodes-scheduler-node-selectors">任意のラベルを付けたワーカーノードに移動</a>することができます。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Kubernetesの
+<a href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/">nodeSelector</a>は、
+指定したPodを特定のノードで実行するように割り当てる仕組みです。
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>「AWS EFS Operator」を選択したあとは、全てデフォルトの値を利用してインストールを完了します。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/efs-01/aws-efs-operator-install2.png" alt="aws efs operator install2">
-</div>
+<p>なお、利用者のプロジェクトに関するメトリクスデータは、
+デフォルトでは永続ボリュームに保存される設定にはなっていません。
+このため、Podの再起動や再作成に伴い、利用者のメトリクスデータが失われる可能性があります。</p>
 </div>
 <div class="paragraph">
-<p>これで、ROSAクラスターで、永続ボリュームとしてAmazon EFSを利用する設定が完了しました。</p>
+<p>利用者のメトリクスデータを、200GiBの永続ボリュームを利用して30日間保存するような設定をしたい場合、
+「openshift-user-workload-monitoring」プロジェクトの <code>user-workload-monitoring-config</code> という名前の
+設定情報(ConfigMap)を次のYAMLファイルで作成することで、
+自動的にデフォルトのストレージクラス(managed-csi)を用いたPVCが作成されて、
+メトリクスデータが保存されるようになります。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+本演習をワークショップ形式で実施している場合、この設定はすでに適用済みとなっています。
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: user-workload-monitoring-config
+  namespace: openshift-user-workload-monitoring
+data:
+  config.yaml: |
+    prometheus:
+      retention: 30d
+      volumeClaimTemplate:
+        spec:
+          resources:
+            requests:
+              storage: 200Gi</code></pre>
 </div>
 </div>
 </div>
 </div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="66-aro-logging.html">6. ロギング</a></span>
+  <span class="next"><a href="67-2-aro-project-metrics.html">8. プロジェクトのメトリクスデータの確認</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
