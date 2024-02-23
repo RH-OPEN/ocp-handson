@@ -329,7 +329,12 @@ Azure PortalのMarketplaceの検索画面から「Azure Red Hat OpenShift」を�
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-AROクラスターのワーカーノードは最小3台からとなります。
+AROクラスターのワーカーノードは
+<a href="https://learn.microsoft.com/ja-jp/azure/openshift/support-policies-v4#compute">最小台数3台</a>で、
+<a href="https://learn.microsoft.com/ja-jp/azure/openshift/openshift-faq#azure-red-hat-openshift-------------------------azure-red-hat-openshift----------------------------">最大台数60台または120台</a>となります。
+最大台数の120台構成は、Azureの
+<a href="https://learn.microsoft.com/ja-jp/azure/virtual-network/virtual-networks-udr-overview#user-defined">User Defined Route</a>を
+利用している時に限定されます。
 また、利用者のワークロードに応じて、ワーカーノードのサイズ変更もできます。
 利用できるワーカーノードのタイプについては、
 <a href="https://learn.microsoft.com/ja-jp/azure/openshift/support-policies-v4#worker-nodes">Microsoftの公式ドキュメント</a>
