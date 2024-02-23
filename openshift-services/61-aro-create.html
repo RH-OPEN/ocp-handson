@@ -366,14 +366,25 @@ AROクラスター用のサービスプリンシパルについては、「新�
 </table>
 </div>
 <div class="paragraph">
-<p>「ネットワーク」セクションでは、全てデフォルト値を利用します。
-AROクラスターが利用するサブネットやクラスターをプライベート化する場合は、
-適宜設定を変更します。</p>
+<p>「ネットワーク」セクションでは、全てデフォルト値を利用します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="_images/aro/create/section3.png" alt="section3">
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://learn.microsoft.com/ja-jp/azure/openshift/howto-create-private-cluster-4x#create-the-cluster">AROクラスターをプライベート化</a>する場合は、
+「APIサーバーの可視性」と「イングレスの可視性」を「非公開」に設定します。
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>最後に「レビューと作成」セクションに進みます。
@@ -439,6 +450,9 @@ AROクラスターにアクセスするためのコンソールURLや、管理�
 </li>
 <li>
 <p><a href="https://learn.microsoft.com/ja-jp/azure/openshift/quickstart-portal">クイックスタート: Azure portal を使用した Azure Red Hat OpenShift クラスターのデプロイ</a></p>
+</li>
+<li>
+<p><a href="https://www.redhat.com/en/blog/a-guide-to-controller-ingress-for-azure-red-hat-openshift">A Guide to Ingress Controllers for Azure Red Hat OpenShift</a> (プライベートなAROクラスターの作成とアプリケーションの外部公開方法を紹介したブログ)</p>
 </li>
 </ul>
 </div>
