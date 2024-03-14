@@ -404,10 +404,10 @@ trigger-jenkins-job         The following task ...   3 hours ago</code></pre>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>左のナビゲーションバーから <strong>パイプライン</strong> &#8594; <strong>タスク</strong> をクリックします</p>
+<p>左のナビゲーションバーから <strong>Pipelines</strong> &#8594; <strong>Tasks</strong> をクリックします</p>
 </li>
 <li>
-<p>右上の <strong>作成</strong> ボタンをクリックし、ドロップダウンから <strong>タスク</strong> を選択します</p>
+<p>右上の <strong>作成</strong> ボタンをクリックし、ドロップダウンから <strong>Task</strong> を選択します</p>
 </li>
 <li>
 <p>表示されたデフォルトの YAML 定義を次のように置き換えます</p>
@@ -446,10 +446,10 @@ spec:
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>左のナビゲーションバーでもう一度 <strong>タスク</strong> をクリックします</p>
+<p>左のナビゲーションバーでもう一度 <strong>Tasks</strong> をクリックします</p>
 </li>
 <li>
-<p><strong>作成</strong> ボタンをクリックしドロップダウンメニューから <strong>タスク実行</strong> を選択します</p>
+<p><strong>作成</strong> ボタンをクリックしドロップダウンメニューから <strong>TaskRun</strong> を選択します</p>
 </li>
 <li>
 <p>デフォルトの YAML を以下のように変更し、 <strong>作成</strong> をクリックします</p>
@@ -464,7 +464,7 @@ metadata:
     app.kubernetes.io/managed-by: tekton-pipelines
     tekton.dev/task: hello
 spec:
-  resources: {}
+  resources:
   serviceAccountName: pipeline
   taskRef:
     kind: Task
@@ -497,7 +497,7 @@ spec:
 <p><strong>プロジェクト:</strong> のドロップダウンボックスから、<strong>プロジェクトの作成</strong> を選び、<strong>名前</strong> に <code>pipelines-test</code> を入力し新しいプロジェクトを作成します。</p>
 </li>
 <li>
-<p>ナビゲーションバーから <strong>パイプライン</strong> &#8594; <strong>タスク</strong> &#8594; <strong>作成</strong> をクリックし、 <strong>タスク</strong> を選択します。</p>
+<p>ナビゲーションバーから <strong>Pipelines</strong> &#8594; <strong>Tasks</strong> &#8594; <strong>作成</strong> をクリックし、 <strong>Task</strong> を選択します。</p>
 </li>
 <li>
 <p>デフォルトの YAML を以下のように変更します。</p>
@@ -585,7 +585,7 @@ spec:
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><strong>パイプライン</strong> &#8594; <strong>タスク</strong> &#8594; <strong>作成</strong> をクリックし、 <strong>タスク</strong> を選択します.</p>
+<p><strong>Pipeline</strong> &#8594; <strong>Tasks</strong> &#8594; <strong>作成</strong> をクリックし、 <strong>Task</strong> を選択します.</p>
 </li>
 <li>
 <p>デフォルトの YAML を以下のように変更します。</p>
@@ -675,7 +675,7 @@ spec:
 <td class="content">
 <div class="paragraph">
 <p>本手順では、定義を適用してPVCリソースを作成するために、右上の "+" ボタン（YAMLのインポート）を使用しています。
-GUIから実施する場合は、 <strong>ストレージ</strong> &#8594; <strong>永続ボリューム要求</strong> &#8594; <strong>永続ボリューム要求の作成</strong> を選択することでPVCを作成することができます。</p>
+GUIから実施する場合は、 <strong>ストレージ</strong> &#8594; <strong>PersistentVolumeClaims</strong> &#8594; <strong>PersistentVolumeClaims の作成</strong> を選択することでPVCを作成することができます。</p>
 </div>
 </td>
 </tr>
@@ -716,7 +716,7 @@ spec:
 </dd>
 <dt class="hdlist1">Params</dt>
 <dd>
-<p>パイプラインが <strong>PipelineRun</strong> から期待され、<strong>Task</strong>　リソースで利用できる入力が定義されています</p>
+<p>パイプラインが <strong>PipelineRun</strong> から期待され、<strong>Task</strong> リソースで利用できる入力が定義されています</p>
 </dd>
 <dt class="hdlist1">Tasks</dt>
 <dd>
@@ -739,7 +739,7 @@ spec:
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>ナビゲーションバーより　<strong>パイプライン</strong>　を選択し、表示されたメニューから <strong>パイプライン</strong> &#8594; <strong>作成</strong> &#8594; <strong>パイプライン</strong> を選択します。</p>
+<p>ナビゲーションバーより <strong>Pipelines</strong> を選択し、表示されたメニューから <strong>Pipelines</strong> &#8594; <strong>作成</strong> &#8594; <strong>Pipeline</strong> を選択します。</p>
 </li>
 <li>
 <p><strong>&#128280; YAML ビュー</strong> のラジオボタンをクリックし、定義を貼り付けるためのテキストエリアを表示します。</p>
@@ -869,7 +869,7 @@ spec:
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>ナビゲーションバーより <strong>パイプライン</strong>　を選択し、表示されたメニューから <strong>パイプライン</strong> &#8594; <strong>作成</strong> &#8594; <strong>パイプライン実行</strong> を選択します。</p>
+<p>ナビゲーションバーより <strong>Pipelines</strong> を選択し、表示されたメニューから <strong>Pipelines</strong> &#8594; <strong>作成</strong> &#8594; <strong>PipelineRun</strong> を選択します。</p>
 </li>
 <li>
 <p>デフォルトの YAML を以下のように変更します。</p>
