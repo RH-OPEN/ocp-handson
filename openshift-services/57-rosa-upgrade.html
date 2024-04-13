@@ -411,22 +411,6 @@ Kubernetesのワークロード(デプロイ設定に利用するDeploymentな�
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-ワーカーノード更新に伴って、新規ワーカーノードの追加とPodの再作成が実行されますが、
-ワーカーノードが利用可能な状態になった時点で既存ワーカーノードが削除されるため、Podの再作成や起動に時間がかかる場合、
-一時的にでも全てのPodが利用不可になることがあります。このとき、
-<a href="https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.14/html/postinstallation_configuration/post-install-pod-disruption-budgets">Pod Disruption Budget(Pod停止数の許容度)</a>を設定することで、
-Podの実行数が指定した数や割合になるまで既存ワーカーノード上のPodの停止を待つため、全てのPodが利用不可となる状況を回避できるようになります。
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
 ROSA HCP 4.15+ではMachinePool内の特定のノードについて、
 <a href="https://docs.openshift.com/container-platform/4.15/nodes/nodes/nodes-nodes-working.html#nodes-nodes-working-evacuating_nodes-nodes-working">Podのスケジューリング可否の設定(cordon/uncordon)とPodの退避(drain)</a>
 を実行できるようになりました。これによって、ワーカーノードの更新や削除に伴って必要となるアプリケーションの事前退避が可能になります。
