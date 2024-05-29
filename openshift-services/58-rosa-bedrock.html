@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>ROSA HCPクラスターの更新 :: OpenShift Handson</title>
-    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/57-rosa-upgrade.html">
-    <link rel="prev" href="56-rosa-nodes.html">
-    <link rel="next" href="58-rosa-bedrock.html">
+    <title>[オプション] (作成中) Amazon Bedrockアプリケーションの実行 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/58-rosa-bedrock.html">
+    <link rel="prev" href="57-rosa-upgrade.html">
+    <link rel="next" href="60-aro-info.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -154,10 +154,10 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="56-rosa-nodes.html">11. ワーカーノードの追加と削除</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="57-rosa-upgrade.html">12. ROSA HCPクラスターの更新</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="58-rosa-bedrock.html">[オプション] Amazon Bedrockアプリケーションの実行</a>
   </li>
 </ul>
@@ -220,26 +220,233 @@
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
     <li>51. Red Hat OpenShift Service on AWS (ROSA) Lab</li>
-    <li><a href="57-rosa-upgrade.html">12. ROSA HCPクラスターの更新</a></li>
+    <li><a href="58-rosa-bedrock.html">[オプション] Amazon Bedrockアプリケーションの実行</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/57-rosa-upgrade.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/58-rosa-bedrock.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">ROSA HCPクラスターの更新</h1>
+<h1 class="page">[オプション] (作成中) Amazon Bedrockアプリケーションの実行</h1>
 <div class="sect1">
 <h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>このモジュールでは、ROSA HCPクラスターの更新を実行します。</p>
+<p>このモジュールでは、ROSA HCPクラスター上でAmazon Bedrockを利用するためのサンプルアプリケーションを実行します。</p>
 </div>
 <hr>
 <div class="paragraph">
+<p>このモジュールは、次の2つのAWSブログを元ネタにしています。
+これらのブログを参照しつつ、ROSA HCPクラスターで動かすための差分となる情報を紹介していきます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://aws.amazon.com/jp/blogs/news/eks-pod-identity-iam-roles-for-applications/">Amazon EKS Pod Identity を利用した Amazon Bedrock アプリケーションの実行</a></p>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/jp/blogs/news/fine-grained-iam-roles-for-red-hat-openshift-service-on-aws-rosa-workloads-with-sts/">STS を用いた Red Hat OpenShift Service on AWS (ROSA) ワークロードのためのきめ細かい IAM ロール</a></p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_amazon_bedrockを利用するためのサンプルアプリケーションの作成"><a class="anchor" href="#_amazon_bedrockを利用するためのサンプルアプリケーションの作成"></a>Amazon Bedrockを利用するためのサンプルアプリケーションの作成</h3>
+<div class="paragraph">
+<p>上記の1つめのブログで紹介されているアプリケーションを作成します。
+このブログでは、Amazon BedrockのClaude 1モデルを利用するためのサンプルコード(app.py)を
+紹介していますが、最新のClaude 3モデルを利用するためのコードに変更してみます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Amazon BedrockのClaude 3モデルを利用するアプリケーションのコードの例 (app.py)</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">import streamlit as st
+import boto3
+import json
+
+st.title("Bedrock Chat Application using Claude 3 model on ROSA HCP")
+
+# Bedrock Runtimeサービス用のクライアント
+bedrock = boto3.client(
+    service_name='bedrock-runtime',
+    region_name='us-west-2')
+
+def format_chat_history(messages):
+    formatted_history = ""
+    for message in messages:
+        # ユーザーかアシスタントかに応じてロールを設定
+        role = "Human:" if message["role"] == "user" else "Assistant:"
+        # メッセージを整形して追加
+        formatted_history += f"{role} {message['content']}\n"
+    return formatted_history
+
+# チャット履歴の初期化
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+# アプリ再実行時にチャットメッセージを表示
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+# ユーザー入力の受け取り
+if prompt := st.chat_input("このテキストボックスに文章を入力して下さい"):
+    # ユーザーメッセージをチャットメッセージコンテナに表示
+    with st.chat_message("user"):
+        st.markdown(prompt)
+    # ユーザーメッセージをチャット履歴に追加
+    st.session_state.messages.append({"role": "user", "content": prompt})
+
+    # 対話履歴を整形してモデルの入力用に準備
+    chat_history = format_chat_history(st.session_state.messages)
+
+    # アシスタントの応答をチャットメッセージコンテナに表示
+    with st.chat_message("assistant"):
+        message_placeholder = st.empty()
+        full_response = ""
+
+        # 整形された対話履歴と新しいユーザー入力をモデルに送信
+        body = json.dumps({
+            'max_tokens': 4000,
+            "messages": [{"role": "user", "content": prompt}],
+            "anthropic_version": "bedrock-2023-05-31"
+        })
+        accept = 'application/json'
+        contentType = 'application/json'
+        model_id = 'anthropic.claude-3-haiku-20240307-v1:0'
+        #model_id = 'anthropic.claude-3-opus-20240229-v1:0'
+        #model_id = 'anthropic.claude-3-sonnet-20240229-v1:0'
+
+        response = bedrock.invoke_model_with_response_stream(
+            body=body, modelId=model_id, accept=accept, contentType=contentType)
+        stream = response.get('body')
+
+        for event in stream:
+            chunk = event.get('chunk')
+            if chunk:
+                # 取得したチャンクを追加し、Streamlitに表示
+                chunk_json = json.loads(chunk.get("bytes").decode())
+                if chunk_json["type"]=="content_block_delta":
+                    full_response += str(chunk_json["delta"]["text"])
+            message_placeholder.markdown(full_response + "▌")
+        message_placeholder.markdown(full_response)
+        # アシスタントの応答をチャット履歴に追加
+        st.session_state.messages.append(
+            {"role": "assistant", "content": full_response})</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>元のブログで紹介していたコードとの差分は下記です。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">--- app.py.org	2024-05-28 22:18:03.753138711 +0000
++++ app.py	2024-05-27 09:12:09.273515044 +0000
+@@ -2,12 +2,12 @@
+ import boto3
+ import json
+
+-st.title("Bedrock Chat")
++st.title("Bedrock Chat Application using Claude 3 model on ROSA HCP")
+
+ # Bedrock Runtimeサービス用のクライアント
+ bedrock = boto3.client(
+     service_name='bedrock-runtime',
+-    region_name='ap-northeast-1')
++    region_name='us-west-2')
+
+ def format_chat_history(messages):
+     formatted_history = ""
+@@ -28,7 +28,7 @@
+         st.markdown(message["content"])
+
+ # ユーザー入力の受け取り
+-if prompt := st.chat_input("What is up?"):
++if prompt := st.chat_input("このテキストボックスに文章を入力して下さい"):
+     # ユーザーメッセージをチャットメッセージコンテナに表示
+     with st.chat_message("user"):
+         st.markdown(prompt)
+@@ -45,14 +45,15 @@
+
+         # 整形された対話履歴と新しいユーザー入力をモデルに送信
+         body = json.dumps({
+-            'prompt': chat_history + 'Human: ' + prompt + '\n\nAssistant:',
+-            'max_tokens_to_sample': 1000,
+-            "stop_sequences": ["\n\nHuman:"],
++            'max_tokens': 4000,
++            "messages": [{"role": "user", "content": prompt}],
+             "anthropic_version": "bedrock-2023-05-31"
+         })
+         accept = 'application/json'
+         contentType = 'application/json'
+-        model_id = 'anthropic.claude-instant-v1'
++        model_id = 'anthropic.claude-3-haiku-20240307-v1:0'
++        #model_id = 'anthropic.claude-3-opus-20240229-v1:0'
++        #model_id = 'anthropic.claude-3-sonnet-20240229-v1:0'
+
+         response = bedrock.invoke_model_with_response_stream(
+             body=body, modelId=model_id, accept=accept, contentType=contentType)
+@@ -62,8 +63,9 @@
+             chunk = event.get('chunk')
+             if chunk:
+                 # 取得したチャンクを追加し、Streamlitに表示
+-                full_response += json.loads(chunk.get('bytes').decode()
+-                                            )["completion"]
++                chunk_json = json.loads(chunk.get("bytes").decode())
++                if chunk_json["type"]=="content_block_delta":
++                    full_response += str(chunk_json["delta"]["text"])
+             message_placeholder.markdown(full_response + "▌")
+         message_placeholder.markdown(full_response)
+         # アシスタントの応答をチャット履歴に追加</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>上記の差分を解説します。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>サンプルアプリケーションのタイトルを修正</p>
+</li>
+<li>
+<p>Claude 3モデルを利用するために、リージョンをus-west-2に修正</p>
+</li>
+<li>
+<p>ユーザー入力を受け取るテキストボックスに表示される文字を修正</p>
+</li>
+<li>
+<p>Claude 3の
+<a href="https://docs.aws.amazon.com/ja_jp/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html">Message API</a>
+を利用するための修正を適用</p>
+</li>
+<li>
+<p>Claude 3の出力形式に従って、JSON形式にデコードした情報からメッセージを抽出するような修正を適用</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Dockerfileとrequirements.txtは変更ありません。
+これらのソースコードを、下記のGitHubリポジトリにアップロードしています。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/h-kojima/sample-llm-aws/">Claude 3モデルを実行するためのサンプルアプリケーションのコード</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_サンプルコードからアプリケーションのデプロイ"><a class="anchor" href="#_サンプルコードからアプリケーションのデプロイ"></a>サンプルコードからアプリケーションのデプロイ</h3>
+<div class="paragraph">
 <p>ROSA HCPクラスターは、コントロールプレーンとワーカーノードから構成されており、
 この2つは、個別に更新されます。
-最初にコントロールプレーンを更新して、次にワーカーノードをMachinepool単位で更新していきます。
-更新方法は、SingleAZ/MultiAZ構成の共に同じものとなります。</p>
+最初にコントロールプレーンを更新して、次にワーカーノード</p>
 </div>
 <div class="paragraph">
 <p>ここでは、OCMとROSA CLIを利用した更新方法をご紹介します。</p>
@@ -257,6 +464,7 @@
 </td>
 </tr>
 </table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_ocmを利用したコントロールプレーンの更新"><a class="anchor" href="#_ocmを利用したコントロールプレーンの更新"></a>OCMを利用したコントロールプレーンの更新</h3>
@@ -577,8 +785,8 @@ I: Successfully deleted machine pool 'mp20' from hosted cluster 'hcp-01'</code><
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="56-rosa-nodes.html">11. ワーカーノードの追加と削除</a></span>
-  <span class="next"><a href="58-rosa-bedrock.html">[オプション] Amazon Bedrockアプリケーションの実行</a></span>
+  <span class="prev"><a href="57-rosa-upgrade.html">12. ROSA HCPクラスターの更新</a></span>
+  <span class="next"><a href="60-aro-info.html">0. はじめに</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
