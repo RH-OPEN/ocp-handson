@@ -245,22 +245,34 @@
 <p><a href="https://aws.amazon.com/jp/blogs/news/eks-pod-identity-iam-roles-for-applications/">Amazon EKS Pod Identity を利用した Amazon Bedrock アプリケーションの実行</a></p>
 </li>
 <li>
-<p><a href="https://aws.amazon.com/jp/blogs/news/fine-grained-iam-roles-for-red-hat-openshift-service-on-aws-rosa-workloads-with-sts/">STS を用いた Red Hat OpenShift Service on AWS (ROSA) ワークロードのためのきめ細かい IAM ロール</a></p>
+<p><a href="https://aws.amazon.com/jp/blogs/news/fine-grained-iam-roles-for-red-hat-openshift-service-on-aws-rosa-workloads-with-sts/">STS を用いた ROSA ワークロードのためのきめ細かい IAM ロール</a></p>
 </li>
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_amazon_bedrockを利用するためのサンプルアプリケーション"><a class="anchor" href="#_amazon_bedrockを利用するためのサンプルアプリケーション"></a>Amazon Bedrockを利用するためのサンプルアプリケーション</h3>
+<h3 id="_デモamazon_bedrockを利用するためのサンプルアプリケーション"><a class="anchor" href="#_デモamazon_bedrockを利用するためのサンプルアプリケーション"></a>[デモ]Amazon Bedrockを利用するためのサンプルアプリケーション</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+このコンテンツを実行する必要はありません。
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>上記の1つめのブログで紹介されているアプリケーションを変更します。
 このブログでは、Amazon BedrockのClaude 1モデルを利用するためのサンプルコード(app.py)を
-紹介していますが、最新のhttps://aws.amazon.com/jp/bedrock/claude/
-[Claude 3モデル]を利用するためのコードに変更してみます。</p>
+紹介していますが、最新のhttps://aws.amazon.com/jp/bedrock/claude/[Claude 3モデル]
+を利用するためのコードに変更してみます。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Amazon BedrockのClaude 3モデルを利用するアプリケーションのコードの例 (app.py)</p>
+<p>Amazon BedrockのClaude 3 Haikuモデルを利用するアプリケーションのコードの例 (app.py)</p>
 </li>
 </ul>
 </div>
@@ -429,7 +441,7 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
 を利用するように変更</p>
 </li>
 <li>
-<p>Claude 3の出力形式に従って、JSON形式にデコードした情報からメッセージを抽出するように変更</p>
+<p>Claude 3の出力をJSON形式にデコードした情報からメッセージを抽出するように変更</p>
 </li>
 </ul>
 </div>
@@ -524,7 +536,19 @@ OpenShiftコンソールにログインして、「開発者」→「+追加」�
 </div>
 </div>
 <div class="sect2">
-<h3 id="_amazon_bedrockを利用するためのiamロールの追加"><a class="anchor" href="#_amazon_bedrockを利用するためのiamロールの追加"></a>Amazon Bedrockを利用するためのIAMロールの追加</h3>
+<h3 id="_デモamazon_bedrockを利用するためのiamロールの追加"><a class="anchor" href="#_デモamazon_bedrockを利用するためのiamロールの追加"></a>[デモ]Amazon Bedrockを利用するためのIAMロールの追加</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+本演習をワークショップ形式で実施している場合、この項目を実施する必要はありません。
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>デプロイしたアプリケーションがAmazon Bedrockを利用するための認証情報を追加します。
 <a href="https://aws.amazon.com/jp/blogs/news/fine-grained-iam-roles-for-red-hat-openshift-service-on-aws-rosa-workloads-with-sts/">STS を用いた Red Hat OpenShift Service on AWS (ROSA) ワークロードのためのきめ細かい IAM ロール</a>
@@ -534,7 +558,7 @@ OpenShiftコンソールにログインして、「開発者」→「+追加」�
 <ul>
 <li>
 <p>ステップ1で設定してある変数は、ご自身の利用している環境に応じて、適宜変更します。
-<code>APP_NAMESPACE</code> 変数は、前述の手順でデプロイしたアプリケーションのプロジェクト名(例: test-llm-project20 など)を指定します。
+<code>APP_NAMESPACE</code> 変数は、前述の手順でデプロイしたアプリケーションのプロジェクト名(例: <code>test-llm-project20</code> など)を指定します。
 また、「AWS_REGION」変数の設定は必要ありません。</p>
 </li>
 <li>
@@ -571,7 +595,7 @@ AWSアカウントのIDに置き換えて、「作成」をクリックします
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-このモジュールをワークショップ形式で実施している場合、
+本演習をワークショップ形式で実施している場合、
 インストラクターがAWSアカウントIDを案内します。
 </td>
 </tr>
@@ -597,7 +621,7 @@ metadata:
 </div>
 <div class="paragraph">
 <p>「Deployments」メニューから「sample-llm-aws」デプロイメントを選択して、
-「YAML」タブから下記を、「spec:」と「containers:」の間に挿入して「保存」をクリックします。</p>
+「YAML」タブから下記を「spec:」と「containers:」の間に挿入して「保存」をクリックします。</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
