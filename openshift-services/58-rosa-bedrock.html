@@ -607,9 +607,13 @@ AWSアカウントIDに置き換えて、「作成」をクリックします。
 kind: ServiceAccount
 metadata:
   name: bedrock-sa
-  namespace: test-llm-project20
   annotations:
     eks.amazonaws.com/role-arn: 'arn:aws:iam::XXXXXXXXXXXXXX:role/iam-app-bedrock-role'</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/bedrock/serviceaccount.png" alt="serviceaccount">
 </div>
 </div>
 </div>
