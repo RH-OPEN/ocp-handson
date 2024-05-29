@@ -232,7 +232,7 @@
 <h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>このモジュールでは、ROSA HCPクラスター上でAmazon Bedrockを利用するためのサンプルアプリケーションを実行します。</p>
+<p>このモジュールでは、Amazon Bedrockを利用するためのサンプルアプリケーションを実行します。</p>
 </div>
 <hr>
 <div class="paragraph">
@@ -250,11 +250,12 @@
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_amazon_bedrockを利用するためのサンプルアプリケーションの作成"><a class="anchor" href="#_amazon_bedrockを利用するためのサンプルアプリケーションの作成"></a>Amazon Bedrockを利用するためのサンプルアプリケーションの作成</h3>
+<h3 id="_amazon_bedrockを利用するためのサンプルアプリケーション"><a class="anchor" href="#_amazon_bedrockを利用するためのサンプルアプリケーション"></a>Amazon Bedrockを利用するためのサンプルアプリケーション</h3>
 <div class="paragraph">
-<p>上記の1つめのブログで紹介されているアプリケーションを作成します。
+<p>上記の1つめのブログで紹介されているアプリケーションを変更します。
 このブログでは、Amazon BedrockのClaude 1モデルを利用するためのサンプルコード(app.py)を
-紹介していますが、最新のClaude 3モデルを利用するためのコードに変更してみます。</p>
+紹介していますが、最新のhttps://aws.amazon.com/jp/bedrock/claude/
+[Claude 3モデル]を利用するためのコードに変更してみます。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -411,26 +412,29 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
 <div class="ulist">
 <ul>
 <li>
-<p>サンプルアプリケーションのタイトルを修正</p>
+<p>サンプルアプリケーションのタイトルを変更</p>
 </li>
 <li>
-<p>Claude 3モデルを利用するために、リージョンをus-west-2に修正</p>
+<p>Claude 3モデルを利用するために、リージョンを米国西部(オレゴン, us-west-2)に変更</p>
 </li>
 <li>
-<p>ユーザー入力を受け取るテキストボックスに表示される文字を修正</p>
+<p>ユーザー入力を受け取るテキストボックスに表示される文字を変更</p>
+</li>
+<li>
+<p>モデルIDをClaude 3 Haikuに変更 (他のClaude 3のモデルIDも参考として記載)</p>
 </li>
 <li>
 <p>Claude 3の
 <a href="https://docs.aws.amazon.com/ja_jp/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html">Message API</a>
-を利用するための修正を適用</p>
+を利用するように変更</p>
 </li>
 <li>
-<p>Claude 3の出力形式に従って、JSON形式にデコードした情報からメッセージを抽出するような修正を適用</p>
+<p>Claude 3の出力形式に従って、JSON形式にデコードした情報からメッセージを抽出するように変更</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Dockerfileとrequirements.txtは変更ありません。
+<p>Dockerfileとrequirements.txtは、元のブログに記載されていたものと同じです。
 これらのソースコードを、下記のGitHubリポジトリにアップロードしています。</p>
 </div>
 <div class="ulist">
@@ -442,14 +446,11 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
 </div>
 </div>
 <div class="sect2">
-<h3 id="_サンプルコードからアプリケーションのデプロイ"><a class="anchor" href="#_サンプルコードからアプリケーションのデプロイ"></a>サンプルコードからアプリケーションのデプロイ</h3>
+<h3 id="_サンプルコードからアプリケーションをデプロイ"><a class="anchor" href="#_サンプルコードからアプリケーションをデプロイ"></a>サンプルコードからアプリケーションをデプロイ</h3>
 <div class="paragraph">
-<p>ROSA HCPクラスターは、コントロールプレーンとワーカーノードから構成されており、
-この2つは、個別に更新されます。
-最初にコントロールプレーンを更新して、次にワーカーノード</p>
-</div>
-<div class="paragraph">
-<p>ここでは、OCMとROSA CLIを利用した更新方法をご紹介します。</p>
+<p>上記の変更を適用したサンプルコードを、ROSA HCPクラスターにデプロイします。
+OpenShiftコンソールにログインして、「開発者」→「+追加」メニューから、
+「Gitからのインポート」をクリックします。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -458,144 +459,110 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-本演習をワークショップ形式で実施している場合、
-「ROSA CLIを利用したワーカーノードの更新」以外の項目を実施できません。
-これらの項目については、インストラクターによる紹介のみとなります。
+このモジュールをワークショップ形式で実施している場合、
+サンプルアプリケーションをデプロイするプロジェクト名には、
+「test」から始まる名前を付けてください。
 </td>
 </tr>
 </table>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/dev-spaces/dev-console-menu.png" alt="dev console menu">
 </div>
-<div class="sect2">
-<h3 id="_ocmを利用したコントロールプレーンの更新"><a class="anchor" href="#_ocmを利用したコントロールプレーンの更新"></a>OCMを利用したコントロールプレーンの更新</h3>
-<div class="paragraph">
-<p><a href="https://access.redhat.com/documentation/ja-jp/red_hat_openshift_service_on_aws/4/html-single/red_hat_openshift_cluster_manager/index">OpenShift Cluster Manager (OCM)</a>を利用して、
-ROSA HCPクラスターを手動で更新できます。ROSAの場合、通常のOpenShiftとは異なり、
-OpenShiftのWebコンソールとCLI(ocコマンド)によるアップグレードができないようになっています。
-そのため、OCMや後述するROSA CLIによるアップグレードを実施する必要があります。</p>
 </div>
 <div class="paragraph">
-<p><a href="https://console.redhat.com/openshift/">OCMにログイン</a>して、
-コントロールプレーンを更新するROSA HCPクラスターを選択し、
-Settingsタブをクリックして、「Update」ボタンをクリックします。</p>
+<p>「GitリポジトリーのURL」に、下記のURLをコピーして貼り付けます。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">https://github.com/h-kojima/sample-llm-aws/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>すると、次のような画面が表示されます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/upgrade/settings.png" alt="settings">
+<img src="_images/rosa/bedrock/git-import.png" alt="git import">
 </div>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>ここで「Update strategy」の「Recurring updates」を選択すると、
-指定した日時の2日前以上にリリースされたz-streamの更新(4.14.5など)が、
-ROSA HCPクラスターのコントロールプレーンに、指定したタイミングで、毎週自動適用されます。</p>
 </div>
 <div class="paragraph">
-<p>新しいマイナーバージョン(4.15や4.16など)がリリースされた場合は、利用者にメールなどで通知され、
-次のマイナーバージョンに更新されることを手動で許可する必要があります。</p>
-</div>
-<div class="paragraph">
-<p>OCMでコントロールプレーンの自動更新を有効にしている場合でも、
-ワーカーノードは手動で更新する必要があります。</p>
+<p>この画面を下にスクロールしていき、ターゲットポートに「8501」を入力します。
+このポートは、前述したコードのDockerfileでアプリケーション起動時に指定されています。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/upgrade/recurring-updates.png" alt="recurring updates">
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>更新するバージョンを選択して、「Next」をクリックします。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/upgrade/version-select.png" alt="version select">
+<img src="_images/rosa/bedrock/port.png" alt="port">
 </div>
 </div>
 <div class="paragraph">
-<p>コントロールプレーンの更新をスケジュールします。
-デフォルトでは「Update now」が選択されており、ROSA HCPクラスターでは、
-現在の時刻から約5分後に更新されるようスケジューリングされます。
-指定した時間にアップグレードするには、「Schedule a different time」を選択し、アップグレードの日時を設定します。
-どちらかを選択して、「Next」をクリックします。</p>
+<p>その他のパラメータは全てデフォルトのままで「作成」をクリックします。
+これによって、Dockerfileの内容に従ってコンテナイメージの自動ビルドと、
+ビルドされたコンテナイメージをベースにしたコンテナの自動デプロイが実行されます。</p>
+</div>
+<div class="paragraph">
+<p>数分待つと、「開発者」→「トポロジー」メニューから、
+サンプルアプリケーションのPodが「Running」状態になっていて、
+正常に実行されたことを確認できるようになります。
+赤四角で囲んである所をクリックして、サンプルアプリケーションのURLにアクセスします。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/upgrade/schedule.png" alt="schedule">
+<img src="_images/rosa/bedrock/topology.png" alt="topology">
 </div>
 </div>
 <div class="paragraph">
-<p>更新するバージョンとスケジュールを確認したら、
-「Confirm Update」をクリックして、更新をスケジュールします。</p>
+<p>すると、次のようなサンプルアプリケーションの画面が表示されます。
+この段階では、Bedrockを利用するための認証情報が無いため、
+画面のように <code>NoCredentialsError: Unable to locate credentials</code> などが表示されるはずです。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/upgrade/confirm.png" alt="confirm">
+<img src="_images/rosa/bedrock/error.png" alt="error">
 </div>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph">
-<p>コントロールプレーンのアップグレードをキャンセルしたい場合、
-「Cancel this update」からキャンセルできます。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/upgrade/cancel1.png" alt="cancel1">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/upgrade/cancel2.png" alt="cancel2">
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>これによって、予定された時刻になると、ROSA HCPクラスターのコントロールプレーン更新が開始されます。
-コントロールプレーン更新の所要時間は、およそ15分ほどです。</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ocmを利用したワーカーノードの更新"><a class="anchor" href="#_ocmを利用したワーカーノードの更新"></a>OCMを利用したワーカーノードの更新</h3>
+<h3 id="_amazon_bedrockを利用するためのiamロールの追加"><a class="anchor" href="#_amazon_bedrockを利用するためのiamロールの追加"></a>Amazon Bedrockを利用するためのIAMロールの追加</h3>
 <div class="paragraph">
-<p>ROSA HCPクラスターでは、コントロールプレーンより古いバージョンのワーカーノードのMachinepoolがあると、
-Machinepool単位でワーカーノードを更新できます。</p>
+<p>デプロイしたアプリケーションがAmazon Bedrockを利用するための認証情報を追加します。
+<a href="https://aws.amazon.com/jp/blogs/news/fine-grained-iam-roles-for-red-hat-openshift-service-on-aws-rosa-workloads-with-sts/">STS を用いた Red Hat OpenShift Service on AWS (ROSA) ワークロードのためのきめ細かい IAM ロール</a>
+に記載してある、ステップ1, 2, 4, 5を順番に実行します。これらのステップ実行時の注意点を記載します。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ステップ1で設定してある変数は、ご自身の利用している環境に応じて、適宜変更します。
+<code>APP_NAMESPACE</code> 変数は、前述の手順でデプロイしたアプリケーションのプロジェクト名(例: test-llm-project20 など)を指定します。
+また、「AWS_REGION」変数の設定は必要ありません。</p>
+</li>
+<li>
+<p>ステップ2で実行する <code>oc</code> CLIは、ROSA HCPクラスターの管理者アカウント( <code>cluster-admin</code> など)で実行します。</p>
+</li>
+<li>
+<p>ステップ3を実行する必要はありません。</p>
+</li>
+<li>
+<p>ステップ5にあるIAMポリシーについて、元のブログではAmazon S3をアクセスするための
+IAMポリシーをアタッチしていますが、ここではAmazon BedrockにアクセスするためのIAMポリシーとして、
+<code>AmazonBedrockFullAccess</code> を指定するようにします。</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_サービスアカウントの作成"><a class="anchor" href="#_サービスアカウントの作成"></a>サービスアカウントの作成</h3>
+<div class="paragraph">
+<p>アプリケーションをデプロイしているプロジェクトにサービスアカウントを作成します。
+OpenShiftのコンソールに戻って、「管理者向け表示」→「ユーザー管理」→「ServiceAccounts」から、
+「ServiceAccount の作成」をクリックします。</p>
 </div>
 <div class="paragraph">
-<p>OCMでは、更新可能なMachinepoolがある場合、
-指定したMachinepol、または、全てのMachinepoolを更新できます。
-OCMでMachinepoolを更新する場合、約5分後に更新がスケジュールされます。
-更新時刻を指定したい場合、ROSA CLIを利用する必要があります。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/upgrade/mp-upgrade1.png" alt="mp upgrade1">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/upgrade/mp-upgrade2.png" alt="mp upgrade2">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/upgrade/mp-upgrade3.png" alt="mp upgrade3">
-</div>
-</div>
-<div class="paragraph">
-<p>ワーカーノードの更新は、インプレースアップグレードではなく、
-新規ワーカーノードの追加と既存ワーカーノードの削除を実行します。
-Machinepoolに複数台のワーカーノードが紐づいている場合、台数分のワーカーノードを一括作成および削除するのではなく、
-ワーカーノードの新規追加と削除が1台ずつ自動実行されていきます。</p>
-</div>
-<div class="paragraph">
-<p>更新の際に、削除対象のワーカーノード上でPodが実行している場合、Podの停止(SIGTERM)と再作成が実行されますので、
-冗長性を考慮してPodのレプリカ数を複数個設定しておくことを推奨します。Podの停止不可の場合は、
-Podの強制停止(SIGKILL)が実行されます。これについては、
-<a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination">公式ドキュメント</a>をご参照ください。</p>
+<p>下記をコピペして貼り付けます。「XXXXX」となっているところは、
+AWSアカウントのIDに置き換えて、「作成」をクリックします。
+これで、Amazon Bedrockの認証情報として利用するための、
+「bedrock-sa」という名前のサービスアカウントが作成されます。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -604,181 +571,59 @@ Podの強制停止(SIGKILL)が実行されます。これについては、
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-このROSA Labでは詳細を扱いませんが、
-<a href="https://kubernetes.io/docs/concepts/workloads/pods/#pods-and-controllers">Podのレプリカ数</a>は、
-Kubernetesのワークロード(デプロイ設定に利用するDeploymentなど)の中で定義できます。
+このモジュールをワークショップ形式で実施している場合、
+インストラクターがAWSアカウントIDを案内します。
 </td>
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>なお、1台のワーカーノードの更新(新規ノード作成と既存ノードの削除)にかかる所要時間は、
-およそ5~10分ほどです。</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-ROSA HCP 4.15+ではMachinePool内の特定のノードについて、
-<a href="https://docs.openshift.com/container-platform/4.15/nodes/nodes/nodes-nodes-working.html#nodes-nodes-working-evacuating_nodes-nodes-working">Podのスケジューリング可否の設定(cordon/uncordon)とPodの退避(drain)</a>
-を実行できるようになりました。これによって、ワーカーノードの更新や削除に伴って必要となるアプリケーションの事前退避が可能になります。
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_rosa_cliを利用したコントロールプレーンの更新"><a class="anchor" href="#_rosa_cliを利用したコントロールプレーンの更新"></a>ROSA CLIを利用したコントロールプレーンの更新</h3>
-<div class="paragraph">
-<p>OCMのコンソールの他に、ROSA CLIを使用してROSA HCPクラスターの
-コントロールプレーンの更新をスケジュールできます。
-次のコマンドを実行して、利用可能な更新情報を確認します。</p>
-</div>
-<div class="listingblock">
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa list upgrade cluster -c hcp-01
-VERSION  NOTES
-4.14.5   recommended</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>ここで確認した更新情報を適用するためのスケジュールを設定します。
-下記は、2023年12月13日の23時(UTC)に、更新をスケジューリングしている例です。
-<code>rosa upgrade cluster</code> コマンドでは、ROSAクラスターやそのOperatorによって利用されるIAMロールも、
-適宜更新されます。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa upgrade cluster -c hcp-01 --control-plane \
-  --schedule-date 2023-12-13 --schedule-time 23:00 \
-  --version 4.14.5 --mode auto --yes
-
-I: Ensuring account and operator role policies for cluster '280scqkn8ocjoochasq423tg4donvpaq' are compatible with upgrade.
-I: Account roles with the prefix 'ManagedOpenShift' have attached managed policies.
-I: Cluster 'hcp-01' operator roles have attached managed policies. An upgrade isn't needed
-I: Account and operator roles for cluster 'hcp-01' are compatible with upgrade
-I: Upgrade successfully scheduled for cluster 'hcp-01'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>指定した更新のスケジュールを確認できます。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa list upgrade cluster -c hcp-01
-VERSION  NOTES
-4.14.5   recommended - scheduled for 2023-12-13 23:00 UTC</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>rosa delete upgrade</code> コマンドで、更新のキャンセルをすることができます。
-キャンセルすると、更新のスケジュールが削除されていることを確認できます。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa delete upgrade cluster -c hcp-01
-? Are you sure you want to cancel scheduled upgrade on cluster 'hcp-01'? Yes
-I: Successfully canceled scheduled upgrade on cluster 'hcp-01'
-
-$ rosa list upgrade cluster -c hcp-01
-VERSION  NOTES
-4.14.5   recommended</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: bedrock-sa
+  namespace: test-llm-project20
+  annotations:
+    eks.amazonaws.com/role-arn: 'arn:aws:iam::XXXXXXXXXXXXXX:role/iam-app-bedrock-role'</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_rosa_cliを利用したワーカーノードの更新"><a class="anchor" href="#_rosa_cliを利用したワーカーノードの更新"></a>ROSA CLIを利用したワーカーノードの更新</h3>
+<h3 id="_deploymentにサービスアカウントの追加"><a class="anchor" href="#_deploymentにサービスアカウントの追加"></a>Deploymentにサービスアカウントの追加</h3>
 <div class="paragraph">
-<p>Machinepoolを新規に作成して、更新コマンド確認用のワーカーノードを1台追加します。
-この時、選択する「OpenShift version」は、最新より古いバージョンを選択してください。
-また、「Instance type」は、デフォルトの <code>m5.xlarge</code> と区別しやすいように <code>c5.xlarge</code> を指定します。</p>
+<p>OpenShiftのDeploymentリソースに、作成したサービスアカウントを追加します。
+これで、既存のサンプルアプリケーションが、Amazon Bedrockの認証情報を利用できるようになります。</p>
 </div>
-<div class="listingblock">
+<div class="paragraph">
+<p>「Deployments」メニューから「sample-llm-aws」デプロイメントを選択して、
+「YAML」タブから下記を、「spec:」と「containers:」の間に挿入して「保存」をクリックします。</p>
+</div>
+<div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa create machinepool -c hcp-01
-
-I: Enabling interactive mode
-? Machine pool name: mp20
-? OpenShift version:  [Use arrows to move, type to filter, ? for more help]
-  4.14.2
-  4.14.1
-&gt; 4.14.0
-? OpenShift version: 4.14.0
-? Select subnet for a hosted machine pool: No
-? AWS availability zone: us-east-2a
-? Enable autoscaling: No
-? Replicas: 1
-? Labels (optional):
-? Taints (optional):
-I: Fetching instance types
-? Instance type: c5.xlarge
-? Autorepair: Yes
-I: Machine pool 'mp20' created successfully on hosted cluster 'hcp-01'
-I: To view all machine pools, run 'rosa list machinepools -c hcp-01'</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">serviceAccount: bedrock-sa</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p><code>rosa list machinepool</code> コマンドや、
-管理者アカウントでログインしたROSAクラスターのコンソールの「コンピュート」→「Node」メニューから、
-追加したMachinepoolに紐づいたワーカーノードが1台作成されていることを確認できるまで待ちます。</p>
-</div>
-<div class="paragraph">
-<p>ワーカーノードの作成が完了したら、 <code>rosa list upgrade</code> コマンドで、 <code>machinepool</code> オプションを
-指定して、作成したMachinepoolの更新情報を確認します。次の例では、「4.14.1」と「4.14.2」のバージョンに
-更新できることが表示されています。</p>
-</div>
-<div class="listingblock">
+<div class="imageblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa list upgrade -c hcp-01 --machinepool mp20
-VERSION  NOTES
-4.14.2   recommended
-4.14.1</code></pre>
+<img src="_images/rosa/bedrock/deployment.png" alt="deployment">
 </div>
 </div>
 <div class="paragraph">
-<p>Machinepoolの更新を <code>rosa upgrade machinepool</code> コマンドでスケジュールします。
-<code>interactive</code> オプションで、対話形式でパラメータを与えていくように指定します。
-なお、時刻はUTC形式で指定します。日本時間はこれより9時間進んでいることを考慮してください。</p>
+<p>すると、Podが自動的に再デプロイされて、
+Amazon Bedrockにアクセスするためのサービスアカウントを利用するための設定が追加されます。</p>
 </div>
-<div class="listingblock">
+</div>
+<div class="sect2">
+<h3 id="_amazon_bedrockのテスト"><a class="anchor" href="#_amazon_bedrockのテスト"></a>Amazon Bedrockのテスト</h3>
+<div class="paragraph">
+<p>ここまでの手順によって、チャットアプリケーション経由でAmazon Bedrockを利用できるようになっています。
+色々な質問を入力してみてください。Claude 3 Haikuの標準モデルによる回答が返されます。
+もし日本語の回答が微妙だと思う場合は、英語で同じ質問をすると、より精度が高い回答が返ってくる場合があります。</p>
+</div>
+<div class="imageblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa upgrade machinepool mp20 -c hcp-01 --interactive
-
-I: Interactive mode enabled.
-Any optional fields can be left empty and a default will be selected.
-? Enable automatic upgrades: No
-? Please input desired date in format yyyy-mm-dd: 2023-12-13
-? Please input desired UTC time in format HH:mm: 23:00
-? Machine pool version: 4.14.1
-? Are you sure you want to upgrade machine pool 'mp20' to version '4.14.1'? Yes
-I: Upgrade successfully scheduled for the machine pool 'mp20' on cluster 'hcp-01'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>更新実行を待つ場合は、ROSAクラスターに管理者アカウントでログインして、
-「コンピュート」→「Node」メニューから、
-Machinepoolに紐づいたワーカーノードが新規作成されて、削除されることを確認してみてください。</p>
-</div>
-<div class="paragraph">
-<p>Machinepool更新のスケジュールを削除する場合は、 <code>rosa delete upgrade</code> コマンドを実行します。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa delete upgrade -c hcp-01 --machinepool mp20 --yes
-I: Successfully canceled scheduled upgrade for machine pool 'mp20' for cluster 'hcp-01'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>最後に、Machinepool更新について一通り確認した後は、不要になったMachinepoolを、
-<code>rosa delete machinepool</code> コマンドで削除してください。</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa delete machinepool mp20 -c hcp-01 --yes
-I: Successfully deleted machine pool 'mp20' from hosted cluster 'hcp-01'</code></pre>
+<img src="_images/rosa/bedrock/bedrock.png" alt="bedrock">
 </div>
 </div>
 </div>
