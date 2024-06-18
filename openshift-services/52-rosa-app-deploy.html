@@ -300,6 +300,38 @@
 <img src="_images/rosa/app-deploy/nodejs-app.png" alt="nodejs app">
 </div>
 </div>
+<div class="paragraph">
+<p>このアプリケーションに付けられる「名前」は、OpenShift上で作成されるリソースに付けられるラベルとして扱われます。
+この例だと「nodejs-ex-git」という名前が付けられており、関連するリソースに「app=nodejs-ex-git」というラベル(上記画像の青四角部分)が付けられていることを確認できます。</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>アプリケーションの削除(特定のラベルが付けられた全リソースの一括削除)は、「アプリケーションの削除」から実施できます。
+image::rosa/app-deploy/nodejs-app-delete.png[]</p>
+</div>
+<div class="paragraph">
+<p>ただし、2024年6月時点ではバグのためローカルユーザーの権限では削除できないようになっています。
+そのため、作成したアプリケーションを削除したい場合、次のいずれかの方法を実行してください。</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ROSAクラスターの管理者アカウント( <code>cluster-admin</code> など)で再ログインして、対象のアプリケーションを削除</p>
+</li>
+<li>
+<p><a href="https://rh-open.github.io/ocp-handson/openshift-services/54-1-rosa-web-terminal.html">Web Terminalの利用</a>で扱うOpenShift Web Terminalの端末から、OpenShiftのCLIであるocコマンドを実行</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ oc delete all -l app=nodejs-ex-git
+$ oc delete secrets -l app=nodejs-ex-git</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
