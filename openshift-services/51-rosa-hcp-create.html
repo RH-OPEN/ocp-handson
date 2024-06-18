@@ -544,7 +544,7 @@ I: Created OIDC provider with ARN 'arn:aws:iam::XXXXXXXXX:oidc-provider/rh-oidc.
 <p>MultiAZ構成のワーカーノードを利用する場合は、SingleAZ構成の時と同様に、 <code>rosa create cluster</code> コマンド実行時に <code>subnet-ids</code> オプションで、MultiAZ構成を取るためのパブリック/プライベートサブネットを指定します。</p>
 </div>
 <div class="paragraph">
-<p>AWSリージョンで利用可能なEC2インスタンスのタイプにも依存しますが、最小で 4vCPU/RAM8GiB のインスタンスを、ワーカーノードとして利用できます。
+<p>AWSリージョンで利用可能なEC2インスタンスのタイプにも依存しますが、最小でc5.xlarge(4vCPU/RAM8GiB)のインスタンスを、ワーカーノードとして利用できます。
 ワーカーノードのデフォルトのEC2インスタンスタイプは、m5.xlarge(4vCPU/RAM16GiB)です。
 ROSA HCPクラスター作成時に、オプションとしてワーカーノードのインスタンスタイプ(例: <code>--compute-machine-type c5.xlarge</code> )や台数(例: <code>--replicas 3</code> )を指定できます。</p>
 </div>
