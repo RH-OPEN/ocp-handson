@@ -316,8 +316,9 @@ Red Hatの製品ドキュメントに、https://access.redhat.com/documentation/
 <p>このアプリケーションに付けられる「名前」は、OpenShift上で作成されるリソースに付けられるラベルとして扱われます。
 この例だと「nodejs-ex-git」という名前が付けられており、関連するリソースに「app=nodejs-ex-git」というラベル(上記画像の青四角部分)が付けられていることを確認できます。</p>
 </div>
-<div class="exampleblock">
-<div class="content">
+</div>
+<div class="sect2">
+<h3 id="_サンプルアプリケーションの削除"><a class="anchor" href="#_サンプルアプリケーションの削除"></a>サンプルアプリケーションの削除</h3>
 <div class="paragraph">
 <p>アプリケーションの削除(特定のラベルが付けられた全リソースの一括削除)は、「アプリケーションの削除」から実施できます。</p>
 </div>
@@ -344,8 +345,6 @@ Red Hatの製品ドキュメントに、https://access.redhat.com/documentation/
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ oc delete all -l app=nodejs-ex-git
 $ oc delete secrets -l app=nodejs-ex-git</code></pre>
-</div>
-</div>
 </div>
 </div>
 <div class="exampleblock">
