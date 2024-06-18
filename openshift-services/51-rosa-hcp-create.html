@@ -544,7 +544,8 @@ I: Created OIDC provider with ARN 'arn:aws:iam::XXXXXXXXX:oidc-provider/rh-oidc.
 <p>MultiAZ構成のワーカーノードを利用する場合は、SingleAZ構成の時と同様に、 <code>rosa create cluster</code> コマンド実行時に <code>subnet-ids</code> オプションで、MultiAZ構成を取るためのパブリック/プライベートサブネットを指定します。</p>
 </div>
 <div class="paragraph">
-<p>AWSリージョンで利用可能なEC2インスタンスのタイプにも依存しますが、最小で 4vCPU/RAM8GiB のインスタンスを、ワーカーノードとして利用できます。</p>
+<p>AWSリージョンで利用可能なEC2インスタンスのタイプにも依存しますが、最小で 4vCPU/RAM8GiB のインスタンスを、ワーカーノードとして利用できます。
+ROSA HCPクラスター作成時に、オプションとしてワーカーノードのインスタンスタイプ(例: <code>--compute-machine-type c5.xlarge</code> )や台数(例: <code>--replicas 3</code> )を指定できます。</p>
 </div>
 </div>
 </div>
@@ -813,6 +814,22 @@ I: To log in to the console, open https://console-openshift-console.apps.rosa.hc
 $ rosa revoke user cluster-admin --user &lt;ユーザー名&gt; --cluster &lt;ROSAクラスター名&gt;</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rosa_hcpクラスターの削除"><a class="anchor" href="#_rosa_hcpクラスターの削除"></a>ROSA HCPクラスターの削除</h3>
+<div class="paragraph">
+<p>不要になったROSA HCPクラスターは次のコマンドで削除できます。
+<code>rosa list cluster</code> コマンドで確認したROSA HCPクラスター名を指定します。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ rosa list cluster
+ID                                NAME    STATE  TOPOLOGY
+280scqkn8ocjoochasq423tg4donvpaq  hcp-01  ready  Hosted CP
+
+$ rosa delete cluster -c hcp-01 --yes</code></pre>
 </div>
 </div>
 </div>
