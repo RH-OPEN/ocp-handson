@@ -540,7 +540,7 @@ Quarkusアプリケーションを終了します。終了しないままブラ�
 <div class="paragraph">
 <p>Workspaceの停止や削除は、左サイドメニューの「Workspaces」から、対象のWorkspaceの
 「Stop Workspace」や「Delete Workspace」から実行できます。Workspace自身も、
-<code>&lt;ユーザーアカウント名&gt;-devspaces</code> といった文字列を含む(自動作成される)プロジェクトにある
+<code>&lt;ユーザーアカウント名&gt;-devspaces</code> といった自動作成されるプロジェクトにある
 Podとして実行されており、Workspaceの停止や削除を実行すると、それに対応したPodも削除されます。</p>
 </div>
 <div class="imageblock">
@@ -556,6 +556,19 @@ Podとして実行されており、Workspaceの停止や削除を実行する�
 <div class="paragraph">
 <p>「Delete Workspace」からWorkspaceを削除すると、
 利用者が加えた変更は永続ボリュームも含めて完全に消去されます。</p>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p><code>&lt;ユーザーアカウント名&gt;-devspaces</code> という名前のプロジェクトが作成されるという設定は、
+openshift-operatorsプロジェクトにある「che」という設定情報(ConfigMap)に記載されています。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/dev-spaces/configmap-che.png" alt="configmap che">
+</div>
 </div>
 </div>
 </div>
