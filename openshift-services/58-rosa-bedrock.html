@@ -537,7 +537,7 @@ OpenShiftコンソールにログインして、「開発者」→「+追加」�
 </div>
 </div>
 <div class="sect2">
-<h3 id="_デモ_amazon_bedrockを利用するためのiamロールの追加"><a class="anchor" href="#_デモ_amazon_bedrockを利用するためのiamロールの追加"></a>[デモ] Amazon Bedrockを利用するためのIAMロールの追加</h3>
+<h3 id="_デモ_amazon_bedrockを利用するためのiamロールの作成"><a class="anchor" href="#_デモ_amazon_bedrockを利用するためのiamロールの作成"></a>[デモ] Amazon Bedrockを利用するためのIAMロールの作成</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -553,7 +553,7 @@ OpenShiftコンソールにログインして、「開発者」→「+追加」�
 <div class="paragraph">
 <p>デプロイしたアプリケーションがAmazon Bedrockを利用するための認証情報を追加します。
 <a href="https://aws.amazon.com/jp/blogs/news/fine-grained-iam-roles-for-red-hat-openshift-service-on-aws-rosa-workloads-with-sts/">STS を用いた ROSA ワークロードのためのきめ細かい IAM ロール</a>
-に記載してある、ステップ1, 2, 4, 5を順番に実行します。これらのステップ実行時の注意点を記載します。</p>
+に記載してあるステップ1, 2, 4, 5を順番に実行して、次の「サービスアカウントの作成」で利用するIAMロールを作成します。これらのステップ実行時の注意点を記載します。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -597,10 +597,8 @@ AWSアカウントIDに置き換えて「作成」をクリックします。
 </td>
 <td class="content">
 本演習をワークショップ形式で実施している場合、
-インストラクターがAWSアカウントIDを案内します。
-また「YYYYY」となっているところも、ご案内するランダムIDに置き換えてください。
-本演習を自習している場合、「iam-app-bedrock-role-YYYYY」を
-ご自身で作成したIAMロール名に置き換えてください。
+インストラクターがAWSのARNをご案内します。
+本演習を自習している場合、前の手順で作成したIAMロールのARNに置き換えてください。
 </td>
 </tr>
 </table>
