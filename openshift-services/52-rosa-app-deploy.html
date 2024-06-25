@@ -238,7 +238,7 @@
 <div class="sect2">
 <h3 id="_プロジェクトの作成"><a class="anchor" href="#_プロジェクトの作成"></a>プロジェクトの作成</h3>
 <div class="paragraph">
-<p>アプリケーションの作成場所となる「プロジェクト」を、「新規プロジェクトを作成します」をクリックして作成します。この例では、「test-project20」を入力しています。1つのROSAクラスター内に、同じ名前を持つプロジェクトを複数作成できませんので、プロジェクト名は適宜変更してください。</p>
+<p>アプリケーションの作成場所となる「プロジェクト」を、「新規プロジェクトを作成します」をクリックして作成します。この例では、「test-project20」を入力しています。1つのOpenShiftクラスター内に、同じ名前を持つプロジェクトを複数作成できませんので、プロジェクト名は適宜変更してください。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -322,7 +322,7 @@
 <div class="paragraph">
 <p>アプリケーションの外部アクセス用のURLについては自動作成されますが、
 サンプルアプリケーション作成画面に表示される「詳細なルーティングオプションの表示」から任意の名前も指定できます。
-ROSAクラスターで利用されるドメイン名(ROSAクラスターのコンソールのURLから確認できる <code>apps.rosa.XXXXX.openshiftapps.com</code> )を末尾に付けたホスト名を指定することで、
+OpenShiftクラスターで利用されるドメイン名(OpenShiftクラスターのコンソールのURLから確認できる <code>apps.XXXXX.openshiftapps.com</code> )を末尾に付けたホスト名を指定することで、
 アプリケーション開発時のコンソールテストに利用できます。</p>
 </div>
 <div class="paragraph">
@@ -354,7 +354,7 @@ ROSAクラスターで利用されるドメイン名(ROSAクラスターのコ�
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>ROSAクラスターの管理者アカウント( <code>cluster-admin</code> など)で再ログインして、対象のアプリケーションを削除</p>
+<p>OpenShiftクラスターの管理者アカウントで再ログインして、対象のアプリケーションを削除</p>
 </li>
 <li>
 <p><a href="https://rh-open.github.io/ocp-handson/openshift-services/54-1-rosa-web-terminal.html">Web Terminalの利用</a>で扱うOpenShift Web Terminalの端末から、OpenShiftのCLIであるocコマンドを実行</p>
