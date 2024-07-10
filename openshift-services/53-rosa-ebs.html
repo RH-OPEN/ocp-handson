@@ -330,7 +330,11 @@ spec:
      args: [ "while true; do touch /mnt/ebs-data/verify-ebs &amp;&amp; echo 'hello ebs' &amp;&amp; sleep 30; done;" ]
      volumeMounts:
        - mountPath: "/mnt/ebs-data"
-         name: ebs-storage-vol</code></pre>
+         name: ebs-storage-vol
+     securityContext:
+       allowPrivilegeEscalation: false
+       seccompProfile:
+         type: RuntimeDefault</code></pre>
 </div>
 </div>
 <div class="imageblock">
