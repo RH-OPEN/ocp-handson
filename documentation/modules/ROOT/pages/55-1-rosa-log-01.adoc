@@ -95,8 +95,12 @@ image::rosa/log-01/secret-create.png[]
 「OpenShift Logging Operator」を選択して、「Cluster Log Forwarder」の下にある「インスタンスの作成」から、
 次のYAMLを入力して「作成」をクリックします。
 
-ここでは、 `region: ap-northeast-1` を指定して、東京リージョンのCloudWatchへのログ転送を指定しています。
+ここでは `groupPrefix: hcp-01` でCloudWatchで作成されるロググループの名前の接頭辞を「hcp-01」と指定し、 `region: ap-northeast-1` で東京リージョンのCloudWatchへのログ転送をするように指定しています。
 また、前述の手順で作成した「cw-secret」シークレットも指定します。
+
+NOTE: 他にもプロジェクトごとのロググループの作成なども設定できます。
+具体的な設定方法については、
+https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.14/html/logging/log-collection-and-forwarding#cluster-logging-collector-log-forward-cloudwatch_log-forwarding[公式ドキュメント]をご参照ください。
 
 [.console-input]
 [source,sh]
