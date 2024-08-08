@@ -14,6 +14,8 @@ include::_attributes.adoc[]
 
 * https://aws.amazon.com/jp/blogs/news/fine-grained-iam-roles-for-red-hat-openshift-service-on-aws-rosa-workloads-with-sts/[STS を用いた ROSA ワークロードのためのきめ細かい IAM ロール]
 
+NOTE: このモジュールを実行するためには、東京リージョン(ap-northeast-1)のAmazon Bedrockで、Claude 3の基盤モデルへのアクセスを許可するように設定する必要があります。Amazon Bedrock基盤モデルへのアクセス管理ガイドは、
+https://docs.aws.amazon.com/ja_jp/bedrock/latest/userguide/model-access.html[こちらのWebページ]をご参照ください。
 
 === [デモ] Amazon Bedrockを利用するためのサンプルアプリケーション
 
@@ -35,7 +37,7 @@ st.title("Bedrock Chat Application using Claude 3 model on ROSA HCP")
 # Bedrock Runtimeサービス用のクライアント
 bedrock = boto3.client(
     service_name='bedrock-runtime',
-    region_name='us-west-2')
+    region_name='ap-northeast-1')
     
 def format_chat_history(messages):
     formatted_history = ""
@@ -73,15 +75,14 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
 
         # 整形された対話履歴と新しいユーザー入力をモデルに送信
         body = json.dumps({
-            'max_tokens': 4000,
+            'max_tokens': 1000,
             "messages": [{"role": "user", "content": prompt}],
             "anthropic_version": "bedrock-2023-05-31"
         })
         accept = 'application/json'
         contentType = 'application/json'
         model_id = 'anthropic.claude-3-haiku-20240307-v1:0'
-        #model_id = 'anthropic.claude-3-opus-20240229-v1:0'
-        #model_id = 'anthropic.claude-3-sonnet-20240229-v1:0'
+        #model_id = 'anthropic.claude-3-5-sonnet-20240620-v1:0'
 
         response = bedrock.invoke_model_with_response_stream(
             body=body, modelId=model_id, accept=accept, contentType=contentType)
@@ -104,9 +105,9 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
 元のブログで紹介していたコードとの差分は下記です。
 
 ```
---- app.py.org	2024-05-28 22:18:03.753138711 +0000
-+++ app.py	2024-05-27 09:12:09.273515044 +0000
-@@ -2,12 +2,12 @@
+--- app.py.org	2024-08-08 12:14:31
++++ app.py	2024-08-08 12:13:57
+@@ -2,7 +2,7 @@
  import boto3
  import json
  
@@ -115,12 +116,6 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
  
  # Bedrock Runtimeサービス用のクライアント
  bedrock = boto3.client(
-     service_name='bedrock-runtime',
--    region_name='ap-northeast-1')
-+    region_name='us-west-2')
-     
- def format_chat_history(messages):
-     formatted_history = ""
 @@ -28,7 +28,7 @@
          st.markdown(message["content"])
  
@@ -130,14 +125,14 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
      # ユーザーメッセージをチャットメッセージコンテナに表示
      with st.chat_message("user"):
          st.markdown(prompt)
-@@ -45,14 +45,15 @@
+@@ -45,14 +45,14 @@
  
          # 整形された対話履歴と新しいユーザー入力をモデルに送信
          body = json.dumps({
 -            'prompt': chat_history + 'Human: ' + prompt + '\n\nAssistant:',
 -            'max_tokens_to_sample': 1000,
 -            "stop_sequences": ["\n\nHuman:"],
-+            'max_tokens': 4000,
++            'max_tokens': 1000,
 +            "messages": [{"role": "user", "content": prompt}],
              "anthropic_version": "bedrock-2023-05-31"
          })
@@ -145,12 +140,11 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
          contentType = 'application/json'
 -        model_id = 'anthropic.claude-instant-v1'
 +        model_id = 'anthropic.claude-3-haiku-20240307-v1:0'
-+        #model_id = 'anthropic.claude-3-opus-20240229-v1:0'
-+        #model_id = 'anthropic.claude-3-sonnet-20240229-v1:0'
++        #model_id = 'anthropic.claude-3-5-sonnet-20240620-v1:0'
  
          response = bedrock.invoke_model_with_response_stream(
              body=body, modelId=model_id, accept=accept, contentType=contentType)
-@@ -62,8 +63,9 @@
+@@ -62,8 +62,9 @@
              chunk = event.get('chunk')
              if chunk:
                  # 取得したチャンクを追加し、Streamlitに表示
@@ -167,12 +161,11 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
 上記の差分を解説します。
 
 * サンプルアプリケーションのタイトルを変更
-* Claude 3モデルを利用するために、リージョンを米国西部(オレゴン, us-west-2)に変更
 * ユーザー入力を受け取るテキストボックスに表示される文字を変更
-* モデルIDをClaude 3 Haikuに変更 (他のClaude 3のモデルIDも参考として記載)
 * Claude 3の
 https://docs.aws.amazon.com/ja_jp/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html[Message API]
 を利用するように変更
+* モデルIDをClaude 3 Haikuに変更 (東京リージョンで利用可能な他のClaude 3のモデルIDも参考として記載)
 * Claude 3の出力をJSON形式にデコードした情報からメッセージを抽出するように変更
 
 Dockerfileとrequirements.txtは、元のブログに記載されていたものと同じです。
