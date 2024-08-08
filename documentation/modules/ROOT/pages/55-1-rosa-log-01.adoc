@@ -95,7 +95,7 @@ image::rosa/log-01/secret-create.png[]
 「OpenShift Logging Operator」を選択して、「Cluster Log Forwarder」の下にある「インスタンスの作成」から、
 次のYAMLを入力して「作成」をクリックします。
 
-ここでは `groupPrefix: hcp-01` でCloudWatchで作成されるロググループの名前の接頭辞を「hcp-01」と指定し、 `region: ap-northeast-1` で東京リージョンのCloudWatchへのログ転送をするように指定しています。
+ここでは `region: ap-northeast-1` で東京リージョンのCloudWatchへのログ転送の指定と、 `groupPrefix: hcp-01` でCloudWatchで作成されるロググループの名前の接頭辞を「hcp-01」と指定しています。 
 また、前述の手順で作成した「cw-secret」シークレットも指定します。
 
 NOTE: 他にもプロジェクトごとのロググループの作成なども設定できます。
@@ -115,8 +115,8 @@ spec:
    - name: cw
      type: cloudwatch
      cloudwatch:
-       groupPrefix: hcp-01
        region: ap-northeast-1
+       groupPrefix: hcp-01
      secret:
         name: cw-secret
   pipelines:
