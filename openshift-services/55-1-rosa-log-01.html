@@ -386,8 +386,22 @@ AWSアクセスキー(aws_access_key_id)とシークレットアクセスキー(
 次のYAMLを入力して「作成」をクリックします。</p>
 </div>
 <div class="paragraph">
-<p>ここでは、 <code>region: ap-northeast-1</code> を指定して、東京リージョンのCloudWatchへのログ転送を指定しています。
+<p>ここでは <code>groupPrefix: hcp-01</code> でCloudWatchで作成されるロググループの名前の接頭辞を「hcp-01」と指定し、 <code>region: ap-northeast-1</code> で東京リージョンのCloudWatchへのログ転送をするように指定しています。
 また、前述の手順で作成した「cw-secret」シークレットも指定します。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+他にもプロジェクトごとのロググループの作成なども設定できます。
+具体的な設定方法については、
+<a href="https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.14/html/logging/log-collection-and-forwarding#cluster-logging-collector-log-forward-cloudwatch_log-forwarding">公式ドキュメント</a>をご参照ください。
+</td>
+</tr>
+</table>
 </div>
 <div class="listingblock console-input">
 <div class="content">
