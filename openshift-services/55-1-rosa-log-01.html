@@ -386,7 +386,7 @@ AWSアクセスキー(aws_access_key_id)とシークレットアクセスキー(
 次のYAMLを入力して「作成」をクリックします。</p>
 </div>
 <div class="paragraph">
-<p>ここでは <code>groupPrefix: hcp-01</code> でCloudWatchで作成されるロググループの名前の接頭辞を「hcp-01」と指定し、 <code>region: ap-northeast-1</code> で東京リージョンのCloudWatchへのログ転送をするように指定しています。
+<p>ここでは <code>region: ap-northeast-1</code> で東京リージョンのCloudWatchへのログ転送の指定と、 <code>groupPrefix: hcp-01</code> でCloudWatchで作成されるロググループの名前の接頭辞を「hcp-01」と指定しています。
 また、前述の手順で作成した「cw-secret」シークレットも指定します。</p>
 </div>
 <div class="admonitionblock note">
@@ -415,8 +415,8 @@ spec:
    - name: cw
      type: cloudwatch
      cloudwatch:
-       groupPrefix: hcp-01
        region: ap-northeast-1
+       groupPrefix: hcp-01
      secret:
         name: cw-secret
   pipelines:
