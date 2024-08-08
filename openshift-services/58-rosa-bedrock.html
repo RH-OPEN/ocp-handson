@@ -249,6 +249,19 @@
 </li>
 </ul>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+このモジュールを実行するためには、東京リージョン(ap-northeast-1)のAmazon Bedrockで、Claude 3の基盤モデルへのアクセスを許可するように設定する必要があります。Amazon Bedrock基盤モデルへのアクセス管理ガイドは、
+<a href="https://docs.aws.amazon.com/ja_jp/bedrock/latest/userguide/model-access.html">こちらのWebページ</a>をご参照ください。
+</td>
+</tr>
+</table>
+</div>
 <div class="sect2">
 <h3 id="_デモ_amazon_bedrockを利用するためのサンプルアプリケーション"><a class="anchor" href="#_デモ_amazon_bedrockを利用するためのサンプルアプリケーション"></a>[デモ] Amazon Bedrockを利用するためのサンプルアプリケーション</h3>
 <div class="admonitionblock note">
@@ -287,7 +300,7 @@ st.title("Bedrock Chat Application using Claude 3 model on ROSA HCP")
 # Bedrock Runtimeサービス用のクライアント
 bedrock = boto3.client(
     service_name='bedrock-runtime',
-    region_name='us-west-2')
+    region_name='ap-northeast-1')
 
 def format_chat_history(messages):
     formatted_history = ""
@@ -325,15 +338,14 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
 
         # 整形された対話履歴と新しいユーザー入力をモデルに送信
         body = json.dumps({
-            'max_tokens': 4000,
+            'max_tokens': 1000,
             "messages": [{"role": "user", "content": prompt}],
             "anthropic_version": "bedrock-2023-05-31"
         })
         accept = 'application/json'
         contentType = 'application/json'
         model_id = 'anthropic.claude-3-haiku-20240307-v1:0'
-        #model_id = 'anthropic.claude-3-opus-20240229-v1:0'
-        #model_id = 'anthropic.claude-3-sonnet-20240229-v1:0'
+        #model_id = 'anthropic.claude-3-5-sonnet-20240620-v1:0'
 
         response = bedrock.invoke_model_with_response_stream(
             body=body, modelId=model_id, accept=accept, contentType=contentType)
@@ -358,9 +370,9 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">--- app.py.org	2024-05-28 22:18:03.753138711 +0000
-+++ app.py	2024-05-27 09:12:09.273515044 +0000
-@@ -2,12 +2,12 @@
+<pre class="highlightjs highlight"><code class="language-none hljs">--- app.py.org	2024-08-08 12:14:31
++++ app.py	2024-08-08 12:13:57
+@@ -2,7 +2,7 @@
  import boto3
  import json
 
@@ -369,12 +381,6 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
 
  # Bedrock Runtimeサービス用のクライアント
  bedrock = boto3.client(
-     service_name='bedrock-runtime',
--    region_name='ap-northeast-1')
-+    region_name='us-west-2')
-
- def format_chat_history(messages):
-     formatted_history = ""
 @@ -28,7 +28,7 @@
          st.markdown(message["content"])
 
@@ -384,14 +390,14 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
      # ユーザーメッセージをチャットメッセージコンテナに表示
      with st.chat_message("user"):
          st.markdown(prompt)
-@@ -45,14 +45,15 @@
+@@ -45,14 +45,14 @@
 
          # 整形された対話履歴と新しいユーザー入力をモデルに送信
          body = json.dumps({
 -            'prompt': chat_history + 'Human: ' + prompt + '\n\nAssistant:',
 -            'max_tokens_to_sample': 1000,
 -            "stop_sequences": ["\n\nHuman:"],
-+            'max_tokens': 4000,
++            'max_tokens': 1000,
 +            "messages": [{"role": "user", "content": prompt}],
              "anthropic_version": "bedrock-2023-05-31"
          })
@@ -399,12 +405,11 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
          contentType = 'application/json'
 -        model_id = 'anthropic.claude-instant-v1'
 +        model_id = 'anthropic.claude-3-haiku-20240307-v1:0'
-+        #model_id = 'anthropic.claude-3-opus-20240229-v1:0'
-+        #model_id = 'anthropic.claude-3-sonnet-20240229-v1:0'
++        #model_id = 'anthropic.claude-3-5-sonnet-20240620-v1:0'
 
          response = bedrock.invoke_model_with_response_stream(
              body=body, modelId=model_id, accept=accept, contentType=contentType)
-@@ -62,8 +63,9 @@
+@@ -62,8 +62,9 @@
              chunk = event.get('chunk')
              if chunk:
                  # 取得したチャンクを追加し、Streamlitに表示
@@ -427,18 +432,15 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
 <p>サンプルアプリケーションのタイトルを変更</p>
 </li>
 <li>
-<p>Claude 3モデルを利用するために、リージョンを米国西部(オレゴン, us-west-2)に変更</p>
-</li>
-<li>
 <p>ユーザー入力を受け取るテキストボックスに表示される文字を変更</p>
-</li>
-<li>
-<p>モデルIDをClaude 3 Haikuに変更 (他のClaude 3のモデルIDも参考として記載)</p>
 </li>
 <li>
 <p>Claude 3の
 <a href="https://docs.aws.amazon.com/ja_jp/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html">Message API</a>
 を利用するように変更</p>
+</li>
+<li>
+<p>モデルIDをClaude 3 Haikuに変更 (東京リージョンで利用可能な他のClaude 3のモデルIDも参考として記載)</p>
 </li>
 <li>
 <p>Claude 3の出力をJSON形式にデコードした情報からメッセージを抽出するように変更</p>
