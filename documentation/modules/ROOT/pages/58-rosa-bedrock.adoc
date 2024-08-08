@@ -165,7 +165,7 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
 * Claude 3の
 https://docs.aws.amazon.com/ja_jp/bedrock/latest/userguide/model-parameters-anthropic-claude-messages.html[Message API]
 を利用するように変更
-* モデルIDをClaude 3 Haikuに変更 (東京リージョンで利用可能な他のClaude 3のモデルIDも参考として記載)
+* モデルIDをClaude 3 Haikuに変更 (Claude 3.5 SonnetのモデルIDも参考として記載)
 * Claude 3の出力をJSON形式にデコードした情報からメッセージを抽出するように変更
 
 Dockerfileとrequirements.txtは、元のブログに記載されていたものと同じです。
