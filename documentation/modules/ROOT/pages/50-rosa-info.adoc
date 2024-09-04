@@ -56,5 +56,6 @@ ROSA HCP環境を利用したセルフサービスのハンズオンを、無償
 詳細については、次の資料をご参照ください。
 
 * https://rh-open.github.io/ocp-handson/openshift-services/_images/rosa/pdf/202406-rosa-hoe.pdf[ROSAハンズオン無償体験(PDFファイル)]
-* https://rheb.hatenablog.com/entry/202312-rosa-hcp-trial[Red Hat OpenShift Service on AWS (ROSA)を無料で試してみよう(ブログ)] (ROSA HCPの料金情報に関する説明も記載しています)
+* https://rheb.hatenablog.com/entry/202312-rosa-hcp-trial[Red Hat OpenShift Service on AWS (ROSA)を無料で試してみよう(ブログ)]\n
+(ROSA HCPの料金情報に関する説明も記載しています)
 
