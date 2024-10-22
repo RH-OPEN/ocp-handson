@@ -34,7 +34,7 @@ image::rosa/web-terminal/iam-arn.png[]
 ====
 
 Web Terminal Operatorがインストールされている場合、OpenShiftのWebコンソール上で、 
-`>_` アイコンが表示されていますので、これをクリックします。
+`>_` アイコンが表示されていますので、これをクリックします。`>_` アイコンが表示されていない場合、OpenShiftのWebコンソールを再読み込みして下さい。
 
 image::rosa/web-terminal/icon.png[]
 
