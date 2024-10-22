@@ -213,7 +213,8 @@ NOTE: このとき、指定するサブネットIDによって、SingleAZ構成�
 ```
 $ rosa create cluster --cluster-name=hcp-01 --mode=auto --yes --hosted-cp \
   --oidc-config-id 280rqooan3kqqn4o1us1ip073fsrkfm8 \
-  --subnet-ids=$SUBNET_IDS --region=us-east-2 --version 4.14.2
+  --subnet-ids=$SUBNET_IDS --region=us-east-2 \
+  --compute-machine-type m5.xlarge --version 4.14.2
 ```
 
 [Note]
