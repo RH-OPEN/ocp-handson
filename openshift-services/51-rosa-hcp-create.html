@@ -531,7 +531,8 @@ I: Created OIDC provider with ARN 'arn:aws:iam::XXXXXXXXX:oidc-provider/rh-oidc.
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ rosa create cluster --cluster-name=hcp-01 --mode=auto --yes --hosted-cp \
   --oidc-config-id 280rqooan3kqqn4o1us1ip073fsrkfm8 \
-  --subnet-ids=$SUBNET_IDS --region=us-east-2 --version 4.14.2</code></pre>
+  --subnet-ids=$SUBNET_IDS --region=us-east-2 \
+  --compute-machine-type m5.xlarge --version 4.14.2</code></pre>
 </div>
 </div>
 <div class="exampleblock">
