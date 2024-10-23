@@ -446,6 +446,12 @@ $ rosa revoke user cluster-admin --user <ユーザー名> --cluster <ROSAクラ�
 
 不要になったROSA HCPクラスターは `rosa delete cluster` コマンドで削除できます。
 `rosa list cluster` コマンドで確認したROSA HCPクラスター名を指定します。
+また、ROSA HCPクラスターごとに作成されたオペレーターロール(operator roles)も
+`rosa delete operator-roles` コマンドで削除しておきます。
+オペレーターロール削除時に指定する接頭辞(prefix)は、`rosa delete cluster` コマンド実行時に表示されます。
+
+OpenID Connectの設定(oidc-provider)については、別のROSA HCPクラスターを作成する時に使い回せるので、
+ROSA HCPクラスターの作成/削除を複数回試したい場合、oidc-providerを消去する必要はありません。
 
 NOTE: 本演習をワークショップ形式で実施している場合、
 受講者間でROSA HCPクラスターを共有しているため、ROSA HCPクラスターを削除しないで下さい。
@@ -457,4 +463,11 @@ ID                                NAME    STATE  TOPOLOGY
 280scqkn8ocjoochasq423tg4donvpaq  hcp-01  ready  Hosted CP
 
 $ rosa delete cluster -c hcp-01 --yes
+...<snip>...
+I: Once the cluster is uninstalled use the following commands to remove the above aws resources.
+
+	rosa delete operator-roles --prefix hcp-01-g8r1
+	rosa delete oidc-provider --oidc-config-id 280rqooan3kqqn4o1us1ip073fsrkfm8
+I: To watch your cluster uninstallation logs, run 'rosa logs uninstall -c rosa-hcp-01 --watch'
+$ rosa delete operator-roles --prefix hcp-01-g8r1 --mode auto -yes
 ```
