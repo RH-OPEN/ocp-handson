@@ -824,7 +824,8 @@ $ rosa revoke user cluster-admin --user &lt;ユーザー名&gt; --cluster &lt;RO
 <div class="paragraph">
 <p>不要になったROSA HCPクラスターは <code>rosa delete cluster</code> コマンドで削除できます。
 <code>rosa list cluster</code> コマンドで確認したROSA HCPクラスター名を指定します。
-また、ROSA HCPクラスターごとに作成されたオペレーターロール(operator roles)も
+また、ROSA HCPクラスターごとに作成されたオペレーターロール(operator roles)も、
+ROSA HCPクラスターの削除が完了した後に
 <code>rosa delete operator-roles</code> コマンドで削除しておきます。
 オペレーターロール削除時に指定する接頭辞(prefix)は、<code>rosa delete cluster</code> コマンド実行時に表示されます。</p>
 </div>
