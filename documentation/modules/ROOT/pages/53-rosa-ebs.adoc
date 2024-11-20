@@ -111,7 +111,7 @@ https://docs.openshift.com/rosa/storage/persistent_storage/persistent-storage-aw
 ROSA HCPクラスターはAWS STSを利用しているため、
 Amazon EFSを利用するためのIAMロールとポリシーを作成する必要があります。
 詳細については、
-https://docs.openshift.com/rosa/storage/container_storage_interface/osd-persistent-storage-aws-efs-csi.html[公式ドキュメント]をご参照ください。
+https://docs.openshift.com/rosa/storage/container_storage_interface/persistent-storage-csi-aws-efs.html[公式ドキュメント]をご参照ください。
 
 image::rosa/ebs/efs-csi-operator.png[]
 ====
