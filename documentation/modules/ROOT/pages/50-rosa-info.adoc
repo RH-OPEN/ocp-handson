@@ -63,7 +63,7 @@ ROSA HCP環境を利用したセルフサービスのハンズオンを、無償
 
 本Labでは扱っていない情報をいくつか記載します。
 
-ROSAクラスターからAWS Security Token Service (STS)によるAmazon EFS, Amazon ECRの利用方法です。
+AWS Security Token Service (STS)によるAmazon EFS, Amazon ECRの利用方法です。
 
 * https://rheb.hatenablog.com/entry/202412-rosa-efs-ecr[ROSAでのAWS STSによるAmazon EFS/ECRの利用]
 
