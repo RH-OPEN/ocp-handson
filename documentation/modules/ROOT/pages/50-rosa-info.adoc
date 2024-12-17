@@ -65,7 +65,7 @@ ROSA HCP環境を利用したセルフサービスのハンズオンを、無償
 
 AWS Security Token Service (STS)によるAmazon EFS, Amazon ECRの利用方法です。
 
-* https://rheb.hatenablog.com/entry/202412-rosa-efs-ecr[ROSAでのAWS STSによるAmazon EFS/ECRの利用]
+* https://rheb.hatenablog.com/entry/202412-rosa-efs-ecr[ROSAでのAWS STSによるAmazon EFS/ECRの利用(ブログ)]
 
 ROSA HCPクラスターではOpenShift Virtualizationによる仮想化機能が利用できます。
 詳細については、次の資料をご参照ください。仮想マシン用のストレージとして、Amazon FSx for NetApp ONTAPの利用も紹介しています。
