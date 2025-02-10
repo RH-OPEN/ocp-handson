@@ -374,9 +374,13 @@ image::rosa/hcp-create/singleaz01.png[]
 image::rosa/hcp-create/multiaz01.png[]
 image::rosa/hcp-create/multiaz02.png[]
 
-NOTE: ワーカーノードをMultiAZの2台構成にする場合は、MultiAZの3台構成でROSA HCPクラスターを作成した後に `workers-2` などの名前が付けられたマシンプールを1つ削除して、ワーカーノードを1台削除してください。削除対象のワーカーノード上で後述のOpenShift MonitoringのPrometheus Podが実行されている場合、下記のコマンドを管理者アカウント( `cluster-admin` など)で実行する必要があります。このコマンドによって、Prometheus Podの再起動が自動実行されます。
+NOTE: ワーカーノードをMultiAZの2台構成にする場合は、MultiAZの3台構成でROSA HCPクラスターを作成した後に、 `workers-2` などの名前が付けられたマシンプールを1つ削除して、ワーカーノードを1台削除してください。削除対象のワーカーノード上で後述のOpenShift MonitoringのPrometheus Podが実行されている場合、下記のocコマンド(OpenShift CLI)を管理者アカウント( `cluster-admin` など)で実行する必要があります。このコマンドによって、Prometheus Podの再起動が自動実行されます。Prometheusに関するPodのレプリカ数やモニタリングデータ保存のためのストレージなどは、OpenShiftでは `k8s` という名前のPrometheusリソースによって自動管理されています。
 
 ```
+$ oc get prometheus -n openshift-monitoring
+NAME   VERSION   DESIRED   READY   RECONCILED   AVAILABLE   AGE
+k8s    2.53.1    2         2       True         True        17m
+
 $ oc delete pvc -n openshift-monitoring \
 prometheus-data-prometheus-k8s-0 \
 prometheus-data-prometheus-k8s-1
