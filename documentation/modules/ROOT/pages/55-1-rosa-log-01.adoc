@@ -16,7 +16,7 @@ ROSAでのOpenShift Loggingによるロギング設定の概要は次のとお�
 1. Amazon S3の汎用バケットを作成します。
 1. ROSAのOpenShiftコンソールから、OpenShift Logging OperatorやLoki Operatorなどを
 インストールして、ロギングとログ転送用のインスタンスを作成します。
-このとき、上記手順で作成したIAMロールとAmazon S3のBucketを利用するように設定します。
+このとき、上記手順で作成したIAMロールとAmazon S3のバケットを利用するように設定します。
 
 
 これらを順番に見ていきましょう。
