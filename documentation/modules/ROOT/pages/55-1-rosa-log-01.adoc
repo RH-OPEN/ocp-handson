@@ -8,130 +8,241 @@ include::_attributes.adoc[]
 ---
 NOTE: 本演習を自習している時以外、ROSAクラスターのロギング設定を実行しないで下さい。
 
-ROSAのロギングについては、Amazon CloudWatchをベースとするログ転送ソリューションの利用を推奨しています。
-転送設定の概要は次のとおりです。STSの利用有無に関わらず、以下の手順を実施することができます。
+ROSAのロギングについては、OpenShift LoggingのLokiを利用したロギングか、
+Amazon CloudWatchをベースとするログ転送ソリューションの利用を推奨しています。
+ROSAでのOpenShift Loggingによるロギング設定の概要は次のとおりです。
 
-1. Amazon CloudWatchのログ参照/書き込み権限を持つAWS IAMユーザーを作成して、
-このユーザーのアクセスキーとシークレットアクセスキーを取得します。
-1. ROSAのOpenShiftコンソールから、OpenShift Logging Operatorをインストールして、
-ロギングとログ転送用のインスタンスを作成します。
-このとき、上記手順で作成したAWS IAMユーザーの認証情報(アクセスキー/シークレットアクセスキー)を利用するように設定します。
+1. Lokiのログ保存に利用するAmazon S3を、AWS STSで利用するためのIAMロールを作成します。
+1. Amazon S3の汎用バケットを作成します。
+1. ROSAのOpenShiftコンソールから、OpenShift Logging OperatorやLoki Operatorなどを
+インストールして、ロギングとログ転送用のインスタンスを作成します。
+このとき、上記手順で作成したIAMロールとAmazon S3のBucketを利用するように設定します。
+
 
 これらを順番に見ていきましょう。
 
-=== CloudWatch用のAWS IAMユーザーの作成
+=== Amazon S3をAWS STSで利用するためのIAMロールの作成
 
-AWSのコンソールまたはAWS CLIで、CloudWatchのログ参照/書き込み権限を持つAWS IAMユーザーを作成します。
-IAMユーザー作成手順は、
-https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/id_users_create.html[AWS アカウントでの IAM ユーザーの作成]を
+AWSのコンソールまたはAWS CLIで、Amazon S3をAWS STSで利用するためのIAMロールを作成します。
+IAMロール作成手順は、
+https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/id_roles_create_for-custom.html[「カスタム信頼ポリシーを使用してロールを作成する」]を
 ご参照ください。
 
-例として、下記画像のような権限を持つユーザーを作成します。この画像の例では、ログ参照/書き込み権限として
-「CloudWatchLogsFullAccess」を「rosauser01」ユーザーに付与しています。
+例として、下記画像のような「AmazonS3FullAccess」IAMポリシーを割り当てたIAMロールを作成します。
 
-image::rosa/log-01/iam-user-create.png[]
+image::rosa/log-01/iam-role-01.png[]
+image::rosa/log-01/iam-role-02.png[]
 
-この時に作成した、AWS IAMユーザーのアクセスキーとシークレットアクセスキーをメモします。
+[.console-input]
+[source,sh]
+----
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::<AWS_ACCOUNT_ID>:oidc-provider/<AWS_IAM_ID_PROVIDER_ID>"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringEquals": {
+                    "<AWS_IAM_ID_PROVIDER_ID>:sub": "system:serviceaccount:openshift-logging:logging-loki"
+                }
+            }
+        }
+    ]
+}
+----
 
-=== OpenShift Logging Operatorのインストール
+上記のカスタム信頼ポリシーは、特定の
+https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/id_roles_providers.html[AWS IAM IDプロバイダー]に
+紐づけられたOpenShiftやROSAクラスター上の `openshift-logging` プロジェクトにある `logging-loki` サービスアカウントに対して、IAMポリシーで指定されたAWSリソースへの特定の操作を許可するためのものとなります。後述するLoki OperatorでLokiStackインスタンスを作成する際に、LokiStackインスタンスの名前と同じ名前のサービスアカウントが自動作成されるようになっており、Amazon S3の利用権限をこのサービスアカウントに付与する必要があります。
 
-OpenShiftには「Red Hat OpenShift Logging Operator」というOperatorがあり、
-OpenShiftのロギングスタックを運用するために利用されます。
-このOperatorによって、CloudWatchへのログ転送設定が可能になります。
+ROSAの場合は `rosa list oidc-provider` コマンドで、ROSAクラスターに紐づいているAWS IAM IDプロバイダーが確認できるようになっています。下記のコマンドの出力結果で表示されている `oidc.op1.openshiftapps.com/289dfjXXXXXX` がAWS IAM IDプロバイダーのIDとなります。
 
-OperatorHubから、「Red Hat OpenShift Logging Operator」をインストールします。
-これは `cluster-admin` ユーザーで実行します。
-インストールには、インストールモードで「クラスターの特定のnamespace」を選択すること以外、
-全てデフォルトのパラメータを利用します。
+```
+$ rosa list oidc-provider
+I: Fetching OIDC providers
+OIDC PROVIDER ARN                                                                    Cluster ID       In Use
+arn:aws:iam::<AWS_ACCOUNT_ID>:oidc-provider/oidc.op1.openshiftapps.com/289dfjXXXXXX  2el3cammYYYYYYY  Yes
+```
+
+ここで作成したIAMロールのARNをメモしておきます。
+
+=== Amazon S3の汎用バケット作成
+
+AWSのコンソールまたはAWS CLIで、
+https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/create-bucket-overview.html[Amazon S3の汎用バケットを作成]します。
+
+AWSのコンソールから汎用バケットを作成する場合、バケット名を任意の名前で指定する以外は、全てデフォルトのパラメーターのままでバケットを作成します。なお、バケットのリージョンはどこでも構いません。ROSA HCPクラスターがあるリージョンとは別のリージョンにバケットを作成することもできます。
+
+ここで作成したバケット名とバケットのリージョンをメモしておきます。
+
+=== OpenShift Loggingに必要となるOperatorのインストール
+
+OpenShift Loggingを利用するためのOperatorを `cluster-admin` ユーザーで順次インストールしていきます。
+
+
+OperatorHubから「Red Hat OpenShift Logging Operator」をインストールします。
+インストールには、全てデフォルトのパラメータを利用します。
+このOperatorは、vectorでのLokiやCloudWatchへのログ転送設定に利用します。
 
 image::rosa/log-01/logging-operator-install1.png[]
-image::rosa/log-01/logging-operator-install2.png[]
+image::rosa/log-01/logging-operator-install3.png[]
+
+OperatorHubから「Cluster Observability Operator」をインストールします。
+インストールには、全てデフォルトのパラメータを利用します。
+このOperatorは、OpenShiftコンソールでの集約ログ表示設定に利用します。
+
+image::rosa/log-01/co-operator-install1.png[]
+image::rosa/log-01/co-operator-install2.png[]
+
+OperatorHubから「Loki Operator」をインストールします。
+「Community Loki Operator」ではなく、Red Hat提供の「Loki Operator」を選択してください。
+インストール時に、「ロール ARN」に前述の手順で作成したカスタム信頼ポリシー付きのIAMロールのARNを指定します。「更新の承認」はデフォルトは「手動」となっていますが、Operatorの自動更新を有効化したい場合は「自動」を選択してください。
+その他のパラメータは、全てデフォルト値を利用します。
+このOperatorは、Lokiのインスタンス作成に利用します。
+
+image::rosa/log-01/loki-operator-install1.png[]
+image::rosa/log-01/loki-operator-install2.png[]
 
 
 === ロギングの設定
 
-vectorによるクラスターロギングを設定します。
-「インストール済みのOperator」の「Red Hat OpenShift Logging」Operatorを選択して、
-「Cluster Logging」の下にある「インスタンスの作成」から、次のYAMLを入力して「作成」をクリックします。
+vectorとLokiを利用したクラスターロギングを設定します。
+
+最初にLokiが利用するためのS3バケットの情報(バケット名とリージョンID)を保存したシークレットリソースを作成します。OpenShiftコンソール右上にある「+」アイコンをクリックして「YAMLのインポート」を選択し、以下を入力して「作成」をクリックします。以下の例だと、バケット名が `rosa-hcp-test-bucket-000001` で、リージョンIDが `us-east-1` を指定しています。
 
 [.console-input]
 [source,sh]
 ----
-apiVersion: logging.openshift.io/v1
-kind: ClusterLogging
+apiVersion: v1
+kind: Secret
 metadata:
-  name: instance
+  name: logging-loki-s3
   namespace: openshift-logging
-spec:
-  collection:
-    type: vector
-  managementState: Managed
+stringData:
+  bucketnames: rosa-hcp-test-bucket-000001
+  region: us-east-1
 ----
 
-image::rosa/log-01/logging-instance-create1.png[]
-image::rosa/log-01/logging-instance-create2.png[]
-image::rosa/log-01/logging-instance-create3.png[]
+image::rosa/log-01/s3-secret-create.png[]
 
-この段階では、logstore or logforward destination(ログ保存先またはログ転送先)の設定が無いために、
-ログ収集/転送に利用するvectorを実行するPodが起動されません。
+
+`openshift-logging` プロジェクトに `LokiStack` カスタムリソースを作成して、Loki実行に必要となるアプリケーション群を作成します。先ほどと同様に、OpenShiftコンソール右上にある「+」アイコンをクリックしてYAMLをインポートします。ここで指定するシークレット名は、先ほど作成した `logging-loki-s3` となります。また、`1x.demo` サイズを指定することで、
+https://docs.redhat.com/ja/documentation/openshift_container_platform/4.18/html-single/logging/index#log6x-loki-sizing_log6x-loki-6.2[LokiStackインスタンスのサイズ]を指定しています。
+`1x.demo` はデモ用途なので、本番環境には利用しないでください。 
+
+[.console-input]
+[source,sh]
+----
+apiVersion: loki.grafana.com/v1
+kind: LokiStack
+metadata:
+  name: logging-loki
+  namespace: openshift-logging
+spec:
+  managementState: Managed
+  size: 1x.demo
+  storage:
+    schemas:
+    - effectiveDate: '2024-10-01'
+      version: v13
+    secret:
+      name: logging-loki-s3
+      type: s3
+  storageClassName: gp3-csi
+  tenants:
+    mode: openshift-logging
+----
+
+image::rosa/log-01/lokistack-create.png[]
+
+
+`UIPlugin` カスタムリソースを作成して、OpenShiftコンソールでの集約ログ表示を有効化します。
+ここで指定している `logging-loki` は、前述の手順で作成したLokiStackインスタンスの名前となります。
+
+[.console-input]
+[source,sh]
+----
+apiVersion: observability.openshift.io/v1alpha1
+kind: UIPlugin
+metadata:
+  name: logging
+spec:
+  type: Logging
+  logging:
+    lokiStack:
+      name: logging-loki
+----
+
+image::rosa/log-01/uiplugin-create.png[]
+
+数分待ってOpenShiftコンソールを更新すると、左サイドメニューに「Logs」が表示されます。
+今の状態だと、vectorでのログ転送が有効化されていないため、まだ何も表示されません。
+
+image::rosa/log-01/uiplugin-logs.png[]
+
 
 === ログ転送の設定
 
-ログ転送設定を行います。
-「CloudWatch用のAWS IAMユーザーの作成」で作成したアクセスキーとシークレットアクセスキーを、
-AWS認証情報としてOpenShiftのシークレットリソースに保存します。
+次のコマンドでログ収集用のサービスアカウント `collector` を作成し、LokiStackカスタムリソースへのデータ書き込み許可と、アプリケーション/インフラストラクチャー/監査ログ収集を許可する権限を付与します。
 
-「OpenShift Logging Operator」をインストールした「openshift-logging」プロジェクトを選択して、
-左サイドメニューの「管理者向け表示」→「Workloads」→「シークレット」に移動します。
-そして、「作成」から「キーと値のシークレット」をクリックして、次の値を入力して作成します。
+```
+oc create sa collector -n openshift-logging
+oc adm policy add-cluster-role-to-user logging-collector-logs-writer -z collector -n openshift-logging
+oc adm policy add-cluster-role-to-user collect-application-logs -z collector -n openshift-logging
+oc adm policy add-cluster-role-to-user collect-audit-logs -z collector -n openshift-logging
+oc adm policy add-cluster-role-to-user collect-infrastructure-logs -z collector -n openshift-logging
+```
 
-- シークレット名: AWS認証情報として保存するOpenShiftリソースの任意の名前。この例では「cw-secret」を指定。
-- キー/値: 「CloudWatch用のAWS IAMユーザーの作成」で作成した、
-AWSアクセスキー(aws_access_key_id)とシークレットアクセスキー(aws_secret_access_key)を入力。
+この5つのコマンドは、`cluster-admin` ユーザーで実行します。前の演習で紹介したOpenShiftのWeb Terminalを利用することができます。
 
-image::rosa/log-01/secret-create.png[]
+image::rosa/log-01/sa-collector-create.png[]
 
-作成したシークレットリソース「cw-secret」を利用した、ログ転送設定のためのインスタンスを作成します。
-「OpenShift Logging Operator」を選択して、「Cluster Log Forwarder」の下にある「インスタンスの作成」から、
-次のYAMLを入力して「作成」をクリックします。
 
-ここでは `region: ap-northeast-1` で東京リージョンのCloudWatchへのログ転送の指定と、 `groupPrefix: hcp-01` でCloudWatchで作成されるロググループの名前の接頭辞を「hcp-01」と指定しています。 
-また、前述の手順で作成した「cw-secret」シークレットも指定します。
+最後にvectorによるLokiStackインスタンスへのログ転送を設定します。以下のYAMLをOpenShiftコンソールからインポートします。`inputRefs` の箇所で、アプリケーション/インフラストラクチャー/監査の3種類のログを転送するように指定しています。また、前述の手順で作成した下記を指定しています。
 
-NOTE: 他にもプロジェクトごとのロググループの作成なども設定できます。
-具体的な設定方法については、
-https://docs.redhat.com/ja/documentation/openshift_container_platform/4.16/html/logging/configuring-log-forwarding#cluster-logging-collector-log-forward-cloudwatch_configuring-log-forwarding[公式ドキュメント]をご参照ください。
+- サービスアカウント `collector`
+- LokiStackインスタンス `logging-loki`
 
 [.console-input]
 [source,sh]
 ----
-apiVersion: "logging.openshift.io/v1"
+apiVersion: observability.openshift.io/v1
 kind: ClusterLogForwarder
 metadata:
-  name: instance
+  name: collector
   namespace: openshift-logging
 spec:
+  serviceAccount:
+    name: collector
   outputs:
-   - name: cw
-     type: cloudwatch
-     cloudwatch:
-       region: ap-northeast-1
-       groupPrefix: hcp-01
-     secret:
-        name: cw-secret
+  - name: default-lokistack
+    type: lokiStack
+    lokiStack:
+      authentication:
+        token:
+          from: serviceAccount
+      target:
+        name: logging-loki
+        namespace: openshift-logging
+    tls:
+      ca:
+        key: service-ca.crt
+        configMapName: openshift-service-ca.crt
   pipelines:
-    - name: all-logs
-      inputRefs:
-        - application
-        - infrastructure
-        - audit
-      outputRefs:
-        - cw
+  - name: default-logstore
+    inputRefs:
+    - application
+    - infrastructure
+    - audit
+    outputRefs:
+    - default-lokistack
 ----
 
-image::rosa/log-01/loggingforwarder-instance-create1.png[]
-image::rosa/log-01/loggingforwarder-instance-create2.png[]
-
+image::rosa/log-01/clf-create.png[]
 
 [Note]
 ====
@@ -140,23 +251,13 @@ image::rosa/log-01/loggingforwarder-instance-create2.png[]
 - `application` : アプリケーションログの収集。利用者が作成したプロジェクトにデプロイされるアプリケーションのログ(stdoutとstderrに出力されるログ)を収集します。後述のインフラストラクチャー関連のログは除きます。
 - `infrastructure` : インフラストラクチャーログの収集。ROSAクラスター作成時にデフォルトで作成される `openshift-\*` , `kube-*` などのプロジェクトにある、インフラストラクチャー関連のログを収集します。
 - `audit` : セキュリティ監査に関連するログの収集。ワーカーノードのノード監査システム(auditd)で
-生成される監査ログ(/var/log/audit/audit.log)を収集します。監査ログは、OpenShift Logging Operatorとは別の仕組みで外部転送されており、
+生成される監査ログ(/var/log/audit/audit.log)を収集します。コントロールプレーンの監査ログは、OpenShift Logging Operatorとは別の仕組みで外部転送されており、
 https://docs.openshift.com/rosa/rosa_architecture/rosa_policy_service_definition/rosa-policy-responsibility-matrix.html#rosa-policy-platform-monitoring_rosa-policy-responsibility-matrix[Red HatのSREチームによって1年間保存]されます。
 そのため、ROSAの利用者は監査ログを保存しなくても、Red Hatのサポートケース経由で監査ログを取得することもできます。
 ====
 
-
-これでログ転送の設定が完了したため、先ほど作成したLoggingインスタンスによって、
-自動的に `collector-\*` という名前のPod(内部ではvectorが実行)が、「openshift-logging」プロジェクトに作成されます。
+このログ転送設定によって、自動的に `collector-\*` という名前のPod(内部ではvectorが実行)が、「openshift-logging」プロジェクトに作成されます。
 この `collector-*` Podは、全てのワーカーノードで自動的に実行されて、
-ワーカーノード上のログをAmazon CloudWatchに転送します。
+ワーカーノード上のログをLokiStackインスタンスに転送します。
 
-image::rosa/log-01/logging-pods.png[]
-
-
-NOTE: AWSアカウントでのIAMユーザー作成が許可されていない場合、ROSAクラスターインストールの時と同様に、
-AWS STSを利用したログ転送の設定が可能です。この場合、AWS IAMの一時的な認証情報として利用される、
-専用のAWS IAMロール(CloudWatchへのログ転送に必要)を作成する必要があります。
-この設定方法については、
-https://access.redhat.com/documentation/ja-jp/red_hat_openshift_service_on_aws/4/html-single/logging/index#rosa-cluster-logging-collector-log-forward-sts-cloudwatch_configuring-log-forwarding[公式ドキュメント]をご参照ください。
-
+image::rosa/log-01/loki-logging-pods.png[]
