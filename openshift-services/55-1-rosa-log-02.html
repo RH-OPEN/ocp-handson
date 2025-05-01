@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Amazon CloudWatchでのログ確認 :: OpenShift Handson</title>
+    <title>OpenShiftコンソールでのログ確認 :: OpenShift Handson</title>
     <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/55-1-rosa-log-02.html">
     <link rel="prev" href="55-1-rosa-log-01.html">
     <link rel="next" href="55-2-rosa-monitoring.html">
@@ -227,21 +227,18 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Amazon CloudWatchでのログ確認</h1>
+<h1 class="page">OpenShiftコンソールでのログ確認</h1>
 <div class="sect1">
 <h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>このモジュールでは、Amazon CloudWatchのコンソールから、転送されたログを確認します。</p>
+<p>このモジュールでは、OpenShiftのコンソールで集約されたログを確認します。</p>
 </div>
 <hr>
 <div class="sect2">
-<h3 id="_amazon_cloudwatchコンソールでのログ確認"><a class="anchor" href="#_amazon_cloudwatchコンソールでのログ確認"></a>Amazon CloudWatchコンソールでのログ確認</h3>
+<h3 id="_openshiftコンソールでのログ確認"><a class="anchor" href="#_openshiftコンソールでのログ確認"></a>OpenShiftコンソールでのログ確認</h3>
 <div class="paragraph">
-<p><a href="https://console.aws.amazon.com/cloudwatch/home">Amazon CloudWatchのコンソール</a>にアクセスして、
-ROSAクラスターのリージョン(本演習環境では東京リージョン. <code>ap-northeast-1</code> )を選択します。
-すると、ROSAクラスターから転送されたログのグループを確認できます。
-アプリケーション(application)、監査(audit)、インフラストラクチャー(infrastructure)に関するロググループが作成されています。</p>
+<p>OpenShiftコンソールで集約されたログを確認します。ROSAクラスターの管理者アカウント( <code>cluster-admin</code> など)でログインして、左サイドメニューの「モニタリング」→「Logs」から確認できます。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -250,54 +247,89 @@ ROSAクラスターのリージョン(本演習環境では東京リージョン
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-本演習をワークショップ形式で実施している場合、AWSコンソールにアクセスするためのアカウントは、インストラクターが案内します。
+本演習をワークショップ形式で実施している場合、インストラクターが管理者アカウントを案内します。
 </td>
 </tr>
 </table>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/log-02/loggroup.png" alt="loggroup">
+<img src="_images/rosa/log-02/console-logs.png" alt="console logs">
 </div>
 </div>
 <div class="paragraph">
-<p>末尾に「application」という名前が付いているロググループを選択して、ログストリームの1つを選択します。
-ここでは、 <code>test-ebs</code> Podのログを確認することにしてみます。
-各ログストリームには受講者が作成したプロジェクト名(下の画像だと、 <code>test-project20</code> )が付いていますので、
-自身が作成したプロジェクト名が付いたログストリームを選択します。</p>
+<p>表示されたログについて、コンソールの様々なフィルタリング(ネームスペースやコンテナ単位など)ができるので、色々試してみてください。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ローカルユーザーに対する集約ログ参照権限の付与"><a class="anchor" href="#_ローカルユーザーに対する集約ログ参照権限の付与"></a>ローカルユーザーに対する集約ログ参照権限の付与</h3>
+<div class="paragraph">
+<p>ローカルユーザーは自分が作ったコンテナアプリケーションのログを、Pod単位で見ることができます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/log-02/logstream.png" alt="logstream">
+<img src="_images/rosa/log-02/pod-logs.png" alt="pod logs">
 </div>
 </div>
 <div class="paragraph">
-<p>前の演習で作成した　<code>test-ebs</code> Podは、「hello ebs」というログを30秒間隔で出力し続けており、
-そのログが <code>message</code> の所で表示されています。
-これによって、ログ転送が正常に機能していることを確認できます。</p>
+<p>ただし、デフォルトだと、プロジェクト単位で集約されたログを確認するための権限がローカルユーザーに無いため、下記のようなメッセージが表示されてしまいます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/log-02/logforward-confirm.png" alt="logforward confirm">
+<img src="_images/rosa/log-02/forbidden.png" alt="forbidden">
+</div>
+</div>
+<div class="paragraph">
+<p>このメッセージに従って、管理者アカウントでローカルユーザーに対する集約ログ参照権限を付与します。</p>
+</div>
+<div class="paragraph">
+<p>ROSAクラスターの管理者アカウントで再ログインして、OpenShiftコンソール右上の「+」ボタンから以下のYAMLをインポートします。このYAMLでは <code>view-application-logs</code> というRoleBindingリソースを <code>test-project20</code> プロジェクトに作っています。ユーザーとして <code>testuser20</code> も指定しているので <code>testuser20</code> ユーザーが <code>test-project20</code> プロジェクト上に作られたアプリケーションに関する集約ログを、OpenShiftコンソール上で見れるようになります。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+このYAMLの <code>testuser20</code> と <code>test-project20</code> については、自分が使っているユーザー名とプロジェクト名に適宜変更してください。
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: view-application-logs
+  namespace: test-project20
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-logging-application-view
+subjects:
+- kind: User
+  name: testuser20
+  apiGroup: rbac.authorization.k8s.io</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/log-02/rolebinding.png" alt="rolebinding">
+</div>
+</div>
+<div class="paragraph">
+<p>RoleBindingリソースを作成したあとに <code>testuser20</code> ユーザーで再ログインしてみると、<code>test-project20</code> プロジェクトで作成されたアプリケーションに関する集約ログを確認できるようになっています。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/rosa/log-02/localuser-logging.png" alt="localuser logging">
 </div>
 </div>
 <div class="paragraph">
 <p>ログ転送については、他のアプリケーションをデプロイすることでも確認してみることができます。
 色々試してみてください。</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-こうしたログをもとに、ROSAの利用者は
-<a href="https://docs.aws.amazon.com/ja_jp/AmazonCloudWatch/latest/logs/Subscriptions.html">CloudWatchのサブスクリプションを使用したログデータのリアルタイム処理</a>
-などを実行できるようになります。
-</td>
-</tr>
-</table>
 </div>
 </div>
 </div>
