@@ -92,7 +92,7 @@ image::rosa/log-01/logging-operator-install3.png[]
 
 OperatorHubから「Cluster Observability Operator」をインストールします。
 インストールには、全てデフォルトのパラメータを利用します。
-このOperatorは、OpenShiftコンソールでの集約ログ表示設定に利用します。
+このOperatorは、OpenShiftコンソールでのログ集約の表示設定に利用します。
 
 image::rosa/log-01/co-operator-install1.png[]
 image::rosa/log-01/co-operator-install2.png[]
@@ -159,7 +159,7 @@ spec:
 image::rosa/log-01/lokistack-create.png[]
 
 
-`UIPlugin` カスタムリソースを作成して、OpenShiftコンソールでの集約ログ表示を有効化します。
+`UIPlugin` カスタムリソースを作成して、OpenShiftコンソールでのログ集約の表示を有効化します。
 ここで指定している `logging-loki` は、前述の手順で作成したLokiStackインスタンスの名前です。
 
 [.console-input]
