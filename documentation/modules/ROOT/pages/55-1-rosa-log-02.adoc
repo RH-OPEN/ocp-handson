@@ -1,42 +1,61 @@
-= Amazon CloudWatchでのログ確認
+= OpenShiftコンソールでのログ確認
 :navtitle: rosa-log-02
 include::_attributes.adoc[]
 
 == 演習の概要
-このモジュールでは、Amazon CloudWatchのコンソールから、転送されたログを確認します。
+このモジュールでは、OpenShiftのコンソールで集約されたログを確認します。
 
 ---
 
-=== Amazon CloudWatchコンソールでのログ確認
+=== OpenShiftコンソールでのログ確認
 
-https://console.aws.amazon.com/cloudwatch/home[Amazon CloudWatchのコンソール]にアクセスして、
-ROSAクラスターのリージョン(本演習環境では東京リージョン. `ap-northeast-1` )を選択します。
-すると、ROSAクラスターから転送されたログのグループを確認できます。
-アプリケーション(application)、監査(audit)、インフラストラクチャー(infrastructure)に関するロググループが作成されています。
+OpenShiftコンソールで集約されたログを確認します。ROSAクラスターの管理者アカウント( `cluster-admin` など)でログインして、左サイドメニューの「モニタリング」→「Logs」から確認できます。
 
-NOTE: 本演習をワークショップ形式で実施している場合、AWSコンソールにアクセスするためのアカウントは、インストラクターが案内します。
+NOTE: 本演習をワークショップ形式で実施している場合、インストラクターが管理者アカウントを案内します。
 
-image::rosa/log-02/loggroup.png[]
+image::rosa/log-02/console-logs.png[]
 
-末尾に「application」という名前が付いているロググループを選択して、ログストリームの1つを選択します。
-ここでは、 `test-ebs` Podのログを確認することにしてみます。
-各ログストリームには受講者が作成したプロジェクト名(下の画像だと、 `test-project20` )が付いていますので、
-自身が作成したプロジェクト名が付いたログストリームを選択します。
+表示されたログについて、コンソールの様々なフィルタリング(ネームスペースやコンテナ単位など)ができるので、色々試してみてください。
 
+=== ローカルユーザーに対する集約ログ参照権限の付与
 
-image::rosa/log-02/logstream.png[]
+ローカルユーザーは自分が作ったコンテナアプリケーションのログを、Pod単位で見ることができます。
 
+image::rosa/log-02/pod-logs.png[]
 
-前の演習で作成した　`test-ebs` Podは、「hello ebs」というログを30秒間隔で出力し続けており、
-そのログが `message` の所で表示されています。
-これによって、ログ転送が正常に機能していることを確認できます。
+ただし、デフォルトだと、プロジェクト単位で集約されたログを確認するための権限がローカルユーザーに無いため、下記のようなメッセージが表示されてしまいます。
 
-image::rosa/log-02/logforward-confirm.png[]
+image::rosa/log-02/forbidden.png[]
+
+このメッセージに従って、管理者アカウントでローカルユーザーに対する集約ログ参照権限を付与します。
+
+ROSAクラスターの管理者アカウントで再ログインして、OpenShiftコンソール右上の「+」ボタンから以下のYAMLをインポートします。このYAMLでは `view-application-logs` というRoleBindingリソースを `test-project20` プロジェクトに作っています。ユーザーとして `testuser20` も指定しているので `testuser20` ユーザーが `test-project20` プロジェクト上に作られたアプリケーションに関する集約ログを、OpenShiftコンソール上で見れるようになります。
+
+NOTE: このYAMLの `testuser20` と `test-project20` については、自分が使っているユーザー名とプロジェクト名に適宜変更してください。
+
+[.console-input]
+[source,sh]
+----
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: view-application-logs
+  namespace: test-project20
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-logging-application-view
+subjects:
+- kind: User
+  name: testuser20
+  apiGroup: rbac.authorization.k8s.io
+----
+
+image::rosa/log-02/rolebinding.png[]
+
+RoleBindingリソースを作成したあとに `testuser20` ユーザーで再ログインしてみると、`test-project20` プロジェクトで作成されたアプリケーションに関する集約ログを確認できるようになっています。
+
+image::rosa/log-02/localuser-logging.png[]
 
 ログ転送については、他のアプリケーションをデプロイすることでも確認してみることができます。
 色々試してみてください。
-
-NOTE: こうしたログをもとに、ROSAの利用者は
-https://docs.aws.amazon.com/ja_jp/AmazonCloudWatch/latest/logs/Subscriptions.html[CloudWatchのサブスクリプションを使用したログデータのリアルタイム処理]
-などを実行できるようになります。
-
