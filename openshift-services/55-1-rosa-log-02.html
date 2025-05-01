@@ -143,7 +143,7 @@
     <a class="nav-link" href="55-1-rosa-log-01.html">7. ロギング設定 [デモ]</a>
   </li>
   <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="55-1-rosa-log-02.html">8. Amazon CloudWatchでのログ確認</a>
+    <a class="nav-link" href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="55-2-rosa-monitoring.html">9. モニタリング</a>
@@ -220,7 +220,7 @@
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
     <li>51. Red Hat OpenShift Service on AWS (ROSA) Lab</li>
-    <li><a href="55-1-rosa-log-02.html">8. Amazon CloudWatchでのログ確認</a></li>
+    <li><a href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/55-1-rosa-log-02.adoc">Edit this Page</a></div>
@@ -232,13 +232,13 @@
 <h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>このモジュールでは、OpenShiftのコンソールで集約されたログを確認します。</p>
+<p>このモジュールでは、OpenShiftのコンソールでのログ集約を確認します。</p>
 </div>
 <hr>
 <div class="sect2">
 <h3 id="_openshiftコンソールでのログ確認"><a class="anchor" href="#_openshiftコンソールでのログ確認"></a>OpenShiftコンソールでのログ確認</h3>
 <div class="paragraph">
-<p>OpenShiftコンソールで集約されたログを確認します。ROSAクラスターの管理者アカウント( <code>cluster-admin</code> など)でログインして、左サイドメニューの「モニタリング」→「Logs」から確認できます。</p>
+<p>OpenShiftコンソールでのログ集約を確認します。管理者アカウント( <code>cluster-admin</code> など)でログインして、左サイドメニューの「モニタリング」→「Logs」から確認できます。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -258,11 +258,11 @@
 </div>
 </div>
 <div class="paragraph">
-<p>表示されたログについて、コンソールの様々なフィルタリング(ネームスペースやコンテナ単位など)ができるので、色々試してみてください。</p>
+<p>表示されたログについて、様々なフィルタリング(ネームスペースやコンテナ単位など)ができるので、色々試してみてください。</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ローカルユーザーに対する集約ログ参照権限の付与"><a class="anchor" href="#_ローカルユーザーに対する集約ログ参照権限の付与"></a>ローカルユーザーに対する集約ログ参照権限の付与</h3>
+<h3 id="_ローカルユーザーに対するログ集約の参照権限付与"><a class="anchor" href="#_ローカルユーザーに対するログ集約の参照権限付与"></a>ローカルユーザーに対するログ集約の参照権限付与</h3>
 <div class="paragraph">
 <p>ローカルユーザーは自分が作ったコンテナアプリケーションのログを、Pod単位で見ることができます。</p>
 </div>
@@ -272,7 +272,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>ただし、デフォルトだと、プロジェクト単位で集約されたログを確認するための権限がローカルユーザーに無いため、下記のようなメッセージが表示されてしまいます。</p>
+<p>ただし、デフォルトだと、プロジェクト単位でのログ集約を確認するための権限がローカルユーザーに無いため、下記のようなメッセージが表示されてしまいます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -280,10 +280,13 @@
 </div>
 </div>
 <div class="paragraph">
-<p>このメッセージに従って、管理者アカウントでローカルユーザーに対する集約ログ参照権限を付与します。</p>
+<p>そこで、管理者アカウントでローカルユーザーに対するログ集約の参照権限を付与してみます。</p>
 </div>
 <div class="paragraph">
-<p>ROSAクラスターの管理者アカウントで再ログインして、OpenShiftコンソール右上の「+」ボタンから以下のYAMLをインポートします。このYAMLでは <code>view-application-logs</code> というRoleBindingリソースを <code>test-project20</code> プロジェクトに作っています。ユーザーとして <code>testuser20</code> も指定しているので <code>testuser20</code> ユーザーが <code>test-project20</code> プロジェクト上に作られたアプリケーションに関する集約ログを、OpenShiftコンソール上で見れるようになります。</p>
+<p>管理者アカウントで再ログインして、OpenShiftコンソール右上の「+」ボタンから以下のYAMLをインポートします。このYAMLでは <code>view-application-logs</code> というRoleBindingリソースを <code>test-project20</code> プロジェクトに作っています。</p>
+</div>
+<div class="paragraph">
+<p>ユーザーとして <code>testuser20</code> も指定しているので <code>testuser20</code> ユーザーが <code>test-project20</code> プロジェクト上に作られたアプリケーションに関するログ集約を、OpenShiftコンソール上で見れるようになります。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -320,7 +323,7 @@ subjects:
 </div>
 </div>
 <div class="paragraph">
-<p>RoleBindingリソースを作成したあとに <code>testuser20</code> ユーザーで再ログインしてみると、<code>test-project20</code> プロジェクトで作成されたアプリケーションに関する集約ログを確認できるようになっています。</p>
+<p>RoleBindingリソースを作成したあとに <code>testuser20</code> ユーザーで再ログインしてみると、<code>test-project20</code> プロジェクトで作成されたアプリケーションに関するログ集約を確認できます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -328,7 +331,7 @@ subjects:
 </div>
 </div>
 <div class="paragraph">
-<p>ログ転送については、他のアプリケーションをデプロイすることでも確認してみることができます。
+<p>ログ集約については、他のアプリケーションをデプロイすることでも確認してみることができます。
 色々試してみてください。</p>
 </div>
 </div>

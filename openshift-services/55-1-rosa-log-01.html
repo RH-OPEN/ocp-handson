@@ -143,7 +143,7 @@
     <a class="nav-link" href="55-1-rosa-log-01.html">7. ロギング設定 [デモ]</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="55-1-rosa-log-02.html">8. Amazon CloudWatchでのログ確認</a>
+    <a class="nav-link" href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="55-2-rosa-monitoring.html">9. モニタリング</a>
@@ -367,7 +367,7 @@ arn:aws:iam::&lt;AWS_ACCOUNT_ID&gt;:oidc-provider/oidc.op1.openshiftapps.com/289
 <div class="paragraph">
 <p>OperatorHubから「Cluster Observability Operator」をインストールします。
 インストールには、全てデフォルトのパラメータを利用します。
-このOperatorは、OpenShiftコンソールでの集約ログ表示設定に利用します。</p>
+このOperatorは、OpenShiftコンソールでのログ集約の表示設定に利用します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -455,7 +455,7 @@ spec:
 </div>
 </div>
 <div class="paragraph">
-<p><code>UIPlugin</code> カスタムリソースを作成して、OpenShiftコンソールでの集約ログ表示を有効化します。
+<p><code>UIPlugin</code> カスタムリソースを作成して、OpenShiftコンソールでのログ集約の表示を有効化します。
 ここで指定している <code>logging-loki</code> は、前述の手順で作成したLokiStackインスタンスの名前です。</p>
 </div>
 <div class="listingblock console-input">
@@ -598,7 +598,7 @@ spec:
 </div>
 <nav class="pagination">
   <span class="prev"><a href="58-rosa-bedrock.html">6. Amazon Bedrockアプリケーションの実行</a></span>
-  <span class="next"><a href="55-1-rosa-log-02.html">8. Amazon CloudWatchでのログ確認</a></span>
+  <span class="next"><a href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
