@@ -21,14 +21,13 @@ ROSAでのOpenShift Loggingによるロギング設定の概要は次のとお�
 
 これらを順番に見ていきましょう。
 
-=== Amazon S3をAWS STSで利用するためのIAMロールの作成
+=== Amazon S3をAWS STSで利用するためのIAMロール作成
 
 AWSのコンソールまたはAWS CLIで、Amazon S3をAWS STSで利用するためのIAMロールを作成します。
-IAMロール作成手順は、
-https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/id_roles_create_for-custom.html[「カスタム信頼ポリシーを使用してロールを作成する」]を
-ご参照ください。
+IAMロール作成手順は
+https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/id_roles_create_for-custom.html[「カスタム信頼ポリシーを使用してロールを作成する」]をご参照下さい。
 
-例として、下記画像のような「AmazonS3FullAccess」IAMポリシーを割り当てたIAMロールを作成します。
+例として、下記画像のような「AmazonS3FullAccess」ポリシーを割り当てたIAMロールを作成します。
 
 image::rosa/log-01/iam-role-01.png[]
 image::rosa/log-01/iam-role-02.png[]
@@ -70,14 +69,14 @@ arn:aws:iam::<AWS_ACCOUNT_ID>:oidc-provider/oidc.op1.openshiftapps.com/289dfjXXX
 
 ここで作成したIAMロールのARNをメモしておきます。
 
-=== Amazon S3の汎用バケット作成
+=== Amazon S3のバケット作成
 
 AWSのコンソールまたはAWS CLIで、
 https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/create-bucket-overview.html[Amazon S3の汎用バケットを作成]します。
 
 AWSのコンソールから汎用バケットを作成する場合、バケット名を任意の名前で指定する以外は、全てデフォルトのパラメーターのままでバケットを作成します。なお、バケットのリージョンはどこでも構いません。ROSA HCPクラスターがあるリージョンとは別のリージョンにバケットを作成することもできます。
 
-ここで作成したバケット名とバケットのリージョンをメモしておきます。
+ここで作成した汎用バケットの名前とリージョンをメモしておきます。
 
 === OpenShift Loggingに必要となるOperatorのインストール
 
@@ -100,7 +99,7 @@ image::rosa/log-01/co-operator-install2.png[]
 
 OperatorHubから「Loki Operator」をインストールします。
 「Community Loki Operator」ではなく、Red Hat提供の「Loki Operator」を選択してください。
-インストール時に、「ロール ARN」に前述の手順で作成したカスタム信頼ポリシー付きのIAMロールのARNを指定します。「更新の承認」はデフォルトは「手動」となっていますが、Operatorの自動更新を有効化したい場合は「自動」を選択してください。
+インストール時にの「ロール ARN」で、前述の手順で作成したカスタム信頼ポリシー付きのIAMロールのARNを指定します。「更新の承認」はデフォルトは「手動」となっていますが、Operatorの自動更新を有効化したい場合は「自動」を選択してください。
 その他のパラメータは、全てデフォルト値を利用します。
 このOperatorは、Lokiのインスタンス作成に利用します。
 
@@ -110,7 +109,7 @@ image::rosa/log-01/loki-operator-install2.png[]
 
 === ロギングの設定
 
-vectorとLokiを利用したクラスターロギングを設定します。
+Lokiを利用したクラスターロギングを設定します。
 
 最初にLokiが利用するためのS3バケットの情報(バケット名とリージョンID)を保存したシークレットリソースを作成します。OpenShiftコンソール右上にある「+」アイコンをクリックして「YAMLのインポート」を選択し、以下を入力して「作成」をクリックします。以下の例だと、バケット名が `rosa-hcp-test-bucket-000001` で、リージョンIDが `us-east-1` を指定しています。
 
@@ -161,7 +160,7 @@ image::rosa/log-01/lokistack-create.png[]
 
 
 `UIPlugin` カスタムリソースを作成して、OpenShiftコンソールでの集約ログ表示を有効化します。
-ここで指定している `logging-loki` は、前述の手順で作成したLokiStackインスタンスの名前となります。
+ここで指定している `logging-loki` は、前述の手順で作成したLokiStackインスタンスの名前です。
 
 [.console-input]
 [source,sh]
