@@ -314,7 +314,19 @@ IAMロール作成手順は
 <div class="paragraph">
 <p>上記のカスタム信頼ポリシーは、特定の
 <a href="https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/id_roles_providers.html">AWS IAM IDプロバイダー</a>に
-紐づけられたOpenShiftやROSAクラスター上の <code>openshift-logging</code> プロジェクトにある <code>logging-loki</code> サービスアカウントに対して、IAMポリシーで指定されたAWSリソースへの特定の操作を許可するためのものとなります。後述するLoki OperatorでLokiStackインスタンスを作成する際に、LokiStackインスタンスの名前と同じ名前のサービスアカウントが自動作成されるようになっており、Amazon S3の利用権限をこのサービスアカウントに付与する必要があります。</p>
+紐づけられたOpenShiftやROSAクラスター上の <code>openshift-logging</code> プロジェクトにある <code>logging-loki</code> サービスアカウントに対して、IAMポリシーで指定されたAWSリソースへの特定の操作を許可するためのものとなります。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+後述するLoki OperatorでLokiStackインスタンスを作成する際に、LokiStackインスタンスの名前と同じ名前のサービスアカウントが自動作成されるようになっており、Amazon S3の利用権限をこのサービスアカウントに付与する必要があります。
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>ROSAの場合は <code>rosa list oidc-provider</code> コマンドで、ROSAクラスターに紐づいているAWS IAM IDプロバイダーが確認できるようになっています。下記のコマンドの出力結果で表示されている <code>oidc.op1.openshiftapps.com/289dfjXXXXXX</code> がAWS IAM IDプロバイダーのIDとなります。</p>
@@ -347,7 +359,7 @@ arn:aws:iam::&lt;AWS_ACCOUNT_ID&gt;:oidc-provider/oidc.op1.openshiftapps.com/289
 <div class="sect2">
 <h3 id="_openshift_loggingに必要となるoperatorのインストール"><a class="anchor" href="#_openshift_loggingに必要となるoperatorのインストール"></a>OpenShift Loggingに必要となるOperatorのインストール</h3>
 <div class="paragraph">
-<p>OpenShift Loggingを利用するためのOperatorを <code>cluster-admin</code> ユーザーで順次インストールしていきます。</p>
+<p>OpenShift Loggingを利用するためのOperatorを、管理者アカウント( <code>cluster-admin</code> ユーザーなど)で順次インストールしていきます。</p>
 </div>
 <div class="paragraph">
 <p>OperatorHubから「Red Hat OpenShift Logging Operator」をインストールします。
@@ -382,7 +394,7 @@ arn:aws:iam::&lt;AWS_ACCOUNT_ID&gt;:oidc-provider/oidc.op1.openshiftapps.com/289
 <div class="paragraph">
 <p>OperatorHubから「Loki Operator」をインストールします。
 「Community Loki Operator」ではなく、Red Hat提供の「Loki Operator」を選択してください。
-インストール時にの「ロール ARN」で、前述の手順で作成したカスタム信頼ポリシー付きのIAMロールのARNを指定します。「更新の承認」はデフォルトは「手動」となっていますが、Operatorの自動更新を有効化したい場合は「自動」を選択してください。
+インストール時に「ロール ARN」で、前述の手順で作成したカスタム信頼ポリシー付きのIAMロールのARNを指定します。「更新の承認」はデフォルトは「手動」となっていますが、Operatorの自動更新を有効化したい場合は「自動」を選択してください。
 その他のパラメータは、全てデフォルト値を利用します。
 このOperatorは、Lokiのインスタンス作成に利用します。</p>
 </div>
@@ -424,8 +436,19 @@ stringData:
 </div>
 <div class="paragraph">
 <p><code>openshift-logging</code> プロジェクトに <code>LokiStack</code> カスタムリソースを作成して、Loki実行に必要となるアプリケーション群を作成します。先ほどと同様に、OpenShiftコンソール右上にある「+」アイコンをクリックしてYAMLをインポートします。ここで指定するシークレット名は、先ほど作成した <code>logging-loki-s3</code> となります。また、<code>1x.demo</code> サイズを指定することで、
-<a href="https://docs.redhat.com/ja/documentation/openshift_container_platform/4.18/html-single/logging/index#log6x-loki-sizing_log6x-loki-6.2">LokiStackインスタンスのサイズ</a>を指定しています。
-<code>1x.demo</code> はデモ用途なので、本番環境には利用しないでください。</p>
+<a href="https://docs.redhat.com/ja/documentation/openshift_container_platform/4.18/html-single/logging/index#log6x-loki-sizing_log6x-loki-6.2">LokiStackインスタンスのサイズ</a>を指定しています。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>1x.demo</code> はデモ用途なので、本番環境には利用しないでください。
+</td>
+</tr>
+</table>
 </div>
 <div class="listingblock console-input">
 <div class="content">
@@ -501,7 +524,7 @@ oc adm policy add-cluster-role-to-user collect-infrastructure-logs -z collector 
 </div>
 </div>
 <div class="paragraph">
-<p>この5つのコマンドは、<code>cluster-admin</code> ユーザーで実行します。前の演習で紹介したOpenShiftのWeb Terminalを利用することができます。</p>
+<p>この5つのコマンドは、管理者アカウント( <code>cluster-admin</code> ユーザーなど)で実行します。前の演習で紹介したOpenShiftのWeb Terminalを利用することができます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -514,10 +537,10 @@ oc adm policy add-cluster-role-to-user collect-infrastructure-logs -z collector 
 <div class="ulist">
 <ul>
 <li>
-<p>サービスアカウント <code>collector</code></p>
+<p>サービスアカウント: <code>collector</code></p>
 </li>
 <li>
-<p>LokiStackインスタンス <code>logging-loki</code></p>
+<p>LokiStackインスタンス: <code>logging-loki</code></p>
 </li>
 </ul>
 </div>
@@ -577,7 +600,8 @@ spec:
 <p><code>audit</code> : セキュリティ監査に関連するログの収集。ワーカーノードのノード監査システム(auditd)で
 生成される監査ログ(/var/log/audit/audit.log)を収集します。コントロールプレーンの監査ログは、OpenShift Logging Operatorとは別の仕組みで外部転送されており、
 <a href="https://docs.openshift.com/rosa/rosa_architecture/rosa_policy_service_definition/rosa-policy-responsibility-matrix.html#rosa-policy-platform-monitoring_rosa-policy-responsibility-matrix">Red HatのSREチームによって1年間保存</a>されます。
-そのため、ROSAの利用者は監査ログを保存しなくても、Red Hatのサポートケース経由で監査ログを取得することもできます。</p>
+そのため、ROSAの利用者は監査ログを保存しなくても、
+<a href="https://docs.redhat.com/ja/documentation/red_hat_openshift_service_on_aws/4/html/introduction_to_rosa/rosa-policy-responsibility-matrix#rosa-policy-release-management_rosa-policy-responsibility-matrix">Red Hatのサポートケース経由で監査ログを取得</a>することもできます。</p>
 </li>
 </ul>
 </div>
