@@ -58,7 +58,7 @@ image::rosa/log-01/iam-role-02.png[]
 https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/id_roles_providers.html[AWS IAM IDプロバイダー]に
 紐づけられたOpenShiftやROSAクラスター上の `openshift-logging` プロジェクトにある `logging-loki` サービスアカウントに対して、IAMポリシーで指定されたAWSリソースへの特定の操作を許可するためのものとなります。
 
-NOTE: 後述するLoki OperatorでLokiStackインスタンスを作成する際に、LokiStackインスタンスの名前と同じ名前のサービスアカウントが自動作成されるようになっており、Amazon S3の利用権限をこのサービスアカウントに付与する必要があります。
+NOTE: 後述するLoki OperatorでLokiStackインスタンスを作成する際に、LokiStackインスタンスの名前と同じ名前のサービスアカウントがOpenShiftクラスターで自動作成されるようになっており、Amazon S3の利用権限をこのサービスアカウントに付与する必要があります。
 
 ROSAの場合は `rosa list oidc-provider` コマンドで、ROSAクラスターに紐づいているAWS IAM IDプロバイダーが確認できるようになっています。下記のコマンドの出力結果で表示されている `oidc.op1.openshiftapps.com/289dfjXXXXXX` がAWS IAM IDプロバイダーのIDとなります。
 
