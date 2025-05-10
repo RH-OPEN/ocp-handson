@@ -264,3 +264,7 @@ https://docs.redhat.com/ja/documentation/red_hat_openshift_service_on_aws/4/html
 ワーカーノード上のログをLokiStackインスタンスに転送します。
 
 image::rosa/log-01/loki-logging-pods.png[]
+
+しばらく時間が経つと、LokiStackインスタンスが指定しているAmazon S3のバケットにログが保存されていることを、AWSマネジメントコンソールから確認できます。Lokiでのログは自動圧縮されて、S3のバケットに保存されます。
+
+image::rosa/log-01/s3-loki-logs.png[]
