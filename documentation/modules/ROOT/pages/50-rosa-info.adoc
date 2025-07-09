@@ -10,7 +10,7 @@ Red Hat OpenShift Service on AWS (ROSA) Lab プロジェクトは、
 ====
 ROSAの概要について学習する場合、
 AWSのマネージドなコンテナオーケストレーションサービスである、
-Amazon ECS/EKS, ROSAの特徴の違いや想定される用途をご紹介している資料を参考にしてください。
+Amazon ECS/EKS, ROSAの特徴の違いや想定される用途、さらにOpenShiftの標準的な仮想化機能であるOpenShift Virtualizationをご紹介している資料を参考にしてください。
 
 この資料では、Kubernetesに興味のある人から特に聞かれることの多い、EKSとROSAについて、
 いくつかのサンプルユースケースと共に、両者の違いも合わせてご紹介しています。
