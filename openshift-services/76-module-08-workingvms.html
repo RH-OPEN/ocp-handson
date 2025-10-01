@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>仮想マシンとアプリケーションの操作 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/76-module-08-workingvms.html">
+    <link rel="prev" href="75-module-07-tempinst.html">
+    <link rel="next" href="78-module-09-networking.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://rh-open.github.io/ocp-handson">OpenShift Handson</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="openshift-services" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">01. OpenShift 基礎</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-deployment.html">2. Web コンソールの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02_app-storage-basics.html">3. 永続ストレージ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03_machinesets.html">4. ノードの動的管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04_infra-nodes.html">5. Infra ノードの作成</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="06_template-quota-limits.html">6. Project のクオータ/制限</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">20. OpenShift Pipeline Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="10-pipeline-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="11-pipelines.html">1. Pipelines -1/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="12-add-task.html">2. Pipelines -2/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="13-triggers.html">3. Tekton Triggers</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">21. OpenShift GitOps Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="20-GitOps-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="21-GitOps.html">1. OpenShift GitOps</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="22-Kustomize.html">2. Kustomizeインテグレーション</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="23-Helm.html">3. Helmインテグレーション</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">51. Red Hat OpenShift Service on AWS (ROSA) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="50-rosa-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="51-rosa-hcp-create.html">1. ROSA HCPクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="52-rosa-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="53-rosa-ebs.html">3. Amazon EBSの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-1-rosa-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-2-rosa-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="58-rosa-bedrock.html">6. Amazon Bedrockアプリケーションの実行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-01.html">7. ロギング設定 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-2-rosa-monitoring.html">9. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-3-rosa-project-metrics.html">10. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-4-rosa-alert.html">11. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="56-rosa-nodes.html">12. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="57-rosa-upgrade.html">13. ROSA HCPクラスターの更新</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">61. Azure Red Hat OpenShift (ARO) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="60-aro-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="61-aro-create.html">1. AROクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="62-aro-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="63-aro-storage.html">3. Azure DiskとAzure Filesの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="64-aro-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="65-aro-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="66-aro-logging.html">6. ロギング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-1-aro-monitoring.html">7. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-2-aro-project-metrics.html">8. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-3-aro-alert.html">9. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="68-aro-nodes.html">10. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="69-aro-upgrade.html">11. AROクラスターの更新[デモ]</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">71. OpenShift Virtualization Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="70-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="71-module-01-intro.html">1. 仮想マシン管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="72-module-02-mtv.html">2. 既存の仮想マシンの移行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="73-module-04-storage.html">3. ストレージ管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="74-module-05-bcdr.html">4. 仮想マシンのバックアップとリカバリ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="75-module-07-tempinst.html">5. テンプレートとインスタンスタイプの管理</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="76-module-08-workingvms.html">6. 仮想マシンとアプリケーションの操作</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="78-module-09-networking.html">7. 仮想マシンのネットワーク管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="79-conclusion.html">8. 追加情報</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Handson</a></li>
+    <li>71. OpenShift Virtualization Lab</li>
+    <li><a href="76-module-08-workingvms.html">6. 仮想マシンとアプリケーションの操作</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/76-module-08-workingvms.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">仮想マシンとアプリケーションの操作</h1>
+<div class="sect1">
+<h2 id="_はじめに"><a class="anchor" href="#_はじめに"></a>はじめに</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>このセクションでは、OpenShift Virtualization環境で仮想マシンを操作する際に、多くの管理者が実行する必要がある Day-2 操作を取り上げます。このロードショーを通じて培った、OpenShift 環境における VM の動作に関する理解を活用し、それらのスキルをこのセクションのタスクの完了に役立てます。この特定のケースでは、このロードショーの序盤で VMware vSphere からインポートした 3 つの仮想マシンを使用し、それらのサーバー上でホストされているアプリケーションが OpenShift Virtualization で実行されている現在、それらのアプリケーションにアクセスできるようにするために、いくつかの軽微な構成変更を行います。これを実現するために、OpenShift SDNのPod Networkを使用する際のデフォルトである service/route メソッドを使用してアプリケーションを公開し、クラスター外部からアプリケーションにアクセスできるようにします。これは、VM 上のアプリケーション公開に対するより近代的なアプローチです。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="service_route"><a class="anchor" href="#service_route"></a>Service/Routeによるアプリケーションの公開</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>デフォルトでは、仮想マシンは SDN に接続されており、これは残りのネットワークへのアクセスを与えるための便利で簡単な方法です。しかし、仮想マシンや OpenShift クラスタ内の他のPodが仮想化アプリケーションを見つけ、接続するのは難しい場合があります。これを解決するために、WindowsベースのWebサーバー2台への接続を分散する <strong>Service</strong> を使用し、各Serviceディスカバリ用のDNSエントリを作成し、外部クライアントが仮想マシン内でホストされているアプリケーションにアクセスできるように <strong>Route</strong> を作成します。</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+モジュール <strong>既存の仮想マシンの移行</strong> を完了していない場合は、まずそのモジュールを完了することをお勧めします。完了していない場合、または移行プロセスが保留中の場合は、<strong>vmimported-{user}</strong> プロジェクトで利用可能な、お客様用に準備された既存の仮想マシンを使用できます。 これらのインポート済みの仮想マシンを使用している場合は、以下の例で <strong>vmexamples-{user}</strong> ネームスペースのすべてのインスタンスを <strong>vmimported-{user}</strong> に置き換えてください。
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_serviceの紹介"><a class="anchor" href="#_serviceの紹介"></a>Serviceの紹介</h3>
+<div class="paragraph">
+<p><strong>Service</strong> はトラフィックのソース/ターゲットを識別し、ラベルに基づいてクライアントをエンドポイントに誘導します。 現時点では、VMにはまだラベルが割り当てられていません。</p>
+</div>
+<div class="paragraph">
+<p>VMをServiceに正しく関連付けるには、以下の作業が必要です。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>VMにラベルを追加します。 両方のWindows IISサーバーは同じロードバランサーの後ろにあるため、同じラベルを使用します。</p>
+</li>
+<li>
+<p>2つのWindows IISサーバーをクラスター上の他のワークロードで利用できるように、Serviceを作成します。OpenShiftは、Serviceの名前をDNS名として使用して、ロードバランサーを自動的に内部からアクセスできるようにします。</p>
+</li>
+<li>
+<p><strong>Route</strong> を作成して、OpenShiftの外部からServiceを利用できるようにします。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>まず、OpenShiftの仮想化GUIで仮想マシンの定義を変更し、仮想マシンにラベルを追加します。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_仮想マシンにラベルを追加"><a class="anchor" href="#_仮想マシンにラベルを追加"></a>仮想マシンにラベルを追加</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側の列で <strong>VirtualMachines</strong> をクリックし、インポートした3つの仮想マシンがまだ起動していない場合は起動します。右側のツリービューで <strong>Status</strong> の列をソートすると、簡単に確認できます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-08-workingvms/11_Imported_VMs_List.png" target="blank"><img src="_images/virt/2025_spring/module-08-workingvms/11_Imported_VMs_List.png" alt="11 Imported VMs List" width="100%"></a>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<strong>Migrating Existing Virtual Machines</strong>（既存の仮想マシンの移行）モジュールを完了した場合は <strong>vmexamples-{user}</strong>、完了していない場合は <strong>vmimported-{user}</strong> という正しいプロジェクトを選択してください。
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p><strong>winweb01-{user}</strong> VMを選択し、<strong>YAML</strong> タブに移動します。</p>
+</li>
+<li>
+<p><strong>spec:</strong> セクションを見つけ、<strong>template.metadata</strong> の下の <strong>labels</strong> セクションに次の行を追加します。</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">env: webapp</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+インデントを正確に取得するようにしてください。以下のスクリーンショットのようにです。
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-08-workingvms/12_Imported_VMs_YAML.png" target="blank"><img src="_images/virt/2025_spring/module-08-workingvms/12_Imported_VMs_YAML.png" alt="12 Imported VMs YAML" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>winweb02-{user}</strong> VMに対し同じ操作を繰り返します。</p>
+</li>
+<li>
+<p><strong>winweb01-{user}</strong> と <strong>winweb02-{user}</strong> の両方の仮想マシンを再起動します。</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+各仮想マシンのコンソールタブにアクセスして、仮想マシンが適切に動作していることを確認してください。
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_serviceの作成"><a class="anchor" href="#_serviceの作成"></a>Serviceの作成</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のメニューで <strong>Networking</strong> を展開し、<strong>Services</strong> をクリックします。読み込まれた画面で、画面の隅にある <strong>Create Service</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-08-workingvms/13_Navigate_Service.png" target="blank"><img src="_images/virt/2025_spring/module-08-workingvms/13_Navigate_Service.png" alt="13 Navigate Service" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>YAMLを以下の定義に置き換えます:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+  namespace: vmexamples-{user}
+spec:
+  selector:
+    env: webapp
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+仮想マシンで使用する <strong>namespace</strong> （<strong>vmexamples-{user}</strong> または <strong>vmimported-{user}</strong>）が、Service YAMLで使用されているものと同じであることを確認してください。
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-08-workingvms/14_Service_YAML.png" target="blank"><img src="_images/virt/2025_spring/module-08-workingvms/14_Service_YAML.png" alt="14 Service YAML" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>画面下部の <strong>Create</strong> ボタンをクリックします。 YAML が保存されたという通知が表示されます。
+新しく作成された <strong>webapp</strong> Serviceの詳細ページで、<strong>Pod selector</strong> リンクを見つけ、クリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-08-workingvms/15_Imported_VMs_PodSelector.png" target="blank"><img src="_images/virt/2025_spring/module-08-workingvms/15_Imported_VMs_PodSelector.png" alt="15 Imported VMs PodSelector" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>2つのWindows VMがServiceによって適切に識別され、対象となっていることを確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-08-workingvms/16_Imported_VMs_Pods.png" target="blank"><img src="_images/virt/2025_spring/module-08-workingvms/16_Imported_VMs_Pods.png" alt="16 Imported VMs Pods" width="100%"></a>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_routeの作成"><a class="anchor" href="#_routeの作成"></a>Routeの作成</h3>
+<div class="paragraph">
+<p>これで、Windows IIS サーバーは OpenShift クラスター内からアクセスできるようになりました。 他の仮想マシンは、Service名 + ネームスペース名から決定される DNS 名 <strong>webapp.vmexamples-{user}</strong> を使用して、それらにアクセスできます。しかし、これらの Web サーバーはアプリケーションのフロントエンドであるため、外部からアクセスできるようにしたいと思います。 これは <strong>Route</strong> を使用してパブリックに公開することで実現できます。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Networking</strong> の下で、左側のナビゲーションメニューの <strong>Routes</strong> オプションをクリックします。 画面中央の <strong>Create Route</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-08-workingvms/17_Route_Navigation.png" target="blank"><img src="_images/virt/2025_spring/module-08-workingvms/17_Route_Navigation.png" alt="17 Route Navigation" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>以下の情報を使用してフォームに入力し、一番下までスクロールして、完了したら <strong>Create</strong> をクリックします。</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Name</strong>: <strong>route-webapp</strong></p>
+</li>
+<li>
+<p><strong>Service</strong>: <strong>webapp</strong></p>
+</li>
+<li>
+<p><strong>Target port</strong>: <strong>80 &#8594; 80 (TCP)</strong></p>
+</li>
+<li>
+<p><strong>Secure Route</strong>: <strong>Enabled</strong></p>
+</li>
+<li>
+<p><strong>TLS termination</strong>: <strong>Edge</strong></p>
+</li>
+<li>
+<p><strong>Insecure traffic</strong>: <strong>Redirect</strong></p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-08-workingvms/18_Create_Route.png" target="blank"><img src="_images/virt/2025_spring/module-08-workingvms/18_Create_Route.png" alt="18 Create Route" width="100%"></a>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p><strong>Location</strong> フィールドに表示されているアドレスに移動します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-08-workingvms/19_Route_Access.png" target="blank"><img src="_images/virt/2025_spring/module-08-workingvms/19_Route_Access.png" alt="19 Route Access" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>ページがロードされると、エラーが表示されます。何かがおかしいようです。これは、Windowsウェブサーバーが移行後のデータベースVMに接続できないためです。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-08-workingvms/20_WebApp_Error.png" target="blank"><img src="_images/virt/2025_spring/module-08-workingvms/20_WebApp_Error.png" alt="20 WebApp Error" width="100%"></a>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+接続性の問題に対処するため、データベース VM にServiceを作成して、ウェブサーバーからアクセスできるようにする必要があります。
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>再度、<strong>Networking</strong> &#8594; <strong>Services</strong> に移動し、<strong>Create Service</strong> をクリックします。 YAML を以下の定義に置き換えます:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: database
+  namespace: vmexamples-{user}
+spec:
+  selector:
+    vm.kubevirt.io/name: database-{user}
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-08-workingvms/21_Database_YAML.png" target="blank"><img src="_images/virt/2025_spring/module-08-workingvms/21_Database_YAML.png" alt="21 Database YAML" width="100%"></a>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+仮想マシン用の名前空間、<strong>vmexamples-{user}</strong> または <strong>vmimported-{user}</strong> が、Service YAMLで使用されている名前空間と一致していることを確認してください。
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>YAMLを貼り付けたら、<strong>Create</strong> ボタンをクリックします。</p>
+</li>
+<li>
+<p>ブラウザでWebapp URLをリロードし、移行したWebアプリケーションが適切に動作していることを確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-08-workingvms/22_WebApp_Success.png" target="blank"><img src="_images/virt/2025_spring/module-08-workingvms/22_WebApp_Success.png" alt="22 WebApp Success" width="100%"></a>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_まとめ"><a class="anchor" href="#_まとめ"></a>まとめ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>このモジュールでは、Red Hat OpenShift のネイティブServiceとRoute機能を使用して、より近代的なアプローチでクラスター外からアクセスできるようにすることで、VMware vSphere から OpenShift Virtualization環境にマイグレーションした仮想マシンを操作する方法を体験しました。</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="75-module-07-tempinst.html">5. テンプレートとインスタンスタイプの管理</a></span>
+  <span class="next"><a href="78-module-09-networking.html">7. 仮想マシンのネットワーク管理</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

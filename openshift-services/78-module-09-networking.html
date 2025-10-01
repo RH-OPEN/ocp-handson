@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>仮想マシンのネットワーク管理 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/78-module-09-networking.html">
+    <link rel="prev" href="76-module-08-workingvms.html">
+    <link rel="next" href="79-conclusion.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://rh-open.github.io/ocp-handson">OpenShift Handson</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="openshift-services" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">01. OpenShift 基礎</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-deployment.html">2. Web コンソールの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02_app-storage-basics.html">3. 永続ストレージ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03_machinesets.html">4. ノードの動的管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04_infra-nodes.html">5. Infra ノードの作成</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="06_template-quota-limits.html">6. Project のクオータ/制限</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">20. OpenShift Pipeline Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="10-pipeline-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="11-pipelines.html">1. Pipelines -1/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="12-add-task.html">2. Pipelines -2/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="13-triggers.html">3. Tekton Triggers</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">21. OpenShift GitOps Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="20-GitOps-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="21-GitOps.html">1. OpenShift GitOps</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="22-Kustomize.html">2. Kustomizeインテグレーション</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="23-Helm.html">3. Helmインテグレーション</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">51. Red Hat OpenShift Service on AWS (ROSA) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="50-rosa-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="51-rosa-hcp-create.html">1. ROSA HCPクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="52-rosa-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="53-rosa-ebs.html">3. Amazon EBSの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-1-rosa-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-2-rosa-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="58-rosa-bedrock.html">6. Amazon Bedrockアプリケーションの実行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-01.html">7. ロギング設定 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-2-rosa-monitoring.html">9. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-3-rosa-project-metrics.html">10. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-4-rosa-alert.html">11. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="56-rosa-nodes.html">12. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="57-rosa-upgrade.html">13. ROSA HCPクラスターの更新</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">61. Azure Red Hat OpenShift (ARO) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="60-aro-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="61-aro-create.html">1. AROクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="62-aro-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="63-aro-storage.html">3. Azure DiskとAzure Filesの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="64-aro-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="65-aro-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="66-aro-logging.html">6. ロギング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-1-aro-monitoring.html">7. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-2-aro-project-metrics.html">8. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-3-aro-alert.html">9. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="68-aro-nodes.html">10. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="69-aro-upgrade.html">11. AROクラスターの更新[デモ]</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">71. OpenShift Virtualization Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="70-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="71-module-01-intro.html">1. 仮想マシン管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="72-module-02-mtv.html">2. 既存の仮想マシンの移行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="73-module-04-storage.html">3. ストレージ管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="74-module-05-bcdr.html">4. 仮想マシンのバックアップとリカバリ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="75-module-07-tempinst.html">5. テンプレートとインスタンスタイプの管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="76-module-08-workingvms.html">6. 仮想マシンとアプリケーションの操作</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="78-module-09-networking.html">7. 仮想マシンのネットワーク管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="79-conclusion.html">8. 追加情報</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Handson</a></li>
+    <li>71. OpenShift Virtualization Lab</li>
+    <li><a href="78-module-09-networking.html">7. 仮想マシンのネットワーク管理</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/78-module-09-networking.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">仮想マシンのネットワーク管理</h1>
+<div class="sect1">
+<h2 id="_はじめに"><a class="anchor" href="#_はじめに"></a>はじめに</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>前節で述べたように、すべての仮想マシンはデフォルトで OpenShift ソフトウェア定義ネットワーク（SDN）に接続されており、これにより、OpenShift クラスター上の他のワークロード（他の仮想マシンや OpenShift ネイティブアプリケーションを含む）からのアクセスが可能になり、仮想マシンとそれらがホストするアプリケーションをより近代的なワークフローで管理できるようになります。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>SDN は、クラスタ内で VM または Pod としてデプロイされたアプリケーションを、制御された方法で抽象化、接続、公開するための追加機能を提供します。これには、OpenShift の <strong>Service</strong> および <strong>Route</strong> 機能が含まれます。</p>
+</li>
+<li>
+<p>OpenShift のネットワークポリシーエンジンにより、VM のユーザーまたは管理者は、個々の VM またはプロジェクト/ネームスペース全体に対するネットワークトラフィックを許可または拒否するルールを作成することができます。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>しかし、必要に応じて仮想マシンをタグなしネットワークや VLAN などの 1 つ以上の物理ネットワークに直接接続することも可能です。これは SDN に加えて行われるもので、例えば、管理者は外部 IP アドレスから VM に接続でき、VM はレイヤー2 ネットワークを使用して直接接続できます。</p>
+</div>
+<div class="paragraph">
+<p>これは、Linux ブリッジなどのホストネットワークの設定によって行われます。このラボのセクションでは、VM がそのブリッジに接続し、物理ネットワークに直接接続できるようにするためのNetwork Attachment Definitionを作成する手順を説明します。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+このロードショーで提供されるOpenShift環境は、仮想マシンが接続する各コンピュートノードにLinuxブリッジがすでに設定されており、外部ネットワークリソースとの接続が容易です。
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="確認"><a class="anchor" href="#確認"></a>環境の確認</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Kubernetes NMState Operator</strong> は、NMState を使用して OpenShift Container Platform クラスタのノード全体でステート駆動型のネットワーク構成を実行するための Kubernetes API を提供します。 Kubernetes NMState Operator は、クラスタノード上のさまざまなネットワークインターフェースタイプ、DNS、ルーティングを構成するための機能を提供します。さらに、クラスターノード上のデーモンが、各ノードのネットワークインターフェースの状態を定期的にAPIサーバーに報告します。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のメニューで <strong>Networking</strong> をクリックし、次に <strong>NodeNetworkState</strong> をクリックして現在の構成を確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/01_NodeNetworkState_List.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/01_NodeNetworkState_List.png" alt="01 NodeNetworkState List" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>前述の通り、ワーカーノードにはこのモジュールで使用するためにすでにLinuxブリッジが構成されていることがわかります。ワーカーの1つを展開し、ブリッジ <strong>br-flat</strong> をクリックして、その詳細情報を表示します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/02_NodeNetworkState_Info.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/02_NodeNetworkState_Info.png" alt="02 NodeNetworkState Info" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>隅にある「X」をクリックしてブリッジの詳細を閉じます。 <strong>br-flat</strong> と名付けられたこのブリッジは、<strong>Kubernetes NMState Operator</strong> を使用して作成されました。 さらに詳しく調べるには、左側のメニューで <strong>NodeNetworkConfigurationPolicy</strong> をクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/03_NodeNetworkConfigurationPolicy_List.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/03_NodeNetworkConfigurationPolicy_List.png" alt="03 NodeNetworkConfigurationPolicy List" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>br-flat</strong> を選択して情報を取得します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/04_NodeNetworkConfigurationPolicy_Info.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/04_NodeNetworkConfigurationPolicy_Info.png" alt="04 NodeNetworkConfigurationPolicy Info" width="100%"></a>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<strong>NodeNetworkConfigurationPolicy</strong> はノードレベルで構成を実行するため、現在のユーザーアカウントでこれらのオプションを変更することはできません。そのため、管理者に問い合わせるよう求められます。
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>このブリッジがどのように作成されたかを確認するには、<strong>YAML</strong> に切り替えて定義を確認します。管理者として、以下の yaml スニペットを使用して同様のブリッジを作成できます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/05_NodeNetworkConfigurationPolicy_YAML.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/05_NodeNetworkConfigurationPolicy_YAML.png" alt="05 NodeNetworkConfigurationPolicy YAML" width="100%"></a>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="nad"><a class="anchor" href="#nad"></a>Network Attachment Definitionの作成</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>VMでLinuxブリッジを使用するには、<strong>Network Attachment Definition</strong> を作成する必要があります。これは、OpenShiftにネットワークを通知し、仮想マシンがネットワークに接続できるようにするものです。Network Attachment Definitionはプロジェクトに紐づいており、そのプロジェクトにデプロイされた仮想マシンだけがアクセスできます。 Network Attachment Definitionがデフォルトのプロジェクトに作成された場合、グローバルに利用可能になります。 これにより、管理者は、VMを管理するアクセス権を持つ特定のユーザーに対して、どのネットワークを利用可能にするか、または利用不可能にするかを制御することができます。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Network Attachment Definitionは、既存のネットワークデバイスを利用するようにOpenShiftに指示します。この例では、そのデバイスは以前に作成されており、<strong>br-flat</strong> という名前が付けられています。この名前を使用する必要があります。OpenShiftは、その名前のネットワークデバイスが接続されているノードのみを利用できるため、VMを任意のコンピュートノードに配置できなくなります。
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のメニューから <strong>Network</strong>、<strong>Network Attachment Definition</strong> の順に選択し、<strong>Create Network Attachment Definition</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/06_NetworkAttachDefinition_Create.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/06_NetworkAttachDefinition_Create.png" alt="06 NetworkAttachDefinition Create" width="100%"></a>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Network Attachment Definitionを作成する際には、vmexamples-{user}プロジェクト内であることを確認してください。
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p><strong>vmexamples-{user}</strong> プロジェクト用のフォームを以下のように入力し、<strong>Create Network Attachment Definition</strong> をクリックします。</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Name</strong>: flatnetwork</p>
+</li>
+<li>
+<p><strong>Network Type</strong>: Linux Bridge</p>
+</li>
+<li>
+<p><strong>Bridge name</strong>: br-flat</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-09-networking/07_NetworkAttachDefinition_Create_Form.png" target="blank"><img src="_images/virt/2025_summer/module-09-networking/07_NetworkAttachDefinition_Create_Form.png" alt="07 NetworkAttachDefinition Create Form" width="100%"></a>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+上記のフォームには、VLAN タグ番号を入力するフィールドがあります。これは、VLAN タグの割り当てが必要なネットワークに接続する場合に使用します。このラボでは、タグなしネットワークを使用しているため、VLAN 番号は必要ありません。
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+ホスト上の単一のLinuxブリッジには、多くの異なるVLANを関連付けることができます。このシナリオでは、個々のNetwork Attachment Definitionを作成するだけでよく、個別のホストインターフェースやブリッジを作成する必要はありません。
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Network Attachment Definitionの詳細を確認します。これは <strong>vmexamples-{user}</strong> プロジェクトで作成されたため、他のプロジェクトでは利用できません。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-09-networking/08_NetworkAttachDefinition_Created.png" target="blank"><img src="_images/virt/2025_summer/module-09-networking/08_NetworkAttachDefinition_Created.png" alt="08 NetworkAttachDefinition Created" width="100%"></a>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="attach"><a class="anchor" href="#attach"></a>仮想マシンをネットワークに接続</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のメニューで <strong>VirtualMachines</strong> に移動し、中央の列から <strong>fedora01</strong> VM を選択します。 <strong>Configuration</strong> タブをクリックし、左側の <strong>Network</strong> タブをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/09_VM_Network_Tab.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/09_VM_Network_Tab.png" alt="09 VM Network Tab" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>ネットワークインターフェースの追加</strong> をクリックし、表示されるフォームに必要事項を入力して、<strong>保存</strong> をクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/10_VM_Network_Attach.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/10_VM_Network_Attach.png" alt="10 VM Network Attach" width="100%"></a>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+これは外部ネットワークに接続するブリッジであるため、ネットワークを使用する仮想マシン用のマスカレード（NAT）など、アクセスを有効にするためにOpenShiftの機能や能力に頼る必要はありません。そのため、ここでは <strong>Type</strong> は <strong>Bridge</strong> であるべきです。
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p><strong>アクション</strong> メニューまたは <strong>Start</strong> ボタンを使用してVMを起動し、<strong>コンソール</strong> タブに切り替えて起動を確認します。</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/virt/2025_spring/module-09-networking/11_VM_Network_Startup.png" alt="11 VM Network Startup">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>enp2s0</strong> インターフェースは、<strong>flatnetwork</strong>（<strong>192.168.64.0/18</strong>）からIPアドレスを取得します。このネットワークには、IPアドレスを提供するDHCPサーバーが存在します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/12_VM_Network_Console.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/12_VM_Network_Console.png" alt="12 VM Network Console" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>fedora02 VMを同じ <strong>flatnetwork</strong> ネットワークにアタッチするために、同じ手順を繰り返します。</p>
+</li>
+<li>
+<p>コンソールで <strong>ping</strong> コマンドを使用して、2つのVM（fedora01とfedora02）間の直接通信を実演します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/13_VM_Network_Ping.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/13_VM_Network_Ping.png" alt="13 VM Network Ping" width="100%"></a>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="udn"><a class="anchor" href="#udn"></a>User Defined Network</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>User Defined Network（UDN）の実装前は、OpenShift Container Platform用のOVN-Kubernetes CNIプラグインはプライマリまたはメインネットワーク上のレイヤー3トポロジーのみをサポートしていました。Kubernetesの設計原則により、すべてのPodはメインネットワークに接続され、すべてのPodはIPアドレスを使用して相互に通信し、Pod間のトラフィックはネットワークポリシーに従って制限されます。新しいネットワークアーキテクチャを学ぶことは、多くの従来の仮想化管理者からしばしば表明される懸念事項です。</p>
+</div>
+<div class="paragraph">
+<p>UDNの導入により、カスタムのレイヤ2、レイヤ3、ローカルネットのネットワークセグメントが有効になり、KubernetesのPod Networkのデフォルトのレイヤ3トポロジーの柔軟性とセグメント化機能が向上します。これらのセグメントは、デフォルトのOVN-Kubernetes CNIプラグインを使用するコンテナPodや仮想マシンに対して、プライマリまたはセカンダリネットワークとして機能します。UDNは、幅広いネットワークアーキテクチャとトポロジーを可能にし、ネットワークの柔軟性、セキュリティ、およびパフォーマンスを向上させます。</p>
+</div>
+<div class="paragraph">
+<p>クラスタ管理者は、ClusterUserDefinedNetworkカスタムリソース（CR）を活用することで、UDNを使用してクラスタレベルで複数のネームスペースにまたがる追加のネットワークを作成および定義できます。さらに、クラスタ管理者またはクラスタユーザーは、UserDefinedNetwork CRを使用して、ネームスペースレベルで追加のネットワークを定義するためにUDNを使用できます。</p>
+</div>
+<div class="paragraph">
+<p>User Defined Networkには、以下の利点があります。</p>
+</div>
+<div class="paragraph">
+<p><strong>セキュリティ強化のためのネットワーク分離</strong> - ネームスペースは、テナントが Red Hat OpenStack Platform (RHOSP) で分離されるのと同様に、独自の分離されたプライマリネットワークを持つことができます。これにより、テナント間のトラフィックのリスクが低減され、セキュリティが向上します。</p>
+</div>
+<div class="paragraph">
+<p><strong>ネットワークの柔軟性</strong> - クラスター管理者は、プライマリネットワークをレイヤー2またはレイヤー3のネットワークタイプとして構成できます。これにより、プライマリネットワークにセカンダリネットワークの柔軟性が提供されます。</p>
+</div>
+<div class="paragraph">
+<p><strong>簡素化されたネットワーク管理</strong> - User Defined Networkにより、異なるネットワークでワークロードをグループ化することで分離が実現できるため、複雑なネットワークポリシーの必要性がなくなります。</p>
+</div>
+<div class="paragraph">
+<p><strong>高度な機能</strong> - User Defined Networkにより、管理者は複数のネームスペースを単一のネットワークに接続したり、異なるネームスペースのセットごとに個別のネットワークを作成したりすることができます。 また、ユーザーは異なるネームスペースやクラスターにまたがって IP サブネットを指定し、再利用することもでき、一貫したネットワーク環境を提供します。</p>
+</div>
+<div class="sect2">
+<h3 id="_openshift_virtualizationによるuser_defined_network"><a class="anchor" href="#_openshift_virtualizationによるuser_defined_network"></a>OpenShift VirtualizationによるUser Defined Network</h3>
+<div class="paragraph">
+<p>OpenShift Container Platform のウェブコンソールまたは CLI を使用して、仮想マシン（VM）のプライマリインターフェイス上のUser Defined Network（UDN）に仮想マシンを接続することができます。プライマリUser Defined Networkは、指定したネームスペースのデフォルトのPod Networkに置き換わります。Pod Networkとは異なり、プライマリ UDN はプロジェクトごとに定義でき、各プロジェクトは固有のサブネットとトポロジーを使用できます。</p>
+</div>
+<div class="paragraph">
+<p>レイヤー2トポロジーでは、OVN-Kubernetesはノード間にオーバーレイネットワークを作成します。このオーバーレイネットワークを使用すると、追加の物理ネットワークインフラストラクチャを構成することなく、異なるノード上のVMを接続することができます。</p>
+</div>
+<div class="paragraph">
+<p>レイヤー2トポロジーでは、ライブマイグレーション時に永続的なIPアドレスがクラスターノード全体で保持されるため、ネットワークアドレス変換（NAT）を必要とせずにVMのシームレスなマイグレーションが可能です。</p>
+</div>
+<div class="paragraph">
+<p>プライマリUDNを実装する前に、以下の制限事項を考慮する必要があります。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>virtctl ssh コマンドを使用して VM への SSH アクセスを構成することはできません。</p>
+</li>
+<li>
+<p>oc port-forward コマンドを使用して VM へのポート転送を行うことはできません。</p>
+</li>
+<li>
+<p>ヘッドレスサービスを使用して VM にアクセスすることはできません。</p>
+</li>
+<li>
+<p>VM の健全性チェックを構成するためのReadinessおよびLivenessのプローブを定義することはできません。</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+OpenShift Virtualization は現在、セカンダリUser Defined Networkをサポートしていません。
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_user_defined_networkの使用"><a class="anchor" href="#_user_defined_networkの使用"></a>User Defined Networkの使用</h3>
+<div class="paragraph">
+<p>UDNにアクセスできるPodを作成する前に、ネームスペースとネットワークを作成する必要があります。Podを新しいネットワークにネームスペースを割り当てることや、既存のネームスペースにUDNを作成することは、OVN-Kubernetesでは受け付けられません。</p>
+</div>
+<div class="paragraph">
+<p>この作業はクラスタ管理者によって実行する必要があります。<strong>vmexamples-{user}-udn</strong> という名前空間を適切なラベル（<strong>k8s.ovn.org/primary-user-defined-network</strong>）とともに割り当てました</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Network</strong> に移動し、<strong>User Defined Network</strong> をクリックして、プロジェクト <strong>vmexamples-{user}-udn</strong> が選択されていることを確認する。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/14_UDN_List.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/14_UDN_List.png" alt="14 UDN List" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Create</strong> をクリックし、 <strong>UserDefinedNetwork</strong> を選択します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/15_UDN_Create.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/15_UDN_Create.png" alt="15 UDN Create" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>サブネット <strong>192.168.254.0/24</strong> を指定し、 <strong>Create</strong> をクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/16_UDN_Form.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/16_UDN_Form.png" alt="16 UDN Form" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>作成したUDNの設定を確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/17_UDN_Created.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/17_UDN_Created.png" alt="17 UDN Created" width="100%"></a>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>フォームを使用して作成した場合のデフォルト名は <strong>primary-udn</strong> です。</p>
+</li>
+<li>
+<p>デフォルトではレイヤー2です（現時点でOpenShift仮想化でサポートされている唯一のレイヤー）。</p>
+</li>
+<li>
+<p>役割はプライマリです（仮想マシンは現時点ではプライマリネットワークのみを使用できます）。</p>
+</li>
+<li>
+<p>Network Attachment Definitionが自動的に作成されます。</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>次に、左側のメニューで <strong>NetworkAttachmentDefinitions</strong> に移動し、関連するNADが自動的に作成されていることを確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/18_UDN_NAD.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/18_UDN_NAD.png" alt="18 UDN NAD" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>UserDefinedNetworkに接続された仮想マシンを作成するには、 <a href="https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/virtualization/networking#virt-connecting-vm-to-primary-udn" target="_blank" rel="noopener">YAML定義の調整</a> が必要です。このラボでは作業を簡単にするため、以下のYAML定義を使用し、UserDefinedNetworkに接続されたVMを作成します。</p>
+</li>
+<li>
+<p>次の画像のように、トップメニューを使用してYAMLをインポートできます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/19_UDN_Import_YAML.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/19_UDN_Import_YAML.png" alt="19 UDN Import YAML" width="100%"></a>
+</div>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  labels:
+    kubevirt.io/vm: fedora-udn
+  name: fedora-udn
+  namespace: vmexamples-{user}-udn
+spec:
+  dataVolumeTemplates:
+    - apiVersion: cdi.kubevirt.io/v1beta1
+      kind: DataVolume
+      metadata:
+        creationTimestamp: null
+        name: fedora-udn
+      spec:
+        sourceRef:
+          kind: DataSource
+          name: fedora
+          namespace: openshift-virtualization-os-images
+        storage:
+          resources:
+            requests:
+              storage: 30Gi
+  runStrategy: Always
+  template:
+    metadata:
+      name: fedora-udn
+      namespace: vmexamples-{user}-udn
+    spec:
+      domain:
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: rootdisk
+          - disk:
+              bus: virtio
+            name: cloudinitdisk
+          interfaces:
+          - name: primary-udn
+            binding:
+              name: l2bridge
+          rng: {}
+        resources:
+          requests:
+            memory: 2048M
+      networks:
+      - pod: {}
+        name: primary-udn
+      terminationGracePeriodSeconds: 0
+      volumes:
+      - dataVolume:
+          name: fedora-udn
+        name: rootdisk
+      - cloudInitNoCloud:
+          userData: |-
+            #cloud-config
+            user: fedora
+            password: fedora
+            chpasswd: { expire: False }
+        name: cloudinitdisk</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>貼り付けが完了したら、画面下部の青い <strong>Create</strong> ボタンをクリックしてVMの作成プロセスを開始します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/20_Create_VM_YAML.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/20_Create_VM_YAML.png" alt="20 Create VM YAML" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>VirtualMachines</strong> に切り替えて、VM が作成されるのを見ます。 作成されたら、新たに作成された <strong>fedora-udn</strong> 仮想マシンを確認します。 <strong>Overview</strong> タブの <strong>Network</strong> タイルに、UserDefinedNetwork から割り当てられた IP が表示されます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/21_UDN_Network_Tile.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/21_UDN_Network_Tile.png" alt="21 UDN Network Tile" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>コンソールタブに切り替えて、提供されたゲスト認証情報を使用してVMにログインします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-09-networking/22_UDN_Fedora_Console.png" target="blank"><img src="_images/virt/2025_spring/module-09-networking/22_UDN_Fedora_Console.png" alt="22 UDN Fedora Console" width="100%"></a>
+</div>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>VMは定義されたサブネットからIPを割り当てます。</p>
+</li>
+<li>
+<p>VMはDHCPからゲートウェイ構成を自動的に取得します。</p>
+</li>
+<li>
+<p>VMはUser Defined Networkを使用してインターネットにアクセスできます。</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_まとめ"><a class="anchor" href="#_まとめ"></a>まとめ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>このモジュールでは、物理ネットワークの操作と、仮想マシン（VM）を既存のネットワークに直接接続する方法について学習しました。仮想マシンを物理ネットワークに直接接続することで、管理者は仮想マシンに直接アクセスできるだけでなく、仮想マシンをストレージネットワークや管理ネットワークなどの専用ネットワークに接続することも可能になります。</p>
+</div>
+<div class="paragraph">
+<p>User Defined Networkは、クラスタ管理者やエンドユーザーに高度なカスタマイズが可能なネットワーク構成オプションを提供し、プライマリおよびセカンダリネットワークの両方をより柔軟に管理することができます。</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="76-module-08-workingvms.html">6. 仮想マシンとアプリケーションの操作</a></span>
+  <span class="next"><a href="79-conclusion.html">8. 追加情報</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>テンプレートとインスタンスタイプの管理 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/75-module-07-tempinst.html">
+    <link rel="prev" href="74-module-05-bcdr.html">
+    <link rel="next" href="76-module-08-workingvms.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://rh-open.github.io/ocp-handson">OpenShift Handson</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="openshift-services" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">01. OpenShift 基礎</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-deployment.html">2. Web コンソールの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02_app-storage-basics.html">3. 永続ストレージ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03_machinesets.html">4. ノードの動的管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04_infra-nodes.html">5. Infra ノードの作成</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="06_template-quota-limits.html">6. Project のクオータ/制限</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">20. OpenShift Pipeline Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="10-pipeline-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="11-pipelines.html">1. Pipelines -1/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="12-add-task.html">2. Pipelines -2/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="13-triggers.html">3. Tekton Triggers</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">21. OpenShift GitOps Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="20-GitOps-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="21-GitOps.html">1. OpenShift GitOps</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="22-Kustomize.html">2. Kustomizeインテグレーション</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="23-Helm.html">3. Helmインテグレーション</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">51. Red Hat OpenShift Service on AWS (ROSA) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="50-rosa-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="51-rosa-hcp-create.html">1. ROSA HCPクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="52-rosa-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="53-rosa-ebs.html">3. Amazon EBSの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-1-rosa-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-2-rosa-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="58-rosa-bedrock.html">6. Amazon Bedrockアプリケーションの実行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-01.html">7. ロギング設定 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-2-rosa-monitoring.html">9. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-3-rosa-project-metrics.html">10. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-4-rosa-alert.html">11. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="56-rosa-nodes.html">12. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="57-rosa-upgrade.html">13. ROSA HCPクラスターの更新</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">61. Azure Red Hat OpenShift (ARO) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="60-aro-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="61-aro-create.html">1. AROクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="62-aro-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="63-aro-storage.html">3. Azure DiskとAzure Filesの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="64-aro-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="65-aro-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="66-aro-logging.html">6. ロギング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-1-aro-monitoring.html">7. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-2-aro-project-metrics.html">8. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-3-aro-alert.html">9. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="68-aro-nodes.html">10. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="69-aro-upgrade.html">11. AROクラスターの更新[デモ]</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">71. OpenShift Virtualization Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="70-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="71-module-01-intro.html">1. 仮想マシン管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="72-module-02-mtv.html">2. 既存の仮想マシンの移行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="73-module-04-storage.html">3. ストレージ管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="74-module-05-bcdr.html">4. 仮想マシンのバックアップとリカバリ</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="75-module-07-tempinst.html">5. テンプレートとインスタンスタイプの管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="76-module-08-workingvms.html">6. 仮想マシンとアプリケーションの操作</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="78-module-09-networking.html">7. 仮想マシンのネットワーク管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="79-conclusion.html">8. 追加情報</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Handson</a></li>
+    <li>71. OpenShift Virtualization Lab</li>
+    <li><a href="75-module-07-tempinst.html">5. テンプレートとインスタンスタイプの管理</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/75-module-07-tempinst.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">テンプレートとインスタンスタイプの管理</h1>
+<div class="sect1">
+<h2 id="_はじめに"><a class="anchor" href="#_はじめに"></a>はじめに</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>事前設定済みの Red Hat 仮想マシンテンプレートは、<strong>Virtualization</strong>  ページ以下の <strong>Templates</strong> にリストされています。これらのテンプレートは、Red Hat Enterprise Linux、Fedora、CentOS、Microsoft Windows Desktop、および Microsoft Windows Server の異なるバージョンで利用可能です。各 Red Hat 関連の仮想マシンテンプレートは、オペレーティングシステムのイメージ（起動ソース）、オペレーティングシステムのデフォルト設定、フレーバー（CPUとメモリ）、およびワークロードタイプ（サーバー）が事前に設定されています。その他のオペレーティングシステム用のテンプレートには OS イメージは含まれていませんが、そのオペレーティングシステム用に推奨される設定が事前に設定されています。</p>
+</div>
+<div class="paragraph">
+<p><strong>Templates</strong> ページには、以下の4種類の仮想マシンテンプレートが表示されます:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Red Hat Supported</strong> のテンプレートは、Red Hat により完全にサポートされています。</p>
+</li>
+<li>
+<p><strong>User Supported</strong> のテンプレートは、Red Hat サポート対象のテンプレートをユーザーが複製して作成したものです。</p>
+</li>
+<li>
+<p><strong>Red Hat Provided</strong> のテンプレートは、Red Hat によるサポートが限定的です。</p>
+</li>
+<li>
+<p><strong>User Provided</strong> のテンプレートは、 <strong>Red Hat Provided</strong> テンプレートをユーザーが複製して作成したものです。</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="prepare_templates_lab"><a class="anchor" href="#prepare_templates_lab"></a>ラボの準備</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>これから実行する作業では、いくつかの追加のVMをプロビジョニングする必要があります。準備として、共有環境がラボを完了するのに十分なリソースを確保できるよう、既存の <strong>fedora01</strong> および <strong>fedora02</strong> 仮想マシンをシャットダウンしてください。</p>
+</li>
+<li>
+<p>左側のメニューで <strong>Virtualization</strong> パースペクティブに移動し、<strong>Virtualmachines</strong> をクリックします。</p>
+</li>
+<li>
+<p>VMワークロードをホストしている、アクセス可能な各プロジェクトが中央列のツリービューに表示されます。（少なくとも、プロジェクト <strong>vmimported-{user}</strong> と <strong>vmexamples-{user}</strong> を展開して、仮想マシンのステータスを確認してください。</p>
+</li>
+<li>
+<p>VMのステータスが <strong>Running</strong> と表示されている場合は、中央のツリー列でVMをハイライトし、 <strong>Actions</strong> ドロップダウンメニューから <strong>Stop</strong> ボタンまたはオプションを選択します。</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>これで、すべてのVMが <strong>Stopped</strong> 状態になります。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/00_VMs_Stopped.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/00_VMs_Stopped.png" alt="00 VMs Stopped" width="100%"></a>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="clone_customize_template"><a class="anchor" href="#clone_customize_template"></a>テンプレートの複製とカスタマイズ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>デフォルトでは、Red Hat OpenShift Virtualization が提供する事前構成済みのテンプレートはカスタマイズできません。ただし、テンプレートを複製して、特定のワークロードに合わせて調整し、特定のワークロード用の特定のタイプの仮想マシンを簡単に要求できるようにすることは可能です。このラボのこのセクションでは、まさにこの作業を行います。エンドユーザーにオンデマンドで事前構成済みのデータベースサーバーを提供するテンプレートを作成します。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>まず、左側のメニューで <strong>Templates</strong> をクリックし、プロジェクトとして <strong>openshift</strong> を選択します。<strong>openshift</strong> プロジェクトを表示するには、<strong>Show default projects</strong> ボタンを切り替える必要があるかもしれません。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/01_Project_Toggle.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/01_Project_Toggle.png" alt="01 Project Toggle" width="100%"></a>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/01_Template_List.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/01_Template_List.png" alt="01 Template List" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>検索バーに <strong>centos9</strong> と入力し、Enterキーを押します。表示されるテンプレートリストから、<strong>centos-stream9-server-small</strong> のテンプレートを見つけます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/02_Search_Centos9.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/02_Search_Centos9.png" alt="02 Search Centos9" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>centos-stream9-server-small</strong> のテンプレート名をクリックすると、デフォルトのテンプレートは編集できない旨のメッセージが表示され、クローンを作成するか尋ねられます。<strong>Create a new custom Template</strong> オプションをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/03_Create_Custom_Template.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/03_Create_Custom_Template.png" alt="03 Create Custom Template" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Clone template</strong> という新しいメニューが表示されます。以下の値を入力し、完了したら <strong>Clone</strong> ボタンをクリックします。</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Template name:</strong> centos-stream9-server-db-small</p>
+</li>
+<li>
+<p><strong>Template project:</strong> vmexamples-{user}</p>
+</li>
+<li>
+<p><strong>Template display name:</strong> CentOS Stream 9 VM - Database Template Small</p>
+</li>
+<li>
+<p><strong>Template provider:</strong> Roadshow {user}</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/04_Clone_Template_Options.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/04_Clone_Template_Options.png" alt="04 Clone Template Options" width="100%\"></a>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>これにより、テンプレートの <strong>Details</strong> ページに移動し、いくつかのオプションをカスタマイズできるようになります。まず、ページの下部付近にあるCPUとメモリを見つけ、鉛筆アイコンをクリックして編集します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/05_Clone_Details.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/05_Clone_Details.png" alt="05 Clone Details" width="100%\"></a>
+</div>
+</div>
+</li>
+<li>
+<p>新しいウィンドウが開き、CPUとメモリの量を編集できます。カスタムテンプレートでは、CPUの値を2、メモリの値を4 GiBに設定し、<strong>Save</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/06_Edit_CPU_Mem.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/06_Edit_CPU_Mem.png" alt="06 Edit CPU Mem" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>次に、画面上部の <strong>Scripts</strong> タブをクリックし、 <strong>Cloud-init</strong> セクションで <strong>Edit</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/09_Scripts_CloudInit.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/09_Scripts_CloudInit.png" alt="09 Scripts CloudInit" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Cloud-init</strong> ダイアログが開いたら、<strong>Configure via: Script</strong> のラジオボタンをクリックし、以下の YAML スニペットで YAML を置き換えます。</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">userData: |-
+  #cloud-config
+  user: centos
+  password: ${CLOUD_USER_PASSWORD}
+  chpasswd: { expire: False }
+  packages:
+    - mariadb-server
+  runcmd:
+    - systemctl enable mariadb
+    - systemctl start mariadb</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/10_Cloud_Init_Script.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/10_Cloud_Init_Script.png" alt="10 Cloud Init Script" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Save</strong> ボタンをクリックすると、<strong>Saved</strong> という緑色のプロンプトが表示されます。次に、<strong>Apply</strong> ボタンをクリックします。</p>
+</li>
+<li>
+<p>次に、左側のメニューにある <strong>Catalog</strong> 項目をクリックし、 <strong>Template catalog</strong> オプションを選択し、さらに <strong>User templates</strong> を選択します。作成したテンプレートがタイルとして利用可能になっているはずです。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/11_User_Templates.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/11_User_Templates.png" alt="11 User Templates" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>タイルをクリックすると、VMの起動画面が表示されます。 <strong>Quick create VirtualMachine</strong>（仮想マシンのクイック作成）ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/12_Quick_Create_Template.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/12_Quick_Create_Template.png" alt="12 Quick Create Template" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>仮想マシンが起動すると、<strong>Overview</strong> ページに、テンプレートから作成され、定義した追加リソースが含まれていることが表示されます。あとは、<strong>MariaDB</strong> がインストールされていることを確認するだけです。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/13_VM_From_Template.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/13_VM_From_Template.png" alt="13 VM From Template" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>上部にある <strong>Console</strong> タブをクリックし、提供された <strong>Guest login credentials</strong> と <strong>Copy</strong> および <strong>Paste to console</strong> ボタンを使用して、仮想マシンのコンソールにログインします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/14_VM_Console.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/14_VM_Console.png" alt="14 VM Console" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>仮想マシンにログインしたら、次のコマンドを実行してMariaDBのインストールをテストします。</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">sudo mysql -u root</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/15_MariaDB_Login.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/15_MariaDB_Login.png" alt="15 MariaDB Login" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>VMからログアウトするには、<strong>Ctrl-D</strong> を2回押します。</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create_win"><a class="anchor" href="#create_win"></a>Windows VMテンプレートの作成</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>このラボのセグメントでは、WebサーバーにホストされているISOを使用してMicrosoft Windows Server 2019をインストールします。これは、Webサーバー、オブジェクトストレージ、またはクラスター内の他の永続ボリュームなど、多くの場所からディスクをソースする機能を活用して仮想マシンにオペレーティングシステムをインストールする1つの方法です。</p>
+</div>
+<div class="paragraph">
+<p>このプロセスは、sysprep済みの仮想マシンからクローンルートディスクを作成し、他のテンプレートで使用することで、オペレーティングシステムの初期インストール後に簡素化することができます。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+テンプレートとして使用するゲストオペレーティングシステムの準備プロセスは、状況によって異なります。テンプレートOSの準備の際には、必ず組織のガイドラインと要件に従ってください。
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のメニューから <strong>Catalog</strong> に移動し、上部の <strong>Template catalog</strong> タブをクリックします。</p>
+</li>
+<li>
+<p>検索バーに <strong>win</strong> と入力するか、または <strong>Microsoft Windows Server 2019 VM</strong> のタイルが見つかるまで下にスクロールします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/16_Windows_2k19_Tile.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/16_Windows_2k19_Tile.png" alt="16 Windows 2k19 Tile" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>テンプレートに関連するデフォルト構成を示すダイアログが表示されます。</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+ブートソースが提供されていないため、このVMを素早く作成するオプションが初期状態では表示されないことに注意してください。VMをニーズに合わせてカスタマイズする必要があります。
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/17_Windows_2k19_Dialog.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/17_Windows_2k19_Dialog.png" alt="17 Windows 2k19 Dialog" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>ダイアログで以下を入力します：</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>win-sysprep</strong> という名前を指定します。</p>
+</li>
+<li>
+<p><strong>Boot from CD</strong> のチェックボックスをオンにします。</p>
+</li>
+<li>
+<p>ドロップダウンメニューから <strong>URL (creates PVC)</strong> を選択します。</p>
+</li>
+<li>
+<p><strong>image URL</strong> を指定します : <a href="https://catalog-item-assets.s3.us-east-2.amazonaws.com/qcow_images/Windows2019.iso" class="bare">https://catalog-item-assets.s3.us-east-2.amazonaws.com/qcow_images/Windows2019.iso</a></p>
+</li>
+<li>
+<p>CDディスクのサイズを <strong>5 GiB</strong> に縮小します。</p>
+</li>
+<li>
+<p><strong>Disk source</strong> は <strong>Blank</strong> のままにし、サイズはデフォルト値の <strong>60 GiB</strong> に設定します</p>
+</li>
+<li>
+<p><strong>Mount Windows drivers dis</strong> チェックボックスが有効になっていることを確認します。 <strong>これは、VirtIO用のドライバを提供するWindowsシステムをインストールするために必要です。</strong></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>オプションを入力したら、テンプレートの設定を続けるために、下部の <strong>Customize VirtualMachine</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/18_Windows_2k19_Parameters.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/18_Windows_2k19_Parameters.png" alt="18 Windows 2k19 Parameters" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Customize and create VirtualMachine</strong> 画面で、<strong>Boot mode</strong> オプションの横にある編集用鉛筆アイコンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/19_Boot_Mode.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/19_Boot_Mode.png" alt="19 Boot Mode" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Boot mode</strong> メニューが表示されたら、ドロップダウンメニューから <strong>BIOS</strong> ブートモードを選択し、 <strong>Save</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/19a_Boot_BIOS.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/19a_Boot_BIOS.png" alt="19a Boot BIOS" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>次に、 <strong>Scripts</strong> タブをクリックし、 <strong>Sysprep</strong> セクションまでスクロールダウンして、 <strong>Edit</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/20_Customize_Scripts.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/20_Customize_Scripts.png" alt="20 Customize Scripts" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>新しいウィンドウがポップアップし、新しいテンプレート用の <strong>Sysprep</strong> アクションを作成できます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/21_Sysprep.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/21_Sysprep.png" alt="21 Sysprep" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>次のコードブロックを <strong>autounattend.xml</strong> セクションにコピーして貼り付けます。</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:schemas-microsoft-com:unattend"&gt;
+  &lt;settings pass="windowsPE"&gt;
+    &lt;component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"&gt;
+      &lt;DiskConfiguration&gt;
+        &lt;Disk wcm:action="add"&gt;
+          &lt;CreatePartitions&gt;
+            &lt;CreatePartition wcm:action="add"&gt;
+              &lt;Order&gt;1&lt;/Order&gt;
+              &lt;Extend&gt;true&lt;/Extend&gt;
+              &lt;Type&gt;Primary&lt;/Type&gt;
+            &lt;/CreatePartition&gt;
+          &lt;/CreatePartitions&gt;
+          &lt;ModifyPartitions&gt;
+            &lt;ModifyPartition wcm:action="add"&gt;
+              &lt;Active&gt;true&lt;/Active&gt;
+              &lt;Format&gt;NTFS&lt;/Format&gt;
+              &lt;Label&gt;System&lt;/Label&gt;
+              &lt;Order&gt;1&lt;/Order&gt;
+              &lt;PartitionID&gt;1&lt;/PartitionID&gt;
+            &lt;/ModifyPartition&gt;
+          &lt;/ModifyPartitions&gt;
+          &lt;DiskID&gt;0&lt;/DiskID&gt;
+          &lt;WillWipeDisk&gt;true&lt;/WillWipeDisk&gt;
+        &lt;/Disk&gt;
+      &lt;/DiskConfiguration&gt;
+      &lt;ImageInstall&gt;
+        &lt;OSImage&gt;
+          &lt;InstallFrom&gt;
+            &lt;MetaData wcm:action="add"&gt;
+              &lt;Key&gt;/IMAGE/NAME&lt;/Key&gt;
+              &lt;Value&gt;Windows Server 2019 SERVERSTANDARD&lt;/Value&gt;
+            &lt;/MetaData&gt;
+          &lt;/InstallFrom&gt;
+          &lt;InstallTo&gt;
+            &lt;DiskID&gt;0&lt;/DiskID&gt;
+            &lt;PartitionID&gt;1&lt;/PartitionID&gt;
+          &lt;/InstallTo&gt;
+        &lt;/OSImage&gt;
+      &lt;/ImageInstall&gt;
+      &lt;UserData&gt;
+        &lt;AcceptEula&gt;true&lt;/AcceptEula&gt;
+        &lt;FullName&gt;Administrator&lt;/FullName&gt;
+        &lt;Organization&gt;My Organization&lt;/Organization&gt;
+      &lt;/UserData&gt;
+      &lt;EnableFirewall&gt;false&lt;/EnableFirewall&gt;
+    &lt;/component&gt;
+    &lt;component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"&gt;
+      &lt;SetupUILanguage&gt;
+        &lt;UILanguage&gt;en-US&lt;/UILanguage&gt;
+      &lt;/SetupUILanguage&gt;
+      &lt;InputLocale&gt;en-US&lt;/InputLocale&gt;
+      &lt;SystemLocale&gt;en-US&lt;/SystemLocale&gt;
+      &lt;UILanguage&gt;en-US&lt;/UILanguage&gt;
+      &lt;UserLocale&gt;en-US&lt;/UserLocale&gt;
+    &lt;/component&gt;
+  &lt;/settings&gt;
+  &lt;settings pass="offlineServicing"&gt;
+    &lt;component name="Microsoft-Windows-LUA-Settings" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"&gt;
+      &lt;EnableLUA&gt;false&lt;/EnableLUA&gt;
+    &lt;/component&gt;
+  &lt;/settings&gt;
+  &lt;settings pass="specialize"&gt;
+    &lt;component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"&gt;
+      &lt;AutoLogon&gt;
+        &lt;Password&gt;
+          &lt;Value&gt;R3dh4t1!&lt;/Value&gt;
+          &lt;PlainText&gt;true&lt;/PlainText&gt;
+        &lt;/Password&gt;
+        &lt;Enabled&gt;true&lt;/Enabled&gt;
+        &lt;LogonCount&gt;999&lt;/LogonCount&gt;
+        &lt;Username&gt;Administrator&lt;/Username&gt;
+      &lt;/AutoLogon&gt;
+      &lt;OOBE&gt;
+        &lt;HideEULAPage&gt;true&lt;/HideEULAPage&gt;
+        &lt;HideLocalAccountScreen&gt;true&lt;/HideLocalAccountScreen&gt;
+        &lt;HideOnlineAccountScreens&gt;true&lt;/HideOnlineAccountScreens&gt;
+        &lt;HideWirelessSetupInOOBE&gt;true&lt;/HideWirelessSetupInOOBE&gt;
+        &lt;NetworkLocation&gt;Work&lt;/NetworkLocation&gt;
+        &lt;ProtectYourPC&gt;3&lt;/ProtectYourPC&gt;
+        &lt;SkipMachineOOBE&gt;true&lt;/SkipMachineOOBE&gt;
+      &lt;/OOBE&gt;
+      &lt;UserAccounts&gt;
+        &lt;LocalAccounts&gt;
+          &lt;LocalAccount wcm:action="add"&gt;
+            &lt;Description&gt;Local Administrator Account&lt;/Description&gt;
+            &lt;DisplayName&gt;Administrator&lt;/DisplayName&gt;
+            &lt;Group&gt;Administrators&lt;/Group&gt;
+            &lt;Name&gt;Administrator&lt;/Name&gt;
+          &lt;/LocalAccount&gt;
+        &lt;/LocalAccounts&gt;
+      &lt;/UserAccounts&gt;
+      &lt;TimeZone&gt;Eastern Standard Time&lt;/TimeZone&gt;
+    &lt;/component&gt;
+  &lt;/settings&gt;
+  &lt;settings pass="oobeSystem"&gt;
+    &lt;component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"&gt;
+      &lt;InputLocale&gt;en-US&lt;/InputLocale&gt;
+      &lt;SystemLocale&gt;en-US&lt;/SystemLocale&gt;
+      &lt;UILanguage&gt;en-US&lt;/UILanguage&gt;
+      &lt;UserLocale&gt;en-US&lt;/UserLocale&gt;
+    &lt;/component&gt;
+    &lt;component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"&gt;
+      &lt;AutoLogon&gt;
+        &lt;Password&gt;
+          &lt;Value&gt;R3dh4t1!&lt;/Value&gt;
+          &lt;PlainText&gt;true&lt;/PlainText&gt;
+        &lt;/Password&gt;
+        &lt;Enabled&gt;true&lt;/Enabled&gt;
+        &lt;LogonCount&gt;999&lt;/LogonCount&gt;
+        &lt;Username&gt;Administrator&lt;/Username&gt;
+      &lt;/AutoLogon&gt;
+      &lt;OOBE&gt;
+        &lt;HideEULAPage&gt;true&lt;/HideEULAPage&gt;
+        &lt;HideLocalAccountScreen&gt;true&lt;/HideLocalAccountScreen&gt;
+        &lt;HideOnlineAccountScreens&gt;true&lt;/HideOnlineAccountScreens&gt;
+        &lt;HideWirelessSetupInOOBE&gt;true&lt;/HideWirelessSetupInOOBE&gt;
+        &lt;NetworkLocation&gt;Work&lt;/NetworkLocation&gt;
+        &lt;ProtectYourPC&gt;3&lt;/ProtectYourPC&gt;
+        &lt;SkipMachineOOBE&gt;true&lt;/SkipMachineOOBE&gt;
+      &lt;/OOBE&gt;
+      &lt;UserAccounts&gt;
+        &lt;LocalAccounts&gt;
+          &lt;LocalAccount wcm:action="add"&gt;
+            &lt;Description&gt;Local Administrator Account&lt;/Description&gt;
+            &lt;DisplayName&gt;Administrator&lt;/DisplayName&gt;
+            &lt;Group&gt;Administrators&lt;/Group&gt;
+            &lt;Name&gt;Administrator&lt;/Name&gt;
+          &lt;/LocalAccount&gt;
+        &lt;/LocalAccounts&gt;
+      &lt;/UserAccounts&gt;
+      &lt;TimeZone&gt;Eastern Standard Time&lt;/TimeZone&gt;
+    &lt;/component&gt;
+  &lt;/settings&gt;
+&lt;/unattend&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>コードを貼り付けたら、ダイアログの <strong>Save</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/22_Windows_2k19_Sysprep.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/22_Windows_2k19_Sysprep.png" alt="22 Windows 2k19 Sysprep" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>Sysprepが完了したら、画面の下部にある <strong>Create VirtualMachine</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/23_Create_VirtualMachine.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/23_Create_VirtualMachine.png" alt="23 Create VirtualMachine" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>仮想マシンは、ISOイメージをダウンロードし、設定を行い、インスタンスを起動することで、プロビジョニングプロセスを開始します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/24_Windows_2k19_Provisioning.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/24_Windows_2k19_Provisioning.png" alt="24 Windows 2k19 Provisioning" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>このプロセスは、起動 ISO イメージのダウンロードが必要なため、数分かかる場合があります。 <strong>Diagnostics</strong> タブをクリックすると、ダウンロードの進行状況を確認できます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/25_CD_Import.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/25_CD_Import.png" alt="25 CD Import" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>しばらくすると仮想マシンが起動し、ステータスが <strong>Running</strong> に変わります。 <strong>Console</strong> タブをクリックして、自動応答のインストールプロセスを表示します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/26_Windows_2k19_Console.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/26_Windows_2k19_Console.png" alt="26 Windows 2k19 Console" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>VMのインストールプロセスが完了したら（プロビジョニングには3～5分、起動と設定には約10分かかります）、停止ボタンで電源をオフにします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/27_Stop_Button.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/27_Stop_Button.png" alt="27 Stop Button" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>マシンをシャットダウンしたら、今後Windowsテンプレートベースのインストールを行う際に毎回カスタマイズプロセスを実行することなく使用できるルートボリュームのクローンを作成します。</p>
+</li>
+<li>
+<p>左側のメニューで <strong>Storage</strong> をクリックし、次に <strong>PersistentVolumeClaims</strong> をクリックすると、<strong>vmexamples-{user}</strong> ネームスペースで利用可能な PVC のリストが表示されます。</p>
+</li>
+<li>
+<p>インストールで作成された <strong>win-sysprep</strong> PVC を見つけ、右側の3点メニューから <strong>Clone PVC</strong> を選択します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/28_Storage_PVC.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/28_Storage_PVC.png" alt="28 Storage PVC" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>ポップアップメニューで以下のオプションを入力し、<strong>Clone</strong>（クローン）ボタンをクリックします。</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Name</strong>: windows-2k19-sysprep-template</p>
+</li>
+<li>
+<p><strong>Access mode</strong>:  Shared access (RWX)</p>
+</li>
+<li>
+<p><strong>StorageClass</strong>: ocs-external-storagecluster-ceph-rbd-immediate</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/29_Clone_Menu.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/29_Clone_Menu.png" alt="29 Clone Menu" width="100%"></a>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>これを保存すると、今後Windows VMを素早く作成する際に使用できます。</p>
+</li>
+<li>
+<p><strong>Catalog</strong> メニュー項目に戻り、<strong>Disk source</strong> として <strong>PVC (clone PVC)</strong> オプションを選択し、<strong>PVC name</strong> として <strong>Windows-2k19-Sysprep-Template</strong> PVCを選択して、クローンを作成します。<strong>Customize VirtualMachine</strong> ボタンをクリックして、ブートモードを <strong>UEFI</strong> ではなく <strong>BIOS</strong> に設定します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/30_Windows_Template.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/30_Windows_Template.png" alt="30 Windows Template" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>BIOSを設定し、<strong>Create VirtualMachine</strong>（仮想マシンの作成）をクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/31_Windows_Template_BIOS.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/31_Windows_Template_BIOS.png" alt="31 Windows Template BIOS" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>しばらくすると、新しい Windows Server 2019 仮想マシンがクローン作成された PVC から起動します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/32_Windows_Template_Running.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/32_Windows_Template_Running.png" alt="32 Windows Template Running" width="100%"></a>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="instance_types"><a class="anchor" href="#instance_types"></a>インスタンスタイプの紹介</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>仮想マシンのデプロイプロセスを簡素化するために、OpenShift 4.14 からデフォルトの構成メカニズムが変更され、<strong>インスタンスタイプ</strong> の使用が強調されるようになりました。インスタンスタイプは、新しいVMに適用するリソースと特性を定義できる再利用可能なオブジェクトです。独自のVMをプロビジョニングする際に、OpenShift Virtualizationをインストールすると、カスタムインスタンスタイプを定義したり、さまざまなインスタンスタイプを使用したりできます。これは、一般的なクラウドプロバイダーのセルフサービスカタログを使用する際にユーザーが経験することに非常に似ています。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>このセクションでは、インスタンスタイプを使用してVMをプロビジョニングする方法を説明します。</p>
+</li>
+<li>
+<p>まず、左側のメニューで <strong>Catalog</strong> をクリックします。 デフォルトのカタログ項目として <strong>Instance Types</strong> が表示されます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/33_Left_Menu_Catalog.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/33_Left_Menu_Catalog.png" alt="33 Left Menu Catalog" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>インスタンスタイプを使用する最初のステップは、起動するボリュームを選択することです。起動ソースを提供するテンプレートと同様に、これらの起動ソースは、InstanceTypeでプロビジョニングされたゲストで使用できます。<strong>openshift-virtualization-os-images</strong> プロジェクトを選択すると、含まれるボリュームを確認できます。または、<strong>Add volume</strong> ボタンを使用して独自のボリュームをアップロードすることもできます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/34_Volume_Boot.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/34_Volume_Boot.png" alt="34 Volume Boot" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>rhel9</strong> ブートボリュームをクリックして、起動するボリュームタイプとして選択します。 選択すると、イメージ名の左側に小さな青い縦線が表示され、名前自体が太字に変わります。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/35_Select_RHEL9.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/35_Select_RHEL9.png" alt="35 Select RHEL9" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>次に、使用するインスタンスタイプを選択できます。デフォルトで Red Hat が提供するインスタンスタイプが用意されていますが、独自のインスタンスタイプを作成して特定の用途に使用することもできます。提供されているインスタンスタイプにカーソルを合わせると、その使用目的の説明が表示されます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/36_Select_InstanceType.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/36_Select_InstanceType.png" alt="36 Select InstanceType" width="100%"></a>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Red Hat が提供するインスタンスタイプは、以下の用途を想定しています。</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Nシリーズ</strong>: VNFs のようなネットワーク集約的な DPDK ワークロード用に設計されています。</p>
+</li>
+<li>
+<p><strong>Oシリーズ</strong>：メモリオーバーコミットが事前構成された、特殊な汎用インスタンスタイプです。</p>
+</li>
+<li>
+<p><strong>CXシリーズ</strong>：追加の専用CPUをリクエストすることで、追加の機能オフロードによる計算集約型ワークロード向けに設計されています。</p>
+</li>
+<li>
+<p><strong>Uシリーズ</strong>：最も汎用性の高い、または「ユニバーサル」なインスタンスタイプです。</p>
+</li>
+<li>
+<p><strong>Mシリーズ</strong>：メモリ集約型ワークロード向けに設計されています。</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Uシリーズ</strong> のタイルをクリックすると、一般的なインスタンスタイプの定義済みリソースのドロップダウンリストが表示されます。 デフォルトのオプションは <strong>medium: 1 CPUs, 4 GiB Memory</strong> です。これを選択します。 選択すると、インスタンスタイプのフォントが青字で太字表示されます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/37_InstanceType_Resources.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/37_InstanceType_Resources.png" alt="37 InstanceType Resources" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>インスタンスタイプを使用してプロビジョニングを行う際に最後に完了させる必要があるセクションは、テンプレートセクションと類似しています。仮想マシンに名前を付け、バックアップディスクに使用するストレージクラスを選択する必要があります。デフォルトでは、VMに名前が生成され、デフォルトのストレージクラスが選択されます。問題がなければ、<strong>Create VirtualMachine</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/38_VM_Details.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/38_VM_Details.png" alt="38 VM Details" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>仮想マシンの概要ページに移動し、インスタンスタイプを使用してプロビジョニングされたVMが起動して実行中になっていることを確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/39_VM_Overview.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/39_VM_Overview.png" alt="39 VM Overview" width="100%"></a>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="cleanup"><a class="anchor" href="#cleanup"></a>クリーンアップ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>次のラボでリソースを節約するには、このモジュールで作成したVMをすべて停止してください。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のメニューで <strong>Virtualization</strong> パースペクティブに移動し、<strong>Virtualmachines</strong> をクリックします。</p>
+</li>
+<li>
+<p>VMワークロードをホストしている、アクセス可能な各プロジェクトが、中央列のツリービューに表示されます。（最低限、プロジェクト <strong>vmimported-{user}</strong> および <strong>vmexamples-{user}</strong> を展開して、仮想マシンのステータスを確認してください。</p>
+</li>
+<li>
+<p>VMのステータスが <strong>Running</strong> となっているものがあれば、中央のツリー列でVMをハイライト表示し、 <strong>Actions</strong> ドロップダウンメニューから <strong>Stop</strong> ボタンまたはオプションを選択します。</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>これで、すべてのVMが <strong>Stopped</strong> 状態になっているはずです。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-07-tempinst/40_All_Stopped.png" target="blank"><img src="_images/virt/2025_spring/module-07-tempinst/40_All_Stopped.png" alt="40 All Stopped" width="100%"></a>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_まとめ"><a class="anchor" href="#_まとめ"></a>まとめ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>このセクションでは、データベースなどの特定のワークロードで使用できるテンプレートを作成するために、既存のテンプレートを複製およびカスタマイズする方法を学びました。また、ブートソースを持たない既存のWindowsテンプレートを構成し、インストールプロセスを自動化する方法も学びました。これにより、そのVMで作成されたインストールPVCをクローン化することで、今後の展開を簡単に作成できるようになります。また、特定のワークロード向けに仮想マシンをさらにカスタマイズし、よりクラウドに近い体験を実現するためのインスタンスタイプの使用方法についてもご紹介しました。</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="74-module-05-bcdr.html">4. 仮想マシンのバックアップとリカバリ</a></span>
+  <span class="next"><a href="76-module-08-workingvms.html">6. 仮想マシンとアプリケーションの操作</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>既存の仮想マシンの移行 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/72-module-02-mtv.html">
+    <link rel="prev" href="71-module-01-intro.html">
+    <link rel="next" href="73-module-04-storage.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://rh-open.github.io/ocp-handson">OpenShift Handson</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="openshift-services" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">01. OpenShift 基礎</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-deployment.html">2. Web コンソールの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02_app-storage-basics.html">3. 永続ストレージ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03_machinesets.html">4. ノードの動的管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04_infra-nodes.html">5. Infra ノードの作成</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="06_template-quota-limits.html">6. Project のクオータ/制限</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">20. OpenShift Pipeline Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="10-pipeline-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="11-pipelines.html">1. Pipelines -1/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="12-add-task.html">2. Pipelines -2/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="13-triggers.html">3. Tekton Triggers</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">21. OpenShift GitOps Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="20-GitOps-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="21-GitOps.html">1. OpenShift GitOps</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="22-Kustomize.html">2. Kustomizeインテグレーション</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="23-Helm.html">3. Helmインテグレーション</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">51. Red Hat OpenShift Service on AWS (ROSA) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="50-rosa-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="51-rosa-hcp-create.html">1. ROSA HCPクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="52-rosa-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="53-rosa-ebs.html">3. Amazon EBSの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-1-rosa-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-2-rosa-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="58-rosa-bedrock.html">6. Amazon Bedrockアプリケーションの実行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-01.html">7. ロギング設定 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-2-rosa-monitoring.html">9. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-3-rosa-project-metrics.html">10. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-4-rosa-alert.html">11. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="56-rosa-nodes.html">12. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="57-rosa-upgrade.html">13. ROSA HCPクラスターの更新</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">61. Azure Red Hat OpenShift (ARO) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="60-aro-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="61-aro-create.html">1. AROクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="62-aro-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="63-aro-storage.html">3. Azure DiskとAzure Filesの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="64-aro-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="65-aro-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="66-aro-logging.html">6. ロギング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-1-aro-monitoring.html">7. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-2-aro-project-metrics.html">8. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-3-aro-alert.html">9. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="68-aro-nodes.html">10. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="69-aro-upgrade.html">11. AROクラスターの更新[デモ]</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">71. OpenShift Virtualization Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="70-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="71-module-01-intro.html">1. 仮想マシン管理</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="72-module-02-mtv.html">2. 既存の仮想マシンの移行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="73-module-04-storage.html">3. ストレージ管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="74-module-05-bcdr.html">4. 仮想マシンのバックアップとリカバリ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="75-module-07-tempinst.html">5. テンプレートとインスタンスタイプの管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="76-module-08-workingvms.html">6. 仮想マシンとアプリケーションの操作</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="78-module-09-networking.html">7. 仮想マシンのネットワーク管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="79-conclusion.html">8. 追加情報</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Handson</a></li>
+    <li>71. OpenShift Virtualization Lab</li>
+    <li><a href="72-module-02-mtv.html">2. 既存の仮想マシンの移行</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/72-module-02-mtv.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">既存の仮想マシンの移行</h1>
+<div class="sect1">
+<h2 id="_はじめに"><a class="anchor" href="#_はじめに"></a>はじめに</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>このラボでは、 <a href="https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/" target="_blank" rel="noopener">Migration Toolkit for Virtualization</a> (MTV) を使用して、VMware vSphere から OpenShift に仮想マシンをインポートします。移行ツールキットでは、インポートの「モード」として次の2つをサポートしています。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>コールドマイグレーションは、マイグレーションを開始する前にソースの仮想マシンを停止します。これがデフォルトのマイグレーションタイプです。</p>
+</li>
+<li>
+<p>ウォームマイグレーションでは、ソースの仮想マシンを稼働させたままデータをコピーします。大部分のデータがマイグレーションされると、VM はシャットダウンされ、最終的なデータがデスティネーションにコピーされます。その後、新しい VM が起動され、VM ホスト型アプリケーションのダウンタイムが大幅に短縮されます。</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+マイグレーションツールキットは、OperatorHub で利用可能な Operator を使用して、すでにクラスタにデプロイされています。
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Operatorのインストールおよび構成方法については、 <a href="https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.6/html/installing_and_using_the_migration_toolkit_for_virtualization/installing-the-operator_mtv" target="_blank" rel="noopener">こちら</a> を参照してください。</p>
+</div>
+<div class="paragraph">
+<p>ご自身のニーズに合わせて Migration Toolkit for Virtualization を構成する方法についてさらに詳しくお知りになりたい場合は、次のリンク先のドキュメントを参照してください。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.7/html/installing_and_using_the_migration_toolkit_for_virtualization/prerequisites_mtv#openstack-prerequisites_mtv" target="_blank" rel="noopener">OpenStack</a></p>
+</li>
+<li>
+<p><a href="https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.7/html/installing_and_using_the_migration_toolkit_for_virtualization/prerequisites_mtv#rhv-prerequisites_mtv" target="_blank" rel="noopener">Red Hat Virtualization</a></p>
+</li>
+<li>
+<p><a href="https://docs.redhat.com/en/documentation/migration_toolkit_for_virtualization/2.7/html/installing_and_using_the_migration_toolkit_for_virtualization/prerequisites_mtv#vmware-prerequisites_mtv" target="_blank" rel="noopener">VMware vSphere</a></p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title"><strong>目標</strong></div>
+<ul>
+<li>
+<p>VMware vSphere 環境を調査する</p>
+</li>
+<li>
+<p>Migration Toolkit for Virtualization (MTV) の構成を確認する</p>
+</li>
+<li>
+<p>マイグレーションプランを作成する</p>
+</li>
+<li>
+<p>VM を OpenShift Virtualization に移行する</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="prerequisites"><a class="anchor" href="#prerequisites"></a>移行の前提条件</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>以下の前提条件は、すべての移行に適用されます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ISO/CD-ROM ディスクはアンマウントされている必要があります。</p>
+</li>
+<li>
+<p>各 NIC には、IPv4 アドレスが 1 つ以上、および/または IPv6 アドレスが 1 つ以上含まれている必要があります。</p>
+</li>
+<li>
+<p>VMのオペレーティングシステムは、 <a href="https://access.redhat.com/articles/973163#ocpvirt" target="_blank" rel="noopener">OpenShift Virtualization</a> のゲストオペレーティングシステムとして使用するための認証およびサポートを受けている必要があります。</p>
+</li>
+<li>
+<p>VM名には、小文字（a-z）、数字（0-9）、またはハイフン（-）のみを含める必要があります。最大文字数は253文字です。先頭と末尾の文字は英数字にする必要があります。大文字、スペース、ピリオド（.）、特殊文字を含めることはできません。</p>
+</li>
+<li>
+<p>VM名は、OpenShift Virtualization環境内の既存のVM名と重複しないようにする必要があります。</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<strong>Migration Toolkit for Virtualization</strong> は、ルールに準拠していない VM に自動的に新しい名前を割り当てます。これにより、問題なく移行を進めることができます。
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="migrating_vms"><a class="anchor" href="#migrating_vms"></a>VMware からの仮想マシンの移行</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>OpenShift への移行用に、VMware 上に 3 層アプリケーションがデプロイされています。</p>
+</div>
+<div class="paragraph">
+<p>このアプリケーションは、以下の 4 つの仮想マシンで構成されています。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>トラフィックを Web サーバーにリダイレクトする HAproxy システム 1 つ。</p>
+</li>
+<li>
+<p>MariaDB データベースを実行する Linux システム 1 つ。</p>
+</li>
+<li>
+<p>IIS をホストする 2 つの Microsoft Windows サーバーで、データベースに接続する PHP アプリケーションを実行。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>このラボでは、コールドマイグレーションを使用して、4 つの仮想マシンのうち 3 つをマイグレーションする作業を行います。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+HAproxy（ロードバランサー）VMのマイグレーションは必要ありません。OpenShiftは、<strong>Service</strong> を使用してSDNに接続されたVMのネットワークトラフィックとロードバランシングをネイティブに処理します。
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_vmware環境の確認"><a class="anchor" href="#_vmware環境の確認"></a>VMware環境の確認</h3>
+<div class="paragraph">
+<p>vSphereのリソース（データストアやポートグループなど）をOpenShiftのストレージクラスやネットワークアタッチメント定義にマッピングするプロセスを理解するために、マイグレーションのソース環境を確認することから始めましょう。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>VMware vCenter に移動します： <a href="https://{vcenter_console}" target="_blank" rel="noopener">vCenter Console</a></p>
+</li>
+<li>
+<p><strong>Launch vSphere Client</strong> をクリックします。</p>
+</li>
+<li>
+<p>次の認証情報でログインします。</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>User:</strong> {vcenter_full_user}</p>
+</li>
+<li>
+<p><strong>Password:</strong> {vcenter_password}</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>デフォルトでは、ナビゲーションツリーの一番上に <strong>インベントリ</strong> ビューが表示され、このオブジェクトを表示する権限がないというメッセージが表示されます。これは現在のユーザーアカウントでは想定通りの動作です。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-02-mtv/00_VMware_First_Login.png" target="blank"><img src="_images/virt/2025_spring/module-02-mtv/00_VMware_First_Login.png" alt="00 VMware First Login" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Workloads</strong> アイコンをクリックし、ナビゲーションツリーを展開して <strong>Roadshow</strong> という名前のフォルダとその下の4つのVMを表示します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-02-mtv/01_Workload_VM_List.png" target="blank"><img src="_images/virt/2025_spring/module-02-mtv/01_Workload_VM_List.png" alt="01 Workload VM List" width="100%"></a>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+ラボ環境の正確なフォルダリストはここに示す画像とは異なる場合がありますが、Roadshowフォルダと対象のVMが見つかれば、ラボを続行できます。
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>フォルダ内の各仮想マシンの詳細を表示するには、画面上部の <strong>VMs</strong> アイコンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-02-mtv/02_VM_Details.png" target="blank"><img src="_images/virt/2025_spring/module-02-mtv/02_VM_Details.png" alt="02 VM Details" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Networks</strong> ビューに変更し、ツリーを展開して仮想マシンで使用されているポートグループを表示します。 名前が <strong>segment-migrating-to-ocpvirt</strong> であることに注意してください。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-02-mtv/03_vSphere_Network.png" target="blank"><img src="_images/virt/2025_spring/module-02-mtv/03_vSphere_Network.png" alt="03 vSphere Network" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>最後に、<strong>Datastores</strong> ビューに移動して使用中のデータストアを確認します。ツリーを展開して <strong>RS00</strong> データセンターにアタッチされているデータストアを確認し、必要に応じて <strong>VMs</strong> サブタブに移動して各仮想マシンで使用されている容量を表示します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-02-mtv/04_vSphere_Datastore.png" target="blank"><img src="_images/virt/2025_spring/module-02-mtv/04_vSphere_Datastore.png" alt="04 vSphere Datastore" width="100%"></a>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_マイグレーションツールキットへのvmwareプロバイダの確認"><a class="anchor" href="#_マイグレーションツールキットへのvmwareプロバイダの確認"></a>マイグレーションツールキットへのVMwareプロバイダの確認</h3>
+<div class="paragraph">
+<p>VMware vSphereとそこに存在する仮想マシンの確認が完了したので、ウィンドウを閉じてOpenShift Webコンソールに戻ります。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<strong>Migration Toolkit for Virtualization (MTV)</strong> は公式にはOpenShift Virtualizationとは別のツールであり、<strong>Virtualization</strong> パースペクティブからはアクセスできません。
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のメニューで <strong>Virtualization</strong> をクリックし、ドロップダウンから <strong>Administrator</strong> を選択します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-02-mtv/05_Admin_Persona.png" target="blank"><img src="_images/virt/2025_spring/module-02-mtv/05_Admin_Persona.png" alt="05 Admin Persona" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>左側のメニューで <strong>Migration</strong> &#8594; <strong>Providers for virtualization</strong> に移動します。</p>
+</li>
+<li>
+<p>ページの上部にあるプロジェクト <strong>mtv-{user}</strong> を選択します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-02-mtv/06_MTV_Providers.png" target="blank"><img src="_images/virt/2025_spring/module-02-mtv/06_MTV_Providers.png" alt="06 MTV Providers" width="100%"></a>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+MTV 2.4 以降はプロジェクト/ネームスペースを認識し、管理者権限を必要としません。VM のインポートをアプリケーションチームや VM ユーザーに委任することで、各自が自分のペースでセルフサービスで移行できるようになります！
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>デフォルトでは、<strong>host</strong> というプロバイダーがあり、これは <strong>OpenShift Virtualization</strong> をターゲットプラットフォームとして表しています。</p>
+</div>
+<div class="paragraph">
+<p>さらに、このラボでは、<strong>vmware</strong> という追加のプロバイダーがすでに構成されており、これは先ほど調査したVMware vSphereクラスターのエンドポイントアドレスを持っていることがわかります。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_マイグレーションプランの作成"><a class="anchor" href="#_マイグレーションプランの作成"></a>マイグレーションプランの作成</h3>
+<div class="paragraph">
+<p>環境の確認を終え、プロバイダーも作成したので、次はマイグレーションプランを作成します。このプランでは、VMware vSphere から Red Hat OpenShift Virtualization へ移行するVMを選択し、移行の実行方法の詳細を指定します。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のメニューで <strong>Migration</strong> &#8594; <strong>Plans for virtualization</strong> に移動し、<strong>Create Plan</strong> をクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-02-mtv/07_Create_VMWARE_Plan.png" target="blank"><img src="_images/virt/2025_spring/module-02-mtv/07_Create_VMWARE_Plan.png" alt="07 Create VMWARE Plan" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>まず、<strong>Plan name</strong> を作成するように求められます。フィールドに <strong>move-webapp-vmware</strong> という値を入力してください。移行用に選択したプロジェクトが mtv-{user} であることを確認し、 <strong>VMware</strong> タイルをクリックして移行元のソースプロバイダーを選択します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-02-mtv/08_VMware_Source_Provider.png" target="blank"><img src="_images/virt/2025_summer/module-02-mtv/08_VMware_Source_Provider.png" alt="08 VMware Source Provider" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>ページが更新され、ユーザー アカウント{user}がアクセスできる環境内の仮想マシンのリストが表示されます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-02-mtv/09_VM_List.png" target="blank"><img src="_images/virt/2025_summer/module-02-mtv/09_VM_List.png" alt="09 VM List" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Select virtual machines</strong> セクションで、移動したい3つのVMを選択します:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>database-{user}</p>
+</li>
+<li>
+<p>winweb01-{user}</p>
+</li>
+<li>
+<p>winweb02-{user}</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Next</strong> をクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-02-mtv/10_VM_Select_VMWARE_Plan.png" target="blank"><img src="_images/virt/2025_summer/module-02-mtv/10_VM_Select_VMWARE_Plan.png" alt="10 VM Select VMWARE Plan" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>次の画面では、マイグレーションプランの詳細を入力するよう求められます。いくつかの詳細項目はすでに記入されていますが、VMが正しいネームスペースに配置され、ネットワークとストレージのオプションが正しくマッピングされるように、いくつかの軽微な修正を行う必要があります。</p>
+<div class="paragraph">
+<p>マイグレーションプランに以下の値を入力してください:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Target provider</strong>: host</p>
+</li>
+<li>
+<p><strong>Target namespace</strong>: vmexamples-{user}</p>
+</li>
+<li>
+<p><strong>Network map</strong>: Pod Networking</p>
+</li>
+<li>
+<p><strong>Storage map</strong>: ocs-external-storagecluster-ceph-rbd</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+ネットワークマップとストレージマップの両方が、ソースプロバイダー上で現在検出された仮想マシンが使用しているネットワークとデータストアを自動的に検出します。OpenShift側でそれぞれの値が正しく設定されていることを確認するだけで済みます。
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Create migration plan</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-02-mtv/11_Create_Migration_Plan.png" target="blank"><img src="_images/virt/2025_summer/module-02-mtv/11_Create_Migration_Plan.png" alt="11 Create Migration Plan" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>新しい画面に移動し、マイグレーションプランが準備中であることが表示されます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-02-mtv/12_Migration_Plan_Unready.png" target="blank"><img src="_images/virt/2025_summer/module-02-mtv/12_Migration_Plan_Unready.png" alt="12 Migration Plan Unready" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>しばらくすると、プランが <strong>Ready</strong> になります。青い <strong>Start Migration</strong> ボタンをクリックして、移行プロセスを開始します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-02-mtv/13_Migration_Plan_Ready.png" target="blank"><img src="_images/virt/2025_summer/module-02-mtv/13_Migration_Plan_Ready.png" alt="13 Migration Plan Ready" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>移行を開始する確認ボックスが表示されますので、<strong>Start</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-02-mtv/14_Confirm_Migrate_Start.png" target="blank"><img src="_images/virt/2025_summer/module-02-mtv/14_Confirm_Migrate_Start.png" alt="14 Confirm Migrate Start" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>プランは <strong>Running</strong> に切り替わり、ステータスフィールドの下に回転するホイールが表示され、移行の進行状況がパーセンテージ値で更新されます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-02-mtv/15_VMs_Migrating.png" target="blank"><img src="_images/virt/2025_summer/module-02-mtv/15_VMs_Migrating.png" alt="15 VMs Migrating" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Virtual Machines</strong> タブをクリックすると、移行計画の進行状況に関する詳細を示すページが表示されます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-02-mtv/16_VMs_Migrating_Details.png" target="blank"><img src="_images/virt/2025_summer/module-02-mtv/16_VMs_Migrating_Details.png" alt="16 VMs Migrating Details" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>移行中の各VMの名前の横にあるドロップダウン矢印をクリックすると、移行プロセスの段階に関する追加の詳細情報を取得できます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-02-mtv/17_VM_Migration_Stages.png" target="blank"><img src="_images/virt/2025_summer/module-02-mtv/17_VM_Migration_Stages.png" alt="17 VM Migration Stages" width="100%"></a>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+仮想マシンの移行には10Gbpsのネットワークを推奨しますが、当社のシミュレートされたラボ環境にはありません。このため、多くの参加者が同じタスクを並行して実行すると、実際の環境よりもこのタスクの実行速度が大幅に低下する可能性があります。このプロセスが完了するまでしばらくお待ちください。移行はバックグラウンドで完了するため、ロードショーの他のセクションに進むことができます。これらのマシンの操作については、後のモジュールで説明します。
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>これらのマシンの移行には、現在ラボに参加しているユーザーの数に応じて、かなりの時間がかかる場合があります。移行計画の完了を待つ間は、インタラクティブビデオの次のセクション、または次のモジュールに進んでください。移行されたVMについては、後のモジュールで操作します。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="interactive_demos"><a class="anchor" href="#interactive_demos"></a>高度な機能のインタラクティブなデモ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ラボでのコールドマイグレーションが完了し、仮想マシンを操作できるようになるまでの間、この機会にMigration Toolkit for Virtualizationで実行できる高度な移行オプションをいくつかご紹介したいと思います。
+このセクションでは、移行プロセス中の仮想マシンの自動再構成と、移行操作中のダウンタイムを削減するウォームマイグレーションの実行方法について説明します。</p>
+</div>
+<div class="paragraph">
+<p>ぜひ以下のセクションを確認し、インタラクティブなデモビデオをお楽しみください。</p>
+</div>
+<div class="sect2">
+<h3 id="_automated_config_hooks自動構成フック"><a class="anchor" href="#_automated_config_hooks自動構成フック"></a>Automated Config Hooks(自動構成フック)</h3>
+<div class="paragraph">
+<p>自動構成フックは、Migration Toolkit for Virtualization に組み込まれた非常に優れた強力な機能です。</p>
+</div>
+<div class="paragraph">
+<p>構成フックは、Migration Toolkit for Virtualization の機能として含まれています。構成フックは、移行プロセスの完了前または完了後に仮想マシンのプロパティを変更するための、事前構成フックまたは事後構成フックとして設定できます。構成フックは、Ansible Automation の機能を活用して、YAML 形式のプレイブックを通じて必要なアクションを実行しますが、 <a href="https://www.redhat.com/en/hybrid-cloud-solutions/automation?sc_cid=RHCTN0250000435827&amp;gad_source=1&amp;gad_campaignid=20322566154&amp;gbraid=0AAAAADsbVMRTUlnZMtmJPEadK_tiBW92m&amp;gclid=EAIaIQobChMIqt2m1oHxjAMVjnFHAR1rXhMLEAAYASAAEgIdAfD_BwE&amp;gclsrc=aw.ds" target="_blank" rel="noopener">Ansible Automation Platform</a> のサブスクリプションは別途必要ありません。代わりに、構成フックは、移行プロセス中に対象の仮想マシンに対して提供されたプレイブックを実行する、別の <strong>ansible-runner</strong> ポッド内で実行されます。</p>
+</div>
+<div class="paragraph">
+<p>これらの自動化されたタスクは、ソースハイパーバイザーで動作していた仮想マシンが OpenShift Virtualization でも期待どおりに動作することを保証する上で非常に役立ちます。</p>
+</div>
+<div class="paragraph">
+<p>ゲスト上のファイルの編集などの単純なタスクや、ハードウェアデバイスの構成の更新などの複雑なタスクを実行できます。</p>
+</div>
+<div class="paragraph">
+<p>両方の例の実際の動作を確認するには、以下のインタラクティブデモをご覧ください。</p>
+</div>
+<div class="ulist">
+<div class="title">デモの手順は次のとおりです:</div>
+<ul>
+<li>
+<p>リモートESXiホスト上の仮想マシンを検出し、コールド移行プランを構成します。</p>
+</li>
+<li>
+<p>移行前フックを使用して、ネットワークアダプターを VMware ネイティブフォーマットから OpenShift Virtualization の VirtIO フォーマットに再構成し、移行プロセスの開始のタイムスタンプを記録するテキスト ファイルを書き込みます。</p>
+</li>
+<li>
+<p>移行後のフックを使用してネットワークアダプターの構成をクリーンアップし、移行プロセスの完了のタイムスタンプを記録する別のテキストファイルを書き込みます。</p>
+</li>
+<li>
+<p>実行中の仮想マシンが正常に移行され、行った変更が起動後も維持されることを確認します。</p>
+</li>
+</ul>
+</div>
+<iframe
+  src="https://demo.arcade.software/cfhTjX94HcFjuP2pX0Lm?embed&embed_mobile=inline&embed_desktop=inline&show_copy_link=true"
+  width="100%"
+  height="600px"
+  frameborder="0"
+  webkitallowfullscreen
+  mozallowfullscreen
+  allowfullscreen
+>
+</iframe>
+</div>
+<div class="sect2">
+<h3 id="_warm_migration"><a class="anchor" href="#_warm_migration"></a>Warm Migration</h3>
+<div class="paragraph">
+<p>Migration Toolkit for Virtualization のデフォルトの移行タイプはコールドマイグレーションであり、移行期間全体を通してソース仮想マシンの電源をオフにする必要がありますが、仮想マシンの移行のために長時間のダウンタイムを許容できない重要なワークロードを抱える組織も数多く存在します。
+このようなワークロード向けに、Migration Toolkit for Virtualization はウォームマイグレーションもサポートしています。</p>
+</div>
+<div class="paragraph">
+<p>ウォームマイグレーションプロセスは、ソースハイパーバイザー上の変更ブロックトラッキング (CBT) テクノロジを利用することで実現されます。このテクノロジは、バックアップや災害復旧処理でよく使用され、処理中にネットワーク経由で転送されるデータ量を削減します。
+仮想マシンで CBT を有効にすると、ゲストのスナップショットが定期的に作成され、VM ディスクの変更が記録されます。VM を移行するときには、ゲストの初期コピーが実行中に転送されます。これにより、マシンがまだ動作している間に、ダウンタイムなしで大量のマシンデータを転送できます。停止時間をスケジュールできる場合、Migration Toolkit for Virtualization によってカットオーバーがトリガーされ、ゲストの電源がオフになり、変更された CBT スナップショット データが転送されるため、VM のダウンタイムは大幅に短縮されます。</p>
+</div>
+<div class="ulist">
+<div class="title">デモの手順は次のとおりです:</div>
+<ul>
+<li>
+<p>ソース ハイパーバイザー上で実行中の Windows および Linux 仮想マシンを調べます。</p>
+</li>
+<li>
+<p>構成された Migration Toolkit for Virtualization を確認します。</p>
+</li>
+<li>
+<p>カットオーバーフェーズで停止するウォーム移行プランを作成して実行します。</p>
+</li>
+<li>
+<p>ゲストがまだ実行中であることを確認した後、カットオーバー操作を初期化します。</p>
+</li>
+<li>
+<p>移行計画が完了したら、環境を調査します。</p>
+</li>
+</ul>
+</div>
+<iframe
+  src="https://demo.arcade.software/XavEz1uQrK12baAJqYnm?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true"
+  width="100%"
+  height="600px"
+  frameborder="0"
+  webkitallowfullscreen
+  mozallowfullscreen
+  allowfullscreen
+>
+</iframe>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="migration_wrapup"><a class="anchor" href="#migration_wrapup"></a>移行のラップアップ</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>数分後、移行が正常に完了したことがわかります。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-02-mtv/18_Completed_VMWARE_Plan.png" target="blank"><img src="_images/virt/2025_spring/module-02-mtv/18_Completed_VMWARE_Plan.png" alt="18 Completed VMWARE Plan" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>選択した仮想マシンは OpenShift Virtualization に正常に移行されました。</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_まとめ"><a class="anchor" href="#_まとめ"></a>まとめ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>このセクションでは、Migration Toolkit for Virtualization について解説し、これを使用して既存の仮想マシンを VMware vSphere 環境から OpenShift Virtualization に移行する手順を説明しました。また、特定の移行シナリオで活用できる高度な機能を紹介するインタラクティブなビデオもいくつか視聴しました。</p>
+</div>
+<div class="paragraph">
+<p>仮想化移行ツールキットに加えて、現在利用可能な移行ツールキットが2つあります。これらを組み合わせることで、組織のニーズに応じて、さまざまな種類のワークロードをOpenShiftクラスター内およびクラスター間で移行できます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.redhat.com/en/documentation/migration_toolkit_for_applications/7.2/html/introduction_to_the_migration_toolkit_for_applications/index">Migration Toolkit for Applications</a> - 大規模なアプリケーションのコンテナおよび Kubernetes への移行を迅速化します。</p>
+</li>
+<li>
+<p><a href="https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/migration_toolkit_for_containers/about-mtc">Migration Toolkit for Containers</a> - OpenShift クラスタ間でステートフルなアプリケーションワークロードを移行します。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>これらのその他のMigration Toolkitの詳細については、Red Hat アカウントチームまでお問い合わせください。</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="71-module-01-intro.html">1. 仮想マシン管理</a></span>
+  <span class="next"><a href="73-module-04-storage.html">3. ストレージ管理</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

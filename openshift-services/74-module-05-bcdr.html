@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>仮想マシンのバックアップとリカバリ :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/74-module-05-bcdr.html">
+    <link rel="prev" href="73-module-04-storage.html">
+    <link rel="next" href="75-module-07-tempinst.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://rh-open.github.io/ocp-handson">OpenShift Handson</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="openshift-services" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">01. OpenShift 基礎</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-deployment.html">2. Web コンソールの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02_app-storage-basics.html">3. 永続ストレージ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03_machinesets.html">4. ノードの動的管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04_infra-nodes.html">5. Infra ノードの作成</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="06_template-quota-limits.html">6. Project のクオータ/制限</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">20. OpenShift Pipeline Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="10-pipeline-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="11-pipelines.html">1. Pipelines -1/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="12-add-task.html">2. Pipelines -2/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="13-triggers.html">3. Tekton Triggers</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">21. OpenShift GitOps Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="20-GitOps-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="21-GitOps.html">1. OpenShift GitOps</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="22-Kustomize.html">2. Kustomizeインテグレーション</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="23-Helm.html">3. Helmインテグレーション</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">51. Red Hat OpenShift Service on AWS (ROSA) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="50-rosa-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="51-rosa-hcp-create.html">1. ROSA HCPクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="52-rosa-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="53-rosa-ebs.html">3. Amazon EBSの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-1-rosa-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-2-rosa-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="58-rosa-bedrock.html">6. Amazon Bedrockアプリケーションの実行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-01.html">7. ロギング設定 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-2-rosa-monitoring.html">9. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-3-rosa-project-metrics.html">10. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-4-rosa-alert.html">11. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="56-rosa-nodes.html">12. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="57-rosa-upgrade.html">13. ROSA HCPクラスターの更新</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">61. Azure Red Hat OpenShift (ARO) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="60-aro-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="61-aro-create.html">1. AROクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="62-aro-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="63-aro-storage.html">3. Azure DiskとAzure Filesの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="64-aro-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="65-aro-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="66-aro-logging.html">6. ロギング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-1-aro-monitoring.html">7. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-2-aro-project-metrics.html">8. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-3-aro-alert.html">9. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="68-aro-nodes.html">10. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="69-aro-upgrade.html">11. AROクラスターの更新[デモ]</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">71. OpenShift Virtualization Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="70-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="71-module-01-intro.html">1. 仮想マシン管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="72-module-02-mtv.html">2. 既存の仮想マシンの移行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="73-module-04-storage.html">3. ストレージ管理</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="74-module-05-bcdr.html">4. 仮想マシンのバックアップとリカバリ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="75-module-07-tempinst.html">5. テンプレートとインスタンスタイプの管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="76-module-08-workingvms.html">6. 仮想マシンとアプリケーションの操作</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="78-module-09-networking.html">7. 仮想マシンのネットワーク管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="79-conclusion.html">8. 追加情報</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Handson</a></li>
+    <li>71. OpenShift Virtualization Lab</li>
+    <li><a href="74-module-05-bcdr.html">4. 仮想マシンのバックアップとリカバリ</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/74-module-05-bcdr.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">仮想マシンのバックアップとリカバリ</h1>
+<div class="sect1">
+<h2 id="_はじめに"><a class="anchor" href="#_はじめに"></a>はじめに</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>データ保護は、あらゆる企業ワークロードに関して重要な話題であり、OpenShift Virtualization環境における仮想マシンのバックアップとリカバリには、現在、数多くのオプションが存在します。これらのソリューションの多くは、OpenShiftのPodを保護するのと同じ方法で機能します。仮想マシン、または複数の仮想マシンを含むネームスペースのバックアップを取得し、オブジェクトストレージバケットにリモートで保存することで、これを実現します。これらのバックアップには通常、仮想マシンを定義するメタデータおよびカスタムリソースに加えて、永続ストレージボリュームも含まれます。</p>
+</div>
+<div class="paragraph">
+<p>Red Hatのソリューションには、以下が含まれます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/backup_and_restore/oadp-application-backup-and-restore" target="_blank" rel="noopener"><strong>OADP (OpenShift APIs for Data Protection)</strong></a>: 仮想マシンを含む OpenShift オブジェクトのバックアップとリストアを行う、ストレージに依存しない方法を提供する Red Hat Operator。</p>
+</li>
+<li>
+<p><a href="https://docs.redhat.com/en/documentation/red_hat_openshift_data_foundation/4.18/html/configuring_openshift_data_foundation_disaster_recovery_for_openshift_workloads/metro-dr-solution" target="_blank" rel="noopener"><strong>OpenShift Data Foundation Metro-DR</strong></a> および <a href="https://docs.redhat.com/en/documentation/red_hat_openshift_data_foundation/4.18/html/configuring_openshift_data_foundation_disaster_recovery_for_openshift_workloads/rdr-solution" target="_blank" rel="noopener"><strong>OpenShift Data Foundation Regional-DR</strong></a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>エコシステムパートナーソリューションには以下が含まれます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.cohesity.com/press/cohesity-enhances-data-protection-and-cyber-resilience-for-red-hat-openshift-virtualization-workloads/" target="_blank" rel="noopener"><strong>Cohesity DataProtect</strong></a></p>
+</li>
+<li>
+<p><a href="https://docs.netapp.com/us-en/trident/index.html" target="_blank" rel="noopener"><strong>NetApp Trident Protect</strong></a></p>
+</li>
+<li>
+<p><a href="https://portworx.com/blog/disaster-recovery-for-red-hat-openshift-virtualization/" target="_blank" rel="noopener"><strong>Portworx Disaster Recovery for OpenShift Virtualization</strong></a></p>
+</li>
+<li>
+<p><a href="https://www.rubrik.com/solutions/openshift" target="_blank" rel="noopener"><strong>Rubrik for OpenShift</strong></a></p>
+</li>
+<li>
+<p><a href="https://storware.eu/solutions/virtual-machine-backup-and-recovery/openshift-virtualization-and-kubevirt/" target="_blank" rel="noopener"><strong>Storware Backup and Recovery</strong></a></p>
+</li>
+<li>
+<p><a href="https://docs.trilio.io/kubernetes/appendix/backup-and-restore-virtual-machine-running-on-openshift-virtualization" target="_blank" rel="noopener"><strong>Trilio for Kubernetes</strong></a></p>
+</li>
+<li>
+<p><a href="https://docs.kasten.io/latest/usage/openshift_virtualization.html" target="_blank" rel="noopener"><strong>VEEAM Kasten</strong></a></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+これは、サポート対象のバックアップおよびリカバリソリューションを提供するパートナーの完全なリストではありません。ストレージまたはデータ保護ベンダーに問い合わせて、その製品とOpenShift Virtualizationの互換性を確認するか、追加情報については <a href="https://catalog.redhat.com/platform/red-hat-openshift/virtualization#virtualization-infrastructure" target="_blank" rel="noopener">Red Hat EcoSystem Catalog</a> を確認してください。
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>このラボでは、OADP を使用して仮想マシンのバックアップとリストア操作を行います。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="review_operator"><a class="anchor" href="#review_operator"></a>OADP Operatorを確認</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Administrator パースペクティブに移動し、左側のメニューで <strong>Operators</strong>、<strong>Installed Operators</strong> の順にクリックします。 プロジェクト <strong>oadp-{user}</strong> が選択されていることを確認します。 <strong>OADP</strong> と入力します</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-05-bcdr/00_Left_Menu.png" target="blank"><img src="_images/virt/2025_summer/module-05-bcdr/00_Left_Menu.png" alt="00 Left Menu" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>Operatorをクリックして詳細を表示します。</p>
+</li>
+<li>
+<p>利用可能な <strong>Provided APIs</strong> を確認します。 このモジュールでは、 <strong>Backup</strong> および <strong>Restore</strong> 機能を使用します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-05-bcdr/01_Overview.png" target="blank"><img src="_images/virt/2025_summer/module-05-bcdr/01_Overview.png" alt="01 Overview" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>上部にある水平スクロールバーを使用して、<strong>DataProtectionApplication</strong> タブに移動します。 このオブジェクトは、デプロイされた OADP インスタンスの構成を表します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-05-bcdr/02_DPA.png" target="blank"><img src="_images/virt/2025_summer/module-05-bcdr/02_DPA.png" alt="02 DPA" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>oadp-dpa</strong> をクリックして <em>DataProtectionApplication</em> の詳細を表示し、次に上部にある <strong>YAML</strong> ボタンをクリックして、設定方法を確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-05-bcdr/03_OADP_YAML.png" target="blank"><img src="_images/virt/2025_spring/module-05-bcdr/03_OADP_YAML.png" alt="03 OADP YAML" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>OADP</strong> が <strong>kubevirt</strong> プラグインを追加して設定されており、クラスター上で実行されている OpenShift Data Foundations が提供する内部オブジェクトストレージバケットを使用するように設定されていることに注目してください。</p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+便宜上、このラボではローカルのオブジェクトバケットにバックアップを行うように設定されていますが、本番環境ではバックアップが外部ストレージシステム、またはクラウドベースのオブジェクトストレージバケットに送られるように設定し、局地的な災害からワークロードを保護する必要があります。
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create_backup"><a class="anchor" href="#create_backup"></a>仮想マシンのバックアップを作成</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>前節で作成したVM <strong>fedora02</strong> のバックアップを実行します。バックアップ対象のオブジェクトの選択は、<strong>app</strong> および <strong>vm.kubevirt.io/name</strong> のラベルで定義されています。これには、VM定義、ディスク、および仮想マシンで使用されている追加オブジェクト（構成マップやシークレットなど）が含まれます。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Operator details</strong> に戻り、横スクロールバーを使用して、<strong>Backup</strong> タブが表示されるまでスクロールバックします。</p>
+</li>
+<li>
+<p><strong>Backup</strong> タブをクリックし、<strong>Create Backup</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-05-bcdr/04_Backup_Tab.png" target="blank"><img src="_images/virt/2025_summer/module-05-bcdr/04_Backup_Tab.png" alt="04 Backup Tab" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><em>YAMLビュー</em> に切り替え、デフォルトのコンテンツを以下のものに置き換えます。</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
+apiVersion: velero.io/v1
+kind: Backup
+metadata:
+  name: backup-fedora02
+  namespace: oadp-{user}
+  labels:
+    velero.io/storage-location: default
+spec:
+  defaultVolumesToFsBackup: false
+  orLabelSelectors:
+  - matchLabels:
+      app: fedora02
+  - matchLabels:
+      vm.kubevirt.io/name: fedora02
+  csiSnapshotTimeout: 10m0s
+  ttl: 720h0m0s
+  itemOperationTimeout: 4h0m0s
+  storageLocation: oadp-dpa-1
+  hooks: {}
+  includedNamespaces:
+  - vmexamples-{user}
+  snapshotMoveData: false</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>一番下の <strong>Create</strong> ボタンをクリックします。</p>
+<div class="paragraph">
+<p>このYAMLの内容は、<strong>vmexamples-{user}</strong> ネームスペース内の <strong>app: fedora02</strong> ラベルを持つオブジェクトが、<strong>DataProtectionApplication</strong> 構成で指定された場所にバックアップされることを示しています。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-05-bcdr/05_Create_Backup_YAML.png" target="blank"><img src="_images/virt/2025_spring/module-05-bcdr/05_Create_Backup_YAML.png" alt="05 Create Backup YAML" width="100%"></a>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+前のセクションを完了しておらず、<strong>fedora02</strong> VM がない場合は、上記の YAML のラベルセレクタをインベントリ内の仮想マシンに合わせて変更します。
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>ステータス列が <strong>Completed</strong> に変わるまで待ちます。これにより、仮想マシンが正常にバックアップされたことが示されます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-05-bcdr/06_Backup_Completed.png" target="blank"><img src="_images/virt/2025_summer/module-05-bcdr/06_Backup_Completed.png" alt="06 Backup Completed" width="100%"></a>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="restore_backup"><a class="anchor" href="#restore_backup"></a>バックアップからの復元</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のメニューで、<strong>Virtualization</strong> をクリックし、次に <strong>VirtualMachines</strong> をクリックします。中央のツリー列で <strong>vmexamples-{user}</strong> プロジェクトを展開し、<strong>fedora02</strong> VMをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-05-bcdr/07_Fedora02_Overview.png" target="blank"><img src="_images/virt/2025_spring/module-05-bcdr/07_Fedora02_Overview.png" alt="07 Fedora02 Overview" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>仮想マシンを停止し、停止したら <strong>Actions</strong> ドロップダウンをクリックし、VMを <strong>Delete</strong> するオプションを選択します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-05-bcdr/08_Delete_VM.png" target="blank"><img src="_images/virt/2025_spring/module-05-bcdr/08_Delete_VM.png" alt="08 Delete VM" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>プロンプトが表示されたら、仮想マシンの削除を確認する赤い <strong>Delete</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-05-bcdr/09_Confirm_Delete.png" target="blank"><img src="_images/virt/2025_spring/module-05-bcdr/09_Confirm_Delete.png" alt="09 Confirm Delete" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>仮想マシンがインベントリから消えます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-05-bcdr/10_Deleted_VM.png" target="blank"><img src="_images/virt/2025_spring/module-05-bcdr/10_Deleted_VM.png" alt="10 Deleted VM" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Operators</strong> をクリックし、次に <strong>Installed Operators</strong> をクリックして、 <strong>OADP Operator</strong> を再度選択します。（<strong>OADP-{user}</strong> プロジェクトに戻る必要があるかもしれません。）</p>
+</li>
+<li>
+<p>横方向のナビゲーションバーを使用して <strong>Restore</strong> タブを見つけ、<strong>Restore</strong> タブをクリックし、<strong>Create Restore</strong> を押します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-05-bcdr/11_Restore_Tab.png" target="blank"><img src="_images/virt/2025_summer/module-05-bcdr/11_Restore_Tab.png" alt="11 Restore Tab" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p>YAML ビューに切り替え、コンテンツを以下のものに置き換えます:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
+apiVersion: velero.io/v1
+kind: Restore
+metadata:
+  name: restore-fedora02
+  namespace: oadp-{user}
+spec:
+  backupName: backup-fedora02
+  includedResources: []
+  excludedResources:
+  - nodes
+  - events
+  - events.events.k8s.io
+  - backups.velero.io
+  - restores.velero.io
+  restorePVs: true</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>一番下の <strong>Create</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-05-bcdr/12_Create_Restore_YAML.png" target="blank"><img src="_images/virt/2025_spring/module-05-bcdr/12_Create_Restore_YAML.png" alt="12 Create Restore YAML" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Status</strong> 列が <strong>Completed</strong> に変わったら完了です。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_summer/module-05-bcdr/13_Restore_Completed.png" target="blank"><img src="_images/virt/2025_summer/module-05-bcdr/13_Restore_Completed.png" alt="13 Restore Completed" width="100%"></a>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Virtualization</strong> に戻り、左側のメニューで <strong>Virtual Machines</strong> をクリックし、 <strong>fedora02</strong> 仮想マシンが復元されたことを確認します（<strong>vmexamples-{user}</strong> プロジェクト内）。 <strong>Created</strong> の値が直前の時間であることが分かります。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/module-05-bcdr/14_VM_Restored.png" target="blank"><img src="_images/virt/2025_spring/module-05-bcdr/14_VM_Restored.png" alt="14 VM Restored" width="100%"></a>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_まとめ"><a class="anchor" href="#_まとめ"></a>まとめ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>仮想マシンの保護は、仮想化プラットフォームの重要な側面です。OpenShift Virtualizationは、ネイティブな保護を可能にする複数の方法を提供しています。例えば、OADPを使用したり、ストレージおよびバックアップパートナーが自社のサービスを統合できるようにしたりします。仮想マシンの保護方法について疑問がある場合は、ワークショップの講師に遠慮なく質問するか、ベンダーに問い合わせてOpenShift Virtualizationとの互換性を確認してください。</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="73-module-04-storage.html">3. ストレージ管理</a></span>
+  <span class="next"><a href="75-module-07-tempinst.html">5. テンプレートとインスタンスタイプの管理</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

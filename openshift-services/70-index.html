@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{lab_name}へようこそ！ :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/70-index.html">
+    <link rel="prev" href="69-aro-upgrade.html">
+    <link rel="next" href="71-module-01-intro.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://rh-open.github.io/ocp-handson">OpenShift Handson</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="openshift-services" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">01. OpenShift 基礎</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-deployment.html">2. Web コンソールの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02_app-storage-basics.html">3. 永続ストレージ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03_machinesets.html">4. ノードの動的管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04_infra-nodes.html">5. Infra ノードの作成</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="06_template-quota-limits.html">6. Project のクオータ/制限</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">20. OpenShift Pipeline Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="10-pipeline-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="11-pipelines.html">1. Pipelines -1/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="12-add-task.html">2. Pipelines -2/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="13-triggers.html">3. Tekton Triggers</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">21. OpenShift GitOps Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="20-GitOps-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="21-GitOps.html">1. OpenShift GitOps</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="22-Kustomize.html">2. Kustomizeインテグレーション</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="23-Helm.html">3. Helmインテグレーション</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">51. Red Hat OpenShift Service on AWS (ROSA) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="50-rosa-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="51-rosa-hcp-create.html">1. ROSA HCPクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="52-rosa-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="53-rosa-ebs.html">3. Amazon EBSの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-1-rosa-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-2-rosa-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="58-rosa-bedrock.html">6. Amazon Bedrockアプリケーションの実行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-01.html">7. ロギング設定 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-2-rosa-monitoring.html">9. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-3-rosa-project-metrics.html">10. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-4-rosa-alert.html">11. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="56-rosa-nodes.html">12. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="57-rosa-upgrade.html">13. ROSA HCPクラスターの更新</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">61. Azure Red Hat OpenShift (ARO) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="60-aro-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="61-aro-create.html">1. AROクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="62-aro-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="63-aro-storage.html">3. Azure DiskとAzure Filesの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="64-aro-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="65-aro-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="66-aro-logging.html">6. ロギング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-1-aro-monitoring.html">7. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-2-aro-project-metrics.html">8. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-3-aro-alert.html">9. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="68-aro-nodes.html">10. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="69-aro-upgrade.html">11. AROクラスターの更新[デモ]</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">71. OpenShift Virtualization Lab</span>
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="70-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="71-module-01-intro.html">1. 仮想マシン管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="72-module-02-mtv.html">2. 既存の仮想マシンの移行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="73-module-04-storage.html">3. ストレージ管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="74-module-05-bcdr.html">4. 仮想マシンのバックアップとリカバリ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="75-module-07-tempinst.html">5. テンプレートとインスタンスタイプの管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="76-module-08-workingvms.html">6. 仮想マシンとアプリケーションの操作</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="78-module-09-networking.html">7. 仮想マシンのネットワーク管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="79-conclusion.html">8. 追加情報</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Handson</a></li>
+    <li>71. OpenShift Virtualization Lab</li>
+    <li><a href="70-index.html">0. はじめに</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/70-index.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">{lab_name}へようこそ！</h1>
+<div class="sect1">
+<h2 id="_はじめに"><a class="anchor" href="#_はじめに"></a>はじめに</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>OpenShift Virtualizationは、仮想マシンを最新のKubernetesベースのインフラストラクチャ上に展開することを可能にします。
+新しいアプリケーションの開発とデリバリーを可能にするとともに、既存のアプリケーションのモダナイズ/モダナイゼーションも可能にし、
+仮想マシン、コンテナ、サーバーレス機能で構成されるアプリケーションを作成できます。これらはすべて、Kubernetesネイティブのツールと
+パラダイムを使用して一緒に管理できます。</p>
+</div>
+<div class="paragraph">
+<p>このロードショーは、Red Hat OpenShift Virtualization のハンズオンを体験ができるように企画されています。</p>
+</div>
+<div class="paragraph">
+<p>このロードショーでは、仮想化管理者の方々が日常のワークフローでよく遭遇する、多くの一般的な管理作業について探求します。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ロードショーに参加することで最も恩恵を受けるのは誰でしょうか"><a class="anchor" href="#_ロードショーに参加することで最も恩恵を受けるのは誰でしょうか"></a>ロードショーに参加することで最も恩恵を受けるのは誰でしょうか？</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>仮想マシン管理者</strong>&#8201;&#8212;&#8201;OpenShift Virtualization における仮想ゲストの日常的な管理を担当する方々です。これらのユーザーは、仮想ゲストのプロビジョニングや、ゲストの日常的な管理、およびその中で実行されているアプリケーションの管理を担当することが多いでしょう。</p>
+</div>
+<div class="paragraph">
+<p><strong>仮想インフラストラクチャ管理者</strong>&#8201;&#8212;&#8201;OpenShift Virtualizationソリューションをホスティングする物理インフラストラクチャを担当する方々です。これらのユーザーは、実行中の仮想マシンの日常的な運用に影響を与える、環境に対する物理的なハードウェア、ストレージ、およびネットワークの変更を担当することになります。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ロードショーではどのような内容が取り上げられるのでしょうか"><a class="anchor" href="#_ロードショーではどのような内容が取り上げられるのでしょうか"></a>ロードショーではどのような内容が取り上げられるのでしょうか？</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>カバーされるのは、次の7つの主要セクションです。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>仮想マシン管理</em>: このセクションでは、仮想マシンの作成や割り当てリソースの変更など、仮想マシン管理の基本について説明します。</p>
+</li>
+<li>
+<p><em>既存の仮想マシンの移行</em>: このセクションでは、Migration Toolkit for Virtualization (MTV) を使用して、既存の VMware vSphere 環境から OpenShift Virtualization に仮想マシンを移行します。</p>
+</li>
+<li>
+<p><em>ストレージ管理</em>：多くの管理者にとって馴染みのあるストレージのパラダイムは、OpenShift Virtualization によって変化します。このセクションでは、仮想マシンのストレージ管理に関連する多くのアクションについて説明します。</p>
+</li>
+<li>
+<p><em>仮想マシンのバックアップとリカバリ</em>：このユニットでは、VM を外部サイトにバックアップし、災害時にそれらを復元するための追加の概念について紹介します。</p>
+</li>
+<li>
+<p><em>テンプレートとインスタンスタイプの管理</em>：仮想マシンの展開を効率化するために、管理者は展開作業を容易にするためにテンプレートを作成したり、インスタンスタイプを定義することがよくあります。このセクションでは、これらのプロセスに焦点を当てます。</p>
+</li>
+<li>
+<p><em>仮想マシンとアプリケーションの操作</em>：このセクションでは、インポートした仮想マシンを使用して、サービスとルートを通じてVMホストアプリケーションを公開する、いくつかのDay-2アクティビティを実行します。</p>
+</li>
+<li>
+<p><em>ネットワーク管理</em>: デフォルトでは、VM は OpenShift のPod Networkに接続されています。このセクションでは、新しい L2 ネットワークマッピングの作成と、直接ネットワーク接続のためのUser Difined Network (UDN) の利用について説明します。</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_openshift_virtualizationとは"><a class="anchor" href="#_openshift_virtualizationとは"></a>OpenShift Virtualizationとは？</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>現在サブスクライバーの方は、OpenShift のサブスクリプションの一部として OpenShift Virtualizationをご利用いただけます。OpenShift 4.5 以降、一般的に利用可能となっています。</p>
+</li>
+<li>
+<p>OpenShift Virtualization は、Cloud Native Computing Foundation (CNCF) のインキュベーションプロジェクトである KubeVirt プロジェクトで開発されている「コンテナネイティブ仮想化」テクノロジーをベースとしています。</p>
+</li>
+<li>
+<p>これは、世界中の多くの組織やクラウドサービスプロバイダーによって使用されている、成熟した高パフォーマンスのオープンソースハイパーバイザーであり、15 年以上にわたって開発が続けられている Red Hat Enterprise Linux KVM ハイパーバイザー (RHEL KVM) を活用しています。</p>
+</li>
+<li>
+<p>OpenShift Virtualization は RHEL KVM ハイパーバイザーを活用し、Kubernetes および KubeVirt による VM の管理を可能にします。 OpenShift Virtualization VM は Kubernetes のスケジューリング、ネットワーク、およびストレージインフラストラクチャを使用します。</p>
+</li>
+<li>
+<p>OpenShift Virtualization は、Red Hat の他の KVM 仮想化製品に適用されるのと同じルールに基づき、Microsoft による Windows ゲストサポートの SVVP 認定を受けています。</p>
+</li>
+<li>
+<p>OpenShift Virtualization は現在、ベアメタルの物理サーバーでのみサポートされています。通常はオンプレミスまたはサポート対象のクラウドプロバイダー経由です。他のトポロジー（OpenStack や vSphere のような仮想インフラストラクチャ上にデプロイされた OpenShift）のサポートは、現時点では提供されていません。</p>
+</li>
+<li>
+<p>OpenShift Virtualization により、OpenShift は OpenShift クラスタのリソースに仮想マシンをデプロイ、管理、接続することができます。これには、Kubernetes ネイティブの方法を使用してそれらの VM に接続し、管理する機能や、Pipelines、GitOps、Service Mesh などの OpenShift 機能を活用する機能が含まれます。</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_従来の_vm_プラットフォームから移行する理由"><a class="anchor" href="#_従来の_vm_プラットフォームから移行する理由"></a>従来の VM プラットフォームから移行する理由</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>クラウドネイティブな開発および/またはクラウドネイティブな運用を採用：</strong>
+Red Hat OpenShift は、迅速性、俊敏性、信頼性、そして選択肢を備えたアプリケーションの構築を支援します。 構築場所を問わず、本番モードでコードを記述できます。 重要な作業に集中できます。</p>
+</div>
+<div class="paragraph">
+<p><strong>完全なアプリケーション開発スタック:</strong>
+Red Hat OpenShift Dev Spaces (旧 Red Hat CodeReady Workspaces)、ランタイム、統合およびプロセス自動化、サーバーレス、パイプラインなど、セキュリティを確保した環境でご利用いただけます。</p>
+</div>
+<div class="paragraph">
+<p><strong>インフラストラクチャへの投資をイノベーションにシフト:</strong>
+OpenShiftのネイティブアーキテクチャは、SDDCレガシーの重厚長大なコスト構造を、軽量なコンテナネイティブフレームワークに変更します。</p>
+</div>
+<div class="paragraph">
+<p><strong>リスクの軽減:</strong>
+オンプレミスとパブリッククラウドのオプションをサポートするOpenShiftは、パブリッククラウドへのロックインに対する保険となります。</p>
+</div>
+<div class="paragraph">
+<p><strong>インフラストラクチャから独立:</strong>
+Red Hat OpenShiftは、ベアメタル、オンプレミスの仮想化、またはパブリッククラウドで一貫して動作し、デプロイと更新の究極の選択肢と柔軟性を提供します。</p>
+</div>
+<div class="paragraph">
+<p><strong>純粋なオープンソースのイノベーション:</strong>
+Red Hat を先頭に、オープンソースのスピードを原動力として、Kubernetes、サーバーレス、サービスメッシュ、Kubernetes Operatorなどのイノベーションが推進されています。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_自分に合った_openshift_サブスクリプションはどれか"><a class="anchor" href="#_自分に合った_openshift_サブスクリプションはどれか"></a>自分に合った OpenShift サブスクリプションはどれか？</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>OpenShift は包括的なプラットフォームであり、すべての機能はいつでもエンドユーザーが利用できますが、その使用はユーザーが購入したサブスクリプションによって管理されます。</p>
+</div>
+<div class="paragraph">
+<p>OpenShift のサブスクリプションは 4 つのカテゴリーのいずれかに分類され、いずれも OpenShift Virtualization へのアクセスを提供します。</p>
+</div>
+<div class="paragraph">
+<p><strong>Red Hat OpenShift Platform Plus</strong>
+は、アプリケーションの構築、モダナイズ/モダナイゼーション、および大規模な展開を行うための統合プラットフォームです。マルチクラスタのセキュリティ、コンプライアンス、アプリケーションおよびデータ管理は、インフラストラクチャ全体で機能し、ソフトウェアサプライチェーン全体に一貫性を提供します。Red Hat OpenShift Platform Plus は、ハイブリッドクラウド上でアプリケーションを市場に投入するための包括的なサービスセットを提供し、よりスマートで迅速な作業を支援します。</p>
+</div>
+<div class="paragraph">
+<p><strong>Red Hat OpenShift Container Platform</strong>
+は、信頼性が高く、包括的で一貫性のあるプラットフォームであり、今日の AI 対応アプリケーションを含むアプリケーションを大規模に開発、モダナイズ/モダナイゼーション、およびデプロイできます。 インフラストラクチャの選択肢に関係なく、アプリケーションを市場に投入するための包括的なサービスセットにより、より迅速にイノベーションを実現できます。</p>
+</div>
+<div class="paragraph">
+<p><strong>Red Hat OpenShift Kubernetes Engine</strong>
+は、Red Hat OpenShift の基本機能を提供します。 エンタープライズ対応の Kubernetes 環境へのフルアクセスや、データセンターで使用する可能性のある多くのソフトウェア要素との広範な互換性テストマトリックスなど、Red Hat OpenShift Container Platform が提供する機能の一部を提供します。</p>
+</div>
+<div class="paragraph">
+<p><strong>Red Hat OpenShift Virtualization Engine</strong>
+Red Hat OpenShift の実績ある仮想化機能を提供し、仮想マシン (VM) のデプロイ、管理、およびスケーリングを行います。VM ワークロードに特化した合理化されたソリューションにより、必要なものだけにお支払いいただけます。</p>
+</div>
+<div class="paragraph">
+<p>次の表は、各サブスクリプションで利用できる機能について説明しており、お客様の環境に最適な OpenShift のバージョンを決定する際に役立つでしょう。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/virt/2025_spring/index/01_openshift_comparison_chart.png" target="blank"><img src="_images/virt/2025_spring/index/01_openshift_comparison_chart.png" alt="01 openshift comparison chart" width="100%"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>OpenShiftのエディション毎の機能の内訳は、 <a href="https://www.redhat.com/en/resources/self-managed-openshift-subscription-guide#section-13" target="_blank" rel="noopener">サブスクリプション・ガイド</a> で確認可能です。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_次の手順"><a class="anchor" href="#_次の手順"></a>次の手順</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>OpenShift Virtualizationについてさらに詳しく知りたい方は、 <a href="https://www.redhat.com/en/technologies/cloud-computing/openshift/virtualization" target="_blank" rel="noopener">ランディングページ</a> にアクセスし、 <a href="https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/virtualization/about" target="_blank" rel="noopener">ドキュメント</a> 、
+当社の <a href="https://www.redhat.com/en/interactive-experiences#virtualization" target="_blank" rel="noopener">Interactive Experiences</a> （ブラウザ上でのハンズオン）をお楽しみいただくか、 <a href="https://www.youtube.com/playlist?list=PLaR6Rq6Z4IqeQeTosfoFzTyE_QmWZW6n_" target="_blank" rel="noopener">YouTube</a>ビデオををご覧ください。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ラボ環境の要件"><a class="anchor" href="#_ラボ環境の要件"></a>ラボ環境の要件</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>参加者は、ウェブブラウザとインターネットアクセスが搭載された各自のコンピュータを用意する必要があります。</p>
+</li>
+<li>
+<p>一部のコピー/ペースト機能がFirefoxでは現時点では動作しないため、Chromiumベースのブラウザの使用を推奨します。
+リモートアクセスコンソールはデフォルトで米国キーボードレイアウトを使用するため、他の国のレイアウトにおける特殊文字の位置を把握しておくか、サポートされているブラウザでコピー/ペースト機能を使用するとよいでしょう。</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_openshiftコンソールへの認証情報"><a class="anchor" href="#_openshiftコンソールへの認証情報"></a>OpenShiftコンソールへの認証情報</h3>
+<div class="paragraph">
+<p>OpenShiftクラスタコンソールは、 {openshift_console_url}[こちら^] で利用可能です。</p>
+</div>
+<div class="paragraph">
+<p>ログインは以下で可能です。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>ユーザー:</strong> {user}</p>
+</li>
+<li>
+<p><strong>パスワード:</strong> {password}</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_vcenter_へのアクセス"><a class="anchor" href="#_vcenter_へのアクセス"></a>vCenter へのアクセス</h3>
+<div class="paragraph">
+<p>このラボの移行の章では、ログインして <a href="https://{vcenter_console}" target="_blank" rel="noopener">VMware vSphere</a> 環境を検証するよう求められます。</p>
+</div>
+<div class="paragraph">
+<p>アクセスには、以下の認証情報を使用してください。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>vcenter_user:</strong> {vcenter_full_user}</p>
+</li>
+<li>
+<p><strong>vcenter_password:</strong> {vcenter_password}</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_バージョン情報"><a class="anchor" href="#_バージョン情報"></a>バージョン情報</h3>
+<div class="paragraph">
+<p>このバージョンの OpenShift Virtualizationロードショーは、以下のソフトウェアバージョンを使用して開発されています。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Red Hat OpenShift 4.18.20</p>
+</li>
+<li>
+<p>Red Hat OpenShift Virtualization 4.18.8</p>
+</li>
+<li>
+<p>Red Hat OpenShift Data Foundation 4.18.6</p>
+</li>
+<li>
+<p>Red Hat OADP 1.4.5</p>
+</li>
+<li>
+<p>Red Hat Migration Toolkit for Virtual Machines 2.8.5</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>（2025年7月22日時点）</p>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="69-aro-upgrade.html">11. AROクラスターの更新[デモ]</a></span>
+  <span class="next"><a href="71-module-01-intro.html">1. 仮想マシン管理</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
