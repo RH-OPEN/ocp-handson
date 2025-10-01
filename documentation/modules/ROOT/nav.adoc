@@ -56,3 +56,13 @@
 ** xref:68-aro-nodes.adoc[10. ワーカーノードの追加と削除]
 ** xref:69-aro-upgrade.adoc[11. AROクラスターの更新[デモ\]]
 
+* 71. OpenShift Virtualization Lab
+** xref:70-index.adoc[0. はじめに]
+** xref:71-module-01-intro.adoc[1. 仮想マシン管理]
+** xref:72-module-02-mtv.adoc[2. 既存の仮想マシンの移行]
+** xref:73-module-04-storage.adoc[3. ストレージ管理]
+** xref:74-module-05-bcdr.adoc[4. 仮想マシンのバックアップとリカバリ]
+** xref:75-module-07-tempinst.adoc[5. テンプレートとインスタンスタイプの管理]
+** xref:76-module-08-workingvms.adoc[6. 仮想マシンとアプリケーションの操作]
+** xref:78-module-09-networking.adoc[7. 仮想マシンのネットワーク管理]
+** xref:79-conclusion.adoc[8. 追加情報]
