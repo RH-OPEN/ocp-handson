@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Untitled :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/84-conclusion.html">
+    <link rel="prev" href="83-module-03-to-the-moon.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://rh-open.github.io/ocp-handson">OpenShift Handson</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="openshift-services" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">01. OpenShift 基礎</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-deployment.html">2. Web コンソールの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02_app-storage-basics.html">3. 永続ストレージ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03_machinesets.html">4. ノードの動的管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04_infra-nodes.html">5. Infra ノードの作成</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="06_template-quota-limits.html">6. Project のクオータ/制限</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">20. OpenShift Pipeline Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="10-pipeline-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="11-pipelines.html">1. Pipelines -1/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="12-add-task.html">2. Pipelines -2/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="13-triggers.html">3. Tekton Triggers</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">21. OpenShift GitOps Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="20-GitOps-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="21-GitOps.html">1. OpenShift GitOps</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="22-Kustomize.html">2. Kustomizeインテグレーション</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="23-Helm.html">3. Helmインテグレーション</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">51. Red Hat OpenShift Service on AWS (ROSA) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="50-rosa-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="51-rosa-hcp-create.html">1. ROSA HCPクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="52-rosa-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="53-rosa-ebs.html">3. Amazon EBSの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-1-rosa-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-2-rosa-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="58-rosa-bedrock.html">6. Amazon Bedrockアプリケーションの実行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-01.html">7. ロギング設定 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-2-rosa-monitoring.html">9. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-3-rosa-project-metrics.html">10. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-4-rosa-alert.html">11. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="56-rosa-nodes.html">12. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="57-rosa-upgrade.html">13. ROSA HCPクラスターの更新</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">61. Azure Red Hat OpenShift (ARO) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="60-aro-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="61-aro-create.html">1. AROクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="62-aro-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="63-aro-storage.html">3. Azure DiskとAzure Filesの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="64-aro-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="65-aro-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="66-aro-logging.html">6. ロギング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-1-aro-monitoring.html">7. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-2-aro-project-metrics.html">8. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-3-aro-alert.html">9. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="68-aro-nodes.html">10. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="69-aro-upgrade.html">11. AROクラスターの更新[デモ]</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">71. OpenShift Virtualization Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="70-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="71-module-01-intro.html">1. 仮想マシン管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="72-module-02-mtv.html">2. 既存の仮想マシンの移行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="73-module-04-storage.html">3. ストレージ管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="74-module-05-bcdr.html">4. 仮想マシンのバックアップとリカバリ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="75-module-07-tempinst.html">5. テンプレートとインスタンスタイプの管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="76-module-08-workingvms.html">6. 仮想マシンとアプリケーションの操作</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="78-module-09-networking.html">7. 仮想マシンのネットワーク管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="79-conclusion.html">8. 追加情報</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">81. Day 2 Operations and Automation with OpenShift Virtualization</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="80-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="81-module-01-day-to-day.html">1. 日々の基本的な操作の有効化</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="82-module-02-real-world-scaling.html">2. 実環境でのスケーリングシナリオ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="83-module-03-to-the-moon.html">3. 無限の可能性へ</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="84-conclusion.html">4. 追加情報</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Handson</a></li>
+    <li>81. Day 2 Operations and Automation with OpenShift Virtualization</li>
+    <li><a href="84-conclusion.html">4. 追加情報</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/84-conclusion.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/conclusion/00_Thank_You.png" target="blank"><img src="_images/day2virt/conclusion/00_Thank_You.png" alt="00 Thank You" width="100%"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>{lab_name} をお楽しみいただけたでしょうか。そして、<strong>OpenShift Virtualization</strong> と <strong>Ansible Automation Platform</strong>、および Red Hat のこれら 2 つのツールが、仮想化管理者として、仮想マシン資産を日常的に管理する方法、および必要なパフォーマンス分析とトラブルシューティング手順を実行する方法について、さらに学んでいただけたことを願っています。</p>
+</div>
+<div class="sect1">
+<h2 id="key_takeaways"><a class="anchor" href="#key_takeaways"></a>主なポイント</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>OpenShift Virtualization はソリューション指向であり、使い始めるのが簡単な、成熟し、安定し、スケーラブルなソリューションを提供します。</p>
+</li>
+<li>
+<p>Ansible Automation Platform は、仮想マシン環境の多くの機能を大規模に自動化および管理する機能を提供するエンタープライズツールです。</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="additional_info"><a class="anchor" href="#additional_info"></a>追加情報</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_無料_ebook_red_hat_openshift_virtualization_を採用すべき_15_の理由"><a class="anchor" href="#_無料_ebook_red_hat_openshift_virtualization_を採用すべき_15_の理由"></a>無料 Ebook: Red Hat OpenShift Virtualization を採用すべき 15 の理由</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>仮想化インフラストラクチャがどのように進化し続けているかを発見してください。</p>
+</li>
+<li>
+<p>既存の仮想マシンの移行オプションを探ってください。</p>
+</li>
+<li>
+<p>組織全体で多数の利点を活用してください。</p>
+</li>
+<li>
+<p>イノベーションのための<strong>一貫した基盤</strong>をデプロイする方法を学んでください。</p>
+</li>
+<li>
+<p><strong>無償のデモンストレーション</strong>または<strong>仮想移行アセスメント</strong>を通じて開始する方法を学んでください。
+<a href="https://www.redhat.com/en/resources/15-reasons-adopt-openshift-virtualization-ebook" target="_blank" rel="noopener">このリンク</a> をクリックして今すぐお読みください。</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_無料_ebook_red_hat_ansible_automation_platform_初心者向けガイド"><a class="anchor" href="#_無料_ebook_red_hat_ansible_automation_platform_初心者向けガイド"></a>無料 Ebook: Red Hat Ansible Automation Platform: 初心者向けガイド</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Ansible Automation Platform を簡単に見てみましょう。</p>
+</li>
+<li>
+<p>組織に自動化を統合することのビジネス価値を探ってください。</p>
+</li>
+<li>
+<p>Ansible Automation Platform がさまざまなパートナーとどのように連携するかについて学んでください。</p>
+</li>
+<li>
+<p>自動化されたワークフローを採用するための戦略を探ってください。
+<a href="https://www.redhat.com/en/resources/ansible-automation-platform-beginners-guide-ebook" target="_blank" rel="noopener">このリンク</a> をクリックして今すぐお読みください。</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_red_hat_learning_services_do317_red_hat_openshift_virtualization_を使用した仮想マシンの管理"><a class="anchor" href="#_red_hat_learning_services_do317_red_hat_openshift_virtualization_を使用した仮想マシンの管理"></a>Red Hat Learning Services: DO317 Red Hat OpenShift Virtualization を使用した仮想マシンの管理</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>OpenShift クラスター上で VM を作成、アクセス、および管理するために必要なスキル。</p>
+</li>
+<li>
+<p>コンテナーに対してもこれらのリソースの使用法とアクセスを制御するのと同じ Kubernetes 機能を使用して、VM からの CPU、メモリー、ストレージ、およびネットワークリソースの使用法とアクセスを制御するために必要なスキル。</p>
+</li>
+<li>
+<p>標準の Kubernetes 機能と OpenShift Virtualization からの拡張機能を使用した VM の高可用性 (HA) を管理するためのサンプルアーキテクチャ。</p>
+</li>
+<li>
+<p>ストレージやデータベースなど、OpenShift クラスター外のデータセンターサービスに OpenShift 上の VM を接続するための戦略。</p>
+</li>
+<li>
+<p>Migration Toolkit for Virtualization オペレーターを使用して、互換性のあるハイパーバイザーから OpenShift Virtualization に VM を移行するための戦略。
+<a href="https://www.redhat.com/en/services/training/managing-virtual-machines-red-hat-openshift-virtualization-exam" target="_blank" rel="noopener">このリンク</a> をクリックして確認してください。</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_red_hat_learning_services_au374_red_hat_ansible_automation_platform_を使用した高度な自動化の開発"><a class="anchor" href="#_red_hat_learning_services_au374_red_hat_ansible_automation_platform_を使用した高度な自動化の開発"></a>Red Hat Learning Services: AU374 Red Hat Ansible Automation Platform を使用した高度な自動化の開発</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>自動化コンテンツナビゲーターの機能を活用して Ansible Playbook を開発する。</p>
+</li>
+<li>
+<p>Ansible を使用した効果的かつ効率的な自動化のための推奨プラクティスを適用する。</p>
+</li>
+<li>
+<p>Red Hat Ansible Automation Platform の高度な機能を使用して、フィルターやプラグインなどのデータを操作する。</p>
+</li>
+<li>
+<p>ローリングアップデートとして自動化操作を実行する。</p>
+</li>
+<li>
+<p>自動化コードを実行するために必要な依存関係をバンドルおよび配布するための自動化実行環境を作成する。
+<a href="https://www.redhat.com/en/services/training/au374-developing-advanced-automation-red-hat-ansible-automation-platform" target="_blank" rel="noopener">このリンク</a> をクリックして確認してください。</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="83-module-03-to-the-moon.html">3. 無限の可能性へ</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

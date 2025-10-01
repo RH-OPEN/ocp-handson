@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>実環境でのスケーリングシナリオ :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/82-module-02-real-world-scaling.html">
+    <link rel="prev" href="81-module-01-day-to-day.html">
+    <link rel="next" href="83-module-03-to-the-moon.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://rh-open.github.io/ocp-handson">OpenShift Handson</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="openshift-services" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">01. OpenShift 基礎</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-deployment.html">2. Web コンソールの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02_app-storage-basics.html">3. 永続ストレージ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03_machinesets.html">4. ノードの動的管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04_infra-nodes.html">5. Infra ノードの作成</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="06_template-quota-limits.html">6. Project のクオータ/制限</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">20. OpenShift Pipeline Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="10-pipeline-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="11-pipelines.html">1. Pipelines -1/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="12-add-task.html">2. Pipelines -2/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="13-triggers.html">3. Tekton Triggers</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">21. OpenShift GitOps Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="20-GitOps-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="21-GitOps.html">1. OpenShift GitOps</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="22-Kustomize.html">2. Kustomizeインテグレーション</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="23-Helm.html">3. Helmインテグレーション</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">51. Red Hat OpenShift Service on AWS (ROSA) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="50-rosa-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="51-rosa-hcp-create.html">1. ROSA HCPクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="52-rosa-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="53-rosa-ebs.html">3. Amazon EBSの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-1-rosa-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-2-rosa-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="58-rosa-bedrock.html">6. Amazon Bedrockアプリケーションの実行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-01.html">7. ロギング設定 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-2-rosa-monitoring.html">9. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-3-rosa-project-metrics.html">10. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-4-rosa-alert.html">11. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="56-rosa-nodes.html">12. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="57-rosa-upgrade.html">13. ROSA HCPクラスターの更新</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">61. Azure Red Hat OpenShift (ARO) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="60-aro-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="61-aro-create.html">1. AROクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="62-aro-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="63-aro-storage.html">3. Azure DiskとAzure Filesの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="64-aro-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="65-aro-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="66-aro-logging.html">6. ロギング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-1-aro-monitoring.html">7. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-2-aro-project-metrics.html">8. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-3-aro-alert.html">9. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="68-aro-nodes.html">10. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="69-aro-upgrade.html">11. AROクラスターの更新[デモ]</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">71. OpenShift Virtualization Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="70-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="71-module-01-intro.html">1. 仮想マシン管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="72-module-02-mtv.html">2. 既存の仮想マシンの移行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="73-module-04-storage.html">3. ストレージ管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="74-module-05-bcdr.html">4. 仮想マシンのバックアップとリカバリ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="75-module-07-tempinst.html">5. テンプレートとインスタンスタイプの管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="76-module-08-workingvms.html">6. 仮想マシンとアプリケーションの操作</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="78-module-09-networking.html">7. 仮想マシンのネットワーク管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="79-conclusion.html">8. 追加情報</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">81. Day 2 Operations and Automation with OpenShift Virtualization</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="80-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="81-module-01-day-to-day.html">1. 日々の基本的な操作の有効化</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="82-module-02-real-world-scaling.html">2. 実環境でのスケーリングシナリオ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="83-module-03-to-the-moon.html">3. 無限の可能性へ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="84-conclusion.html">4. 追加情報</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Handson</a></li>
+    <li>81. Day 2 Operations and Automation with OpenShift Virtualization</li>
+    <li><a href="82-module-02-real-world-scaling.html">2. 実環境でのスケーリングシナリオ</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/82-module-02-real-world-scaling.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">実環境でのスケーリングシナリオ</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>このラボモジュールでは、世界中の多くの仮想化管理者が日常的に遭遇するシナリオを段階的に実行します。
+システムに高いレベルの負荷をかけ、最初のモジュールで探求した管理ツールを使用して、リソースの垂直スケーリングと水平スケーリングを含むさまざまな方法で状況を評価し、修正します。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_モジュールセットアップ"><a class="anchor" href="#_モジュールセットアップ"></a>モジュールセットアップ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>このラボのパートでは、Red Hat OpenShift 環境の <strong>windows-vms</strong> プロジェクトで <strong>loadmaker</strong> アプリケーションがまだ実行されていることを確認する必要があります。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のナビゲーションメニューを使用して <strong>Workloads</strong>、次に <strong>Deployments</strong> をクリックします。</p>
+</li>
+<li>
+<p>プロジェクト: <strong>windows-vms</strong> にいることを確認してください。</p>
+</li>
+<li>
+<p>ここにデプロイされた Pod が 1 つ表示されるはずです。これは <strong>loadmaker</strong> と呼ばれます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/01-select_loadmaker.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/01-select_loadmaker.png" alt="01 select loadmaker" width="100%"></a>
+</div>
+<div class="title">Figure 1. Loadmaker Deployment</div>
+</div>
+</li>
+<li>
+<p><strong>loadmaker</strong> をクリックすると、<strong>Deployment details</strong> ページが表示されます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/02-deploy_details.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/02-deploy_details.png" alt="02 deploy details" width="100%"></a>
+</div>
+<div class="title">Figure 2. Deployment Details</div>
+</div>
+</li>
+<li>
+<p><strong>Environment</strong> をクリックすると、<strong>REQUESTS_PER_SECOND</strong> のフィールドが表示されます。まだ設定されていない場合は、値を <code>75</code> に変更し、下部の <strong>Save</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/03-lm_pod_config.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/03-lm_pod_config.png" alt="03 lm pod config" width="100%"></a>
+</div>
+<div class="title">Figure 3. LM Pod Config</div>
+</div>
+</li>
+<li>
+<p>さて、負荷を生成している VM を確認しに行きましょう。</p>
+</li>
+<li>
+<p>左側のナビゲーションメニューで <strong>Virtualization</strong>、次に <strong>VirtualMachines</strong> をクリックします。中央の列で <strong>windows-vms</strong> プロジェクトを選択します。
+3 つの仮想マシンが表示されるはずです: <strong>winweb01</strong>、<strong>winweb02</strong>、および <strong>database</strong>。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/04-windows_vms.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/04-windows_vms.png" alt="04 windows vms" width="100%"></a>
+</div>
+<div class="title">Figure 4. Windows VMs</div>
+</div>
+<div class="paragraph">
+<p>重要: このラボの時点では、<strong>database</strong> と <strong>winweb01</strong> のみが電源オンになっているはずです。
+もしオフになっている場合は、今すぐ電源をオンにしてください。<strong>winweb02</strong> は当面電源をオンにしないでください。</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_仮想マシンのリソース使用率の確認"><a class="anchor" href="#_仮想マシンのリソース使用率の確認"></a>仮想マシンのリソース使用率の確認</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>winweb01、winweb02、および database サーバーは連携して、2 台の Web サーバー間で Web リクエストをロードバランスすることで、負荷を軽減し、パフォーマンスを向上させるシンプルな Web ベースのアプリケーションを提供します。
+現時点では、Web サーバーは 1 台のみ稼働しており、高い需要にさらされています。
+このラボのセクションでは、Web サーバーを水平スケーリングすることが、VM の負荷を軽減するのにどのように役立つか、また OpenShift Virtualization にネイティブなメトリックとグラフを使用してこれを診断する方法を見ていきます。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>現在実行中であるはずの <strong>winweb01</strong> をクリックします。これにより <strong>VirtualMachine details</strong> ページが表示されます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/05-vm_details.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/05-vm_details.png" alt="05 vm details" width="100%"></a>
+</div>
+<div class="title">Figure 5. VM Details</div>
+</div>
+</li>
+<li>
+<p><strong>metrics</strong> タブをクリックし、CPU 使用率グラフをざっと見てください。最大になっているはずです。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/06-vm_metrics.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/06-vm_metrics.png" alt="06 vm metrics" width="100%"></a>
+</div>
+<div class="title">Figure 6. VM Metrics</div>
+</div>
+</li>
+<li>
+<p>CPU グラフ自体をクリックして展開バージョンを表示します。
+サーバーの負荷が 1.0 (CPU 使用率 100%) を大幅に超えていることに気付くでしょう。これは、現時点で Web サーバーがひどく過負荷であることを意味します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/07-cpu_util_load.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/07-cpu_util_load.png" alt="07 cpu util load" width="100%"></a>
+</div>
+<div class="title">Figure 7. CPU Utilization and Load</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="horz_scale_vm"><a class="anchor" href="#horz_scale_vm"></a>VM リソースの水平スケーリング</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のナビゲーションメニューの <strong>VirtualMachines</strong> をクリックして仮想マシンのリストに戻り、<strong>winweb02</strong> 仮想マシンをクリックします。
+VM がまだ <strong>Stopped</strong> 状態であることに注意してください。右上隅の <strong>Play</strong> ボタンを使用して仮想マシンを起動します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/08-power_on.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/08-power_on.png" alt="08 power on" width="100%"></a>
+</div>
+<div class="title">Figure 8. Power On Winweb02</div>
+</div>
+</li>
+<li>
+<p><strong>winweb01</strong> 仮想マシンの <strong>Metrics</strong> タブに戻り、もう一度その <strong>CPU</strong> グラフをクリックします。
+負荷が徐々に下がり始めるはずです。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/09-load_reducing.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/09-load_reducing.png" alt="09 load reducing" width="100%"></a>
+</div>
+<div class="title">Figure 9. Load Reducing</div>
+</div>
+</li>
+<li>
+<p><strong>Add query</strong> ボタンをクリックし、以下の構文を貼り付けて、<strong>winweb02</strong> の負荷も同時にグラフ化します:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">sum(rate(kubevirt_vmi_cpu_usage_seconds_total{name='winweb02',namespace='windows-vms'}[5m])) BY (name, namespace)</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Run queries</strong> ボタンをクリックし、更新されたグラフを確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/10-load_sharing.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/10-load_sharing.png" alt="10 load sharing" width="100%"></a>
+</div>
+<div class="title">Figure 10. Load Sharing</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>グラフを確認すると、<strong>winweb02</strong> が <strong>winweb01</strong> よりもはるかに大きな負荷にさらされていることがわかりますが、その後 5 分ほどで負荷は均等になり、2 台の仮想マシン間でバランスが取れるでしょう。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="vert_scale_vm"><a class="anchor" href="#vert_scale_vm"></a>VM リソースの垂直スケーリング</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>5 分間隔で VM の負荷が均等になったとしても、依然としてかなり高い負荷がかかっていることがわかります。
+これ以上水平スケーリングを行う能力がない場合、残された唯一の選択肢は、CPU とメモリーリソースを VM に追加することで<strong>垂直スケーリング</strong>を行うことです。
+幸いなことに、前のモジュールで探求したように、これはこれらのリソースを<strong>ホットプラグ</strong>することで実行でき、現在実行中のワークロードに影響を与えることはありません。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>前のセクションのメトリックページにあるグラフを確認することから始めます。
+左上隅のドロップダウンを使用して、更新間隔を過去 5 分に設定できます。
+2 つの仮想ゲストの負荷が 1.0 付近で安定しており、両方のゲストが依然としてかなり圧倒されていることを示していることに注意してください。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/11-balanced_load.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/11-balanced_load.png" alt="11 balanced load" width="100%"></a>
+</div>
+<div class="title">Figure 11. Balanced Load</div>
+</div>
+</li>
+<li>
+<p>左側のナビゲーションメニューの <strong>VirtualMachines</strong> をクリックして仮想マシンリストに戻り、<strong>winweb01</strong> をクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/12-select_vm.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/12-select_vm.png" alt="12 select vm" width="100%"></a>
+</div>
+<div class="title">Figure 12. Select VM</div>
+</div>
+</li>
+<li>
+<p>VM の <strong>Configuration</strong> タブをクリックし、<strong>VirtualMachine details</strong> の下の <strong>CPU|Memory</strong> セクションを見つけ、鉛筆アイコンをクリックして編集します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/13-edit_vm.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/13-edit_vm.png" alt="13 edit vm" width="100%"></a>
+</div>
+<div class="title">Figure 13. Edit VM</div>
+</div>
+</li>
+<li>
+<p>vCPU を <strong>4</strong> に増やし、<strong>Save</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/14-update_specs.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/14-update_specs.png" alt="14 update specs" width="100%"></a>
+</div>
+<div class="title">Figure 14. Update Specs</div>
+</div>
+</li>
+<li>
+<p><strong>Overview</strong> タブに戻ります。詳細の <strong>CPU|Memory</strong> セクションが新しい値に更新されており、ゲストの CPU 使用率が徐々にかなり速く低下していることがわかるでしょう。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/15-vm_new_spec.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/15-vm_new_spec.png" alt="15 vm new spec" width="100%"></a>
+</div>
+<div class="title">Figure 15. New VM Spec</div>
+</div>
+</li>
+<li>
+<p><strong>winweb02</strong> についてもこれらの手順を繰り返します。</p>
+</li>
+<li>
+<p>両方の VM がアップグレードされたら、<strong>windows-vms</strong> プロジェクトをクリックします。CPU 使用率が劇的に低下したことがわかるでしょう。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/16-updated_usage.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/16-updated_usage.png" alt="16 updated usage" width="100%"></a>
+</div>
+<div class="title">Figure 16. Updated Utilization</div>
+</div>
+</li>
+<li>
+<p><strong>winweb01</strong> をクリックし、次に <strong>Metrics</strong> タブと <strong>CPU</strong> グラフをクリックして、使用率グラフが現在どのように見えるかを確認します。
+<strong>winweb02</strong> からのクエリを再度追加することもでき、各ゲストのリソースが増加した後、両方のグラフが非常に急速に低下し、各 VM の負荷が以前よりもはるかに少なくなったことがわかります。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/17-updated_usage_verify.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/17-updated_usage_verify.png" alt="17 updated usage verify" width="100%"></a>
+</div>
+<div class="title">Figure 17. Verify Metrics</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="swap_mem"><a class="anchor" href="#swap_mem"></a>スワップ/メモリーのオーバーコミットに関する考察</h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+このラボのセクションは、物理クラスターリソースが不足している状況で実行する可能性があることに関する情報提供のみを目的としています。
+以下の情報をお読みください。
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>物理リソースをすべて使い果たしたため、特定のワークロードの CPU またはメモリーリソースを増やす能力がない場合があります。
+デフォルトでは、OpenShift の CPU のオーバーコミット比率は 10:1 ですが、Kubernetes 環境のメモリーは多くの場合有限のリソースです。</p>
+</div>
+<div class="paragraph">
+<p>通常の Kubernetes クラスターが高いワークロードリソース使用率のためにメモリー不足のシナリオに遭遇すると、無差別に Pod を強制終了し始めます。
+コンテナーベースのアプリケーション環境では、これは通常、ロードバランサーサービスの背後にアプリケーションの複数のレプリカを持つことで軽減されます。
+アプリケーションは他のレプリカによって提供され続け、強制終了された Pod は空きリソースを持つノードに再割り当てされます。</p>
+</div>
+<div class="paragraph">
+<p>これは、ほとんどの場合、多数のレプリカで構成されておらず、永続的に利用可能である必要がある仮想マシンワークロードにはあまり効果的ではありません。</p>
+</div>
+<div class="paragraph">
+<p>クラスター内の物理リソースを使い果たした場合の従来の手段は、クラスターをスケーリングすることですが、これは言うは易く行うは難しの場合が多くあります。
+予備の物理ノードが待機しておらず、新しいハードウェアを注文する必要がある場合、調達手順やサプライチェーンの混乱によって遅延することがよくあります。</p>
+</div>
+<div class="paragraph">
+<p>これに対する 1 つの回避策は、新しいハードウェアが到着するまで時間を稼ぐために、一時的にノードで SWAP/メモリーのオーバーコミットを有効にすることです。
+これにより、ワーカーノードが SWAP し、ハードディスクスペースを使用してアプリケーションメモリーを書き込むことができます。
+ハードディスクへの書き込みはシステムメモリーへの書き込みよりもはるかに遅いですが、追加のリソースが到着するまでワークロードを維持することができます。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="scaling_cluster"><a class="anchor" href="#scaling_cluster"></a>ノード追加によるクラスターのスケーリング</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>クラスターの物理リソースが不足した場合の主な手段は、追加のワーカーノードを追加してクラスターをスケーリングすることです。
+これにより、失敗しているワークロードや割り当てることができないワークロードを正常に割り当てることができるようになります。
+このラボのセクションはまさにこの考えに特化しており、クラスターに過負荷をかけ、新しいノードを追加してすべての VM が正常に実行できるようにします。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+このラボ環境では、実際に追加の物理ノードを追加しているわけではなく、VM ワークロードを許可しないようにテイントされた待機中のノードを用意することで動作をシミュレートしています。
+適切なタイミングでこのテイントを削除することで、クラスターへの新しいノードの追加をシミュレートします。
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のナビゲーションメニューで、<strong>Virtualization</strong>、次に <strong>VirtalMachines</strong> をクリックします。</p>
+</li>
+<li>
+<p><strong>vms-aap-day2</strong> および <strong>windows-vms</strong> プロジェクトのすべての VM の電源がオンになっていることを確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/18-verify_oc.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/18-verify_oc.png" alt="18 verify oc" width="100%"></a>
+</div>
+<div class="title">Figure 18. Verify Running VMs</div>
+</div>
+</li>
+<li>
+<p><strong>mass-vm</strong> プロジェクトをクリックして、そこにある仮想マシンを一覧表示します。
+<strong>1 - 15 of 30</strong> ドロップダウンをクリックし、<strong>50 per page</strong> に変更してすべての VM を表示します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/19-project_mass.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/19-project_mass.png" alt="19 project mass" width="100%"></a>
+</div>
+<div class="title">Figure 19. Mass VMs Project</div>
+</div>
+</li>
+<li>
+<p><strong>Filter</strong> ドロップダウンの下にあるチェックボックスをクリックして、プロジェクト内のすべての VM を選択します。
+<strong>Actions</strong> ボタンをクリックし、ドロップダウンメニューから <strong>Start</strong> を選択します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/20-select_all_start.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/20-select_all_start.png" alt="20 select all start" width="100%"></a>
+</div>
+<div class="title">Figure 20. Start All VMs</div>
+</div>
+</li>
+<li>
+<p>すべての VM が起動しようとすると、約 6〜7 台の VM が現在エラー状態になっているはずです。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/21-after_start.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/21-after_start.png" alt="21 after start" width="100%"></a>
+</div>
+<div class="title">Figure 21. VMs After Startup</div>
+</div>
+</li>
+<li>
+<p>エラーの数をクリックして、エラー状態の説明を確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/22-num_errors.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/22-num_errors.png" alt="22 num errors" width="100%"></a>
+</div>
+<div class="title">Figure 22. Error Details</div>
+</div>
+</li>
+<li>
+<p>これらの VM はそれぞれ、クラスターがそれらをスケジュールするためのリソース不足のため、ステータス列に <strong>ErrorUnschedulable</strong> を表示するでしょう。</p>
+</li>
+<li>
+<p>左側のナビゲーションメニューで、<strong>Compute</strong>、次に <strong>Nodes</strong> をクリックします。
+3 つのワーカーノード（ノード 2〜4）には多数の割り当てられた Pod と大量の使用済みメモリーがあり、ワーカーノード 1 はそれと比較して使用量がはるかに少ないことがわかります。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/23-worker_nodes.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/23-worker_nodes.png" alt="23 worker nodes" width="100%"></a>
+</div>
+<div class="title">Figure 23. Nodes</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+OpenShift 環境では、利用可能なメモリーは各 Pod によって提出されたメモリー要求に基づいて計算されます。
+このようにして、Pod がその時点でその量を使用していなくても、Pod が必要とするメモリーは保証されます。
+これが、これらのワーカーノードがそれぞれ、見ても約 75% の使用率しか示していないにもかかわらず、「満杯」と見なされる理由です。
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>ワーカーノード 2 をクリックすると、<strong>Node details</strong> ページに移動します。
+ノードで利用可能なリソースが制限されていることに関する警告があることに注意してください。
+使用済みメモリーが青色で表示され、要求された量がオレンジ色の破線としても表示される、ノードのメモリー使用率のグラフも確認できます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/24-worker_node_2.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/24-worker_node_2.png" alt="24 worker node 2" width="100%"></a>
+</div>
+<div class="title">Figure 24. Worker Node 2 Details</div>
+</div>
+</li>
+<li>
+<p>上部の <strong>Pods</strong> タブをクリックし、検索バーに <code>virt-launcher</code> と入力して、ノード上の VM を検索します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/25-vms_on_node_2.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/25-vms_on_node_2.png" alt="25 vms on node 2" width="100%"></a>
+</div>
+<div class="title">Figure 25. VMs On Worker Node 2</div>
+</div>
+</li>
+<li>
+<p>次に、左側のナビゲーションメニューの <strong>Nodes</strong> をクリックし、次にワーカーノード 1 をクリックすると、その <strong>Node details</strong> ページに移動します。
+現在、ノードに CPU またはメモリーの警告がないことに注意してください。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/26-worker_node_1.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/26-worker_node_1.png" alt="26 worker node 1" width="100%"></a>
+</div>
+<div class="title">Figure 26. Worker Node 1 Details</div>
+</div>
+</li>
+<li>
+<p>上部の <strong>Pods</strong> タブをクリックし、検索バーに <code>virt-launcher</code> と入力してノード上の VM を検索します。
+現在、VM がないことに注意してください。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/27-vms_on_node_1.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/27-vms_on_node_1.png" alt="27 vms on node 1" width="100%"></a>
+</div>
+<div class="title">Figure 27. VMs On Worker Node 1</div>
+</div>
+</li>
+<li>
+<p><strong>Details</strong> タブをクリックし、スクロールダウンして <strong>Taints</strong> セクションが表示されるまで移動します。そこには 1 つのテイントが定義されています。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/28-node_details.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/28-node_details.png" alt="28 node details" width="100%"></a>
+</div>
+<div class="title">Figure 28. Node Details</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/29-select_taints.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/29-select_taints.png" alt="29 select taints" width="100%"></a>
+</div>
+<div class="title">Figure 29. Select Taints</div>
+</div>
+</li>
+<li>
+<p><strong>鉛筆</strong> アイコンをクリックして、ノード上の現在の <strong>Taint</strong> を編集するためのボックスを表示します。
+ボックスが表示されたら、テイント定義の横にある <strong>-</strong> をクリックして削除し、<strong>Save</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/30-remove_taint.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/30-remove_taint.png" alt="30 remove taint" width="100%"></a>
+</div>
+<div class="title">Figure 30. Remove Taint</div>
+</div>
+</li>
+<li>
+<p>テイントが削除されたら、上部に戻って <strong>Pods</strong> タブをもう一度クリックし、検索バーに <code>virt-launcher</code> と入力すると、スケジュール不可能だった VM がこのノードに割り当てられていることがわかります。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/31-vms_node1_untainted.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/31-vms_node1_untainted.png" alt="31 vms node1 untainted" width="100%"></a>
+</div>
+<div class="title">Figure 31. VMs On Worker Node 1</div>
+</div>
+</li>
+<li>
+<p>左側のナビゲーションメニューの <strong>Virtualization</strong>、次に <strong>VirtualMachines</strong> をクリックして <strong>mass-vms</strong> プロジェクトの VM のリストに戻り、すべての VM が実行中になっていることを確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-02-real-world-scaling/32-mass_vms_running.png" target="blank"><img src="_images/day2virt/module-02-real-world-scaling/32-mass_vms_running.png" alt="32 mass vms running" width="100%"></a>
+</div>
+<div class="title">Figure 32. Mass VMs Running</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_まとめ"><a class="anchor" href="#_まとめ"></a>まとめ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>このモジュールでは、OpenShift Virtualization 管理者として、高い負荷のシナリオに対処し、仮想マシンリソースを<strong>水平スケーリング</strong>および<strong>垂直スケーリング</strong>することで解決できました。
+また、物理クラスターリソースが不足し、新しい仮想マシンをプロビジョニングできなかった問題を、クラスターをスケールアップして追加のリソースを提供することで解決することができました。</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="81-module-01-day-to-day.html">1. 日々の基本的な操作の有効化</a></span>
+  <span class="next"><a href="83-module-03-to-the-moon.html">3. 無限の可能性へ</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

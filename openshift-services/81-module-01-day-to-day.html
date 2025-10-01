@@ -1,0 +1,2947 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>日々の基本的な操作の有効化 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/81-module-01-day-to-day.html">
+    <link rel="prev" href="80-index.html">
+    <link rel="next" href="82-module-02-real-world-scaling.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://rh-open.github.io/ocp-handson">OpenShift Handson</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="openshift-services" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">01. OpenShift 基礎</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-deployment.html">2. Web コンソールの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02_app-storage-basics.html">3. 永続ストレージ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03_machinesets.html">4. ノードの動的管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04_infra-nodes.html">5. Infra ノードの作成</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="06_template-quota-limits.html">6. Project のクオータ/制限</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">20. OpenShift Pipeline Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="10-pipeline-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="11-pipelines.html">1. Pipelines -1/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="12-add-task.html">2. Pipelines -2/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="13-triggers.html">3. Tekton Triggers</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">21. OpenShift GitOps Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="20-GitOps-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="21-GitOps.html">1. OpenShift GitOps</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="22-Kustomize.html">2. Kustomizeインテグレーション</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="23-Helm.html">3. Helmインテグレーション</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">51. Red Hat OpenShift Service on AWS (ROSA) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="50-rosa-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="51-rosa-hcp-create.html">1. ROSA HCPクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="52-rosa-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="53-rosa-ebs.html">3. Amazon EBSの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-1-rosa-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-2-rosa-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="58-rosa-bedrock.html">6. Amazon Bedrockアプリケーションの実行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-01.html">7. ロギング設定 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-2-rosa-monitoring.html">9. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-3-rosa-project-metrics.html">10. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-4-rosa-alert.html">11. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="56-rosa-nodes.html">12. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="57-rosa-upgrade.html">13. ROSA HCPクラスターの更新</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">61. Azure Red Hat OpenShift (ARO) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="60-aro-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="61-aro-create.html">1. AROクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="62-aro-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="63-aro-storage.html">3. Azure DiskとAzure Filesの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="64-aro-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="65-aro-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="66-aro-logging.html">6. ロギング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-1-aro-monitoring.html">7. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-2-aro-project-metrics.html">8. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-3-aro-alert.html">9. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="68-aro-nodes.html">10. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="69-aro-upgrade.html">11. AROクラスターの更新[デモ]</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">71. OpenShift Virtualization Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="70-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="71-module-01-intro.html">1. 仮想マシン管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="72-module-02-mtv.html">2. 既存の仮想マシンの移行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="73-module-04-storage.html">3. ストレージ管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="74-module-05-bcdr.html">4. 仮想マシンのバックアップとリカバリ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="75-module-07-tempinst.html">5. テンプレートとインスタンスタイプの管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="76-module-08-workingvms.html">6. 仮想マシンとアプリケーションの操作</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="78-module-09-networking.html">7. 仮想マシンのネットワーク管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="79-conclusion.html">8. 追加情報</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">81. Day 2 Operations and Automation with OpenShift Virtualization</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="80-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="81-module-01-day-to-day.html">1. 日々の基本的な操作の有効化</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="82-module-02-real-world-scaling.html">2. 実環境でのスケーリングシナリオ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="83-module-03-to-the-moon.html">3. 無限の可能性へ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="84-conclusion.html">4. 追加情報</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Handson</a></li>
+    <li>81. Day 2 Operations and Automation with OpenShift Virtualization</li>
+    <li><a href="81-module-01-day-to-day.html">1. 日々の基本的な操作の有効化</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/81-module-01-day-to-day.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">日々の基本的な操作の有効化</h1>
+<div class="sect1">
+<h2 id="_openshift_console_と_ansible_automation_platform_の認証情報"><a class="anchor" href="#_openshift_console_と_ansible_automation_platform_の認証情報"></a>OpenShift Console と Ansible Automation Platform の認証情報</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>OpenShift クラスターコンソールは {openshift_cluster_console_url}[こちら^] から利用できます。
+ローカル管理者ログインには、以下の認証情報が利用できます:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>ユーザー:</strong> <code>{openshift_cluster_admin_username}</code></p>
+</li>
+<li>
+<p><strong>パスワード:</strong> <code>{openshift_cluster_admin_password}</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>最初に認証プロバイダーを選択する画面が表示されますので、<strong>htpasswd_provider</strong> をクリックしてください。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/00-htpasswd_login.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/00-htpasswd_login.png" alt="00 htpasswd login" width="100%"></a>
+</div>
+<div class="title">Figure 1. OpenShift Authentication</div>
+</div>
+<div class="paragraph">
+<p>その後、認証情報をコピー＆ペーストできるログイン画面が表示されます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/01-openshift_login.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/01-openshift_login.png" alt="01 openshift login" width="100%"></a>
+</div>
+<div class="title">Figure 2. OpenShift Login</div>
+</div>
+<div class="paragraph">
+<p>Ansible Automation Platform コンソールは {aap_controller_web_url}[こちら^] から利用できます。
+管理者ログインには、以下の認証情報が利用できます:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>ユーザー:</strong> <code>{aap_controller_admin_user}</code></p>
+</li>
+<li>
+<p><strong>パスワード</strong> <code>{aap_controller_admin_password}</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/02-aap_login.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/02-aap_login.png" alt="02 aap login" width="100%"></a>
+</div>
+<div class="title">Figure 3. AAP Login</div>
+</div>
+<div class="paragraph">
+<p>この機会に両方のコンソールを開いてログインし、ラボの準備をしてください。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="dynamic_inventory"><a class="anchor" href="#dynamic_inventory"></a>OpenShift 上の仮想マシン向けの動的インベントリーの作成</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>目的:</p>
+</div>
+<div class="paragraph">
+<p>動的インベントリーを使用すると、Ansible Automation Platform (AAP) は外部ソースからシステムインベントリーを自動的に取得・更新できるため、手動でのインベントリー管理が不要になります。</p>
+</div>
+<div class="paragraph">
+<p>このラボでは、OpenShift Virtualization からデータを取得するための動的インベントリーを設定します。
+これにより、AAP は OCP クラスターの <strong>vms-aap-day2</strong> 名前空間に存在する OpenShift VM を管理できるようになります。</p>
+</div>
+<div class="sect2">
+<h3 id="_インベントリーの作成"><a class="anchor" href="#_インベントリーの作成"></a>インベントリーの作成</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のメニューで、<strong>Automation Execution</strong> のメニューをクリックして展開し、次に <strong>Infrastructure</strong> をクリックし、続けて <strong>Inventories</strong> をクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/03-auto_infra_inv.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/03-auto_infra_inv.png" alt="03 auto infra inv" width="100%"></a>
+</div>
+<div class="title">Figure 4. Automation Execution, Infrastucture, Inventories</div>
+</div>
+</li>
+<li>
+<p><strong>Create inventory</strong> ドロップダウンボックスをクリックし、<strong>Create inventory</strong> オプションを選択します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/04-create_inventory_dropdown.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/04-create_inventory_dropdown.png" alt="04 create inventory dropdown" width="100%"></a>
+</div>
+<div class="title">Figure 5. Create Inventory Dropdown</div>
+</div>
+</li>
+<li>
+<p><strong>Create Inventory</strong> フォームで、以下のフィールドに適切な値を入力するか、ドロップダウンメニューから選択します:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Name:</strong> <code>OpenShift Virtual Machines</code></p>
+</li>
+<li>
+<p><strong>Organization:</strong> Default</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>下部にある <strong>Create inventory</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/05-create_inventory.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/05-create_inventory.png" alt="05 create inventory" width="100%"></a>
+</div>
+<div class="title">Figure 6. Create Inventory</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_インベントリーへのソースの追加"><a class="anchor" href="#_インベントリーへのソースの追加"></a>インベントリーへのソースの追加</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>インベントリーを作成した後、<strong>Sources</strong> タブに切り替えます。</p>
+</li>
+<li>
+<p><strong>Create source</strong> ボタンを選択します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/06-sources_tab.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/06-sources_tab.png" alt="06 sources tab" width="100%"></a>
+</div>
+<div class="title">Figure 7. Sources Tab</div>
+</div>
+</li>
+<li>
+<p><strong>Create Source</strong> フォームで、以下のフィールドに適切な値を入力するか、ドロップダウンメニューから選択します:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Name:</strong> OpenShift Virtual Machines Source</p>
+</li>
+<li>
+<p><strong>Execution environment:</strong> Day 2 EE</p>
+</li>
+<li>
+<p><strong>Source:</strong> OpenShift Virtualization</p>
+</li>
+<li>
+<p><strong>Credential:</strong> OpenShift Credential</p>
+</li>
+<li>
+<p><strong>Update on launch チェックボックス:</strong> Checked</p>
+</li>
+<li>
+<p><strong>Cache timeout (seconds):</strong>  0</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>以下の YAML スニペットをコピーして、フォームの <strong>Source variables</strong> フィールドに貼り付けます。</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">namespaces:
+  - vms-aap-day2</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Create source</strong> ボタンをクリックして設定を保存します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/07-create_inventory_source.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/07-create_inventory_source.png" alt="07 create inventory source" width="100%"></a>
+</div>
+<div class="title">Figure 8. Create Inventory Source</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_インベントリーの更新"><a class="anchor" href="#_インベントリーの更新"></a>インベントリーの更新</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>右上隅にある <strong>Launch Inventory Update</strong> ボタンをクリックして、インベントリー収集を開始します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/08-update_inventory.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/08-update_inventory.png" alt="08 update inventory" width="100%"></a>
+</div>
+<div class="title">Figure 9. Update Inventory</div>
+</div>
+</li>
+<li>
+<p><strong>Last Job Status</strong> が <strong>Success</strong> と表示されるまで待ちます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/09-job_status_success.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/09-job_status_success.png" alt="09 job status success" width="100%"></a>
+</div>
+<div class="title">Figure 10. Job Status Success</div>
+</div>
+</li>
+<li>
+<p><strong>Back to Inventory Sources</strong> のタブをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/10-back_to_inventory_sources.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/10-back_to_inventory_sources.png" alt="10 back to inventory sources" width="100%"></a>
+</div>
+<div class="title">Figure 11. Back to Inventory Sources</div>
+</div>
+</li>
+<li>
+<p>画面上部の <strong>Hosts</strong> タブに切り替えます。</p>
+</li>
+<li>
+<p>OpenShift クラスターの <strong>vms-app-day2</strong> 名前空間からの仮想マシンがインベントリーホストとしてリストされていることを確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/11-verify_hosts.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/11-verify_hosts.png" alt="11 verify hosts" width="100%"></a>
+</div>
+<div class="title">Figure 12. Verify Hosts</div>
+</div>
+</li>
+<li>
+<p>マシンが動作していることを確認するため、検出された 3 つの VM を選択し、<strong>Run command</strong> ボタンをクリックして自動化された <strong>ping</strong> ジョブを実行できます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/12-run_command.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/12-run_command.png" alt="12 run command" width="100%"></a>
+</div>
+<div class="title">Figure 13. Run Command</div>
+</div>
+</li>
+<li>
+<p><strong>Run command</strong> ウィザードが表示され、いくつかのページがあります:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Details</strong> ページで、<strong>Module</strong> ドロップダウンメニューから <strong>ping</strong> を選択し、<strong>Next</strong> をクリックします。</p>
+</li>
+<li>
+<p><strong>Execution Environment</strong> ページで、<strong>Execution Environment</strong> ドロップダウンから <strong>Day2 EE</strong> を選択し、<strong>Next</strong> をクリックします。</p>
+</li>
+<li>
+<p><strong>Credential</strong> ページで、<strong>Credential</strong> ドロップダウンから <strong>Workshop Credential</strong> を選択し、<strong>Next</strong> をクリックします。</p>
+</li>
+<li>
+<p><strong>Review</strong> ページで、選択したオプションを確認し、準備ができたら <strong>Finish</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/13-review_run_command.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/13-review_run_command.png" alt="13 review run command" width="100%"></a>
+</div>
+<div class="title">Figure 14. Review Run Command</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>コマンド実行の出力は、各 VM の名前とそのステータスを含む、以下の出力に類似しているはずです:</p>
+<div class="listingblock">
+<div class="content">
+<pre>vms-aap-day2-rhel9-vm1 |
+SUCCESS =&gt; {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+vms-aap-day2-rhel9-vm2 |
+SUCCESS =&gt; {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+vms-aap-day2-rhel9-vm3 |
+SUCCESS =&gt; {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}</pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/14-ping_success.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/14-ping_success.png" alt="14 ping success" width="100%"></a>
+</div>
+<div class="title">Figure 15. Ping Success</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+OpenShift コンソールにログインし、仮想マシンを手動で確認することで、VM が実行されていることを手動で確認することもできます。
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_openshift_コンソールでの_vm_インベントリーの確認"><a class="anchor" href="#_openshift_コンソールでの_vm_インベントリーの確認"></a>OpenShift コンソールでの VM インベントリーの確認</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>OpenShift 管理コンソールウィンドウに切り替えます。</p>
+</li>
+<li>
+<p>左側のナビゲーションメニューで、<strong>Virtualization</strong> をクリックし、次に <strong>VirtualMachines</strong> をクリックします。</p>
+</li>
+<li>
+<p>中央のナビゲーション列で <strong>vms-aap-day2</strong> プロジェクトをハイライトします。</p>
+</li>
+<li>
+<p>仮想マシンが実行中であることを確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/15-vm_inventory_openshift.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/15-vm_inventory_openshift.png" alt="15 vm inventory openshift" width="100%"></a>
+</div>
+<div class="title">Figure 16. Virtual Machines Running on OpenShift</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec_and_comp"><a class="anchor" href="#sec_and_comp"></a>OpenShift Compliance Operator を使用したセキュリティとコンプライアンス</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>このラボのセクションでは、OpenShift Compliance Operator を使用して、OpenShift クラスターにセキュリティスキャンを設定する方法に焦点を当てます。
+コンプライアンスオペレーターは、OpenShift 環境内のホストが特定のセキュリティ標準を満たし、それらの標準を満たすようにデプロイされていることを保証するのに役立ちます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/15a-compliance_overview.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/15a-compliance_overview.png" alt="15a compliance overview" width="100%"></a>
+</div>
+<div class="title">Figure 17. Compliance Overview</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のナビゲーションメニューから <strong>Operators</strong>、次に <strong>Installed Operators</strong> を選択し、<strong>All Projects</strong> が選択されていることを確認して <strong>Compliance Operator</strong> を選択します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/16-compliance_operator.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/16-compliance_operator.png" alt="16 compliance operator" width="100%"></a>
+</div>
+<div class="title">Figure 18. Compliance Operator</div>
+</div>
+</li>
+<li>
+<p>これにより <strong>Operator details</strong> ページに移動しますので、横スクロールバーを使用して移動し、<strong>ScanSetting</strong> タブを見つけます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/17-compliance_details.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/17-compliance_details.png" alt="17 compliance details" width="100%"></a>
+</div>
+<div class="title">Figure 19. Compliance Details</div>
+</div>
+</li>
+<li>
+<p><strong>Create ScanSetting</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/18-scansetting_button.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/18-scansetting_button.png" alt="18 scansetting button" width="100%"></a>
+</div>
+<div class="title">Figure 20. Create ScanSetting Button</div>
+</div>
+</li>
+<li>
+<p><strong>Create ScanSetting</strong> ページで、スキャンの名前を <code>scan01</code> に設定します。 次に、<strong>YAML view</strong> ラジオボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/19-create_scansetting.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/19-create_scansetting.png" alt="19 create scansetting" width="100%"></a>
+</div>
+<div class="title">Figure 21. Create Scansetting</div>
+</div>
+</li>
+<li>
+<p>ScanSetting YAML の詳細で、デフォルトで設定されている以下の値に注意してください:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>autoApplyRemediations</strong> フィールドは <strong>false</strong> に設定されています。</p>
+</li>
+<li>
+<p>デフォルトでスキャンされる <strong>roles</strong> には、<strong>worker</strong> ノードと <strong>master</strong> ノードの両方が含まれています。</p>
+</li>
+<li>
+<p><strong>name</strong> フィールドは、フォームビューで入力した <strong>scan01</strong> に設定されています。</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Create</strong> ボタンをクリックして、このシンプルな scansetting 定義を作成します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/20-scansetting_details.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/20-scansetting_details.png" alt="20 scansetting details" width="100%"></a>
+</div>
+<div class="title">Figure 22. ScanSetting Details</div>
+</div>
+</li>
+<li>
+<p>次に、多数の事前定義されたスキャンプロファイルがある <strong>Profile</strong> タブをクリックします。</p>
+</li>
+<li>
+<p>検索ボックスに <code>rhcos4</code> と入力し、リスト内の FedRamp moderate プロファイル <strong>rhcos4-moderate</strong> を見つけます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/21-profiles_detail.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/21-profiles_detail.png" alt="21 profiles detail" width="100%"></a>
+</div>
+<div class="title">Figure 23. Profiles Detail</div>
+</div>
+</li>
+<li>
+<p><strong>rhcos4-moderate</strong> をクリックし、次に <strong>YAML</strong> をクリックします。
+出力を下にスクロールして、このスキャンの一部として適用されるルールを閲覧します。
+サイドパネルをちらっと見ると、かなりの数のルールがあることがわかります。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/22-rhcos4_mod_rules.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/22-rhcos4_mod_rules.png" alt="22 rhcos4 mod rules" width="100%"></a>
+</div>
+<div class="title">Figure 24. RHCOS4-Moderate Rules</div>
+</div>
+</li>
+<li>
+<p>ルールの確認が終わったら、ブラウザの <em>back button</em> を 2 回クリックして <strong>Operator details</strong> ページに戻ります。</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+利用可能なプロファイルに関する追加の詳細は、 <a href="https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/security_and_compliance/compliance-operator#compliance-operator-supported-profiles" target="_blank" rel="noopener">こちら</a> で確認できます。
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>次に、作成した <strong>ScanSetting</strong> 定義と <strong>Profile</strong> をペアリングする <strong>ScanSettingBinding</strong> を作成します。 これを行うには、<strong>Scan Setting Binding</strong> タブに移動し、<strong>Create ScanSettingBinding</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/23-create_scansettingbinding.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/23-create_scansettingbinding.png" alt="23 create scansettingbinding" width="100%"></a>
+</div>
+<div class="title">Figure 25. Create ScanSettingBinding</div>
+</div>
+</li>
+<li>
+<p>ScanSettingBinding YAMLの詳細にて、以下の変更を行います:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>metadata/name</strong> の値を <code>fedramp01</code> に設定します。</p>
+</li>
+<li>
+<p><strong>settingsRef/name</strong> フィールドを、以前に作成した <code>scan01</code> に設定します。</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Create</strong> ボタンをクリックします。</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+プロファイルはデフォルトで rhcos4-moderate (fedramp moderate プロファイル) に設定されています。
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/24-scansettingbinding_details.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/24-scansettingbinding_details.png" alt="24 scansettingbinding details" width="100%"></a>
+</div>
+<div class="title">Figure 26. ScanSettingBinding Details</div>
+</div>
+</li>
+<li>
+<p><strong>ScanSettingBinding</strong> が作成されると、<code>fedramp01</code> スキャンが自動的に実行されます。
+これは <strong>Compliance Suite</strong> タブで確認できます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/25-compliance_suite.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/25-compliance_suite.png" alt="25 compliance suite" width="100%"></a>
+</div>
+<div class="title">Figure 27. Compliance Suite</div>
+</div>
+</li>
+<li>
+<p>この Compliance Suite は、定義されたスキャンを、今回のケースでは <strong>scan01</strong> で定義されたマスターノードとワーカーノードに対して実行します。</p>
+</li>
+<li>
+<p><strong>Compliance Scan</strong> タブをクリックすることで、スキャンが <strong>RUNNING, AGGREGATING, DONE</strong> のステップを経て進行するのを監視できます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/26-compliance_scan.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/26-compliance_scan.png" alt="26 compliance scan" width="100%"></a>
+</div>
+<div class="title">Figure 28. Compliance Scan</div>
+</div>
+</li>
+<li>
+<p>スキャンが完了したら (平均 3～4 分)、<strong>ComplianceCheckResult</strong> タブをクリックして結果を確認できます。</p>
+</li>
+<li>
+<p>検索バーを <strong>Label</strong> に変更し、以下のラベルを適用します:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>compliance.openshift.io/check-status=FAIL</code></p>
+</li>
+<li>
+<p><code>compliance.openshift.io/check-severity=high</code></p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/27-compliance_check_results.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/27-compliance_check_results.png" alt="27 compliance check results" width="100%"></a>
+</div>
+<div class="title">Figure 29. Compliance Check Results</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>12 個の高 severity のチェックが <strong>Failed</strong> ステータスになっています:</p>
+</li>
+</ol>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ComplianceCheckResult</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Check-Severity</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Check-Status</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rhcos4-moderate-master-configure-crypto-policy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAIL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rhcos4-moderate-master-coreos-pti-kernel-argument</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAIL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rhcos4-moderate-master-disable-ctrlaltdel-burstaction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAIL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rhcos4-moderate-master-disable-ctrlaltdel-reboot</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAIL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rhcos4-moderate-master-enable-fips-mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAIL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rhcos4-moderate-master-no-empty-passwords</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAIL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rhcos4-moderate-worker-configure-crypto-policy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAIL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rhcos4-moderate-worker-coreos-pti-kernel-argument</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAIL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rhcos4-moderate-worker-disable-ctrlaltdel-burstaction</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAIL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rhcos4-moderate-worker-disable-ctrlaltdel-reboot</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAIL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rhcos4-moderate-worker-enable-fips-mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAIL</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rhcos4-moderate-worker-no-empty-passwords</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">high</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FAIL</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>これで、OpenShift クラスターに対してコンプライアンススキャンを設定および実行するこのセクションを完了しました。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="net_policy"><a class="anchor" href="#net_policy"></a>VM トラフィックを管理するためのネットワークポリシーの設定</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Red Hat OpenShift では、管理者はネットワークポリシーを設定して、環境、およびそこで実行される仮想ゲストをさらに保護できます。
+このラボのこの部分では、仮想マシンを設定し、そのマシンから外部へのエグレスを禁止するネットワークポリシーを適用します。</p>
+</div>
+<div class="sect2">
+<h3 id="_仮想マシンでのネットワークエグレスの確認"><a class="anchor" href="#_仮想マシンでのネットワークエグレスの確認"></a>仮想マシンでのネットワークエグレスの確認</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のナビゲーションメニューで、<strong>Virtualization</strong>、次に <strong>VirtualMachines</strong> をクリックし、中央の列で <strong>vms-aap-day2</strong> プロジェクトの下にある <strong>rhel9-vm1</strong> 仮想マシンを選択します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/28-view_vm.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/28-view_vm.png" alt="28 view vm" width="100%"></a>
+</div>
+<div class="title">Figure 30. View VM</div>
+</div>
+</li>
+<li>
+<p><strong>Console</strong> タブをクリックし、提供された認証情報と組み込みのコピー/ペースト機能を使用して VM に認証します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/29-login_vm.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/29-login_vm.png" alt="29 login vm" width="100%"></a>
+</div>
+<div class="title">Figure 31. Login to VM</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+コピー/ペースト機能を有効にするように求めるポップアップが表示される場合があります。
+プロンプトが表示されたら <strong>Allow</strong> をクリックします。
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>ログインしたら、以下のコマンドを実行して Google へのアウトバウンド ping を開始します:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ping www.google.com</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/30-ping_site.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/30-ping_site.png" alt="30 ping site" width="100%"></a>
+</div>
+<div class="title">Figure 32. Ping Google</div>
+</div>
+</li>
+<li>
+<p><strong>Control+C</strong> を押して ping を停止します。</p>
+</li>
+<li>
+<p>左側のナビゲーションメニューから <strong>Workloads</strong>、次に <strong>Pods</strong> をクリックし、VM <strong>rhel9-vm1</strong> を表す <code>virt-launcher</code> Pod をクリックして Pod の詳細を表示します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/31-select_pod.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/31-select_pod.png" alt="31 select pod" width="100%"></a>
+</div>
+<div class="title">Figure 33. Select Pod</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Pod 名はランダムに生成されるため、ご自身の Pod 名は上記のスクリーンショットと一致しない可能性が高いです。
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p><strong>Pod details</strong> ページで、<strong>Labels</strong> セクションの <strong>Edit</strong> オプションをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/32-pod_details.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/32-pod_details.png" alt="32 pod details" width="100%"></a>
+</div>
+<div class="title">Figure 34. Edit Pod Details</div>
+</div>
+</li>
+<li>
+<p><strong>Edit labels</strong> ウィンドウが表示されます。中央のボックスをクリックし、<code>app=network-policy-deny</code> のラベルを追加し、<strong>Enter</strong> キーを押してコミットしてから、<strong>Save</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/33-pod_labels.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/33-pod_labels.png" alt="33 pod labels" width="100%"></a>
+</div>
+<div class="title">Figure 35. Edit Pod Labels</div>
+</div>
+</li>
+<li>
+<p><strong>rhel9-vm2</strong> 仮想マシンについても同じプロセスを繰り返します。</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ネットワークポリシーの作成"><a class="anchor" href="#_ネットワークポリシーの作成"></a>ネットワークポリシーの作成</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のナビゲーションメニューから <strong>Networking</strong>、次に <strong>NetworkPolicies</strong> をクリックし、画面中央の <strong>Create NetworkPolicy</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/34-network_policy.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/34-network_policy.png" alt="34 network policy" width="100%"></a>
+</div>
+<div class="title">Figure 36. Network Policy</div>
+</div>
+</li>
+<li>
+<p><strong>NetworkPolicies</strong> で、以下のフィールドに入力します:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Policy name</strong>: <code>ping-egress-deny</code></p>
+</li>
+<li>
+<p><strong>Key</strong>: <code>app</code></p>
+</li>
+<li>
+<p><strong>Value</strong>: <code>network-policy-deny</code></p>
+</li>
+<li>
+<p><strong>Deny all egress traffic チェックボックス</strong>: チェック</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/35-network_policy_configure.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/35-network_policy_configure.png" alt="35 network policy configure" width="100%"></a>
+</div>
+<div class="title">Figure 37. Configure Network Policy</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>値が入力されたら、<strong>Pod selector</strong> セクションの下にある <strong>affected pods</strong> リンクをクリックして、このポリシーの影響を受ける Pod を表示できます。
+設定に問題がなければ、<strong>Create</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/36-affected_pods.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/36-affected_pods.png" alt="36 affected pods" width="100%"></a>
+</div>
+<div class="title">Figure 38. Affected Pods</div>
+</div>
+</li>
+<li>
+<p>ポリシーが作成されたので、テストしてみましょう。</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_vm_でのネットワークポリシーの効果の確認"><a class="anchor" href="#_vm_でのネットワークポリシーの効果の確認"></a>VM でのネットワークポリシーの効果の確認</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>rhel9-vm1</strong> 仮想マシンのコンソールに戻って、ポリシーをテストします。</p>
+</li>
+<li>
+<p>左側のナビゲーションメニューを使用して、<strong>Virtualization</strong>、次に <strong>VirtualMachines</strong> をクリックし、中央の列から <strong>rhel9-vm1</strong> を選択します。</p>
+</li>
+<li>
+<p>VM の <strong>Console</strong> タブをクリックします。まだログインしているはずです。</p>
+</li>
+<li>
+<p>以下の構文をコピー＆ペーストして、新しいネットワークポリシーをテストします:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ping www.google.com</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/37-ping_site_deny.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/37-ping_site_deny.png" alt="37 ping site deny" width="100%"></a>
+</div>
+<div class="title">Figure 39. Egress Blocked</div>
+</div>
+</li>
+<li>
+<p>DNS ルックアップを含め、クラスターからのエグレスが完全にブロックされました。</p>
+</li>
+<li>
+<p>この演習を完了したら、<strong>Networking</strong> と <strong>NetworkPolicies</strong> に戻り、右側の 3 点メニューを使用して <strong>ping-egress-deny</strong> ポリシーを削除し、ポップアップボックスで確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/38-delete_policy.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/38-delete_policy.png" alt="38 delete policy" width="100%"></a>
+</div>
+<div class="title">Figure 40. Delete Policy</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>このセクションでは、仮想マシンからパブリック Web サイトへのエグレストラフィックをブロックするシンプルなネットワークポリシーを適用する方法を学びました。
+これは非常にシンプルな例とこの機能の適用ですが、ネットワークポリシーは非常に機能が豊富で調整可能です。
+より高度な例では、マイクロセグメンテーションポリシーを実装して、クラスターの内部と外部、異なる OpenShift プロジェクトまたは同じ OpenShift プロジェクト内の仮想ゲスト間のトラフィックフローを形成するのに役立ちます。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="alerts_graphs_logs"><a class="anchor" href="#alerts_graphs_logs"></a>アラート、グラフ、ログの有効化と探索</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>管理者にとってのもう一つの重要なタスクは、多くの場合、クラスターのパフォーマンスを評価できることです。
+これらのパフォーマンスメトリックは、ノード自体、またはクラスター内で実行されているワークロードから収集できます。
+OpenShift には、アラートの生成、ログの集約、および管理者がクラスターのパフォーマンスを視覚化するのに役立つグラフの生成を支援する組み込みツールが多数あります。</p>
+</div>
+<div class="sect2">
+<h3 id="_ノードのアラートとグラフ"><a class="anchor" href="#_ノードのアラートとグラフ"></a>ノードのアラートとグラフ</h3>
+<div class="paragraph">
+<p>まず、クラスターを構成するノードのメトリックを見てみましょう。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のナビゲーションメニューで <strong>Compute</strong>、次に <strong>Nodes</strong> をクリックします。</p>
+</li>
+<li>
+<p><strong>Nodes</strong> ページから、クラスター内の各ノード、そのステータス、ロール、現在ホストしている Pod の数、およびメモリと CPU の使用率などの物理属性を確認できます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/39-node_list.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/39-node_list.png" alt="39 node list" width="100%"></a>
+</div>
+<div class="title">Figure 41. Nodes</div>
+</div>
+</li>
+<li>
+<p>クラスター内のワーカーノード 4 をクリックします。
+<strong>Node details</strong> ページが表示され、ノードに関するより詳細な情報が表示されます。</p>
+</li>
+<li>
+<p>このページには、画面上部中央にノードによって生成されているアラートが表示され、画面下部中央に CPU、メモリ、ストレージ、ネットワークスループットのグラフを表示することで、ノードの使用率を視覚化するのに役立つグラフが提供されます。</p>
+</li>
+<li>
+<p>利用率パネルの右上隅にあるドロップダウンをクリックすることで、これらのグラフのレビュー期間を 1、6、または 24 時間に変更できます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/40-node_example.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/40-node_example.png" alt="40 node example" width="100%"></a>
+</div>
+<div class="title">Figure 42. Node Details</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_仮想マシンのグラフ"><a class="anchor" href="#_仮想マシンのグラフ"></a>仮想マシンのグラフ</h3>
+<div class="paragraph">
+<p>物理クラスターリソース以外に、アプリケーションや仮想マシンなどのワークロードで何が起こっているかを視覚化できることも非常に重要です。
+それらについて見つけることができる情報を調べてみましょう。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+このラボのこの部分では、グラフがどのように生成されるかを確認できるように、仮想マシンの一部に追加の負荷を生成するためにアプリケーションを使用します。
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のナビゲーションメニューを使用して <strong>Workloads</strong>、次に <strong>Deployments</strong> をクリックします。</p>
+</li>
+<li>
+<p>プロジェクト: <strong>windows-vms</strong> にいることを確認してください。</p>
+</li>
+<li>
+<p>ここにデプロイされた Pod が 1 つ表示されるはずです。これは <strong>loadmaker</strong> と呼ばれます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/41-select_loadmaker.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/41-select_loadmaker.png" alt="41 select loadmaker" width="100%"></a>
+</div>
+<div class="title">Figure 43. Loadmaker Deployment</div>
+</div>
+</li>
+<li>
+<p><strong>loadmaker</strong> をクリックすると、<strong>Deployment details</strong> ページが表示されます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/42-deploy_details.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/42-deploy_details.png" alt="42 deploy details" width="100%"></a>
+</div>
+<div class="title">Figure 44. Deployment Details</div>
+</div>
+</li>
+<li>
+<p><strong>Environment</strong> をクリックすると、<strong>REQUESTS_PER_SECOND</strong> のフィールドが表示されます。このフィールドの値を <code>75</code> に変更し、下部の <strong>Save</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/43-lm_pod_config.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/43-lm_pod_config.png" alt="43 lm pod config" width="100%"></a>
+</div>
+<div class="title">Figure 45. LM Pod Config</div>
+</div>
+</li>
+<li>
+<p>さて、負荷を生成している VM を確認しに行きましょう。</p>
+</li>
+<li>
+<p>左側のナビゲーションメニューで <strong>Virtualization</strong>、次に <strong>VirtualMachines</strong> をクリックします。中央の列で <strong>windows-vms</strong> プロジェクトを選択します。
+3 つの仮想マシンが表示されるはずです: <strong>winweb01</strong>、<strong>winweb02</strong>、および <strong>database</strong>。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/44-windows_vms.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/44-windows_vms.png" alt="44 windows vms" width="100%"></a>
+</div>
+<div class="title">Figure 46. Windows VMs</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+このラボの時点では、<strong>database</strong> と <strong>winweb01</strong> のみが電源オンになっているはずです。
+もしオフになっている場合は、今すぐ電源をオンにしてください。<strong>winweb02</strong> は当面電源をオンにしないでください。
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>仮想マシンが実行されたら、<strong>winweb01</strong> をクリックします。これにより <strong>VirtualMachine details</strong> ページが表示されます。</p>
+</li>
+<li>
+<p>このページには <strong>Utilization</strong> セクションがあり、以下の情報が表示されます:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>VM リソース (CPU、メモリ、ストレージ、ネットワーク転送) の基本的なステータス。これは 15 秒ごとに更新されます。</p>
+</li>
+<li>
+<p>最近の期間の VM パフォーマンスを詳述するいくつかの小さなグラフ。デフォルトでは過去 5 分ですが、ドロップダウンメニューから最大 1 週間までの値を選択できます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/45-vm_details.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/45-vm_details.png" alt="45 vm details" width="100%"></a>
+</div>
+<div class="title">Figure 47. VM Details</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Breakdown by network</strong> をクリックして <strong>Network Transfer</strong> を詳しく見ると、仮想マシンに割り当てられた各ネットワークアダプターを通過しているネットワークトラフィックの量を確認できます。
+この場合、1 つの <strong>default</strong> ネットワークアダプターです。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/46-select_network.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/46-select_network.png" alt="46 select network" width="100%"></a>
+</div>
+<div class="title">Figure 48. Select Network</div>
+</div>
+</li>
+<li>
+<p>ネットワークアダプターの確認が終わったら、CPU 使用率を示すグラフをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/47-select_cpu.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/47-select_cpu.png" alt="47 select cpu" width="100%"></a>
+</div>
+<div class="title">Figure 49. Select CPU</div>
+</div>
+</li>
+<li>
+<p>これにより <strong>Metrics</strong> ウィンドウが起動し、CPU 使用率に関する詳細を確認できます。
+デフォルトでは 30 分に設定されていますが、ドロップダウンをクリックして 1 時間に変更すると、ロードジェネレーターをオンにした後のグラフのスパイクを確認できます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/48-cpu_metrics.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/48-cpu_metrics.png" alt="48 cpu metrics" width="100%"></a>
+</div>
+<div class="title">Figure 50. CPU Metrics</div>
+</div>
+</li>
+<li>
+<p>右上隅で更新タイミングを変更することもできます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/49-change_refresh.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/49-change_refresh.png" alt="49 change refresh" width="100%"></a>
+</div>
+<div class="title">Figure 51. Change Refresh Interval</div>
+</div>
+</li>
+<li>
+<p>また、このグラフを生成するために VM に対して実行されているクエリを確認したり、<strong>Add Query</strong> ボタンを使用して独自のクエリを作成したりすることもできます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/50-add_query.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/50-add_query.png" alt="50 add query" width="100%"></a>
+</div>
+<div class="title">Figure 52. Add_Query</div>
+</div>
+</li>
+<li>
+<p>演習として、IO/wait ステータスで費やされた vCPU 時間の量を示すカスタムクエリを追加してみましょう。</p>
+</li>
+<li>
+<p><strong>Add Query</strong> ボタンをクリックし、表示された新しい行に以下のクエリを貼り付けます:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">sum(rate(kubevirt_vmi_vcpu_wait_seconds_total{name='winweb01',namespace='windows-vms'}[5m])) BY (name, namespace)</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Run queries</strong> ボタンをクリックして、グラフがどのように更新されるかを確認します。
+ゲスト上の vCPU が常に負荷がかかっていることを示す新しい折れ線グラフが表示されます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/51-example_query.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/51-example_query.png" alt="51 example query" width="100%"></a>
+</div>
+<div class="title">Figure 53. Sample Custom Query</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ダッシュボードの確認"><a class="anchor" href="#_ダッシュボードの確認"></a>ダッシュボードの確認</h3>
+<div class="paragraph">
+<p>OpenShift のもう 1 つの強力な機能は、<strong>Cluster Observability Operator</strong> を使用して、クラスターのパフォーマンスの詳細なダッシュボードを表示できることです。
+それらのいくつかを見てみましょう。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のナビゲーションメニューから <strong>Observe</strong> （日本語UIでは <strong>モニタリング</strong> ）、次に <strong>Dashboards</strong> をクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/52-dashboards.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/52-dashboards.png" alt="52 dashboards" width="100%"></a>
+</div>
+<div class="title">Figure 54. Dashboards</div>
+</div>
+</li>
+<li>
+<p><strong>API Performance</strong> をクリックし、<strong>KubeVirt/Infrastructure Resources/Top Consumers</strong> を検索します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/53-kubevirt_dashboard.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/53-kubevirt_dashboard.png" alt="53 kubevirt dashboard" width="100%"></a>
+</div>
+<div class="title">Figure 55. KubeVirt Dashboard</div>
+</div>
+</li>
+<li>
+<p>このダッシュボードには、クラスターで実行されているすべての仮想マシンのトップコンシューマーが表示されます。
+<strong>Top Consumers of CPU by virt-launcher Pods</strong> パネルを見て、右上隅の <strong>Inspect</strong> リンクをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/54-cpu_inspect.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/54-cpu_inspect.png" alt="54 cpu inspect" width="100%"></a>
+</div>
+<div class="title">Figure 56. CPU Inspect</div>
+</div>
+</li>
+<li>
+<p>表示されている各 VM の横にあるチェックボックスをオンにすることで、グラフで表示したい VM を選択できます。</p>
+</li>
+<li>
+<p>今すぐ試して、いくつかの線をオフにしてみてください。
+無効にすると、関連する色付きの線がグラフから消えます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/55-metrics_select.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/55-metrics_select.png" alt="55 metrics select" width="100%"></a>
+</div>
+<div class="title">Figure 57. Select Metrics</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>これで、ノードとワークロードに関するアラート、パフォーマンスメトリック、およびグラフを見つけて表示する方法を決定するこのセクションを完了しました。将来的には、これらのスキルを活用して、独自の OpenShift Virtualization 環境をトラブルシューティングできます。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="vm_mgmt_power"><a class="anchor" href="#vm_mgmt_power"></a>仮想マシンの自動化された管理</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_ゲスト_vm_の停止起動再起動"><a class="anchor" href="#_ゲスト_vm_の停止起動再起動"></a>ゲスト VM の停止、起動、再起動</h3>
+<div class="paragraph">
+<p>OpenShift コンソールでの作業に時間を費やしたので、管理作業を容易にするためにどのような種類のアクティビティを自動化できるかを見てみましょう。
+このセクションでは、Ansible Automation Platform (AAP) を使用して、Red Hat OpenShift Virtualization で実行されているゲスト VM のライフサイクルを管理する方法を学びます。
+プレイブックや VM タスクファイルの作成などの多くの準備作業はすでに完了していますが、このラボのセクションでは、各部分がどのように連携するか、および AAP 経由で自動化を実行する方法を理解することに焦点を当てます。
+まず、特定の名前空間内のすべての VM の停止、起動、再起動など、一般的な VM ライフサイクルアクションを実行します。
+これらのタスクは、これらのアクションの背後にある自動化がどのように構造化されているかを示すように設計されています。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_既存のセットアップ"><a class="anchor" href="#_既存のセットアップ"></a>既存のセットアップ</h3>
+<div class="paragraph">
+<p>エクスペリエンスを支援するために、以下のコンテンツがすでに作成および設定されています:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>tasks/main.yml</strong> ファイルには、動的なタスクインクルージョンロジックが事前に入力されています。</p>
+</li>
+<li>
+<p>入力変数に基づいて適切なタスクを呼び出す Ansible プレイブック (<strong>manage_vm_playbook.yml</strong>) がすでに配置されています。</p>
+</li>
+<li>
+<p>VM を停止、起動、再起動するための個々のタスクファイル (<strong>stop_vm.yml</strong>、<strong>start_vm.yml</strong>、および <strong>restart_vm.yml</strong>) が事前に作成されています。
+これらのファイルを作成または変更する必要はありませんが、Ansible Automation Platform でジョブテンプレートを作成するときに参照するため、それらがどのように機能するかを理解することが重要です。</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_タスクファイルの理解"><a class="anchor" href="#_タスクファイルの理解"></a>タスクファイルの理解</h3>
+<div class="paragraph">
+<p>各タスクファイルは、特定の名前空間 (今回のケースでは <strong>vms-aap-day2</strong>) 内のすべての仮想マシンを取得し、現在のステータスに基づいてアクション (停止、起動、再起動) を実行することで機能します。
+<strong>ansible.builtin.debug</strong> タスクは、動的な Ansible タスクを作成するために必要な主要なフィールドを特定するために、VM リソース <strong>vm_info</strong> の構造を理解するための洞察を提供します。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_stop_vm_yml"><a class="anchor" href="#_stop_vm_yml"></a>stop_vm.yml</h3>
+<div class="paragraph">
+<p>このタスクファイルは、特定の名前空間内で現在実行中の VM を停止します。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
+- name: Get all VirtualMachines in the namespace
+  redhat.openshift_virtualization.kubevirt_vm_info:
+    namespace: "{{ vm_namespace }}"
+  register: vm_info
+
+- name: Debug the vm_info variable
+  ansible.builtin.debug:
+    var: vm_info
+
+- name: Stop VM using OpenShift API
+  ansible.builtin.uri:
+    url: "{{ OCP_HOST }}/apis/subresources.kubevirt.io/v1/namespaces/{{ vm_namespace }}/virtualmachines/{{ item.metadata.name }}/stop"
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ OCP_BEARER_TOKEN }}"
+    validate_certs: false
+    status_code:
+      - 202
+  loop: "{{ vm_info.resources }}"
+  loop_control:
+    label: "{{ item.metadata.name }}"
+
+  changed_when: item.status.printableStatus != "Stopped"</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_start_vm_yml"><a class="anchor" href="#_start_vm_yml"></a>start_vm.yml</h3>
+<div class="paragraph">
+<p>このタスクファイルは、特定の名前空間内で現在停止している VM を起動します。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
+- name: Get all VirtualMachines in the namespace
+  redhat.openshift_virtualization.kubevirt_vm_info:
+    namespace: "{{ vm_namespace }}"
+  register: vm_info
+
+- name: Debug the vm_info variable
+  ansible.builtin.debug:
+    var: vm_info
+
+- name: Start VM using OpenShift API
+  ansible.builtin.uri:
+    url: "{{ OCP_HOST }}/apis/subresources.kubevirt.io/v1/namespaces/{{ vm_namespace }}/virtualmachines/{{ item.metadata.name }}/start"
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ OCP_BEARER_TOKEN }}"
+    validate_certs: false
+    status_code:
+      - 202
+  loop: "{{ vm_info.resources }}"
+  loop_control:
+    label: "{{ item.metadata.name }}"
+
+  changed_when: item.status.printableStatus != "Running"</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_restart_vm_yml"><a class="anchor" href="#_restart_vm_yml"></a>restart_vm.yml</h3>
+<div class="paragraph">
+<p>このタスクファイルは、特定の名前空間内で現在実行中の VM を再起動します。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
+- name: Get all VirtualMachines in the namespace
+  redhat.openshift_virtualization.kubevirt_vm_info:
+    namespace: "{{ vm_namespace }}"
+  register: vm_info
+
+- name: Debug the vm_info variable
+  ansible.builtin.debug:
+    var: vm_info
+
+- name: Restart VM using OpenShift API
+  ansible.builtin.uri:
+    url: "{{ OCP_HOST }}/apis/subresources.kubevirt.io/v1/namespaces/{{ vm_namespace }}/virtualmachines/{{ item.metadata.name }}/restart"
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ OCP_BEARER_TOKEN }}"
+    validate_certs: false
+    status_code:
+      - 202
+  loop: "{{ vm_info.resources }}"
+  loop_control:
+    label: "{{ item.metadata.name }}"
+
+  changed_when: item.status.printableStatus != "Running"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>これらのタスクファイルは、<strong>ansible.builtin.uri</strong> モジュールを使用して OpenShift REST API と直接対話し、仮想マシンの停止、起動、または再起動の適切なライフサイクルアクションを呼び出します。
+さらに、デバッグタスクは、<strong>kubevirt_vm_info</strong> モジュールによって返される VM データの構造を視覚化するのに役立ち、次のように内訳されます:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>kubevirt_vm_info</strong> モジュールは、名前空間内のすべての VM を取得します。</p>
+</li>
+<li>
+<p><strong>metadata.name</strong>: VirtualMachine の名前。</p>
+</li>
+<li>
+<p><strong>metadata.namespace</strong>: VM が属する名前空間。</p>
+</li>
+<li>
+<p><strong>loop_control</strong> オプションは、各タスクの反復にラベルを設定し、出力に VM 名 (<strong>item.metadata.name</strong>) を表示します。
+これにより、プレイブックの出力が読みやすく、デバッグしやすくなります。</p>
+</li>
+<li>
+<p><strong>status.printableStatus</strong>: VM の現在のステータス (例: Stop、Start、Restart)。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>ansible.builtin.debug</strong> モジュールのスニペット例を以下に示します。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">changed: true
+result:
+  apiVersion: kubevirt.io/v1
+  kind: VirtualMachine
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: &gt;
+        ...
+    ...
+    name: rhel9-vm1
+    namespace: vms-aap-day2
+  spec:
+    ...
+  status:
+    ...
+    printableStatus: Stopped
+  ...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ansible_automation_platform_を使用した_vm_ジョブテンプレートの作成と実行"><a class="anchor" href="#_ansible_automation_platform_を使用した_vm_ジョブテンプレートの作成と実行"></a>Ansible Automation Platform を使用した VM ジョブテンプレートの作成と実行</h3>
+<div class="paragraph">
+<p>作成する各 VM ライフサイクルテンプレートは、<strong>manage_vm_playbook.yml</strong> を利用します。
+このセクションでは、Ansible Automation Platform (AAP) ダッシュボードを使用してVM の起動、VM の停止、VM の再起動のシナリオごとに VM ジョブテンプレートを作成します:。
+OpenShift コンソールに戻って確認することで、自動化ジョブの効果を確認できます。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>OpenShift コンソールで、左側のナビゲーションメニューを使用して <strong>Virtualization</strong>、次に <strong>VirtualMachines</strong> をクリックします。
+中央の列で <strong>vms-aap-day2</strong> プロジェクトをクリックし、3 つすべての VM が現在実行中であることを確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/55a-running_vms.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/55a-running_vms.png" alt="55a running vms" width="100%"></a>
+</div>
+<div class="title">Figure 58. Running AAP VMs</div>
+</div>
+</li>
+<li>
+<p>Ansible Automation Platform を開いているタブに戻ります。
+以前のログインがタイムアウトした場合、または誤ってウィンドウを閉じた場合は、再度ログインするための情報がここにあります:</p>
+<div class="paragraph">
+<p>Ansible Automation Platform コンソールはこちら {aap_controller_web_url}[here^] から利用できます。
+管理者ログインには、以下の認証情報が利用できます:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>ユーザー:</strong> <code>{aap_controller_admin_user}</code></p>
+</li>
+<li>
+<p><strong>パスワード</strong> <code>{aap_controller_admin_password}</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>AAP UI ダッシュボード内で、左側のメニューを使用して <strong>Automation Execution</strong> に移動し、次に <strong>Templates</strong> をクリックします。
+テンプレート画面で、<strong>Create template</strong> ボタンをクリックし、ドロップダウンメニューから <strong>Create job template</strong> を選択します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/56-create_job_template.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/56-create_job_template.png" alt="56 create job template" width="100%"></a>
+</div>
+<div class="title">Figure 59. Create Job Template</div>
+</div>
+</li>
+<li>
+<p><strong>Create job template</strong> ページで、以下の詳細を入力します:</p>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Stop VMs</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Job Type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Run</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inventory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenShift Virtual Machines</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Project</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Workshop Project</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Playbook</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">solutions/manage_vm_playbook.yml</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Execution Environment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Day2 EE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Credentials</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenShift Credential</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Extra variables</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>vm_namespace: vms-aap-day2</code><br>
+                               <code>task_file: stop_vm.yml</code></p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>入力が完了したら、<strong>Create job template</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/57-stop_vms_template.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/57-stop_vms_template.png" alt="57 stop vms template" width="100%"></a>
+</div>
+<div class="title">Figure 60. Stop VMs Template</div>
+</div>
+</li>
+<li>
+<p><strong>Stop VMs</strong> ジョブテンプレートが作成されたら、右上隅の <strong>Launch template</strong> ボタンを選択してジョブを実行します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/58-launch_stop_vms.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/58-launch_stop_vms.png" alt="58 launch stop vms" width="100%"></a>
+</div>
+<div class="title">Figure 61. Launch Stop VMs Template</div>
+</div>
+</li>
+<li>
+<p>ジョブが実行を開始し、成功すると変更が黄色で表示されます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/59-successful_job.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/59-successful_job.png" alt="59 successful job" width="100%"></a>
+</div>
+<div class="title">Figure 62. Successful Job</div>
+</div>
+</li>
+<li>
+<p>OpenShift コンソールに戻って、<strong>vms-aap-day2</strong> プロジェクト内の仮想マシンがすべて停止していることを確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/60-stopped_vms.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/60-stopped_vms.png" alt="60 stopped vms" width="100%"></a>
+</div>
+<div class="title">Figure 63. Stopped VMs</div>
+</div>
+</li>
+<li>
+<p>AAP ダッシュボードに戻り、このプロセスを繰り返して <strong>Start VMs</strong> および <strong>Restart VMs</strong> Ansible ジョブテンプレートを作成します。
+それぞれの詳細は以下に示します。</p>
+</li>
+<li>
+<p>以下の詳細を使用して <strong>Start VMs</strong> ジョブテンプレートを作成します:</p>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Start VMs</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Job Type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Run</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inventory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenShift Virtual Machines</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Project</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Workshop Project</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Playbook</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">solutions/manage_vm_playbook.yml</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Execution Environment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Day2 EE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Credentials</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenShift Credential</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Extra variables</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>vm_namespace: vms-aap-day2</code><br>
+                               <code>task_file: start_vm.yml</code></p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>以下の詳細を使用して <strong>Restart VMs</strong> ジョブテンプレートを作成します:</p>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Name</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Restart VMs</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Job Type</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Run</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Inventory</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenShift Virtual Machines</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Project</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Workshop Project</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Playbook</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">solutions/manage_vm_playbook.yml</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Execution Environment</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Day2 EE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Credentials</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenShift Credential</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Extra variables</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>vm_namespace: vms-aap-day2</code><br>
+                               <code>task_file: restart_vm.yml</code></p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>これらのジョブテンプレートを作成したら、右上隅の <strong>Launch template</strong> ボタンを選択してジョブを実行し、OpenShift コンソール内でこれらの VM の変更を確認します。
+<strong>Start VMs</strong> テンプレートを実行することで各VMは起動し、次に <strong>Restrat VMs</strong> テンプレートの実行することで各マシンは再起動するはずです。</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_vm_のパッチ適用"><a class="anchor" href="#_vm_のパッチ適用"></a>VM のパッチ適用</h3>
+<div class="paragraph">
+<p>この演習では、Ansible Automation Platform を使用して、セキュリティ関連の更新のみを適用することで、RHEL 仮想マシンのパッチ適用を自動化します。
+ターゲットとする仮想マシンは、前の手順でセットアップした動的インベントリー ( <strong>OpenShift Virtual Machines</strong> インベントリー) の一部です。
+プレイブックやタスクを一から記述する代わりに、提供されている自動化コンテンツを使用します。これには以下が含まれます:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>dnf モジュールを使用してセキュリティ更新を実行するタスクファイル。</p>
+</li>
+<li>
+<p>システム登録とパッチ適用を担当するロールを実行するプレイブック。
+目標は、このコンテンツが何をするかを理解し、Ansible Automation Platform の Web UI を使用して自動化を実行するためのジョブテンプレートを作成することです。</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+このラボでは、Vault 認証情報を使用して機密性の高い認証データを安全に処理し、サブスクリプション管理ロールを使用して RHEL システムを Red Hat に登録します。
+これにより、VM が更新に必要な正しいリポジトリーにアクセスできるようになり、安全な自動化プラクティスが実証されます。
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_提供されているタスクファイル_update_security_packages_yml_の理解"><a class="anchor" href="#_提供されているタスクファイル_update_security_packages_yml_の理解"></a>提供されているタスクファイル: update_security_packages.yml の理解</h4>
+<div class="paragraph">
+<p>このタスクファイルは、redhatone.vm_management.vm_management ロールの tasks/ ディレクトリ内にあります。
+これは、ansible.builtin.dnf モジュールを使用して、インベントリー内のすべてのホストで最新のセキュリティ関連の更新をスキャンしてインストールします。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: Update security-related packages on all hosts
+  ansible.builtin.dnf:
+    name: "*" <i class="conum" data-value="1"></i><b>(1)</b>
+    security: true <i class="conum" data-value="2"></i><b>(2)</b>
+    state: latest <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>name: "*" — すべての利用可能なパッケージをターゲットにします。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>security: true — セキュリティ関連の更新のみにフィルターをかけます。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>state: latest — 最新の利用可能なセキュリティ更新がインストールされていることを保証します。
+このタスクはモジュール化されるように設計されています。
+これはロールに含まれており、まもなく使用される <strong>task_file</strong> のような変数を使用して、任意のプレイブックからトリガーできます。</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_提供されているプレイブック_patch_vm_playbook_yml_の理解"><a class="anchor" href="#_提供されているプレイブック_patch_vm_playbook_yml_の理解"></a>提供されているプレイブック: patch_vm_playbook.yml の理解</h3>
+<div class="paragraph">
+<p>このプレイブックは、システム登録とパッチ適用の両方を処理するロジックを実行する責任があります。
+これはすでにプロジェクトディレクトリに存在しています。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: Patch Virtual Machines
+  hosts: all
+  roles:
+    - redhatone.vm_management.rhsm_subscription <i class="conum" data-value="1"></i><b>(1)</b>
+    - redhatone.vm_management.vm_management <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>redhatone.vm_management.rhsm_subscription: Vault 経由で提供される認証情報を使用して、RHEL VM を Red Hat に登録します。
+このステップにより、システムが更新を受信するために必要なリポジトリーにアクセスできるようになります。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>redhatone.vm_management.vm_management: <strong>task_file</strong> 変数を介して参照されるセキュリティ更新タスク (update_security_packages.yml) を含むロールを呼び出します。
+このプレイブックは、すべてのターゲットホストが登録とパッチ適用の両方を正しい順序で実行することを保証します。</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_ansible_automation_platform_での_patch_vms_ジョブテンプレートの作成"><a class="anchor" href="#_ansible_automation_platform_での_patch_vms_ジョブテンプレートの作成"></a>Ansible Automation Platform での Patch VMs ジョブテンプレートの作成</h4>
+<div class="paragraph">
+<p>次に、AAP Web インターフェイスを介してすべての部分を接続し、ジョブテンプレートを使用して自動化を実行します。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>左側のナビゲーションバーを使用して、<strong>Automation Execution</strong>、次に <strong>Templates</strong> をクリックします。</p>
+</li>
+<li>
+<p><strong>Create template</strong> ボタンをクリックし、ドロップダウンメニューから <strong>Create job template</strong> を選択します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/61-create_job_template.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/61-create_job_template.png" alt="61 create job template" width="100%"></a>
+</div>
+<div class="title">Figure 64. Stop VMs Template</div>
+</div>
+</li>
+<li>
+<p><strong>Create job template</strong> ページで、以下のフィールドに入力します:</p>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Patch VMs</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Job Type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Run</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inventory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenShift Virtual Machines</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Project</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Workshop Project</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Playbook</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">solutions/patch_playbook.yml</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Execution Environment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Day2 EE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Credentials</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Workshop Credential, Vault Credential</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Extra Variables</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>task_file: update_security_packages.yml</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Privilege Escalation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enabled</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+2 つの認証情報が添付されており、特権昇格が有効になっていることに注意してください。
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>フォームに記入したら、<strong>Create job template</strong> ボタンをクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/62-create_patch_template.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/62-create_patch_template.png" alt="62 create patch template" width="100%"></a>
+</div>
+<div class="title">Figure 65. Create Patch Template</div>
+</div>
+</li>
+<li>
+<p>作成後、右上隅の <strong>Launch Template</strong> ボタンをクリックしてジョブを開始します。</p>
+</li>
+<li>
+<p><strong>Patch VMs</strong> ジョブが正常に完了すると、次のような出力が表示されるはずです:</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/63-patch_vm.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/63-patch_vm.png" alt="63 patch vm" width="100%"></a>
+</div>
+<div class="title">Figure 66. Patch VM</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ジョブ出力の確認"><a class="anchor" href="#_ジョブ出力の確認"></a>ジョブ出力の確認</h4>
+<div class="paragraph">
+<p>ジョブの実行後、以下を確認できます:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>どの操作が実行されたかを示すタスクごとの内訳。</p>
+</li>
+<li>
+<p><strong>Update security-related packages on all hosts</strong> というタイトルのタスクの出力。</p>
+</li>
+<li>
+<p>どのセキュリティ更新が適用されたかを示すホストごとの詳細。</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Update security-related packages on all hosts</strong> の <strong>TASK</strong> の下で、<strong>vms-aap-day2-rhel9-vm1</strong> をクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/64-patch_complete.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/64-patch_complete.png" alt="64 patch complete" width="100%"></a>
+</div>
+<div class="title">Figure 67. Patching Complete</div>
+</div>
+</li>
+<li>
+<p>タスクに関する追加の <strong>Details</strong> が表示され、<strong>Data</strong> タブをクリックすることで、システムが実際に自動化ジョブによってパッチ適用されたことを検証できます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/65-patch_details.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/65-patch_details.png" alt="65 patch details" width="100%"></a>
+</div>
+<div class="title">Figure 68. Patch Details</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="vm_mgmt_hp"><a class="anchor" href="#vm_mgmt_hp"></a>CPU およびメモリーリソースのホットプラグ</h3>
+<div class="paragraph">
+<p>仮想ワークロードを持つことの大きな利点の 1 つは、ワークロードの需要を満たすために、実行中のワークロードが使用するリソースをその場で調整できることです。
+物理的に RAM を追加したり、プロセッサーをアップグレードしたりするためにサーバーをシャットダウンしなければならなかった時代と比較して、追加のリソースをホットプラグすることで VM リソースを動的にスケーリングできる機能は、時間を大幅に節約できます。
+また、ゲストから収集されたメトリックに基づいて、Ansible Automation Platform を使用してこれらのリクエストのスケールアップとスケールダウンを自動化できるため、リソース消費と物理的な管理時間の両方で効率が保証されます。</p>
+</div>
+<div class="paragraph">
+<p>このセクションでは、Ansible Automation Platform と redhat.openshift_virtualization コレクションを使用して、実行中の仮想マシン (VM) に CPU およびメモリーリソースをホットプラグする方法を学びます。
+ホットプラグとは、再起動を必要とせずに、実行中の VM に CPU やメモリーなどのハードウェアリソースを追加または削除できる機能です。
+この機能は、動的なワークロードにとって非常に重要であり、ダウンタイムを最小限に抑えながら、需要に基づいてリソースをスケーリングできます。
+この演習では、VM のリソースと特性を定義する OpenShift Virtualization の再利用可能なオブジェクトである <strong>インスタンスタイプ</strong> の使用に主に焦点を当てます。
+インスタンスタイプは、VM 間で一貫した構成を可能にすることで、リソース管理を簡素化します。</p>
+</div>
+<div class="sect3">
+<h4 id="_インスタンスタイプとは何ですか"><a class="anchor" href="#_インスタンスタイプとは何ですか"></a>インスタンスタイプとは何ですか?</h4>
+<div class="paragraph">
+<p>インスタンスタイプは、新しい VM のリソース (CPU やメモリーなど) と特性を定義する再利用可能な構成オブジェクトです。
+OpenShift Virtualization は、次の 2 種類のインスタンスタイプを提供します:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>VirtualMachineInstancetype</strong>: 特定の名前空間に限定されたインスタンスタイプの名前空間スコープオブジェクト。</p>
+</li>
+<li>
+<p><strong>VirtualMachineClusterInstancetype</strong>: すべての名前空間で利用可能なインスタンスタイプのクラスターワイドオブジェクト。
+どちらのタイプも同じ VirtualMachineInstancetypeSpec を共有しており、これによりカスタム構成を定義したり、OpenShift Virtualization がインストールされたときにデフォルトで含まれるさまざまなインスタンスタイプを使用したりできます。
+インスタンスタイプを使用することで、VM 構成管理を簡素化し、すべてのデプロイメント全体で一貫性を確保できるため、リソースのホットプラグに <strong>推奨されるアプローチ</strong> となります。
+このラボでは、主にインスタンスタイプの方法に焦点を当てますが、コンテキストのために VM 仕様を直接変更する従来のアプローチについても学びます。</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+従来の方法は、インスタンスタイプを使用しない VM を作成する場合にのみ機能します。
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_vm_がインスタンスタイプを使用しているかどうかを識別する方法"><a class="anchor" href="#_vm_がインスタンスタイプを使用しているかどうかを識別する方法"></a>VM がインスタンスタイプを使用しているかどうかを識別する方法</h4>
+<div class="paragraph">
+<p>VM がインスタンスタイプで作成されているかどうかを判断するには、次の手順に従います:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>OpenShift Virtualization コンソールで <strong>rhel9-vm1</strong> の <strong>Overview</strong> タブに移動します。</p>
+</li>
+<li>
+<p><strong>Details</strong> セクションで、以下を探します:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Instance Type</strong>: VM がインスタンスタイプを使用している場合、このフィールドには VM に適用されたインスタンスタイプの名前が表示されます (例: u1.small)。</p>
+</li>
+<li>
+<p><strong>Template</strong>: インスタンスタイプが使用されていない場合、このフィールドには None または VM の作成に使用されたテンプレートの名前が表示されます。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/66-vm_details.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/66-vm_details.png" alt="66 vm details" width="100%"></a>
+</div>
+<div class="title">Figure 69. VM Details</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>インスタンスタイプの方法は、VM にリソースをホットプラグするための推奨されるアプローチです。
+これは、OpenShift Virtualization の強力な機能を活用しながら、複数の VM 間で一貫した再利用可能なリソース構成を保証します。</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_事前に作成された_hot_plug_yml_ファイルを使用したリソースの更新"><a class="anchor" href="#_事前に作成された_hot_plug_yml_ファイルを使用したリソースの更新"></a>事前に作成された hot_plug.yml ファイルを使用したリソースの更新</h4>
+<div class="paragraph">
+<p>hot_plug.yml ファイルは、新しいインスタンスタイプを適用することで実行中の VM を更新するタスクで構成されています。
+このアプローチにより、VM を再作成したり電源を切ったりすることなく、CPU およびメモリーリソースを動的に追加できます。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: Swap Instance Type to add more Resources
+  redhat.openshift_virtualization.kubevirt_vm: <i class="conum" data-value="1"></i><b>(1)</b>
+    name: "rhel9-vm1" <i class="conum" data-value="2"></i><b>(2)</b>
+    namespace: "{{ vm_namespace }}" <i class="conum" data-value="3"></i><b>(3)</b>
+    state: present <i class="conum" data-value="4"></i><b>(4)</b>
+    run_strategy: RestartOnError <i class="conum" data-value="5"></i><b>(5)</b>
+    instancetype: <i class="conum" data-value="6"></i><b>(6)</b>
+      name: "{{ instance_type }}" <i class="conum" data-value="7"></i><b>(7)</b>
+      revisionName: "" <i class="conum" data-value="8"></i><b>(8)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><strong>redhat.openshift_virtualization.kubevirt_vm</strong>: OpenShift Virtualization で VM を管理するために使用されるモジュールを指定します。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><strong>name</strong>: 新しいリソースが適用される VM の名前。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><strong>namespace</strong>: VM が存在する名前空間。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><strong>state</strong>: VM が存在し、利用可能であることを保証します。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td><strong>run_strategy</strong>: エラーが発生した場合に VM を再起動しますが、手動で停止されたマシンは起動しません。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td><strong>instancetype</strong>: VM のインスタンスタイプを定義し、事前設定されたリソース設定またはカスタムリソース設定の使用を可能にします。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td><strong>instancetype.name</strong>: 適用されるインスタンスタイプの名前。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td><strong>instancetype.revisionName</strong>: オプションでインスタンスタイプの正確なリビジョンを指定し、VM との互換性を保証します。
+通常は自動生成されるため、空のままにします。</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+このタスクメソッドが機能するには、VM がインスタンスタイプを使用して作成されている必要があります。
+そうでない場合は、従来の方法を使用する必要があります。
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_従来の方法_spec_を直接変更する_情報提供のみ"><a class="anchor" href="#_従来の方法_spec_を直接変更する_情報提供のみ"></a>従来の方法: Spec を直接変更する (情報提供のみ)</h4>
+<div class="paragraph">
+<p>従来の方法では、VM の spec ファイルを直接変更して、CPU およびメモリーリソースを更新します。
+このアプローチは柔軟性がありますが、インスタンスタイプが提供する再利用性と一貫性が欠けているため、複数の VM 間でリソースを管理するには理想的ではありません。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: Modify CPU &amp; Memory Resources
+  redhat.openshift_virtualization.kubevirt_vm: <i class="conum" data-value="1"></i><b>(1)</b>
+    name: "rhel9-vm2" <i class="conum" data-value="2"></i><b>(2)</b>
+    namespace: "{{ vm_namespace }}" <i class="conum" data-value="3"></i><b>(3)</b>
+    state: present <i class="conum" data-value="4"></i><b>(4)</b>
+    spec: <i class="conum" data-value="5"></i><b>(5)</b>
+      domain: <i class="conum" data-value="6"></i><b>(6)</b>
+        cpu: <i class="conum" data-value="7"></i><b>(7)</b>
+          sockets: 2
+        memory: <i class="conum" data-value="8"></i><b>(8)</b>
+          guest: 4Gi</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><strong>redhat.openshift_virtualization.kubevirt_vm</strong>: OpenShift Virtualization で VM を管理するために使用されるモジュールを指定します。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><strong>name</strong>: 変更される VM の名前。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><strong>namespace</strong>: VM が存在する名前空間。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><strong>state</strong>: VM が目的のステータス、この場合は present であることを保証します。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td><strong>spec</strong>: VM の仕様を直接変更します。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td><strong>spec.domain</strong>: VM の仮想化環境に関連する設定が含まれます。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td><strong>spec.domain.cpu</strong>: VM の CPU ソケットの数を指定します (例: 2)。</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td><strong>spec.domain.memory</strong>: VM に割り当てられたメモリーを定義します (例: 4Gi)。
+NOTE: 従来型の VM はこのラボ演習の一部ではないため、従来の方法は情報提供のみを目的としています。
+==== ホットプラグジョブテンプレートの作成と実行
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>AAP UI ダッシュボード内で、左側のメニューを使用して <strong>Automation Execution</strong>、次に <strong>Templates</strong> をクリックします。</p>
+</li>
+<li>
+<p><strong>Create Template</strong> をクリックし、表示されたドロップダウンメニューから <strong>Create job template</strong> を選択します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/67-create_template.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/67-create_template.png" alt="67 create template" width="100%"></a>
+</div>
+<div class="title">Figure 70. Create Job Template</div>
+</div>
+</li>
+<li>
+<p>以下の詳細を入力してジョブテンプレートを作成します:</p>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 40%;">
+<col style="width: 60%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Name</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Hot Plug VMs</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Job Type</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Run</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Inventory</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenShift Virtual Machines</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Project</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Workshop Project</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Playbook</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">solutions/manage_vm_playbook.yml</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Execution Environment</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Day 2 EE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Credentials</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenShift Credential</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Extra variables</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>vm_namespace: vms-aap-day2</code><br>
+                      <code>task_file: hot_plug.yml</code><br>
+                      <code>instance_type: u1.2xmedium</code></p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>詳細を入力したら、<strong>Create Job Template</strong> をクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/68-create_hotadd_template.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/68-create_hotadd_template.png" alt="68 create hotadd template" width="100%"></a>
+</div>
+<div class="title">Figure 71. Create HotAdd Template</div>
+</div>
+</li>
+<li>
+<p>右上隅の <strong>Launch Template</strong> ボタンを選択してジョブを起動します。
+ジョブが完了すると、仮想マシンのインスタンスタイプを変更できたことを示す出力が表示されるはずです。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/69-hotadd_template_success.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/69-hotadd_template_success.png" alt="69 hotadd template success" width="100%"></a>
+</div>
+<div class="title">Figure 72. HotAdd Template Success</div>
+</div>
+</li>
+<li>
+<p>ジョブが完了したら、OpenShift コンソールに戻り、rhel9-vm1 仮想マシンの詳細をもう一度表示します。
+<strong>InstanceType</strong> フィールドが変更され、<strong>u1.2xmedium</strong> に設定されていることが確認できるはずです。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/70-vm_modified_instancetype.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/70-vm_modified_instancetype.png" alt="70 vm modified instancetype" width="100%"></a>
+</div>
+<div class="title">Figure 73. VM InstanceType Modified </div>
+</div>
+</li>
+</ol>
+</div></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="vm_mgmt_backup"><a class="anchor" href="#vm_mgmt_backup"></a>仮想マシンのバックアップとリストア</h3>
+<div class="paragraph">
+<p>仮想マシン管理の最も重要な側面の 1 つは、信頼性の高いバックアップおよびリストア機能を通じてビジネス継続性を確保することです。
+実行中の VM の特定の時点のスナップショットをキャプチャし、災害、システム障害、または意図しない変更が発生した場合にそれらを迅速にリストアできる機能は、従来のバックアップ方法と比較して、組織の時間とリソースを大幅に節約できます。
+この演習では、Ansible Automation Platform を使用した VM スナップショットによる仮想マシンのバックアップとリストアを自動化します。
+この機能により、運用効率を維持しながら、仮想化されたワークロードを大規模に保護できます。
+OpenShift Virtualization の仮想マシンスナップショットは、アタッチされたすべての Container Storage Interface (CSI) ボリュームと VM 構成メタデータを含む、特定の時点での VM の完全な状態とデータをキャプチャします。
+実行中の VM の場合、QEMU ゲストエージェントは、ファイルシステムをフリーズし、スナップショットを取得し、次にファイルシステムを解凍することにより、スナップショット作成中の I/O 操作を調整し、データの一貫性を確保します。
+スナップショットは、次の 3 つの OpenShift API を通じて管理されます:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>VirtualMachineSnapshot</strong>: スナップショットを作成するためのユーザーリクエストを表し、VM の現在の状態に関する情報が含まれます</p>
+</li>
+<li>
+<p><strong>VirtualMachineSnapshotContent</strong>: VM スナップショットコントローラーによって作成された、クラスター上のプロビジョニングされたリソース (実際のスナップショット) を表します</p>
+</li>
+<li>
+<p><strong>VirtualMachineRestore</strong>: スナップショットから VM をリストアするためのユーザーリクエストを表します</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_既存のセットアップ_2"><a class="anchor" href="#_既存のセットアップ_2"></a>既存のセットアップ</h3>
+<div class="paragraph">
+<p>エクスペリエンスを支援するために、以下のコンテンツがすでに作成および設定されています:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>スナップショット自動化タスク (<strong>snapshot_vms.yml</strong> および <strong>_snapshot_vm.yml</strong>) は、ループベースのアプローチを使用して VM スナップショットを処理するように事前に記述されています。</p>
+</li>
+<li>
+<p>リストア自動化タスク (<strong>restore_vm_snapshots.yml</strong> および <strong>_restore_vm_snapshot.yml</strong>) は、VM の停止、リストア、再起動を含む完全なリストアワークフローを管理するために事前に作成されています。</p>
+</li>
+<li>
+<p><strong>manage_vm_playbook.yml</strong> プレイブックは、VM のスナップショットを取得するかリストアするかに基づく入力変数に基づいて、これらのタスクを実行するようにすでに設定されています。
+これらのファイルを作成または変更する必要はありませんが、Ansible Automation Platform でジョブテンプレートを作成するときに参照するため、それらがどのように機能するかを理解することが重要です。</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_提供されているスナップショットタスクファイルの理解"><a class="anchor" href="#_提供されているスナップショットタスクファイルの理解"></a>提供されているスナップショットタスクファイルの理解</h3>
+<div class="paragraph">
+<p>スナップショット自動化では、1 つのタスクファイルがループを使用して複数のスナップショットを処理し、インクルードタスクファイルが個々の VM スナップショットを取得するという 2 層のアプローチを使用します。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_snapshot_vms_yml"><a class="anchor" href="#_snapshot_vms_yml"></a>snapshot_vms.yml</h3>
+<div class="paragraph">
+<p>このメインのタスクファイルは、コンマ区切りの VM 名文字列を処理し、Ansible のループ機能を使用して VM ごとに個別のスナップショットタスクを作成します。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
+- name: Snapshot individual VM
+  ansible.builtin.include_tasks:
+    file: _snapshot_vm.yml
+  loop_control:
+    loop_var: vm_to_snapshot
+  loop: "{{ vms_to_snapshot.replace(' ','').split(',') }}"
+  when: vms_to_snapshot |
+default('', True) | length &gt; 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>タスクの説明:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>when</strong>: <code>vms_to_snapshot</code> 変数がコンテンツを含んでいることを、フィルターを使用して変数状態をチェックして検証してから続行します</p>
+</li>
+<li>
+<p><strong>loop</strong>: コンマ区切りの VM 名を処理し、スペースを削除し、Jinja2 関数を使用してリストを作成します</p>
+</li>
+<li>
+<p><strong>loop_control/loop_var</strong>: ループの各反復の変数名 (<code>vm_to_snapshot</code>) を設定します</p>
+</li>
+<li>
+<p><strong>ansible.builtin.include_tasks</strong>: スナップショットプロセスを完了するために必要なステップ (タスク) をキャプチャする、インクルードされたタスクファイル <code>_snapshot_vm.yml</code> を VM ごとに呼び出します。</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_snapshot_vm_yml"><a class="anchor" href="#_snapshot_vm_yml"></a>_snapshot_vm.yml</h3>
+<div class="paragraph">
+<p>アンダースコア "_" で始まるタスクファイルは、別のタスクファイル内にインクルードされていることを示します。
+このファイルは、OpenShift API を使用して単一の VM の実際のスナップショット作成を処理し、コアのスナップショットロジックを含んでいます。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
+- name: Verify VM to Snapshot Provided
+  ansible.builtin.assert:
+    that:
+      - vm_to_snapshot |
+default('', True) | length &gt; 0
+    quiet: True
+    fail_msg: VM to Snapshot not specified
+
+- name: Get VirtualMachine to snapshot
+  redhat.openshift_virtualization.kubevirt_vm_info:
+    namespace: "{{ vm_namespace }}"
+    name: "{{ vm_to_snapshot }}"
+  register: vm_info
+
+- name: Create Snapshot
+  redhat.openshift.k8s:
+    state: present
+    definition:
+      apiVersion: snapshot.kubevirt.io/v1alpha1
+      kind: VirtualMachineSnapshot
+      metadata:
+        generateName: "{{ vm_info.resources[0].metadata.name }}-"
+        namespace: "{{ vm_info.resources[0].metadata.namespace }}"
+
+        ownerReferences:
+          - apiVersion: kubevirt.io/v1
+            blockOwnerDeletion: false
+            kind: VirtualMachine
+            name: "{{ vm_info.resources[0].metadata.name }}"
+            uid: "{{ vm_info.resources[0].metadata.uid }}"
+      spec:
+        source:
+          apiGroup:
+kubevirt.io
+          kind: VirtualMachine
+          name: "{{ vm_info.resources[0].metadata.name }}"
+    wait: true
+    wait_condition:
+      type: Ready
+  when: "'resources' in vm_info and vm_info.resources |
+length == 1"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>タスクの説明:</strong></p>
+</div>
+<div class="paragraph">
+<p>このインクルードされたタスクファイルには 3 つのタスクがあります:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>ansible.builtin.assert</code> を使用して、<code>vm_to_snapshot</code> という変数が提供されていることを検証します。</p>
+</li>
+<li>
+<p><code>kubevirt_vm_info</code> を使用して <code>VirtualMachine</code> リソースの定義を取得し、<code>vm_info</code> に格納します。</p>
+</li>
+<li>
+<p><code>redhat.openshift.k8s</code> モジュールを使用して新しい <code>VirtualMachineSnapshot</code> リソースを作成します。</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>スナップショット作成の主な詳細:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>generateName</strong>: <code>name</code> が提供されていない場合に一意の名前を生成する OpenShift の機能。</p>
+</li>
+<li>
+<p><strong>ownerReferences</strong>: <code>VirtualMachineSnapshot</code> と <code>VirtualMachine</code> の間にリレーションシップを作成し、VM が削除された場合に OpenShift のガベージコレクターがスナップショットを自動的に削除するようにします。</p>
+</li>
+<li>
+<p><strong>wait/wait_condition</strong>: スナップショットが正常に完了するまで実行を一時停止します (条件
+タイプ <code>Ready</code> が <code>true</code> に設定されている)。</p>
+</li>
+<li>
+<p><strong>when</strong>: ちょうど 1 つの VM リソースが見つかった場合にのみスナップショットが作成されることを保証します。</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_snapshot_vms_ジョブテンプレートの作成と実行"><a class="anchor" href="#_snapshot_vms_ジョブテンプレートの作成と実行"></a>Snapshot VMs ジョブテンプレートの作成と実行</h3>
+<div class="paragraph">
+<p>次に、AAP Web インターフェイスを介してすべての部分を接続し、ジョブテンプレートを使用してスナップショット自動化を実行します。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>AAP UI ダッシュボードにアクセスし、<strong>Automation Execution → Templates</strong> に移動します。</p>
+</li>
+<li>
+<p><strong>Create Template</strong> をクリックし、<strong>Create job template</strong> を選択します。</p>
+</li>
+<li>
+<p>以下の詳細を入力します:</p>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 40%;">
+<col style="width: 60%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Name</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Snapshot VMs</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Job Type</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Run</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Inventory</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenShift Virtual Machines</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Project</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Workshop Project</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Playbook</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">solutions/manage_vm_playbook.yml</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Execution Environment</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Day2 EE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Credentials</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenShift Credential</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Extra variables</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>vm_namespace: vms-aap-day2</code><br>
+                      <code>task_file: snapshot_vms.yml</code><br>
+                      <code>vms_to_snapshot: rhel9-vm1</code></p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Create Job Template</strong> をクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/71-create-snapshot.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/71-create-snapshot.png" alt="71 create snapshot" width="100%"></a>
+</div>
+<div class="title">Figure 74. Create Snapshot Template</div>
+</div>
+</li>
+<li>
+<p>右上隅から <strong>Launch Template</strong> を選択してジョブを起動します。</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_スナップショット作成の確認"><a class="anchor" href="#_スナップショット作成の確認"></a>スナップショット作成の確認</h3>
+<div class="paragraph">
+<p>ジョブが正常に完了したら、新しいスナップショットが作成されたことを確認します。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>OpenShift コンソールに移動し、<code>vms-aap-day2</code> プロジェクト内の <strong>Virtualization → VirtualMachines</strong> に移動します。</p>
+</li>
+<li>
+<p><code>rhel9-vm1</code> インスタンスを選択し、<strong>Snapshots</strong> タブをクリックします。</p>
+</li>
+<li>
+<p>スナップショットがリストに表示されていることを確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/72-ocp-snapshot-details.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/72-ocp-snapshot-details.png" alt="72 ocp snapshot details" width="100%"></a>
+</div>
+<div class="title">Figure 75. Snapshot Details</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_提供されているリストアタスクファイルの理解"><a class="anchor" href="#_提供されているリストアタスクファイルの理解"></a>提供されているリストアタスクファイルの理解</h3>
+<div class="paragraph">
+<p>リストア自動化は、VM の停止、スナップショットからのリストア、VM の再起動という完全なワークフローを処理します。
+スナップショットの作成とは異なり、スナップショットからのリストアを開始する前に仮想マシンを電源オフにする必要があります。
+この自動化は、スナップショットプロセスと同じ 2 層パターンに従います。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_restore_vm_snapshots_yml"><a class="anchor" href="#_restore_vm_snapshots_yml"></a>restore_vm_snapshots.yml</h3>
+<div class="paragraph">
+<p>このメインのタスクファイルは、コンマ区切りのスナップショット名文字列を処理し、個別のリストアタスクを作成します。
+スナップショットタスクとの主な違いは、VM 名ではなくスナップショット名を参照することです。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
+- name: Restore VM Snapshot
+  ansible.builtin.include_tasks:
+    file: _restore_vm_snapshot.yml
+  loop_control:
+    loop_var: vm_snapshot
+  loop: "{{ vm_snapshots.replace(' ','').split(',') }}"
+  when: vm_snapshots |
+default('', True) | length &gt; 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>このタスクは、リストアする <code>VirtualMachineSnapshot</code> リソース名のコンマ区切り文字列を含む <code>vm_snapshots</code> という変数に対して操作を行います。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_restore_vm_snapshot_yml"><a class="anchor" href="#_restore_vm_snapshot_yml"></a>_restore_vm_snapshot.yml</h3>
+<div class="paragraph">
+<p>このインクルードされたタスクファイルは、次の手順に従って完全なリストアワークフローを管理します:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>提供されたスナップショット名に基づいて <code>VirtualMachineSnapshot</code> を取得します。</p>
+</li>
+<li>
+<p>仮想マシンを停止します。</p>
+</li>
+<li>
+<p><code>VirtualMachineRestore</code> リソースを作成し、リストアが完了するまで待ちます。</p>
+</li>
+<li>
+<p>仮想マシンを起動します。</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
+- name: Verify VM Snapshot Provided
+  ansible.builtin.assert:
+    that:
+      - vm_snapshot |
+default('', True) | length &gt; 0
+    quiet: True
+    fail_msg: VM Snapshot not specified
+
+- name: Get VirtualMachine Snapshot
+  kubernetes.core.k8s_info:
+    api_version: snapshot.kubevirt.io/v1alpha1
+    kind: VirtualMachineSnapshot
+    namespace: "{{ vm_namespace }}"
+    name: "{{ vm_snapshot }}"
+  register: vm_snapshot_instance
+
+- name: Create Restore
+  block:
+    - name: Stop Virtual Machine
+      redhat.openshift_virtualization.kubevirt_vm:
+        name: "{{ vm_snapshot_instance.resources[0].metadata.ownerReferences[0].name }}"
+        namespace: "{{ vm_snapshot_instance.resources[0].metadata.namespace }}"
+
+run_strategy: Halted
+        wait: true
+
+    - name: Create Restore
+      redhat.openshift.k8s:
+        state: present
+        definition:
+          apiVersion: snapshot.kubevirt.io/v1alpha1
+          kind: VirtualMachineRestore
+          metadata:
+            generateName: "{{ vm_snapshot_instance.resources[0].metadata.ownerReferences[0].name }}-"
+            namespace:
+"{{ vm_snapshot_instance.resources[0].metadata.namespace }}"
+            ownerReferences:
+              - apiVersion: kubevirt.io/v1
+                blockOwnerDeletion: false
+                kind: VirtualMachine
+                name: "{{ vm_snapshot_instance.resources[0].metadata.ownerReferences[0].name }}"
+                uid:
+"{{ vm_snapshot_instance.resources[0].metadata.ownerReferences[0].uid }}"
+          spec:
+            target:
+              apiGroup: kubevirt.io
+              kind: VirtualMachine
+              name: "{{ vm_snapshot_instance.resources[0].metadata.ownerReferences[0].name }}"
+            virtualMachineSnapshotName: "{{ vm_snapshot_instance.resources[0].metadata.name }}"
+        wait: true
+
+    wait_timeout: 600
+        wait_condition:
+          type: Ready
+
+    - name: Start Virtual Machine
+      redhat.openshift_virtualization.kubevirt_vm:
+        name: "{{ vm_snapshot_instance.resources[0].metadata.ownerReferences[0].name }}"
+        namespace: "{{ vm_snapshot_instance.resources[0].metadata.namespace }}"
+        run_strategy: Always
+        wait: true
+  when: "'resources' in vm_snapshot_instance and vm_snapshot_instance.resources |
+length == 1"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>タスクの説明:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>kubernetes.core.k8s_info</strong>: スナップショットの詳細を取得して関連付けられた VM を識別します (<code>kubevirt_vm_info</code> は仮想マシンに固有ですが、これは任意の OpenShift リソースの取得を可能にします)。</p>
+</li>
+<li>
+<p><strong>block</strong>: リストア手順をグループ化し、最後に条件チェックを行います。</p>
+</li>
+<li>
+<p><strong>Stop Virtual Machine</strong>: リストアが始まる前に、<code>run_strategy: Halted</code> を使用して VM の電源をオフにします。</p>
+</li>
+<li>
+<p><strong>Create Restore</strong>: リストアがデフォルトの 120 秒よりも長くかかる可能性があるため、<code>wait_timeout</code> を 600 秒 (10 分) に設定して VirtualMachineRestore リソースを作成します。</p>
+</li>
+<li>
+<p><strong>Start Virtual Machine</strong>: リストア完了後、<code>run_strategy: Always</code> を使用して VM の電源をオンに戻します。</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_restore_vm_snapshots_ジョブテンプレートの作成と実行"><a class="anchor" href="#_restore_vm_snapshots_ジョブテンプレートの作成と実行"></a>Restore VM Snapshots ジョブテンプレートの作成と実行</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>AAP UI ダッシュボードにアクセスし、<strong>Automation Execution → Templates</strong> に移動します。</p>
+</li>
+<li>
+<p><strong>Create Template</strong> をクリックし、<strong>Create job template</strong> を選択します。</p>
+</li>
+<li>
+<p>以下の詳細を入力します。以前に作成したスナップショットの名前を含めるように注意してください:</p>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 40%;">
+<col style="width: 60%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Name</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Restore VM Snapshots</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Job Type</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Run</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Inventory</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenShift Virtual Machines</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Project</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Workshop Project</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Playbook</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">solutions/manage_vm_playbook.yml</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Execution Environment</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Day2 EE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Credentials</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OpenShift Credential</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Extra variables</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>vm_namespace: vms-aap-day2</code><br>
+                      <code>task_file: restore_vm_snapshots.yml</code><br>
+                      <code>vm_snapshots: &lt;snapshot_name&gt;</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<code>&lt;snapshot_name&gt;</code> を以前に作成したスナップショットの実際の名前 に置き換えてください。
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p><strong>Create Job Template</strong> をクリックします。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/73-restore-snapshot.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/73-restore-snapshot.png" alt="73 restore snapshot" width="100%"></a>
+</div>
+<div class="title">Figure 76. Restore Snapshot Template</div>
+</div>
+</li>
+<li>
+<p><strong>Launch Template</strong> をクリックしてテンプレートを起動します。</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_スナップショットリストアの確認"><a class="anchor" href="#_スナップショットリストアの確認"></a>スナップショットリストアの確認</h3>
+<div class="paragraph">
+<p>ジョブが正常に完了したら、リストアが適用されたことを確認します。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>OpenShift コンソールに移動し、<code>vms-aap-day2</code> プロジェクト内の <strong>Virtualization → VirtualMachines</strong> に移動します。</p>
+</li>
+<li>
+<p><code>rhel9-vm1</code> インスタンスを選択し、<strong>Snapshots</strong> タブをクリックします。</p>
+</li>
+<li>
+<p>リストアしたスナップショットを見つけ、<strong>Last restored</strong> 列に最近のリストアタイムスタンプが表示されていることを確認します。</p>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/day2virt/module-01-day-to-day/74-ocp-restore-snapshot-details.png" target="blank"><img src="_images/day2virt/module-01-day-to-day/74-ocp-restore-snapshot-details.png" alt="74 ocp restore snapshot details" width="100%"></a>
+</div>
+<div class="title">Figure 77. Restore Snapshot Details</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_まとめ"><a class="anchor" href="#_まとめ"></a>まとめ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>このモジュールでは、OpenShift Virtualization 管理者としての 1 日を過ごし、Red Hat OpenShift のネイティブパフォーマンス評価ツールを探索し、Ansible Automation Platform を使用して、多くの VM が日常的に頻繁に経験する多くのタスクを自動化しました。</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="80-index.html">0. はじめに</a></span>
+  <span class="next"><a href="82-module-02-real-world-scaling.html">2. 実環境でのスケーリングシナリオ</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
