@@ -1,4 +1,4 @@
-= {lab_name}へようこそ！
+= OpenShift Virtualization Roadshow へようこそ！
 
 [%hardbreaks]
 == はじめに

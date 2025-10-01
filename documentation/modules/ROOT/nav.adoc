@@ -66,3 +66,10 @@
 ** xref:76-module-08-workingvms.adoc[6. 仮想マシンとアプリケーションの操作]
 ** xref:78-module-09-networking.adoc[7. 仮想マシンのネットワーク管理]
 ** xref:79-conclusion.adoc[8. 追加情報]
+
+* 81. Day 2 Operations and Automation with OpenShift Virtualization
+** xref:80-index.adoc[0. はじめに]
+** xref:81-module-01-day-to-day.adoc[1. 日々の基本的な操作の有効化]
+** xref:82-module-02-real-world-scaling.adoc[2. 実環境でのスケーリングシナリオ]
+** xref:83-module-03-to-the-moon.adoc[3. 無限の可能性へ]
+** xref:84-conclusion.adoc[4. 追加情報]
