@@ -74,6 +74,6 @@
 ** xref:83-module-03-to-the-moon.adoc[3. 無限の可能性へ]
 ** xref:84-conclusion.adoc[4. 追加情報]
 
-* 101. Podman/OpenShiftの体験コンテンツ
-** xref:101-podman-basics.adoc[1. Podmanの基礎]
-** xref:102-openshift-trial.adoc[2. OpenShiftの体験]
+* 101. Podman/OpenShift Basic Lab
+** xref:101-podman-cockpit.adoc[1. Podman Lab]
+** xref:102-openshift-console.adoc[2. OpenShift Lab]
