@@ -279,6 +279,3 @@ image::podman/container-create04.png[]
 
 image::podman/container-id.png[]
 
-
-hopeful_leakey
-strange_saha
