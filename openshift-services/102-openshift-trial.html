@@ -3,10 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>無限の可能性へ :: OpenShift Handson</title>
-    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/83-module-03-to-the-moon.html">
-    <link rel="prev" href="82-module-02-real-world-scaling.html">
-    <link rel="next" href="84-conclusion.html">
+    <title>OpenShiftの体験 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/102-openshift-trial.html">
+    <link rel="prev" href="101-podman-basics.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -250,7 +249,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="82-module-02-real-world-scaling.html">2. 実環境でのスケーリングシナリオ</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="83-module-03-to-the-moon.html">3. 無限の可能性へ</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -265,7 +264,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="101-podman-basics.html">1. Podmanの基礎</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="102-openshift-trial.html">2. OpenShiftの体験</a>
   </li>
 </ul>
@@ -285,63 +284,193 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
-    <li>81. Day 2 Operations and Automation with OpenShift Virtualization</li>
-    <li><a href="83-module-03-to-the-moon.html">3. 無限の可能性へ</a></li>
+    <li>101. Podman/OpenShiftの体験コンテンツ</li>
+    <li><a href="102-openshift-trial.html">2. OpenShiftの体験</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/83-module-03-to-the-moon.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/102-openshift-trial.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">無限の可能性へ</h1>
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>このラボセクションは、私たちが遭遇する可能性があり、OpenShift Virtualization と Ansible Automation Platform で解決できると予想される他のシナリオを検討するための <strong>ディスカッション演習</strong> として設計されています。
-隣の席の、このラボを完了したラボ仲間と 5 分間話し合ってください。話し合う準備ができたら、プロクターを呼んで、あなたのアイデアを伝えてください。</p>
-</div>
-</div>
-</div>
+<h1 class="page">OpenShiftの体験</h1>
 <div class="sect1">
-<h2 id="ex_scenarios"><a class="anchor" href="#ex_scenarios"></a>ラボチームによって作成された例のシナリオ</h2>
+<h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>このラボを作成したチームは、以下にリストされているいくつかのシナリオを自由に考えました。</p>
+<p>このモジュールでは、OpenShiftを利用して、簡単なWebサーバをデプロイします。</p>
+</div>
+<hr>
+<div class="sect2">
+<h3 id="_openshift環境へのログインとアプリケーション作成"><a class="anchor" href="#_openshift環境へのログインとアプリケーション作成"></a>OpenShift環境へのログインとアプリケーション作成</h3>
+<div class="paragraph">
+<p>前の演習では、Podmanを利用した簡単なWebサーバをデプロイしました。本演習ではOpenShiftを利用して同様のことを実施してみます。
+OpenShiftのWebコンソールにアクセスして、ログインします。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+本演習を自習していない場合、OpenShiftのWebコンソールURLとアカウント情報はインストラクターから案内されます。
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="podman/login.png" alt="login">
+</div>
+</div>
+<div class="paragraph">
+<p>最初にアプリケーションの開発やデプロイ場所となる「プロジェクト」を作成する必要があります。
+OpenShiftでは「プロジェクト」単位でアプリケーションなどのリソースを分離する、
+マルチテナンシー的な利用方法がデフォルトで可能になっています。</p>
+</div>
+<div class="paragraph">
+<p>「新規プロジェクトを作成します」をクリックして、適当なプロジェクト名(この例では、test-project99)を入力して「作成」をクリックします。
+複数人でOpenShiftクラスターを共有している場合、プロジェクト名の重複はできませんので、被らないような名前を付けてください。</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="podman/project-create.png" alt="project create">
+</div>
+</div>
+<div class="paragraph">
+<p>プロジェクトの作成が完了すると、OpenShiftに標準で用意されているサンプルのテンプレートを利用して、
+アプリケーションを作成するためのスタートアップリソースが表示されます。</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="podman/startup-resource.png" alt="startup resource">
+</div>
+</div>
+<div class="paragraph">
+<p>今回はこれらのリソースを利用せずに、既存のGitHubのサンプルPHPコードを利用して、Webアプリケーションをデプロイしてみます。
+コンソール右上にある「+」アイコンをクリックして、「Gitからのインポート」を選択します。</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="podman/git-import01.png" alt="git import01">
+</div>
+</div>
+<div class="paragraph">
+<p>続いて、下記のテキストフィールドに以下を入力します。
+「検証済み」の表示を確認したら、「作成」ボタンをクリックします。
+これだけでサンプルアプリケーションのデプロイが完了します。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>GitリポジトリーURL: <code><a href="https://github.com/h-kojima/php-hello-world" class="bare">https://github.com/h-kojima/php-hello-world</a></code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="podman/git-import02.png" alt="git import02">
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>OpenShiftではGitリポジトリのソースコードURLを指定すると、JavaやPHPなどの主要言語であれば、
+OpenShiftに標準で備わっている専用コンテナを利用して、ユーザーアプリのコンテナイメージを自動作成してくれます。</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>しばらく待つと、「php-hello-world-git-app」という名前のアプリケーションが作成されたことが、
+トポロジー画面から確認できます。</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="podman/topology01.png" alt="topology01">
+</div>
+</div>
+<div class="paragraph">
+<p>トポロジー画面の「php」アイコンをクリックして、「リソース」タブの「Routes」にあるURLから、
+PHPのサンプルWebアプリケーションにアクセスできます。アクセスすると、以下のようなメッセージが確認できます。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Hello Podman 2025-12-25
+
+Host Name: php-hello-world-6db8695b55-q24wl
+Host IP: 10.128.0.236</code></pre>
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>ここで表示されているIPアドレスは、OpenShift上のコンテナ(
+<a href="https://kubernetes.io/ja/docs/concepts/workloads/pods/">Kubernetes Pod</a>)に、動的に割り当てられたIPアドレスとなります。
+OpenShiftでは、コンテナ間通信を行うためのネットワークが自動的に作成されて利用されます。</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>トポロジー画面右にある「ログの表示」をクリックすると、「php-hello-wold」コンテナを作成した時のログを確認できます。
+Podmanの演習の時に確認できた、Containerfileからのカスタムイメージ作成のようなログなどを確認できます。</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="podman/build-log.png" alt="build log">
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_シナリオ_1"><a class="anchor" href="#_シナリオ_1"></a>シナリオ 1</h3>
+<h3 id="_openshiftでのアプリケーション更改"><a class="anchor" href="#_openshiftでのアプリケーション更改"></a>OpenShiftでのアプリケーション更改</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+この演習は、ユーザーが利用可能なGitリポジトリが無い場合は実施できません。
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
-<p>Red Hat Advanced Cluster Management for Kubernetes、Ansible Automation Platform、GitOps、および OpenShift Virtualization を使用して、<strong>複数の管理対象 OpenShift クラスター全体で仮想マシンのデプロイメントを自動化</strong> する。</p>
+<p>Gitリポジトリのソースコードを修正してコミットした場合、
+コンテナイメージを再びルドすることで、コミットしたソースコードが反映されたアプリケーションをデプロイできます。
+この時は、トポロジー画面の対象のアプリケーションの「ビルドの開始」ボタンをクリックします。</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="podman/topology02.png" alt="topology02">
 </div>
 </div>
-<div class="sect2">
-<h3 id="_シナリオ_2"><a class="anchor" href="#_シナリオ_2"></a>シナリオ 2</h3>
+<div class="exampleblock">
+<div class="content">
 <div class="paragraph">
-<p>Ansible Automation Platform の <strong>イベント駆動型 Ansible 機能</strong> を利用して仮想マシンのメトリックを収集し、使用率が特定のしきい値に達したときに <strong>リソースの自動ホットプラグをトリガー</strong> する。</p>
+<p>OpenShiftが持っているコンテナリポジトリに前回のビルドで保存されたコンテナイメージによる
+インクリメンタルビルド(増分ビルド)を行うことで、前回から変更があったファイルだけがビルド対象となり、
+ビルドを効率的に実施しています。</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_シナリオ_3"><a class="anchor" href="#_シナリオ_3"></a>シナリオ 3</h3>
+</div>
 <div class="paragraph">
-<p>OpenShift で <strong>クラスターデスケジューラーを有効</strong> にして、新しいリソースが利用可能になったときに <strong>ワークロードがクラスター全体で自動的に再バランス</strong> されるようにする。
-これは、以前のスケーリングシナリオで新しいノードを追加した後、過負荷のノードが VM を追加された新しいノードに <strong>ライブマイグレーション</strong> できるようにするのに役立つ。</p>
+<p>再び「リソース」タブの「Routes」にあるURLから、PHPのサンプルWebアプリケーションにアクセスすると、
+次の例のような変更後のメッセージ出力を確認できます。
+この時、イメージの再ビルドに伴ってコンテナも再起動されているので、コンテナのIPアドレスも変更されています。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Hello Podman 2025-12-25 Changed
+
+Host Name: php-hello-world-6f678646-jvwc7
+Host IP: 10.128.0.253</code></pre>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_まとめ"><a class="anchor" href="#_まとめ"></a>まとめ</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>ラボ仲間とラボのプロクターの間でシナリオについて話し合ってください。
-Red Hat の強みは、オープンソースとオープンソースコミュニティにあります。
-共に <strong>Day 2 の運用を無限の可能性へとスケール</strong> しましょう！</p>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="82-module-02-real-world-scaling.html">2. 実環境でのスケーリングシナリオ</a></span>
-  <span class="next"><a href="84-conclusion.html">4. 追加情報</a></span>
+  <span class="prev"><a href="101-podman-basics.html">1. Podmanの基礎</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
