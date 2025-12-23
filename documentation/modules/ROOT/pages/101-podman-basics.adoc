@@ -117,6 +117,8 @@ image::podman/package-install.png[]
 アプリケーションのインストールが完了したら、コンテナのコンソールで次のコマンドを実行します。
 この時、index.htmlファイルとテスト用のPHPファイルを作成して、httpdコマンドでWebサービスを実行しています。
 
+image::podman/package-install.png[]
+
 [.console-input]
 [source,sh]
 ----
