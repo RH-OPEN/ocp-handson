@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Podman/OpenShiftの体験 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/11-podman-basics.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://rh-open.github.io/ocp-handson">OpenShift Handson</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="openshift-services" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">01. OpenShift 基礎</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-deployment.html">2. Web コンソールの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02_app-storage-basics.html">3. 永続ストレージ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03_machinesets.html">4. ノードの動的管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04_infra-nodes.html">5. Infra ノードの作成</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="06_template-quota-limits.html">6. Project のクオータ/制限</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">20. OpenShift Pipeline Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="10-pipeline-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="11-pipelines.html">1. Pipelines -1/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="12-add-task.html">2. Pipelines -2/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="13-triggers.html">3. Tekton Triggers</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">21. OpenShift GitOps Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="20-GitOps-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="21-GitOps.html">1. OpenShift GitOps</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="22-Kustomize.html">2. Kustomizeインテグレーション</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="23-Helm.html">3. Helmインテグレーション</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">51. Red Hat OpenShift Service on AWS (ROSA) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="50-rosa-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="51-rosa-hcp-create.html">1. ROSA HCPクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="52-rosa-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="53-rosa-ebs.html">3. Amazon EBSの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-1-rosa-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-2-rosa-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="58-rosa-bedrock.html">6. Amazon Bedrockアプリケーションの実行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-01.html">7. ロギング設定 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-2-rosa-monitoring.html">9. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-3-rosa-project-metrics.html">10. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-4-rosa-alert.html">11. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="56-rosa-nodes.html">12. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="57-rosa-upgrade.html">13. ROSA HCPクラスターの更新</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">61. Azure Red Hat OpenShift (ARO) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="60-aro-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="61-aro-create.html">1. AROクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="62-aro-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="63-aro-storage.html">3. Azure DiskとAzure Filesの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="64-aro-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="65-aro-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="66-aro-logging.html">6. ロギング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-1-aro-monitoring.html">7. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-2-aro-project-metrics.html">8. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-3-aro-alert.html">9. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="68-aro-nodes.html">10. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="69-aro-upgrade.html">11. AROクラスターの更新[デモ]</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">71. OpenShift Virtualization Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="70-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="71-module-01-intro.html">1. 仮想マシン管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="72-module-02-mtv.html">2. 既存の仮想マシンの移行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="73-module-04-storage.html">3. ストレージ管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="74-module-05-bcdr.html">4. 仮想マシンのバックアップとリカバリ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="75-module-07-tempinst.html">5. テンプレートとインスタンスタイプの管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="76-module-08-workingvms.html">6. 仮想マシンとアプリケーションの操作</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="78-module-09-networking.html">7. 仮想マシンのネットワーク管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="79-conclusion.html">8. 追加情報</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">81. Day 2 Operations and Automation with OpenShift Virtualization</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="80-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="81-module-01-day-to-day.html">1. 日々の基本的な操作の有効化</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="82-module-02-real-world-scaling.html">2. 実環境でのスケーリングシナリオ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="83-module-03-to-the-moon.html">3. 無限の可能性へ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="84-conclusion.html">4. 追加情報</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Handson</a></li>
+    <li><a href="11-podman-basics.html">Podman/OpenShiftの体験</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/11-podman-basics.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Podman/OpenShiftの体験</h1>
+<div class="sect1">
+<h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>このモジュールでは、PodmanとOpenShiftを利用して、簡単なWebサーバをデプロイします。</p>
+</div>
+<hr>
+<div class="sect2">
+<h3 id="_コンテナイメージの検索とダウンロード"><a class="anchor" href="#_コンテナイメージの検索とダウンロード"></a>コンテナイメージの検索とダウンロード</h3>
+<div class="paragraph">
+<p>Podmanを利用するために、RHELのWebコンソールである
+<a href="https://docs.redhat.com/ja/documentation/red_hat_enterprise_linux/10/html/managing_systems_in_the_rhel_web_console/index">Cockpit</a>にWebブラウザを使ってアクセスします。
+本演習を自習していない場合、CockpitのURLとアカウント情報はインストラクターから案内されます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/cockpit-login.png" alt="cockpit login">
+</div>
+</div>
+<div class="paragraph">
+<p>左サイドメニューの「Podman コンテナー」を選択して、Podmanコンテナの情報を表示します。
+デフォルトでは、コンテナイメージとコンテナイメージに基づくコンテナは何もないので、空の表示がされます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/cockpit-podman.png" alt="cockpit podman">
+</div>
+</div>
+<div class="paragraph">
+<p>「イメージ」の右横にある縦3点リーダーをクリックして、「新規イメージのダウンロード」を選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/image-download.png" alt="image download">
+</div>
+</div>
+<div class="paragraph">
+<p>イメージの検索画面のテキストフィールドに「docker.io/redhat/ubi10」と入力して、「docker.io/redhat/ubi10」を選択します。
+その後に「ダウンロード」ボタンをクリックして、ubi10のコンテナイメージをダウンロードします。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/image-search.png" alt="image search">
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p><a href="https://www.redhat.com/ja/blog/introducing-red-hat-universal-base-image">Red Hat Universal Base Image (UBI)</a>は、RHELから派生したコンテナイメージです。
+Red Hat製品ユーザーでなくても、UBIのコンテナイメージおよびUBIでリリースされた全てのコンテンツをご利用いただけます。
+RHELまたはOpenShift上でUBIのコンテナを実行する場合、Red Hatによる技術サポートが提供されます。</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>ubi10のコンテナイメージダウンロードが完了すると、ダウンロードしたコンテナイメージの情報が表示されます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/ubi10-download.png" alt="ubi10 download">
+</div>
+</div>
+<div class="paragraph">
+<p>ダウンロードしたコンテナイメージの情報をコマンドラインで確認したい場合、左サイドメニューの「端末」をクリックして、
+次のコマンドを実行します。以降のコマンドについては、Webコンソールの「端末」メニューから実行することを想定します。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">podman images</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>すると、ubi10のコンテナイメージの情報が表示されます。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">[testuser99@localhost ~]$ podman images
+REPOSITORY              TAG         IMAGE ID      CREATED     SIZE
+docker.io/redhat/ubi10  latest      df13daf31556  5 days ago  219 MB
+[testuser99@localhost ~]$</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/podman-images-cli.png" alt="podman images cli">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_コンテナイメージを利用したコンテナの実行"><a class="anchor" href="#_コンテナイメージを利用したコンテナの実行"></a>コンテナイメージを利用したコンテナの実行</h3>
+<div class="paragraph">
+<p>先ほどダウンロードした「ubi10」コンテナイメージを利用して、「ubi10」のコンテナを実行します。
+「コンテナー」の右横にある「コンテナーの作成」ボタンをクリックします。
+「イメージ」は「docker.io/redhat/ubi10:latest」を選択して、先ほどダウンロードした「ubi10」コンテナイメージを指定します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-create01.png" alt="container create01">
+</div>
+</div>
+<div class="paragraph">
+<p>続いて、「インテグレーション」タブで、コンテナ実行時に紐づけるホストのポートを指定します。
+これによって、外部からホストのIPアドレスとホストポートを指定することで、コンテナのポートにアクセスできるようになります。
+この例ではコンテナポートを「80」、コンテナポートに割り当てるホストポートを「8080」としています。プロトコルはTCPを指定します。
+最後に、「作成して実行する」ボタンをクリックして、コンテナを実行します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-create02.png" alt="container create02">
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>実行されるコンテナの名前は、毎回ランダムに指定されます。
+コンテナ実行時に特定の名前を指定することもできますが、本演習ではランダムに指定された名前を利用します。</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>この操作によって、「happy_lamport」という名前のコンテナが「ubi10」コンテナイメージを基にして実行されます。
+「詳細」タブでは、コンテナ実行時にコンテナ内部で実行されるコマンド(デフォルトでは <code>/bin/bash</code> )などの情報を、
+「インテグレーション」タブでは、コンテナ実行時に紐づけられたホストポート( <code>0.0.0.0:8080 → 80/tcp</code> : コンテナのTCP80ポートをホストのTCP8080ポートで公開)
+などの情報を確認できます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-information.png" alt="container information">
+</div>
+</div>
+<div class="paragraph">
+<p>「コンソール」タブでは、コンテナ内のbashシェルを利用できます。
+`id`や`ls`などの適当なLinuxコマンドを実行して、コンテナ内の情報を確認してみてください。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-console.png" alt="container console">
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>UBIイメージでは、デフォルトでUBIのパッケージをインストールまたは更新するためのリポジトリが設定されています。
+そのため、<code>yum</code> または <code>dnf</code> コマンドでパッケージのインストールまたは更新ができます。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_コンテナへのアプリケーションインストールと起動"><a class="anchor" href="#_コンテナへのアプリケーションインストールと起動"></a>コンテナへのアプリケーションインストールと起動</h3>
+<div class="paragraph">
+<p>先ほど開いたコンテナの「コンソール」タブを利用して、コンテナに <code>dnf</code> コマンドでWebサーバ(httpdパッケージ)とPHPをインストールします。
+この時、次のコマンドを実行します。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">dnf -y install httpd php php-fpm</code></pre>
+</div>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="podman/package-install.png" alt="package install">
+</div>
+</div>
+<div class="paragraph">
+<p><code>dnf</code> コマンドでアプリケーションのインストールが完了したら、コンテナのコンソールで次のコマンドを実行します。
+この時、index.htmlファイルとテスト用のPHPファイルを作成して、httpdコマンドでWebサービスを実行しています。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">echo "Apache is running." &gt; /var/www/html/index.html
+mkdir -p /run/php-fpm
+cat &lt;&lt;EOF &gt; /var/www/html/test.php
+&lt;html&gt;
+&lt;body&gt;
+&lt;?php
+echo "Hello Podman 2025-12-25";
+echo "&lt;br&gt;";
+echo "&lt;br&gt;";
+echo "Host Name: ";
+echo gethostname();
+echo "&lt;br&gt;";
+echo "Host IP: ";
+echo \$_SERVER["SERVER_ADDR"];
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+EOF
+
+/usr/sbin/php-fpm
+/usr/sbin/httpd -DFOREGROUND</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/httpd-exec.png" alt="httpd exec">
+</div>
+</div>
+<div class="paragraph">
+<p>Webサービス実行が完了したら、Webコンソールの左サイドメニューの「端末」から <code>curl</code> コマンドでWebサーバにアクセステストします。
+これによって <code>index.html</code> ファイルの中身と <code>test.php</code> によるWebサーバのIPアドレス表示を確認できます。
+コンテナ内で実行したWebサービスのIPアドレスは、コンテナを実行しているホストのIPアドレスが表示されます。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">curl http://localhost:8080
+
+curl http://localhost:8080/test.php</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/curl-test.png" alt="curl test">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_コンテナの変更保存"><a class="anchor" href="#_コンテナの変更保存"></a>コンテナの変更保存</h3>
+<div class="paragraph">
+<p>ここでコンテナを終了(停止)して、これまで加えてきた変更をコミットして、新しいコンテナイメージとして保存します。
+「happy_lamport」表示の右横にある縦3点リーダーをクリックして、「停止」を選択してコンテナを終了状態にします。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-stop.png" alt="container stop">
+</div>
+</div>
+<div class="paragraph">
+<p>コンテナが終了状態になっているのを確認したら、再び縦3点リーダーをクリックして「コミット」を選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-commit01.png" alt="container commit01">
+</div>
+</div>
+<div class="paragraph">
+<p>新しいコンテナイメージのコミット画面が表示されるので、以下を指定して「コミット」ボタンをクリックします。
+「コマンド」でコンテナ実行時のコマンドを指定することで、自動的にWebサービスが実行されるようになります。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>新しいイメージ名: <code>httpd-manual</code></p>
+</li>
+<li>
+<p>コマンド: <code>/usr/sbin/httpd -D FOREGROUND</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-commit02.png" alt="container commit02">
+</div>
+</div>
+<div class="paragraph">
+<p>「httpd-manual」コンテナイメージを保存したら、「コンテナーの作成」ボタンから「httpd-manual」コンテナイメージを基にしたコンテナを実行します。
+ここでは「端末の使用」チェックボックスのチェックを外して、「作成して実行する」ボタンをクリックします。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+この時、「インテグレーション」タブから、ホストポート(例: 8080)とコンテナポート(80)を指定することを忘れないようにしてください。
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-create03.png" alt="container create03">
+</div>
+</div>
+<div class="paragraph">
+<p>新しく実行されたコンテナの「コンソール」タブから <code>/usr/sbin/php-fpm</code> コマンドを実行します。
+これによって、先ほどの「happy_lamport」コンテナの時と同様に　<code>curl</code> コマンドで、Webサービスへのアクセス確認ができるようになります。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-create04.png" alt="container create04">
+</div>
+</div>
+<div class="paragraph">
+<p>アクセス確認が完了したら、ここで実行したコンテナ(この例だと「strange_saha」コンテナ)を停止しておきます。</p>
+</div>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
