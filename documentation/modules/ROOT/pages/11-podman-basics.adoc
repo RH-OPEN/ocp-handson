@@ -1,0 +1,199 @@
+= Podman/OpenShiftの体験
+:navtitle: podman-basics
+include::_attributes.adoc[]
+
+
+== 演習の概要
+このモジュールでは、PodmanとOpenShiftを利用して、簡単なWebサーバをデプロイします。
+
+---
+
+=== コンテナイメージの検索とダウンロード
+
+Podmanを利用するために、RHELのWebコンソールである
+https://docs.redhat.com/ja/documentation/red_hat_enterprise_linux/10/html/managing_systems_in_the_rhel_web_console/index[Cockpit]にWebブラウザを使ってアクセスします。
+本演習を自習していない場合、CockpitのURLとアカウント情報はインストラクターから案内されます。
+
+image::podman/cockpit-login.png[]
+
+左サイドメニューの「Podman コンテナー」を選択して、Podmanコンテナの情報を表示します。
+デフォルトでは、コンテナイメージとコンテナイメージに基づくコンテナは何もないので、空の表示がされます。
+
+image::podman/cockpit-podman.png[]
+
+「イメージ」の右横にある縦3点リーダーをクリックして、「新規イメージのダウンロード」を選択します。
+
+image::podman/image-download.png[]
+
+イメージの検索画面のテキストフィールドに「docker.io/redhat/ubi10」と入力して、「docker.io/redhat/ubi10」を選択します。
+その後に「ダウンロード」ボタンをクリックして、ubi10のコンテナイメージをダウンロードします。
+
+image::podman/image-search.png[]
+
+[Note]
+====
+https://www.redhat.com/ja/blog/introducing-red-hat-universal-base-image[Red Hat Universal Base Image (UBI)]は、RHELから派生したコンテナイメージです。
+Red Hat製品ユーザーでなくても、UBIのコンテナイメージおよびUBIでリリースされた全てのコンテンツをご利用いただけます。
+RHELまたはOpenShift上でUBIのコンテナを実行する場合、Red Hatによる技術サポートが提供されます。
+====
+
+ubi10のコンテナイメージダウンロードが完了すると、ダウンロードしたコンテナイメージの情報が表示されます。
+
+image::podman/ubi10-download.png[]
+
+ダウンロードしたコンテナイメージの情報をコマンドラインで確認したい場合、左サイドメニューの「端末」をクリックして、
+次のコマンドを実行します。以降のコマンドについては、Webコンソールの「端末」メニューから実行することを想定します。
+
+[.console-input]
+[source,sh]
+----
+podman images
+----
+
+すると、ubi10のコンテナイメージの情報が表示されます。
+
+```
+[testuser99@localhost ~]$ podman images
+REPOSITORY              TAG         IMAGE ID      CREATED     SIZE
+docker.io/redhat/ubi10  latest      df13daf31556  5 days ago  219 MB
+[testuser99@localhost ~]$ 
+```
+
+image::podman/podman-images-cli.png[]
+
+
+=== コンテナイメージを利用したコンテナの実行
+
+先ほどダウンロードした「ubi10」コンテナイメージを利用して、「ubi10」のコンテナを実行します。
+「コンテナー」の右横にある「コンテナーの作成」ボタンをクリックします。
+「イメージ」は「docker.io/redhat/ubi10:latest」を選択して、先ほどダウンロードした「ubi10」コンテナイメージを指定します。
+
+image::podman/container-create01.png[]
+
+続いて、「インテグレーション」タブで、コンテナ実行時に紐づけるホストのポートを指定します。
+これによって、外部からホストのIPアドレスとホストポートを指定することで、コンテナのポートにアクセスできるようになります。
+この例ではコンテナポートを「80」、コンテナポートに割り当てるホストポートを「8080」としています。プロトコルはTCPを指定します。
+最後に、「作成して実行する」ボタンをクリックして、コンテナを実行します。
+
+image::podman/container-create02.png[]
+
+[Note]
+====
+実行されるコンテナの名前は、毎回ランダムに指定されます。
+コンテナ実行時に特定の名前を指定することもできますが、本演習ではランダムに指定された名前を利用します。
+====
+
+この操作によって、「happy_lamport」という名前のコンテナが「ubi10」コンテナイメージを基にして実行されます。
+「詳細」タブでは、コンテナ実行時にコンテナ内部で実行されるコマンド(デフォルトでは `/bin/bash` )などの情報を、
+「インテグレーション」タブでは、コンテナ実行時に紐づけられたホストポート( `0.0.0.0:8080 → 80/tcp` : コンテナのTCP80ポートをホストのTCP8080ポートで公開)
+などの情報を確認できます。
+
+image::podman/container-information.png[]
+
+「コンソール」タブでは、コンテナ内のbashシェルを利用できます。
+`id`や`ls`などの適当なLinuxコマンドを実行して、コンテナ内の情報を確認してみてください。
+
+image::podman/container-console.png[]
+
+[Note]
+====
+UBIイメージでは、デフォルトでUBIのパッケージをインストールまたは更新するためのリポジトリが設定されています。
+そのため、`yum` または `dnf` コマンドでパッケージのインストールまたは更新ができます。
+====
+
+
+=== コンテナへのアプリケーションインストールと起動
+
+先ほど開いたコンテナの「コンソール」タブを利用して、コンテナに `dnf` コマンドでWebサーバ(httpdパッケージ)とPHPをインストールします。
+この時、次のコマンドを実行します。
+
+[.console-input]
+[source,sh]
+----
+dnf -y install httpd php php-fpm
+----
+
+image::podman/package-install.png[]
+
+`dnf` コマンドでアプリケーションのインストールが完了したら、コンテナのコンソールで次のコマンドを実行します。
+この時、index.htmlファイルとテスト用のPHPファイルを作成して、httpdコマンドでWebサービスを実行しています。
+
+[.console-input]
+[source,sh]
+----
+echo "Apache is running." > /var/www/html/index.html
+mkdir -p /run/php-fpm
+cat <<EOF > /var/www/html/test.php
+<html>
+<body>
+<?php
+echo "Hello Podman 2025-12-25";
+echo "<br>";
+echo "<br>";
+echo "Host Name: ";
+echo gethostname();
+echo "<br>";
+echo "Host IP: ";
+echo \$_SERVER["SERVER_ADDR"];
+?>
+</body>
+</html>
+EOF
+
+/usr/sbin/php-fpm
+/usr/sbin/httpd -DFOREGROUND
+----
+
+image::podman/httpd-exec.png[]
+
+Webサービス実行が完了したら、Webコンソールの左サイドメニューの「端末」から `curl` コマンドでWebサーバにアクセステストします。
+これによって `index.html` ファイルの中身と `test.php` によるWebサーバのIPアドレス表示を確認できます。
+コンテナ内で実行したWebサービスのIPアドレスは、コンテナを実行しているホストのIPアドレスが表示されます。
+
+[.console-input]
+[source,sh]
+----
+curl http://localhost:8080
+
+curl http://localhost:8080/test.php
+----
+
+image::podman/curl-test.png[]
+
+
+=== コンテナの変更保存
+
+ここでコンテナを終了(停止)して、これまで加えてきた変更をコミットして、新しいコンテナイメージとして保存します。
+「happy_lamport」表示の右横にある縦3点リーダーをクリックして、「停止」を選択してコンテナを終了状態にします。
+
+image::podman/container-stop.png[]
+
+コンテナが終了状態になっているのを確認したら、再び縦3点リーダーをクリックして「コミット」を選択します。
+
+image::podman/container-commit01.png[]
+
+新しいコンテナイメージのコミット画面が表示されるので、以下を指定して「コミット」ボタンをクリックします。
+「コマンド」でコンテナ実行時のコマンドを指定することで、自動的にWebサービスが実行されるようになります。
+
+- 新しいイメージ名: `httpd-manual`
+- コマンド: `/usr/sbin/httpd -D FOREGROUND`
+
+image::podman/container-commit02.png[]
+
+「httpd-manual」コンテナイメージを保存したら、「コンテナーの作成」ボタンから「httpd-manual」コンテナイメージを基にしたコンテナを実行します。
+ここでは「端末の使用」チェックボックスのチェックを外して、「作成して実行する」ボタンをクリックします。
+
+NOTE: この時、「インテグレーション」タブから、ホストポート(例: 8080)とコンテナポート(80)を指定することを忘れないようにしてください。
+
+image::podman/container-create03.png[]
+
+新しく実行されたコンテナの「コンソール」タブから `/usr/sbin/php-fpm` コマンドを実行します。
+これによって、先ほどの「happy_lamport」コンテナの時と同様に　`curl` コマンドで、Webサービスへのアクセス確認ができるようになります。
+
+image::podman/container-create04.png[]
+
+アクセス確認が完了したら、ここで実行したコンテナ(この例だと「strange_saha」コンテナ)を停止しておきます。
+
+
+
+
