@@ -1,10 +1,10 @@
-= Podman/OpenShiftの体験
+= Podmanの体験
 :navtitle: podman-basics
 include::_attributes.adoc[]
 
 
 == 演習の概要
-このモジュールでは、PodmanとOpenShiftを利用して、簡単なWebサーバをデプロイします。
+このモジュールでは、Podmanを利用して、簡単なWebサーバをデプロイします。
 
 ---
 
