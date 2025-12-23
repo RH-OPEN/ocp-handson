@@ -3,10 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>アラート設定 :: OpenShift Handson</title>
-    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/55-4-rosa-alert.html">
-    <link rel="prev" href="55-3-rosa-project-metrics.html">
-    <link rel="next" href="56-rosa-nodes.html">
+    <title>Podman/OpenShiftの体験 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/101-podman-basics.html">
+    <link rel="prev" href="84-conclusion.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -151,7 +150,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="55-3-rosa-project-metrics.html">10. プロジェクトのメトリクスデータの確認</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="55-4-rosa-alert.html">11. アラート設定</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -262,7 +261,7 @@
     <button class="nav-item-toggle"></button>
     <span class="nav-text">101. Podman</span>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="101-podman-basics.html">1. Podman/OpenShiftの基礎</a>
   </li>
 </ul>
@@ -282,347 +281,307 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
-    <li>51. Red Hat OpenShift Service on AWS (ROSA) Lab</li>
-    <li><a href="55-4-rosa-alert.html">11. アラート設定</a></li>
+    <li>101. Podman</li>
+    <li><a href="101-podman-basics.html">1. Podman/OpenShiftの基礎</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/55-4-rosa-alert.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/101-podman-basics.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">アラート設定</h1>
+<h1 class="page">Podman/OpenShiftの体験</h1>
 <div class="sect1">
 <h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>このモジュールでは、プロジェクトのアプリケーションのアラートを設定します。</p>
+<p>このモジュールでは、PodmanとOpenShiftを利用して、簡単なWebサーバをデプロイします。</p>
 </div>
 <hr>
 <div class="sect2">
-<h3 id="_アラート設定の有効化"><a class="anchor" href="#_アラート設定の有効化"></a>アラート設定の有効化</h3>
+<h3 id="_コンテナイメージの検索とダウンロード"><a class="anchor" href="#_コンテナイメージの検索とダウンロード"></a>コンテナイメージの検索とダウンロード</h3>
 <div class="paragraph">
-<p>ROSAクラスターでは、ROSAの利用者が作成したプロジェクトで実行しているアプリケーションを対象とした、
-アラート設定が可能です。アラート設定をする場合、利用者が作成したプロジェクトのモニタリングが有効になっている必要があります。</p>
+<p>Podmanを利用するために、RHELのWebコンソールである
+<a href="https://docs.redhat.com/ja/documentation/red_hat_enterprise_linux/10/html/managing_systems_in_the_rhel_web_console/index">Cockpit</a>にWebブラウザを使ってアクセスします。
+本演習を自習していない場合、CockpitのURLとアカウント情報はインストラクターから案内されます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/cockpit-login.png" alt="cockpit login">
+</div>
+</div>
+<div class="paragraph">
+<p>左サイドメニューの「Podman コンテナー」を選択して、Podmanコンテナの情報を表示します。
+デフォルトでは、コンテナイメージとコンテナイメージに基づくコンテナは何もないので、空の表示がされます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/cockpit-podman.png" alt="cockpit podman">
+</div>
+</div>
+<div class="paragraph">
+<p>「イメージ」の右横にある縦3点リーダーをクリックして、「新規イメージのダウンロード」を選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/image-download.png" alt="image download">
+</div>
+</div>
+<div class="paragraph">
+<p>イメージの検索画面のテキストフィールドに「docker.io/redhat/ubi10」と入力して、「docker.io/redhat/ubi10」を選択します。
+その後に「ダウンロード」ボタンをクリックして、ubi10のコンテナイメージをダウンロードします。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/image-search.png" alt="image search">
+</div>
 </div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>アラート設定を有効化するには、モニタリングの時と同様に、「openshift-user-workload-monitoring」プロジェクトの
-「user-workload-monitoring-config」設定マップ(ConfigMap)を、
-次のように末尾3行の「alertmanager: &#8230;&#8203;」を追加して保存します。</p>
+<p><a href="https://www.redhat.com/ja/blog/introducing-red-hat-universal-base-image">Red Hat Universal Base Image (UBI)</a>は、RHELから派生したコンテナイメージです。
+Red Hat製品ユーザーでなくても、UBIのコンテナイメージおよびUBIでリリースされた全てのコンテンツをご利用いただけます。
+RHELまたはOpenShift上でUBIのコンテナを実行する場合、Red Hatによる技術サポートが提供されます。</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-本演習を自習している時以外、この設定を適用する必要はありません。
-</td>
-</tr>
-</table>
+</div>
+</div>
+<div class="paragraph">
+<p>ubi10のコンテナイメージダウンロードが完了すると、ダウンロードしたコンテナイメージの情報が表示されます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/ubi10-download.png" alt="ubi10 download">
+</div>
+</div>
+<div class="paragraph">
+<p>ダウンロードしたコンテナイメージの情報をコマンドラインで確認したい場合、左サイドメニューの「端末」をクリックして、
+次のコマンドを実行します。以降のコマンドについては、Webコンソールの「端末」メニューから実行することを想定します。</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: user-workload-monitoring-config
-  namespace: openshift-user-workload-monitoring
-data:
-  config.yaml: |
-    prometheus:
-      retention: 30d
-      volumeClaimTemplate:
-        spec:
-          resources:
-            requests:
-              storage: 200Gi
-    alertmanager:
-      enabled: true
-      enableAlertmanagerConfig: true</code></pre>
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">podman images</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>すると、ubi10のコンテナイメージの情報が表示されます。</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">[testuser99@localhost ~]$ podman images
+REPOSITORY              TAG         IMAGE ID      CREATED     SIZE
+docker.io/redhat/ubi10  latest      df13daf31556  5 days ago  219 MB
+[testuser99@localhost ~]$</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/podman-images-cli.png" alt="podman images cli">
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_アラート出力用のサンプルアプリケーションの作成"><a class="anchor" href="#_アラート出力用のサンプルアプリケーションの作成"></a>アラート出力用のサンプルアプリケーションの作成</h3>
+<h3 id="_コンテナイメージを利用したコンテナの実行"><a class="anchor" href="#_コンテナイメージを利用したコンテナの実行"></a>コンテナイメージを利用したコンテナの実行</h3>
 <div class="paragraph">
-<p>ユーザープロジェクトを対象としたカスタムアラートを利用するには、
-Prometheusのフォーマットに沿ったメトリクスを出力するアプリケーションを作成しておく必要があります。
-そのためのサンプルアプリがありますので、まずはこちらを適当なプロジェクトで作成します。</p>
-</div>
-<div class="paragraph">
-<p>プロジェクトを選択して、OpenShiftクラスターのWebコンソール右上にある、「+」アイコンをクリックします。</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-OpenShiftでは、このインタフェースからYAML/JSON形式のテキストを直接入力して、Podなどのリソースを作成できます。
-</td>
-</tr>
-</table>
+<p>先ほどダウンロードした「ubi10」コンテナイメージを利用して、「ubi10」のコンテナを実行します。
+「コンテナー」の右横にある「コンテナーの作成」ボタンをクリックします。
+「イメージ」は「docker.io/redhat/ubi10:latest」を選択して、先ほどダウンロードした「ubi10」コンテナイメージを指定します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/alert/yaml-input1.png" alt="yaml input1">
+<img src="_images/podman/container-create01.png" alt="container create01">
 </div>
 </div>
 <div class="paragraph">
-<p>サンプルアプリケーションを実行するための、次のYAML形式のテキストを入力して「作成」をクリックします。
-これによって、レプリカ数2の「prometheus-example-app」Podが実行されます。
-また、PrometehusメトリクスをOpenShiftクラスター内部で見るために利用する「prometheus-example-app」
-<a href="https://kubernetes.io/docs/concepts/services-networking/service/">Service</a>も、同時に作成しています。</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app: prometheus-example-app
-  name: prometheus-example-app
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: prometheus-example-app
-  template:
-    metadata:
-      labels:
-        app: prometheus-example-app
-    spec:
-      containers:
-      - image: quay.io/brancz/prometheus-example-app:v0.2.0
-        imagePullPolicy: IfNotPresent
-        name: prometheus-example-app
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: prometheus-example-app
-  name: prometheus-example-app
-spec:
-  ports:
-  - port: 8080
-    protocol: TCP
-    targetPort: 8080
-    name: web
-  selector:
-    app: prometheus-example-app
-  type: ClusterIP</code></pre>
-</div>
+<p>続いて、「インテグレーション」タブで、コンテナ実行時に紐づけるホストのポートを指定します。
+これによって、外部からホストのIPアドレスとホストポートを指定することで、コンテナのポートにアクセスできるようになります。
+この例ではコンテナポートを「80」、コンテナポートに割り当てるホストポートを「8080」としています。プロトコルはTCPを指定します。
+最後に、「作成して実行する」ボタンをクリックして、コンテナを実行します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/alert/yaml-input2.png" alt="yaml input2">
+<img src="_images/podman/container-create02.png" alt="container create02">
 </div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_servicemonitorの作成"><a class="anchor" href="#_servicemonitorの作成"></a>ServiceMonitorの作成</h3>
-<div class="paragraph">
-<p>「prometheus-example-app」Serviceを利用したモニタリングのための、
-<a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">Kubernetesカスタムリソース</a>
-としてServiceMonitorというリソースが、OpenShiftでは利用できるようになっています。
-これを <code>cluster-admin</code> などの管理者アカウントで作成します。
-ローカルユーザーでログインしている場合は、管理者アカウントで再ログインします。</p>
-</div>
-<div class="paragraph">
-<p>先ほどYAML形式のテキストを入力した時と同様に、
-「+」アイコンをクリックしてServiceMonitorを作成します。
-「interval: 30s」で、メトリクスデータをスクレイピング(収集・加工)する間隔を30秒と設定しています。
-また、「selector」を指定して、「app: prometheus-example-app」ラベルを持つServiceを対象としています。</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-「prometheus-example-app」Serviceを作成したプロジェクトに、このServiceMonitorを作成します。
-</td>
-</tr>
-</table>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  labels:
-    k8s-app: prometheus-example-monitor
-  name: prometheus-example-monitor
-spec:
-  endpoints:
-  - interval: 30s
-    port: web
-    scheme: http
-    path: /metrics
-  selector:
-    matchLabels:
-      app: prometheus-example-app</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>ここまでの設定により、「モニタリング」メニューの「Metrics」タブから、
-このサンプルアプリケーションにあるメトリクスを見れるようになります。
-「Metrics」タブから「カスタムクエリー」を選択して、「version」を入力してEnterキーを押します。
-すると、次のようなメトリクスを確認できます。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/alert/custom-query.png" alt="custom query">
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_アラートルールの作成"><a class="anchor" href="#_アラートルールの作成"></a>アラートルールの作成</h3>
-<div class="paragraph">
-<p>簡単なアラートルールを作成してみます。OpenShiftではアラートルール作成のための、
-KubernetesカスタムリソースであるPrometheusRuleが利用できるようになっています。
-1つ以上のPodがダウンしたときに、アラートを発行する設定としてみます。</p>
-</div>
-<div class="paragraph">
-<p>このサンプルアプリのPodの同時実行数は2となるので、「version」の値の合計値が「2」となっています。
-そこで、1つ以上Podがダウンしたときの「version」の値の合計値が1(2未満)になるか、
-または、全てのPodがダウンして「version」メトリクスが取得できない場合を想定した条件式を「expr:」で設定します。
-「for: 30s」では、アラート発行のための条件式が真となって、アラートが「保留中」状態から「実行中」
-状態になるまでの時間を30秒と設定しています。</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-このPrometheusRuleも、ServiceMonitorを作成したプロジェクトを選択して、
-管理者アカウントでYAMLテキストを直接入力して作成します。
-</td>
-</tr>
-</table>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: example-alert
-spec:
-  groups:
-  - name: prometheus-example-app-down
-    rules:
-    - alert: PrometheusExampleAppDown
-      annotations:
-        description: One or more example pods down.
-        summary: Example Pods Down.
-      expr: sum(version) &lt; 2 or absent(version)
-      for: 30s
-      labels:
-        severity: warning</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>作成したアラートルールや、それに伴ったアラート状態は、管理者アカウントでログインしている場合、
-「モニタリング」メニューの「アラートタブ」から確認できます。
-右側にある「・」が3つ縦に並んだアイコンをクリックして、「アラートルールの表示」をクリックすることで、
-「アラートルールの詳細」を確認できます。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/alert/alert-rule-info.png" alt="alert rule info">
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_アラートのテスト"><a class="anchor" href="#_アラートのテスト"></a>アラートのテスト</h3>
-<div class="paragraph">
-<p>アラートをテストしてみます。
-「トポロジー」メニューから、「prometheus-example-app」アプリケーションを選択して、
-詳細タブから「↓矢印」を1回クリックして、Podの数を1つ減らします。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/alert/alert-test.png" alt="alert test">
-</div>
-</div>
-<div class="paragraph">
-<p>これにより、アラート状態が「実行中」に変わります。
-管理者アカウントでログインしている場合、「モニタリング」メニューの「アラート」タブから確認できます。
-「One or more example pods down」をクリックすると、アラートの詳細を確認できます。</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/rosa/alert/firing-alert.png" alt="firing alert">
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-「通知」にあるスイッチをOFFにすると、アラートをサイレンス状態にできます。
-また、アラートをCLIで確認したい場合は、
-<a href="https://access.redhat.com/solutions/4250221">こちらのページにある情報</a>を参考にしてください。
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>「トポロジー」メニューから
-サンプルアプリのPod数を再度2に戻す(Podの詳細タブの「↑」矢印をクリック)と、
-アラート状態が「実行中」から、もともとの何もない状態に戻ります。</p>
 </div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>ROSAやOpenShiftでは、アラートを下記の外部システムに送信できます。</p>
+<p>実行されるコンテナの名前は、毎回ランダムに指定されます。
+コンテナ実行時に特定の名前を指定することもできますが、本演習ではランダムに指定された名前を利用します。</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>この操作によって、「happy_lamport」という名前のコンテナが「ubi10」コンテナイメージを基にして実行されます。
+「詳細」タブでは、コンテナ実行時にコンテナ内部で実行されるコマンド(デフォルトでは <code>/bin/bash</code> )などの情報を、
+「インテグレーション」タブでは、コンテナ実行時に紐づけられたホストポート( <code>0.0.0.0:8080 → 80/tcp</code> : コンテナのTCP80ポートをホストのTCP8080ポートで公開)
+などの情報を確認できます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-information.png" alt="container information">
+</div>
+</div>
+<div class="paragraph">
+<p>「コンソール」タブでは、コンテナ内のbashシェルを利用できます。
+`id`や`ls`などの適当なLinuxコマンドを実行して、コンテナ内の情報を確認してみてください。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-console.png" alt="container console">
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>UBIイメージでは、デフォルトでUBIのパッケージをインストールまたは更新するためのリポジトリが設定されています。
+そのため、<code>yum</code> または <code>dnf</code> コマンドでパッケージのインストールまたは更新ができます。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_コンテナへのアプリケーションインストールと起動"><a class="anchor" href="#_コンテナへのアプリケーションインストールと起動"></a>コンテナへのアプリケーションインストールと起動</h3>
+<div class="paragraph">
+<p>先ほど開いたコンテナの「コンソール」タブを利用して、コンテナに <code>dnf</code> コマンドでWebサーバ(httpdパッケージ)とPHPをインストールします。
+この時、次のコマンドを実行します。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">dnf -y install httpd php php-fpm</code></pre>
+</div>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="podman/package-install.png" alt="package install">
+</div>
+</div>
+<div class="paragraph">
+<p><code>dnf</code> コマンドでアプリケーションのインストールが完了したら、コンテナのコンソールで次のコマンドを実行します。
+この時、index.htmlファイルとテスト用のPHPファイルを作成して、httpdコマンドでWebサービスを実行しています。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">echo "Apache is running." &gt; /var/www/html/index.html
+mkdir -p /run/php-fpm
+cat &lt;&lt;EOF &gt; /var/www/html/test.php
+&lt;html&gt;
+&lt;body&gt;
+&lt;?php
+echo "Hello Podman 2025-12-25";
+echo "&lt;br&gt;";
+echo "&lt;br&gt;";
+echo "Host Name: ";
+echo gethostname();
+echo "&lt;br&gt;";
+echo "Host IP: ";
+echo \$_SERVER["SERVER_ADDR"];
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+EOF
+
+/usr/sbin/php-fpm
+/usr/sbin/httpd -DFOREGROUND</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/httpd-exec.png" alt="httpd exec">
+</div>
+</div>
+<div class="paragraph">
+<p>Webサービス実行が完了したら、Webコンソールの左サイドメニューの「端末」から <code>curl</code> コマンドでWebサーバにアクセステストします。
+これによって <code>index.html</code> ファイルの中身と <code>test.php</code> によるWebサーバのIPアドレス表示を確認できます。
+コンテナ内で実行したWebサービスのIPアドレスは、コンテナを実行しているホストのIPアドレスが表示されます。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">curl http://localhost:8080
+
+curl http://localhost:8080/test.php</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/curl-test.png" alt="curl test">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_コンテナの変更保存"><a class="anchor" href="#_コンテナの変更保存"></a>コンテナの変更保存</h3>
+<div class="paragraph">
+<p>ここでコンテナを終了(停止)して、これまで加えてきた変更をコミットして、新しいコンテナイメージとして保存します。
+「happy_lamport」表示の右横にある縦3点リーダーをクリックして、「停止」を選択してコンテナを終了状態にします。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-stop.png" alt="container stop">
+</div>
+</div>
+<div class="paragraph">
+<p>コンテナが終了状態になっているのを確認したら、再び縦3点リーダーをクリックして「コミット」を選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-commit01.png" alt="container commit01">
+</div>
+</div>
+<div class="paragraph">
+<p>新しいコンテナイメージのコミット画面が表示されるので、以下を指定して「コミット」ボタンをクリックします。
+「コマンド」でコンテナ実行時のコマンドを指定することで、自動的にWebサービスが実行されるようになります。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>PagerDuty</p>
+<p>新しいイメージ名: <code>httpd-manual</code></p>
 </li>
 <li>
-<p>Webhook</p>
-</li>
-<li>
-<p>Email</p>
-</li>
-<li>
-<p>Slack</p>
+<p>コマンド: <code>/usr/sbin/httpd -D FOREGROUND</code></p>
 </li>
 </ul>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-commit02.png" alt="container commit02">
+</div>
+</div>
 <div class="paragraph">
-<p>Gmailに届いたアラートメールの例は、下記の画像のようになります。アラート送信の設定方法については、
-<a href="https://access.redhat.com/documentation/ja-jp/openshift_container_platform/4.14/html/monitoring/sending-notifications-to-external-systems_managing-alerts#doc-wrapper">公式ドキュメント</a>をご参照ください。</p>
+<p>「httpd-manual」コンテナイメージを保存したら、「コンテナーの作成」ボタンから「httpd-manual」コンテナイメージを基にしたコンテナを実行します。
+ここでは「端末の使用」チェックボックスのチェックを外して、「作成して実行する」ボタンをクリックします。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+この時、「インテグレーション」タブから、ホストポート(例: 8080)とコンテナポート(80)を指定することを忘れないようにしてください。
+</td>
+</tr>
+</table>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/rosa/alert/gmail-alert.png" alt="gmail alert">
+<img src="_images/podman/container-create03.png" alt="container create03">
 </div>
 </div>
+<div class="paragraph">
+<p>新しく実行されたコンテナの「コンソール」タブから <code>/usr/sbin/php-fpm</code> コマンドを実行します。
+これによって、先ほどの「happy_lamport」コンテナの時と同様に　<code>curl</code> コマンドで、Webサービスへのアクセス確認ができるようになります。</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-create04.png" alt="container create04">
+</div>
+</div>
+<div class="paragraph">
+<p>アクセス確認が完了したら、ここで実行したコンテナ(この例だと「strange_saha」コンテナ)を停止しておきます。</p>
 </div>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="55-3-rosa-project-metrics.html">10. プロジェクトのメトリクスデータの確認</a></span>
-  <span class="next"><a href="56-rosa-nodes.html">12. ワーカーノードの追加と削除</a></span>
+  <span class="prev"><a href="84-conclusion.html">4. 追加情報</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
