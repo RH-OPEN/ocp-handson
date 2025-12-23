@@ -90,15 +90,14 @@ image::podman/container-create02.png[]
 
 image::podman/container-information.png[]
 
-「コンソール」タブでは、コンテナ内のbashシェルを利用できます。
-`id`や`ls`などの適当なLinuxコマンドを実行して、コンテナ内の情報を確認してみてください。
+「コンソール」タブでは、コンテナ内のbashシェルを利用できます。 `id` や `ls` などの適当なLinuxコマンドを実行して、コンテナ内の情報を確認してみてください。
 
 image::podman/container-console.png[]
 
 [Note]
 ====
 UBIイメージでは、デフォルトでUBIのパッケージをインストールまたは更新するためのリポジトリが設定されています。
-そのため、`yum` または `dnf` コマンドでパッケージのインストールまたは更新ができます。
+そのため `yum` または `dnf` コマンドでパッケージのインストールまたは更新ができます。
 ====
 
 
@@ -176,7 +175,7 @@ image::podman/container-commit01.png[]
 「コマンド」でコンテナ実行時のコマンドを指定することで、自動的にWebサービスが実行されるようになります。
 
 - 新しいイメージ名: `httpd-manual`
-- コマンド: `/usr/sbin/httpd -D FOREGROUND`
+- コマンド: `/bin/sh -c "/usr/sbin/php-fpm & /usr/sbin/httpd -D FOREGROUND"`
 
 image::podman/container-commit02.png[]
 
@@ -187,13 +186,99 @@ NOTE: この時、「インテグレーション」タブから、ホストポ�
 
 image::podman/container-create03.png[]
 
-新しく実行されたコンテナの「コンソール」タブから `/usr/sbin/php-fpm` コマンドを実行します。
-これによって、先ほどの「happy_lamport」コンテナの時と同様に　`curl` コマンドで、Webサービスへのアクセス確認ができるようになります。
-
-image::podman/container-create04.png[]
-
+これによって、先ほどの「happy_lamport」コンテナの時と同様にWebコンソールの「端末」メニューから　`curl` コマンドで、
+Webサービスへのアクセス確認ができるようになります。
 アクセス確認が完了したら、ここで実行したコンテナ(この例だと「strange_saha」コンテナ)を停止しておきます。
 
 
+=== ContainerFileによるカスタムコンテナイメージの作成
+
+こうしたコンテナの変更及びWebサービスなどの自動起動を有効化したコンテナイメージの作成手順を、Containerfileというテキストファイルに記載できます。
+次のコマンドをWebコンソールの「端末」メニューから実行して、ContainerfileとContainerfileで扱うホスト上のファイルを作成します。
+
+[.console-input]
+[source,sh]
+----
+mkdir -p builddir
+
+cat <<EOF > builddir/test.php
+<html>
+<body>
+<?php
+echo "Hello Podman 2025-12-25";
+echo "<br>";
+echo "<br>";
+echo "Host Name: ";
+echo gethostname();
+echo "<br>";
+echo "Host IP: ";
+echo \$_SERVER["SERVER_ADDR"];
+?>
+</body>
+</html>
+EOF
+
+cat <<EOF > builddir/Containerfile
+FROM docker.io/redhat/ubi10
+MAINTAINER Hirofumi Kojima
+
+RUN dnf -y install httpd php php-fpm; dnf clean all; \\
+    echo "Apache is running." > /var/www/html/index.html; \\
+    sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf; \\
+    mkdir -p /run/php-fpm; \\
+    chgrp -R 0 /var/log/httpd /var/run/httpd /run/php-fpm; \\
+    chmod -R g=u /var/log/httpd /var/run/httpd /run/php-fpm
+
+ADD test.php /var/www/html/
+
+EXPOSE 8080
+USER 10001
+
+CMD /usr/sbin/php-fpm & /usr/sbin/httpd -D FOREGROUND
+EOF
+----
+
+ここで作成したファイルは、左サイドメニューの「ファイルブラウザー」からも、確認や編集ができます。
+
+image::podman/file-browser01.png[]
+image::podman/file-browser02.png[]
+
+ここで作成したContainerfileでは、以下を指定しています。
+セキュリティを考慮して、コンテナ実行時に非rootユーザーでhttpdプロセスを実行するようにしているため、
+httpdプロセスの設定ファイルで、TCP8080を利用するように変更しています。
+
+- FROM: カスタムコンテナイメージを作成するためのベースイメージ。ここでは「ubi10」を指定。
+- RUN: カスタムコンテナイメージ作成時に実行するコマンドを指定。
+- ADD: ホスト上のファイルをコンテナイメージにコピー。ここでは、Containerfileがあるディレクトリ上の「test.php」をコンテナイメージ内の「/var/www/html」ディレクトリにコピー。
+- EXPOSE: コンテナの公開ポート。ここではTCP8080を指定。
+- USER: コンテナ実行時に実行されるコマンドが、どのユーザーで実行されるかを指定。ここではユーザーID「10001」のローカルユーザーを指定。
+- CMD: コンテナ実行時に実行されるコマンドを指定。
+
+このContainerfileを利用して、「端末」メニューから以下のコマンドを実行します。
+ `podman build` コマンドでは、Containerfileがあるディレクトリ(ここでは「builddir」ディレクトリ)を指定して、
+カスタムコンテナイメージを作成できます。 `-t` オプションで、カスタムイメージの名前(タグ)を指定できます。
+
+[.console-input]
+[source,sh]
+----
+podman build -t httpd-auto builddir/
+----
+
+image::podman/podman-build.png[]
+
+`podman build` コマンドでカスタムイメージ「httpd-auto」を作成したら、
+このイメージを基に、コンテナを実行します。この時に、以下を忘れないようにしてください。
+
+- 「端末の使用」のチェックを外す。
+- 「インテグレーション」タブから、ホストポート(例: 8080)とコンテナポート(8080)のマッピング設定を行う。
+
+image::podman/container-create04.png[]
+
+コンテナが実行されると、コンテナの「コンソール」タブから、ユーザーID10001が指定されていることが分かります。
+また、コンテナのコンソールまたはCockpitコンソールの「端末」メニューから、Webサービスへのアクセス確認ができます。
+
+image::podman/container-id.png[]
 
 
+hopeful_leakey
+strange_saha
