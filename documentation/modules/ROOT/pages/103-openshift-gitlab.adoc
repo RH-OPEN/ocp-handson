@@ -110,7 +110,7 @@ spec:
 
 デフォルトで表示されるYAMLからの主な変更点は次の通りです。
 
-- テスト構成なので、`maxReplicas` を `1` に設定して、冗長構成を排除
+- 検証用途を想定して `maxReplicas` を `1` に設定して、冗長構成を排除
 - OpenShiftでデフォルトで用意されるPrometheusがあるため、 `spec.chart.values.prometheus.install` を `false` に変更
 - `spec.chart.values.global.ingress.annotations` を設定して、OpenShift上でのGitLabサービスを公開するための
 https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html/ingress_and_load_balancing/routes[Route]を利用
