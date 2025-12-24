@@ -459,6 +459,30 @@ Podmanの演習の時に確認できた、Containerfileからのカスタムイ�
 </div>
 </div>
 <div class="sect2">
+<h3 id="_openshiftでのアプリケーション削除"><a class="anchor" href="#_openshiftでのアプリケーション削除"></a>OpenShiftでのアプリケーション削除</h3>
+<div class="paragraph">
+<p>OpenShiftのWebコンソールから、作成したアプリケーションを削除できます。アプリケーションの名前の右横にある縦3点リーダーをクリックして、
+「アプリケーションの削除」を選択します。以下の画像の例では、「php-hellow-world-git-app」という名前のアプリケーションを指定しています。</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="trial/app-delete01.png" alt="app delete01">
+</div>
+</div>
+<div class="paragraph">
+<p>削除確認メッセージが表示されるので、削除対象のアプリケーション名をテキストフィールドに入力して、
+「削除」ボタンをクリックします。</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="trial/app-delete02.png" alt="app delete02">
+</div>
+</div>
+<div class="paragraph">
+<p>これによって、このアプリケーションに関連するリソース全てが自動削除されます。</p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_openshiftでのアプリケーション更改"><a class="anchor" href="#_openshiftでのアプリケーション更改"></a>OpenShiftでのアプリケーション更改</h3>
 <div class="exampleblock">
 <div class="content">
@@ -478,8 +502,12 @@ Podmanの演習の時に確認できた、Containerfileからのカスタムイ�
 </div>
 <div class="paragraph">
 <p>Gitリポジトリのソースコードを修正してコミットした場合、
-コンテナイメージを再ビルドすることで、コミットしたソースコードが反映されたアプリケーションをデプロイできます。
-この時は、トポロジー画面の対象のアプリケーションの「ビルドの開始」ボタンをクリックします。</p>
+コンテナイメージを再ビルドすることで、コミットしたソースコードが反映されたアプリケーションをデプロイできます。</p>
+</div>
+<div class="paragraph">
+<p>アプリケーションを削除していた場合は、前述と同様の手順でアプリケーションを作成します。
+そして、アプリケーション作成時に参照するGitリポジトリ上のソースコードを編集した後に、
+トポロジー画面の対象のアプリケーションの「ビルドの開始」ボタンをクリックします。</p>
 </div>
 <div class="imageblock">
 <div class="content">
