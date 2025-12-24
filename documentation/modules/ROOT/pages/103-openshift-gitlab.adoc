@@ -126,7 +126,7 @@ image::gitlab/gitlab-create02.png[]
 image::gitlab/gitlab-running.png[]
 
 この状態になると、GitLabのWebコンソールにログインできるようになります。
-以下の画像の例では `https://gitlab.apps.sno01.sandbox2401.opentlc.com/` にアクセスします。
+以下の画像の例ではURLがいくつか提示されていますが `gitlab` 文字列を含むURLを利用します。
 
 image::gitlab/gitlab-route.png[]
 
