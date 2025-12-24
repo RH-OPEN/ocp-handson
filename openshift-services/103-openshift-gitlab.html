@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Appendix. Install the GitLab on OpenShift :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/103-openshift-gitlab.html">
+    <link rel="prev" href="102-openshift-console.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://rh-open.github.io/ocp-handson">OpenShift Handson</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="openshift-services" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">01. OpenShift 基礎</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-deployment.html">2. Web コンソールの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02_app-storage-basics.html">3. 永続ストレージ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03_machinesets.html">4. ノードの動的管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04_infra-nodes.html">5. Infra ノードの作成</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="06_template-quota-limits.html">6. Project のクオータ/制限</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">20. OpenShift Pipeline Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="10-pipeline-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="11-pipelines.html">1. Pipelines -1/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="12-add-task.html">2. Pipelines -2/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="13-triggers.html">3. Tekton Triggers</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">21. OpenShift GitOps Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="20-GitOps-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="21-GitOps.html">1. OpenShift GitOps</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="22-Kustomize.html">2. Kustomizeインテグレーション</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="23-Helm.html">3. Helmインテグレーション</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">51. Red Hat OpenShift Service on AWS (ROSA) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="50-rosa-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="51-rosa-hcp-create.html">1. ROSA HCPクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="52-rosa-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="53-rosa-ebs.html">3. Amazon EBSの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-1-rosa-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-2-rosa-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="58-rosa-bedrock.html">6. Amazon Bedrockアプリケーションの実行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-01.html">7. ロギング設定 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-2-rosa-monitoring.html">9. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-3-rosa-project-metrics.html">10. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-4-rosa-alert.html">11. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="56-rosa-nodes.html">12. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="57-rosa-upgrade.html">13. ROSA HCPクラスターの更新</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">61. Azure Red Hat OpenShift (ARO) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="60-aro-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="61-aro-create.html">1. AROクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="62-aro-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="63-aro-storage.html">3. Azure DiskとAzure Filesの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="64-aro-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="65-aro-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="66-aro-logging.html">6. ロギング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-1-aro-monitoring.html">7. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-2-aro-project-metrics.html">8. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-3-aro-alert.html">9. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="68-aro-nodes.html">10. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="69-aro-upgrade.html">11. AROクラスターの更新[デモ]</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">71. OpenShift Virtualization Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="70-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="71-module-01-intro.html">1. 仮想マシン管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="72-module-02-mtv.html">2. 既存の仮想マシンの移行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="73-module-04-storage.html">3. ストレージ管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="74-module-05-bcdr.html">4. 仮想マシンのバックアップとリカバリ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="75-module-07-tempinst.html">5. テンプレートとインスタンスタイプの管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="76-module-08-workingvms.html">6. 仮想マシンとアプリケーションの操作</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="78-module-09-networking.html">7. 仮想マシンのネットワーク管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="79-conclusion.html">8. 追加情報</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">81. Day 2 Operations and Automation with OpenShift Virtualization</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="80-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="81-module-01-day-to-day.html">1. 日々の基本的な操作の有効化</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="82-module-02-real-world-scaling.html">2. 実環境でのスケーリングシナリオ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="83-module-03-to-the-moon.html">3. 無限の可能性へ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="84-conclusion.html">4. 追加情報</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">101. Podman/OpenShift Basic Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="101-podman-cockpit.html">1. Podman Lab</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="102-openshift-console.html">2. OpenShift Lab</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="103-openshift-gitlab.html">Appendix. Install the GitLab on OpenShift</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Handson</a></li>
+    <li>101. Podman/OpenShift Basic Lab</li>
+    <li><a href="103-openshift-gitlab.html">Appendix. Install the GitLab on OpenShift</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/103-openshift-gitlab.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Appendix. Install the GitLab on OpenShift</h1>
+<div class="sect1">
+<h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>このモジュールでは、
+<a href="https://qiita.com/JPishikawa/items/be67b02d815504a9423b">こちらの手順</a>を参考にしながら、
+OpenShiftのGitLab Operatorを利用してGitLabをインストールします。</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+このモジュールでは、OpenShiftの管理者アカウント( <code>kubeadmin</code> や <code>cluster-admin</code> など)を利用します。
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<hr>
+<div class="sect2">
+<h3 id="_cert_manager_operatorのインストール"><a class="anchor" href="#_cert_manager_operatorのインストール"></a>cert-manager Operatorのインストール</h3>
+<div class="paragraph">
+<p>GitLabを利用するための証明書発行機能を持つ、cert-manager Operatorを利用してGitLabをインストールします。
+OpenShift環境にログインして、「ソフトウェアカタログ」から「cert-manager Operator for Red Hat OpenShift」を選択して、
+「インストール」ボタンをクリックして、インストールします。インストール時のオプションは、全てデフォルト値を利用します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/cert-manager-install01.png" alt="cert manager install01">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/cert-manager-install02.png" alt="cert manager install02">
+</div>
+</div>
+<div class="paragraph">
+<p>これで、cert-manager Operatorのインストールは完了です。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gitlab_operatorのインストール"><a class="anchor" href="#_gitlab_operatorのインストール"></a>GitLab Operatorのインストール</h3>
+<div class="paragraph">
+<p>続いて、GitLab Operatorをインストールします。
+cert-manager Operatorの時と同様に、「ソフトウェアカタログ」からCertified版のGitLab Operatorを選択して、
+「インストール」ボタンをクリックして、インストールを完了します。インストール時のオプションは、全てデフォルト値を利用します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-install01.png" alt="gitlab install01">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-install02.png" alt="gitlab install02">
+</div>
+</div>
+<div class="paragraph">
+<p>これで、GitLab利用に必要となるOperatorのインストールは完了です。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/operator-installed.png" alt="operator installed">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gitlab_インスタンスの作成"><a class="anchor" href="#_gitlab_インスタンスの作成"></a>GitLab インスタンスの作成</h3>
+<div class="paragraph">
+<p>GitLab Operatorを利用して、GitLabインスタンスを作成します。
+「インストール済みのOperator」メニューから「GitLab」を選択して、「インスタンスの作成」をクリックします。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-create01.png" alt="gitlab create01">
+</div>
+</div>
+<div class="paragraph">
+<p>GitLab インスタンスを作成するためのYAMLが表示されます。
+これを以下のように修正します。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">kind: GitLab
+apiVersion: apps.gitlab.com/v1beta1
+metadata:
+  name: gitlab
+  namespace: gitlab-system
+spec:
+  chart:
+    values:
+      prometheus:
+        install: false
+      gitlab:
+        gitlab-shell:
+          maxReplicas: 1
+          minReplicas: 1
+        sidekiq:
+          maxReplicas: 1
+          minReplicas: 1
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1000M
+        webservice:
+          maxReplicas: 1
+          minReplicas: 1
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1500M
+      global:
+        hosts:
+          domain: &lt;OpenShift環境で利用されているドメインを設定&gt;
+          hostSuffix: null
+        ingress:
+          annotations:
+            route.openshift.io/termination: edge
+            kubernetes.io/tls-acme: true
+          class: none
+      installCertmanager: false
+      certmanager-issuer:
+        email: &lt;証明書発行者のメールアドレスを設定&gt;
+      minio:
+        resources:
+          requests:
+            cpu: 100m
+      postgresql:
+        primary:
+          extendedConfiguration: max_connections = 200
+      redis:
+        resources:
+          requests:
+            cpu: 100m
+    version: 9.7.0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>デフォルトで表示されるYAMLからの主な変更点は次の通りです。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>テスト構成なので、<code>maxReplicas</code> を <code>1</code> に設定して、冗長構成を排除</p>
+</li>
+<li>
+<p>OpenShiftでデフォルトで用意されるPrometheusがあるため、 <code>spec.chart.values.prometheus.install</code> を <code>false</code> に変更</p>
+</li>
+<li>
+<p><code>spec.chart.values.global.ingress.annotations</code> を設定して、OpenShift上でのGitLabサービスを公開するための
+<a href="https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html/ingress_and_load_balancing/routes">Route</a>を利用</p>
+</li>
+<li>
+<p>GitLabサービスを利用するためのドメインを指定。ドメインはOpenShift ConsoleのURLなどを参照(例: <code><a href="https://console-openshift-console.&lt;ドメイン&gt;/" class="bare">https://console-openshift-console.&lt;ドメイン&gt;/</a></code>)</p>
+</li>
+<li>
+<p>cert-manager による証明書発行者のメールアドレスを指定</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>上記のYAMLをコピペしたら、「作成」ボタンをクリックしてGitLabインスタンスを作成します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-create02.png" alt="gitlab create02">
+</div>
+</div>
+<div class="paragraph">
+<p>5~10分ほど待つと、GitLabインスタンスが <code>Running</code> 状態になります。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-running.png" alt="gitlab running">
+</div>
+</div>
+<div class="paragraph">
+<p>この状態になると、GitLabのWebコンソールにログインできるようになります。
+以下の画像の例では <code><a href="https://gitlab.apps.sno01.sandbox2401.opentlc.com/" class="bare">https://gitlab.apps.sno01.sandbox2401.opentlc.com/</a></code> にアクセスします。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-route.png" alt="gitlab route">
+</div>
+</div>
+<div class="paragraph">
+<p>アクセスすると、GitLabのログイン画面が表示されます。
+GitLabインスタンス作成時に自動作成される管理者アカウント <code>root</code> ユーザーでログインします。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-login.png" alt="gitlab login">
+</div>
+</div>
+<div class="paragraph">
+<p><code>root</code> ユーザーのパスワードは、OpenShift Webコンソールの「シークレット」メニューにある、
+<code>gitlab-system</code> プロジェクトの <code>gitlab-gitlab-initial-root-password</code> シークレットから確認できます。
+「値を表示する」をクリックすると、パスワードを確認できます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-root-password.png" alt="gitlab root password">
+</div>
+</div>
+<div class="paragraph">
+<p>ログインすると、次のような画面が表示されます。
+英語になっている場合は、画面右上のユーザーアイコンの「Preferences(設定)」から「Language」を日本語に設定して、
+変更保存することで、日本語への表示変更ができます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-root-project.png" alt="gitlab root project">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gitlab_の利用"><a class="anchor" href="#_gitlab_の利用"></a>GitLab の利用</h3>
+<div class="paragraph">
+<p>GitLabのログイン後の画面に表示される「人を追加」メニューからローカルユーザーアカウントを追加したり、
+「プロジェクトを作成」からコードのリポジトリを作成できるようになっています。</p>
+</div>
+<div class="paragraph">
+<p>GitLabでのコード管理については、
+<a href="https://docs.gitlab.com/ja-jp/user/get_started/get_started_managing_code/">公式ガイド</a>の
+ステップ1とステップ2を最低限実施するといいでしょう。</p>
+</div>
+<div class="paragraph">
+<p>他にも様々なガイドがGitLabから提供されているので、参考にしてください。</p>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="102-openshift-console.html">2. OpenShift Lab</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
