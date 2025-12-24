@@ -10,7 +10,7 @@ OpenShiftのGitLab Operatorを利用してGitLabをインストールします�
 
 [Note]
 ====
-NOTE: このモジュールでは、OpenShiftの管理者アカウント( `kubeadmin` や `cluster-admin` など)を利用します。
+NOTE: OpenShiftの管理者アカウント( `kubeadmin` や `cluster-admin` など)を利用します。
 ====
 
 ---
@@ -151,9 +151,7 @@ image::gitlab/gitlab-root-project.png[]
 === GitLab の利用
 
 GitLabのログイン後の画面に表示される「人を追加」メニューからローカルユーザーアカウントを追加したり、
-「プロジェクトを作成」からコードのリポジトリを作成できるようになっています。
-
-GitLabでのコード管理については、
+「プロジェクトを作成」からコードのリポジトリを作成できるようになっています。GitLabでのコード管理については、
 https://docs.gitlab.com/ja-jp/user/get_started/get_started_managing_code/[公式ガイド]の
 ステップ1とステップ2を最低限実施するといいでしょう。
 
