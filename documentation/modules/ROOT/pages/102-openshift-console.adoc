@@ -20,6 +20,7 @@ NOTE: 本演習を自習する場合、OpenShiftの環境をご自身でご用�
 ====
 
 image::trial/login.png[]
+image::trial/first-login.png[]
 
 最初にアプリケーションの開発やデプロイ場所となる「プロジェクト」を作成する必要があります。
 OpenShiftでは「プロジェクト」単位でアプリケーションなどのリソースを分離する、

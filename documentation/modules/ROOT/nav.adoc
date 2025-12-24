@@ -77,3 +77,4 @@
 * 101. Podman/OpenShift Basic Lab
 ** xref:101-podman-cockpit.adoc[1. Podman Lab]
 ** xref:102-openshift-console.adoc[2. OpenShift Lab]
+** xref:103-openshift-gitlab.adoc[Appendix. Install the GitLab on OpenShift]

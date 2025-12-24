@@ -1,0 +1,161 @@
+= Appendix. Install the GitLab on OpenShift
+:navtitle: openshift-gitlab
+include::_attributes.adoc[]
+
+
+== 演習の概要
+このモジュールでは、
+https://qiita.com/JPishikawa/items/be67b02d815504a9423b[こちらの手順]を参考にしながら、
+OpenShiftのGitLab Operatorを利用してGitLabをインストールします。
+
+[Note]
+====
+NOTE: このモジュールでは、OpenShiftの管理者アカウント( `kubeadmin` や `cluster-admin` など)を利用します。
+====
+
+---
+
+=== cert-manager Operatorのインストール
+
+GitLabを利用するための証明書発行機能を持つ、cert-manager Operatorを利用してGitLabをインストールします。
+OpenShift環境にログインして、「ソフトウェアカタログ」から「cert-manager Operator for Red Hat OpenShift」を選択して、
+「インストール」ボタンをクリックして、インストールします。インストール時のオプションは、全てデフォルト値を利用します。
+
+image::gitlab/cert-manager-install01.png[]
+image::gitlab/cert-manager-install02.png[]
+
+これで、cert-manager Operatorのインストールは完了です。
+
+
+=== GitLab Operatorのインストール
+
+続いて、GitLab Operatorをインストールします。
+cert-manager Operatorの時と同様に、「ソフトウェアカタログ」からCertified版のGitLab Operatorを選択して、
+「インストール」ボタンをクリックして、インストールを完了します。インストール時のオプションは、全てデフォルト値を利用します。
+
+image::gitlab/gitlab-install01.png[]
+image::gitlab/gitlab-install02.png[]
+
+これで、GitLab利用に必要となるOperatorのインストールは完了です。
+
+image::gitlab/operator-installed.png[]
+
+
+=== GitLab インスタンスの作成
+
+GitLab Operatorを利用して、GitLabインスタンスを作成します。
+「インストール済みのOperator」メニューから「GitLab」を選択して、「インスタンスの作成」をクリックします。
+
+image::gitlab/gitlab-create01.png[]
+
+GitLab インスタンスを作成するためのYAMLが表示されます。
+これを以下のように修正します。
+
+[.console-input]
+[source,sh]
+----
+kind: GitLab
+apiVersion: apps.gitlab.com/v1beta1
+metadata:
+  name: gitlab
+  namespace: gitlab-system
+spec:
+  chart:
+    values:
+      prometheus:
+        install: false
+      gitlab:
+        gitlab-shell:
+          maxReplicas: 1
+          minReplicas: 1
+        sidekiq:
+          maxReplicas: 1
+          minReplicas: 1
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1000M
+        webservice:
+          maxReplicas: 1
+          minReplicas: 1
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1500M
+      global:
+        hosts:
+          domain: <OpenShift環境で利用されているドメインを設定>
+          hostSuffix: null
+        ingress:
+          annotations:
+            route.openshift.io/termination: edge
+            kubernetes.io/tls-acme: true
+          class: none
+      installCertmanager: false
+      certmanager-issuer:
+        email: <証明書発行者のメールアドレスを設定>
+      minio:
+        resources:
+          requests:
+            cpu: 100m
+      postgresql:
+        primary:
+          extendedConfiguration: max_connections = 200
+      redis:
+        resources:
+          requests:
+            cpu: 100m
+    version: 9.7.0
+----
+
+デフォルトで表示されるYAMLからの主な変更点は次の通りです。
+
+- テスト構成なので、`maxReplicas` を `1` に設定して、冗長構成を排除
+- OpenShiftでデフォルトで用意されるPrometheusがあるため、 `spec.chart.values.prometheus.install` を `false` に変更
+- `spec.chart.values.global.ingress.annotations` を設定して、OpenShift上でのGitLabサービスを公開するための
+https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html/ingress_and_load_balancing/routes[Route]を利用
+- GitLabサービスを利用するためのドメインを指定。ドメインはOpenShift ConsoleのURLなどを参照(例: `https://console-openshift-console.<ドメイン>/`)
+- cert-manager による証明書発行者のメールアドレスを指定
+
+上記のYAMLをコピペしたら、「作成」ボタンをクリックしてGitLabインスタンスを作成します。
+
+image::gitlab/gitlab-create02.png[]
+
+5~10分ほど待つと、GitLabインスタンスが `Running` 状態になります。
+
+image::gitlab/gitlab-running.png[]
+
+この状態になると、GitLabのWebコンソールにログインできるようになります。
+以下の画像の例では `https://gitlab.apps.sno01.sandbox2401.opentlc.com/` にアクセスします。
+
+image::gitlab/gitlab-route.png[]
+
+アクセスすると、GitLabのログイン画面が表示されます。
+GitLabインスタンス作成時に自動作成される管理者アカウント `root` ユーザーでログインします。
+
+image::gitlab/gitlab-login.png[]
+
+`root` ユーザーのパスワードは、OpenShift Webコンソールの「シークレット」メニューにある、 
+`gitlab-system` プロジェクトの `gitlab-gitlab-initial-root-password` シークレットから確認できます。
+「値を表示する」をクリックすると、パスワードを確認できます。
+
+image::gitlab/gitlab-root-password.png[]
+
+ログインすると、次のような画面が表示されます。
+英語になっている場合は、画面右上のユーザーアイコンの「Preferences(設定)」から「Language」を日本語に設定して、
+変更保存することで、日本語への表示変更ができます。
+
+image::gitlab/gitlab-root-project.png[]
+
+
+=== GitLab の利用
+
+GitLabのログイン後の画面に表示される「人を追加」メニューからローカルユーザーアカウントを追加したり、
+「プロジェクトを作成」からコードのリポジトリを作成できるようになっています。
+
+GitLabでのコード管理については、
+https://docs.gitlab.com/ja-jp/user/get_started/get_started_managing_code/[公式ガイド]の
+ステップ1とステップ2を最低限実施するといいでしょう。
+
+他にも様々なガイドがGitLabから提供されているので、参考にしてください。
+
