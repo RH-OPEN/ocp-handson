@@ -103,7 +103,7 @@ image::trial/topology02.png[]
 ====
 NOTE: 前回のビルドで保存されたコンテナイメージにインクリメンタルビルド(増分ビルド)を行うことで、
 前回から変更があったファイルだけがビルド対象となり、ビルドを効率的に実施しています。
-これらのコンテナイメージは、OpenShift標準機能の1つである
+これらのイメージは、OpenShift標準機能の1つである
 https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html/registry/registry-overview[内部コンテナレジストリ]に保存されます。
 ====
 
