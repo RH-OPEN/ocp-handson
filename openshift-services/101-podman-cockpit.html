@@ -738,22 +738,22 @@ httpdプロセスの設定ファイルで、TCP <code>8080</code> を利用す�
 <div class="ulist">
 <ul>
 <li>
-<p>FROM: カスタムコンテナイメージを作成するためのベースイメージ。ここでは「ubi10」を指定。</p>
+<p><code>FROM</code> : カスタムコンテナイメージを作成するためのベースイメージ。ここでは「ubi10」を指定。</p>
 </li>
 <li>
-<p>RUN: カスタムコンテナイメージ作成時に実行するコマンドを指定。</p>
+<p><code>RUN</code> : カスタムコンテナイメージ作成時に実行するコマンドを指定。</p>
 </li>
 <li>
-<p>ADD: ホスト上のファイルをコンテナイメージにコピー。ここでは、Containerfileがあるディレクトリの <code>test.php</code> をコンテナイメージ内の <code>/var/www/html</code> ディレクトリにコピー。</p>
+<p><code>ADD</code> : ホスト上のファイルをコンテナイメージにコピー。ここでは、Containerfileがあるディレクトリの <code>test.php</code> をコンテナイメージ内の <code>/var/www/html</code> ディレクトリにコピー。</p>
 </li>
 <li>
-<p>EXPOSE: コンテナの公開ポート。ここではTCP <code>8080</code> を指定。</p>
+<p><code>EXPOSE</code> : コンテナの公開ポート。ここではTCP <code>8080</code> を指定。</p>
 </li>
 <li>
-<p>USER: コンテナ実行時に実行されるコマンドが、どのユーザーで実行されるかを指定。ここではユーザーID <code>10001</code> のローカルユーザーを指定。</p>
+<p><code>USER</code> : コンテナ実行時に実行されるコマンドが、どのユーザーで実行されるかを指定。ここではユーザーID <code>10001</code> のローカルユーザーを指定。</p>
 </li>
 <li>
-<p>CMD: コンテナ実行時に実行されるコマンドを指定。</p>
+<p><code>CMD</code> : コンテナ実行時に実行されるコマンドを指定。</p>
 </li>
 </ul>
 </div>
