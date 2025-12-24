@@ -32,7 +32,7 @@ image::podman/cockpit-podman.png[]
 image::podman/image-download.png[]
 
 イメージの検索画面のテキストフィールドに「ubi10」などを入力して、以下のコンテナイメージ選択します。
-その後「ダウンロード」ボタンをクリックして、ubi10のコンテナイメージをダウンロードします。
+その後「ダウンロード」ボタンをクリックして、「ubi10」イメージをダウンロードします。
 
 - `docker.io/redhat/ubi10`
 
@@ -40,7 +40,7 @@ image::podman/image-search.png[]
 
 [Note]
 ====
-https://www.redhat.com/ja/blog/introducing-red-hat-universal-base-image[Red Hat Universal Base Image (UBI)]は、RHELから派生したコンテナイメージです。
+NOTE: https://www.redhat.com/ja/blog/introducing-red-hat-universal-base-image[Red Hat Universal Base Image (UBI)]は、RHELから派生したコンテナイメージです。
 Red Hat製品ユーザーでなくても、UBIのコンテナイメージおよびUBIでリリースされた全てのコンテンツをご利用いただけます。
 RHELまたはOpenShift上でUBIのコンテナを実行する場合、Red Hatによる技術サポートが提供されます。
 ====
@@ -74,7 +74,7 @@ image::podman/podman-images-cli.png[]
 
 先ほどダウンロードした「ubi10」コンテナイメージを利用して、「ubi10」のコンテナを実行します。
 「コンテナー」の右横にある「コンテナーの作成」ボタンをクリックします。
-「イメージ」は「docker.io/redhat/ubi10:latest」を選択して、先ほどダウンロードした「ubi10」を指定します。
+「イメージ」は　`docker.io/redhat/ubi10:latest` を選択して、先ほどダウンロードした「ubi10」を指定します。
 
 image::podman/container-create01.png[]
 
@@ -86,18 +86,18 @@ image::podman/container-create01.png[]
 - コンテナポートに割り当てるホストポート: `8080`
 - プロトコル: `TCP` (デフォルト)
 
-[NOTE]
+[Note]
 ====
-複数人で1つのRHEL環境を共有している場合、ユーザー間でホストポートが重複しないように、 
+NOTE: 複数人で1つのRHEL環境を共有している場合、ユーザー間でホストポートが重複しないように、 
 `8080` ではなく、 `8081` から `8200` の間の任意のホストポートを指定するように変更してください。
-なお、コンテナが利用するポートは、コンテナ間で重複しても問題ありません。
+コンテナが利用するポートは、コンテナ間で重複しても問題ありません。
 ====
 
 image::podman/container-create02.png[]
 
 [Note]
 ====
-実行されるコンテナの名前は、毎回ランダムに指定されます。
+NOTE: 実行されるコンテナの名前は、毎回ランダムに指定されます。
 コンテナ実行時に特定の名前を指定することもできますが、本演習ではランダムに指定された名前を利用します。
 ====
 
@@ -116,7 +116,7 @@ image::podman/container-console.png[]
 
 [Note]
 ====
-UBIイメージでは、デフォルトでUBIのパッケージをインストールまたは更新するためのリポジトリが設定されています。
+NOTE: UBIイメージでは、デフォルトでUBIのパッケージをインストールまたは更新するためのリポジトリが設定されています。
 そのため `yum` または `dnf` コマンドでパッケージのインストールまたは更新ができます。
 ====
 
@@ -202,7 +202,10 @@ image::podman/container-commit02.png[]
 「httpd-manual」コンテナイメージを保存したら、「コンテナーの作成」ボタンから「httpd-manual」コンテナイメージを基にしたコンテナを実行します。
 ここでは「端末の使用」チェックボックスのチェックを外して、「作成して実行する」ボタンをクリックします。
 
-NOTE: この時、「インテグレーション」タブから、ホストポート(例: `8080` )とコンテナポート( `80` )のマッピング指定を忘れないようにしてください。
+[Note]
+====
+NOTE: 「インテグレーション」タブから、ホストポート(例: `8080` )とコンテナポート( `80` )のマッピング指定を忘れないようにしてください。
+====
 
 image::podman/container-create03.png[]
 
@@ -211,7 +214,7 @@ Webサービスへのアクセス確認ができるようになります。
 アクセス確認が完了したら、ここで実行したコンテナ(上の画像の例だと「strange_saha」コンテナ)を停止しておきます。
 
 
-=== ContainerFileによるカスタムコンテナイメージの作成
+=== ContainerfileまたはDockerfileによるカスタムコンテナイメージの作成
 
 こうしたコンテナの変更及びWebサービスなどの自動起動を有効化したコンテナイメージの作成手順を、Containerfileというテキストファイルに記載できます。
 次のコマンドをWebコンソールの「端末」メニューから実行して、ContainerfileとContainerfileで扱うホスト上のファイルを作成します。

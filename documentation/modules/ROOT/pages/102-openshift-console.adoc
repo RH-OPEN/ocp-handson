@@ -14,7 +14,10 @@ include::_attributes.adoc[]
 OpenShiftのWebコンソールにアクセスして、ログインします。
 OpenShiftのWebコンソールのURLとアカウント情報は、インストラクターから案内されます。
 
+[Note]
+====
 NOTE: 本演習を自習する場合、OpenShiftの環境をご自身でご用意ください。
+====
 
 image::trial/login.png[]
 
@@ -24,7 +27,10 @@ OpenShiftでは「プロジェクト」単位でアプリケーションなど�
 
 「新規プロジェクトを作成します」をクリックして、適当なプロジェクト名(この例では `test-project99` )を入力して「作成」をクリックします。
 
-NOTE: 複数人でOpenShiftクラスターを共有している場合、プロジェクト名の重複はできませんので、被らないような名前を付けてください。
+[Note]
+====
+NOTE: 複数人でOpenShiftクラスターを共有している場合、プロジェクト名の重複はできませんので、重複しないような名前を付けてください。
+====
 
 image::trial/project-create.png[]
 
@@ -48,7 +54,7 @@ image::trial/git-import02.png[]
 
 [Note]
 ====
-OpenShiftではGitリポジトリのソースコードURLを指定すると、JavaやPHPなどの主要言語であれば、
+NOTE: OpenShiftではGitリポジトリのソースコードURLを指定すると、JavaやPHPなどの主要言語であれば、
 OpenShiftに標準で備わっている専用コンテナを利用して、ユーザーアプリのコンテナイメージを自動作成してくれます。
 ====
 
@@ -69,7 +75,7 @@ Host IP: 10.128.0.236
 
 [Note]
 ====
-ここで表示されているIPアドレスは、OpenShift上のコンテナ(
+NOTE: ここで表示されているIPアドレスは、OpenShift上のコンテナ(
 https://kubernetes.io/ja/docs/concepts/workloads/pods/[Kubernetes Pod])に、動的に割り当てられたIPアドレスとなります。
 OpenShiftでは、コンテナ間通信を行うためのネットワークが自動作成されて利用されます。
 ====
@@ -82,7 +88,10 @@ image::trial/build-log.png[]
 
 === OpenShiftでのアプリケーション更改
 
+[Note]
+====
 NOTE: この演習は、ユーザーが利用可能なGitリポジトリが無い場合は実施できません。
+====
 
 Gitリポジトリのソースコードを修正してコミットした場合、
 コンテナイメージを再ビルドすることで、コミットしたソースコードが反映されたアプリケーションをデプロイできます。
@@ -92,7 +101,7 @@ image::trial/topology02.png[]
 
 [Note]
 ====
-前回のビルドで保存されたコンテナイメージにインクリメンタルビルド(増分ビルド)を行うことで、
+NOTE: 前回のビルドで保存されたコンテナイメージにインクリメンタルビルド(増分ビルド)を行うことで、
 前回から変更があったファイルだけがビルド対象となり、ビルドを効率的に実施しています。
 これらのコンテナイメージは、OpenShift標準機能の1つである
 https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html/registry/registry-overview[内部コンテナレジストリ]に保存されます。
