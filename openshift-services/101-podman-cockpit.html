@@ -349,7 +349,7 @@ CockpitのURLとアカウント情報はインストラクターから案内さ�
 </div>
 <div class="paragraph">
 <p>イメージの検索画面のテキストフィールドに「ubi10」などを入力して、以下のコンテナイメージ選択します。
-その後「ダウンロード」ボタンをクリックして、ubi10のコンテナイメージをダウンロードします。</p>
+その後「ダウンロード」ボタンをクリックして、「ubi10」イメージをダウンロードします。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -365,10 +365,19 @@ CockpitのURLとアカウント情報はインストラクターから案内さ�
 </div>
 <div class="exampleblock">
 <div class="content">
-<div class="paragraph">
-<p><a href="https://www.redhat.com/ja/blog/introducing-red-hat-universal-base-image">Red Hat Universal Base Image (UBI)</a>は、RHELから派生したコンテナイメージです。
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="https://www.redhat.com/ja/blog/introducing-red-hat-universal-base-image">Red Hat Universal Base Image (UBI)</a>は、RHELから派生したコンテナイメージです。
 Red Hat製品ユーザーでなくても、UBIのコンテナイメージおよびUBIでリリースされた全てのコンテンツをご利用いただけます。
-RHELまたはOpenShift上でUBIのコンテナを実行する場合、Red Hatによる技術サポートが提供されます。</p>
+RHELまたはOpenShift上でUBIのコンテナを実行する場合、Red Hatによる技術サポートが提供されます。
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -411,7 +420,7 @@ docker.io/redhat/ubi10  latest      df13daf31556  5 days ago  219 MB
 <div class="paragraph">
 <p>先ほどダウンロードした「ubi10」コンテナイメージを利用して、「ubi10」のコンテナを実行します。
 「コンテナー」の右横にある「コンテナーの作成」ボタンをクリックします。
-「イメージ」は「docker.io/redhat/ubi10:latest」を選択して、先ほどダウンロードした「ubi10」を指定します。</p>
+「イメージ」は　<code>docker.io/redhat/ubi10:latest</code> を選択して、先ほどダウンロードした「ubi10」を指定します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -436,6 +445,8 @@ docker.io/redhat/ubi10  latest      df13daf31556  5 days ago  219 MB
 </li>
 </ul>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -443,14 +454,14 @@ docker.io/redhat/ubi10  latest      df13daf31556  5 days ago  219 MB
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<div class="paragraph">
-<p>複数人で1つのRHEL環境を共有している場合、ユーザー間でホストポートが重複しないように、
+複数人で1つのRHEL環境を共有している場合、ユーザー間でホストポートが重複しないように、
 <code>8080</code> ではなく、 <code>8081</code> から <code>8200</code> の間の任意のホストポートを指定するように変更してください。
-なお、コンテナが利用するポートは、コンテナ間で重複しても問題ありません。</p>
-</div>
+コンテナが利用するポートは、コンテナ間で重複しても問題ありません。
 </td>
 </tr>
 </table>
+</div>
+</div>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -459,9 +470,18 @@ docker.io/redhat/ubi10  latest      df13daf31556  5 days ago  219 MB
 </div>
 <div class="exampleblock">
 <div class="content">
-<div class="paragraph">
-<p>実行されるコンテナの名前は、毎回ランダムに指定されます。
-コンテナ実行時に特定の名前を指定することもできますが、本演習ではランダムに指定された名前を利用します。</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+実行されるコンテナの名前は、毎回ランダムに指定されます。
+コンテナ実行時に特定の名前を指定することもできますが、本演習ではランダムに指定された名前を利用します。
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -497,9 +517,18 @@ docker.io/redhat/ubi10  latest      df13daf31556  5 days ago  219 MB
 </div>
 <div class="exampleblock">
 <div class="content">
-<div class="paragraph">
-<p>UBIイメージでは、デフォルトでUBIのパッケージをインストールまたは更新するためのリポジトリが設定されています。
-そのため <code>yum</code> または <code>dnf</code> コマンドでパッケージのインストールまたは更新ができます。</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+UBIイメージでは、デフォルトでUBIのパッケージをインストールまたは更新するためのリポジトリが設定されています。
+そのため <code>yum</code> または <code>dnf</code> コマンドでパッケージのインストールまたは更新ができます。
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -614,6 +643,8 @@ curl http://localhost:8080/test.php</code></pre>
 <p>「httpd-manual」コンテナイメージを保存したら、「コンテナーの作成」ボタンから「httpd-manual」コンテナイメージを基にしたコンテナを実行します。
 ここでは「端末の使用」チェックボックスのチェックを外して、「作成して実行する」ボタンをクリックします。</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -621,10 +652,12 @@ curl http://localhost:8080/test.php</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-この時、「インテグレーション」タブから、ホストポート(例: <code>8080</code> )とコンテナポート( <code>80</code> )のマッピング指定を忘れないようにしてください。
+「インテグレーション」タブから、ホストポート(例: <code>8080</code> )とコンテナポート( <code>80</code> )のマッピング指定を忘れないようにしてください。
 </td>
 </tr>
 </table>
+</div>
+</div>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -638,7 +671,7 @@ Webサービスへのアクセス確認ができるようになります。
 </div>
 </div>
 <div class="sect2">
-<h3 id="_containerfileによるカスタムコンテナイメージの作成"><a class="anchor" href="#_containerfileによるカスタムコンテナイメージの作成"></a>ContainerFileによるカスタムコンテナイメージの作成</h3>
+<h3 id="_containerfileまたはdockerfileによるカスタムコンテナイメージの作成"><a class="anchor" href="#_containerfileまたはdockerfileによるカスタムコンテナイメージの作成"></a>ContainerfileまたはDockerfileによるカスタムコンテナイメージの作成</h3>
 <div class="paragraph">
 <p>こうしたコンテナの変更及びWebサービスなどの自動起動を有効化したコンテナイメージの作成手順を、Containerfileというテキストファイルに記載できます。
 次のコマンドをWebコンソールの「端末」メニューから実行して、ContainerfileとContainerfileで扱うホスト上のファイルを作成します。</p>

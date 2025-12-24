@@ -307,6 +307,8 @@
 OpenShiftのWebコンソールにアクセスして、ログインします。
 OpenShiftのWebコンソールのURLとアカウント情報は、インストラクターから案内されます。</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -318,6 +320,8 @@ OpenShiftのWebコンソールのURLとアカウント情報は、インスト�
 </td>
 </tr>
 </table>
+</div>
+</div>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -332,6 +336,8 @@ OpenShiftでは「プロジェクト」単位でアプリケーションなど�
 <div class="paragraph">
 <p>「新規プロジェクトを作成します」をクリックして、適当なプロジェクト名(この例では <code>test-project99</code> )を入力して「作成」をクリックします。</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -339,10 +345,12 @@ OpenShiftでは「プロジェクト」単位でアプリケーションなど�
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-複数人でOpenShiftクラスターを共有している場合、プロジェクト名の重複はできませんので、被らないような名前を付けてください。
+複数人でOpenShiftクラスターを共有している場合、プロジェクト名の重複はできませんので、重複しないような名前を付けてください。
 </td>
 </tr>
 </table>
+</div>
+</div>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -386,9 +394,18 @@ OpenShiftでは「プロジェクト」単位でアプリケーションなど�
 </div>
 <div class="exampleblock">
 <div class="content">
-<div class="paragraph">
-<p>OpenShiftではGitリポジトリのソースコードURLを指定すると、JavaやPHPなどの主要言語であれば、
-OpenShiftに標準で備わっている専用コンテナを利用して、ユーザーアプリのコンテナイメージを自動作成してくれます。</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+OpenShiftではGitリポジトリのソースコードURLを指定すると、JavaやPHPなどの主要言語であれば、
+OpenShiftに標準で備わっている専用コンテナを利用して、ユーザーアプリのコンテナイメージを自動作成してくれます。
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -415,10 +432,19 @@ Host IP: 10.128.0.236</code></pre>
 </div>
 <div class="exampleblock">
 <div class="content">
-<div class="paragraph">
-<p>ここで表示されているIPアドレスは、OpenShift上のコンテナ(
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+ここで表示されているIPアドレスは、OpenShift上のコンテナ(
 <a href="https://kubernetes.io/ja/docs/concepts/workloads/pods/">Kubernetes Pod</a>)に、動的に割り当てられたIPアドレスとなります。
-OpenShiftでは、コンテナ間通信を行うためのネットワークが自動作成されて利用されます。</p>
+OpenShiftでは、コンテナ間通信を行うためのネットワークが自動作成されて利用されます。
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -434,6 +460,8 @@ Podmanの演習の時に確認できた、Containerfileからのカスタムイ�
 </div>
 <div class="sect2">
 <h3 id="_openshiftでのアプリケーション更改"><a class="anchor" href="#_openshiftでのアプリケーション更改"></a>OpenShiftでのアプリケーション更改</h3>
+<div class="exampleblock">
+<div class="content">
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -445,6 +473,8 @@ Podmanの演習の時に確認できた、Containerfileからのカスタムイ�
 </td>
 </tr>
 </table>
+</div>
+</div>
 </div>
 <div class="paragraph">
 <p>Gitリポジトリのソースコードを修正してコミットした場合、
@@ -458,11 +488,20 @@ Podmanの演習の時に確認できた、Containerfileからのカスタムイ�
 </div>
 <div class="exampleblock">
 <div class="content">
-<div class="paragraph">
-<p>前回のビルドで保存されたコンテナイメージにインクリメンタルビルド(増分ビルド)を行うことで、
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+前回のビルドで保存されたコンテナイメージにインクリメンタルビルド(増分ビルド)を行うことで、
 前回から変更があったファイルだけがビルド対象となり、ビルドを効率的に実施しています。
 これらのコンテナイメージは、OpenShift標準機能の1つである
-<a href="https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html/registry/registry-overview">内部コンテナレジストリ</a>に保存されます。</p>
+<a href="https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html/registry/registry-overview">内部コンテナレジストリ</a>に保存されます。
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
