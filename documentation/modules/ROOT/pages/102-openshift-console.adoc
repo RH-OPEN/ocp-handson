@@ -50,7 +50,13 @@ image::trial/git-import01.png[]
 「検証済み」の表示を確認したら、「作成」ボタンをクリックします。
 これだけでサンプルアプリケーションのデプロイが完了します。
 
-- GitリポジトリーURL: `https://github.com/h-kojima/php-hello-world`
+- GitリポジトリーURL:
+
+[.console-input]
+[source,sh]
+----
+https://github.com/h-kojima/php-hello-world
+----
 
 image::trial/git-import02.png[]
 

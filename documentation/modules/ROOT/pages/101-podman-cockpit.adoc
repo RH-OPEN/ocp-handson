@@ -4,7 +4,8 @@ include::_attributes.adoc[]
 
 
 == 演習の概要
-このモジュールでは、Podmanを利用して簡単なWebサーバをデプロイします。
+このモジュールでは、
+https://www.redhat.com/ja/topics/containers/what-is-podman[Podman]を利用して簡単なWebサーバをデプロイします。
 
 ---
 
