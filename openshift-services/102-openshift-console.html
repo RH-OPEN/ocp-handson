@@ -301,7 +301,8 @@
 <h2 id="_演習の概要"><a class="anchor" href="#_演習の概要"></a>演習の概要</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>このモジュールでは、OpenShiftを利用して簡単なWebサーバをデプロイします。</p>
+<p>このモジュールでは、
+<a href="https://www.redhat.com/ja/technologies/cloud-computing/openshift/red-hat-openshift-kubernetes">OpenShift</a>を利用して簡単なWebサーバをデプロイします。</p>
 </div>
 <hr>
 <div class="sect2">
@@ -425,7 +426,7 @@ OpenShiftに標準で備わっている専用コンテナを利用して、ユ�
 </div>
 </div>
 <div class="paragraph">
-<p>しばらく待つと、「php-hello-world-git-app」という名前のアプリケーションが作成されたことが、
+<p>しばらく待つと、以下の画像の例では「php-hello-world-git-app」という名前のアプリケーションが作成されたことが、
 トポロジー画面から確認できます。</p>
 </div>
 <div class="imageblock">
@@ -464,12 +465,87 @@ OpenShiftでは、コンテナ間通信を行うためのネットワークが�
 </div>
 </div>
 <div class="paragraph">
-<p>トポロジー画面右にある「ログの表示」をクリックすると、「php-hello-wold」コンテナを作成した時のログを確認できます。
+<p>「リソース」タブの <code>ビルド #1 は完了しました`の右横にある `ログの表示</code> をクリックすると、
+「php-hello-wold」コンテナを作成した時のログを確認できます。
 Podmanの演習の時に確認できた、Containerfileからのカスタムイメージ作成のようなログなどを確認できます。</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="_images/trial/build-log.png" alt="build log">
+</div>
+</div>
+<div class="paragraph">
+<p><a href="https://rh-open.github.io/ocp-handson/openshift-services/101-podman-cockpit.html">Podman Lab</a>で紹介した
+Containerfileを含んだGitリポジトリのソースコードからも、同様の手順でアプリケーションが作成できます。
+OpenShiftの「Gitからのインポート」メニューから次のリポジトリを指定します。
+このリポジトリのContainerfileでは <code>Hello World</code> メッセージを出力するだけの <code>app.py</code> を、
+無限実行するように指定しています。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>GitリポジトリーURL:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">https://github.com/h-kojima/python-hello-world</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>以下の画像の例では、このGitリポジトリから作成されるOpenShiftのリソースが、
+前述の手順で作成したpythonアプリケーションのグループに含まれないようにします。
+「アプリケーション」から「アプリケーションの作成」メニューを選択して、アプリケーション名として以下を指定します。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">python-hello-world-app</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>こうすることで、以前に作成したPHPアプリケーションのグループと分けることができます。
+後述のアプリケーション削除の時に、アプリケーションのグループ単位で別々に自動削除できるようになるので便利です。
+これ以外は全てデフォルトのままにして、「作成」ボタンをクリックします。</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="trial/git-import03.png" alt="git import03">
+</div>
+</div>
+<div class="paragraph">
+<p>トポロジー画面の「OpenShift」アイコン(以下の画像の例だと、黒い丸四角のアイコン)をクリックして、
+「リソース」タブの「Pods」の右横にある「ログの表示」をクリックすると、
+このアプリケーションで実行される <code>app.py</code> によって表示される <code>Hello World</code> メッセージが無限に出力されていることを確認できます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/trial/topology02.png" alt="topology02">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/trial/pod-log.png" alt="pod log">
+</div>
+</div>
+<div class="paragraph">
+<p>なお、左サイドメニューの「Workloads」から「Pods」をクリックすることで、元のトポロジー画面表示に戻れます。</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+このPythonアプリケーションの「Routes」で表示されるURLをクリックすると <code>Application is not available</code> といった
+メッセージが表示されます。このコンテナではWebアプリケーションに該当するソフトウェアを何も実行していないので、これは正常な表示です。
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -527,7 +603,7 @@ Podmanの演習の時に確認できた、Containerfileからのカスタムイ�
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/trial/topology02.png" alt="topology02">
+<img src="_images/trial/topology03.png" alt="topology03">
 </div>
 </div>
 <div class="exampleblock">

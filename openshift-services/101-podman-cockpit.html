@@ -346,13 +346,30 @@ CockpitのURLとアカウント情報はインストラクターから案内さ�
 <div class="paragraph">
 <p>「イメージ」の右横にある縦3点リーダーから、「新規イメージのダウンロード」を選択します。</p>
 </div>
+<div class="exampleblock">
+<div class="content">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+コンテナイメージは、コンテナ実行のテンプレートです。PodmanやDockerなどのコンテナエンジンは、
+テンプレートであるコンテナイメージを利用してコンテナを実行します。
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
 <div class="imageblock">
 <div class="content">
 <img src="_images/podman/image-download.png" alt="image download">
 </div>
 </div>
 <div class="paragraph">
-<p>イメージの検索画面のテキストフィールドに「ubi10」などを入力して、以下のコンテナイメージ選択します。
+<p>イメージの検索画面のテキストフィールドに「ubi10」などを入力して、以下のコンテナイメージを選択します。
 その後「ダウンロード」ボタンをクリックして、「ubi10」イメージをダウンロードします。</p>
 </div>
 <div class="ulist">
@@ -835,6 +852,58 @@ Webサービスへのアクセス確認をする場合、コンテナの「コ�
 <div class="content">
 <img src="_images/podman/container-id.png" alt="container id">
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_コンテナイメージのアーカイブ保存と読み込み"><a class="anchor" href="#_コンテナイメージのアーカイブ保存と読み込み"></a>コンテナイメージのアーカイブ保存と読み込み</h3>
+<div class="paragraph">
+<p>前述の手順で作成したコンテナイメージを他のユーザーと共有できます。共有する方法は、以下のいずれかとなります。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://hub.docker.com/">Docker Hub</a>や
+<a href="https://quay.io/">Quay.io</a>などのコンテナレジストリに保存して共有 (オンプレミス用のレジストリも存在)</p>
+</li>
+<li>
+<p>アーカイブ形式で保存して共有</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>前者は <code>podman push</code> コマンドで実行しますが、本演習では後者の手順をご紹介します。
+前述の手順で作成した <code>httpd-auto</code> イメージをアーカイブ形式で保存する場合は、左サイドメニューの「端末」から次のコマンドを実行します。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">podman save -o httpd-auto.tar localhost/httpd-auto</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-save.png" alt="container save">
+</div>
+</div>
+<div class="paragraph">
+<p><code>podman save</code> コマンドでカレントディレクトリに <code>httpd-auto.tar</code> という名前でtar形式のファイルとしてコンテナイメージが保存されます。
+このtarファイルを他のユーザーと共有することで、手元で開発したコンテナイメージを他の環境でも実行できるようになります。</p>
+</div>
+<div class="paragraph">
+<p>tarファイルとして保存したコンテナイメージを読み込むには、次のコマンドを実行します。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">podman load httpd-auto.tar</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/podman/container-load.png" alt="container load">
+</div>
+</div>
+<div class="paragraph">
+<p><code>podman load</code> コマンドでコンテナイメージが読み込まれて、ローカルホストに保存されます。
+こうして保存されたコンテナイメージから、コンテナを実行できるようになります。</p>
 </div>
 </div>
 </div>
