@@ -89,7 +89,7 @@ https://kubernetes.io/ja/docs/concepts/workloads/pods/[Kubernetes Pod])に、動
 OpenShiftでは、コンテナ間通信を行うためのネットワークが自動作成されて利用されます。
 ====
 
-「リソース」タブの `ビルド #1 は完了しました`の右横にある `ログの表示` をクリックすると、
+「リソース」タブの `ビルド 1 は完了しました` の右横にある `ログの表示` をクリックすると、
 「php-hello-wold」コンテナを作成した時のログを確認できます。
 Podmanの演習の時に確認できた、Containerfileからのカスタムイメージ作成のようなログなどを確認できます。
 
@@ -133,7 +133,7 @@ image::trial/topology02.png[]
 
 image::trial/pod-log.png[]
 
-なお、左サイドメニューの「Workloads」から「Pods」をクリックすることで、元のトポロジー画面表示に戻れます。
+左サイドメニューの「Workloads」の「トポロジー」から、トポロジー画面表示に戻れます。
 
 [Note]
 ====
