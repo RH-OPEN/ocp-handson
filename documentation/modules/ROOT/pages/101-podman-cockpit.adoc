@@ -10,7 +10,6 @@ https://www.redhat.com/ja/topics/containers/what-is-podman[Podman]を利用し�
 ---
 
 === コンテナイメージの検索とダウンロード
-
 RHELのWebコンソールであるCockpitにWebブラウザを使ってアクセスします。
 CockpitのURLとアカウント情報はインストラクターから案内されます。
 
@@ -30,9 +29,15 @@ image::podman/cockpit-podman.png[]
 
 「イメージ」の右横にある縦3点リーダーから、「新規イメージのダウンロード」を選択します。
 
+[Note]
+====
+NOTE: コンテナイメージは、コンテナ実行のテンプレートです。PodmanやDockerなどのコンテナエンジンは、
+テンプレートであるコンテナイメージを利用してコンテナを実行します。
+====
+
 image::podman/image-download.png[]
 
-イメージの検索画面のテキストフィールドに「ubi10」などを入力して、以下のコンテナイメージ選択します。
+イメージの検索画面のテキストフィールドに「ubi10」などを入力して、以下のコンテナイメージを選択します。
 その後「ダウンロード」ボタンをクリックして、「ubi10」イメージをダウンロードします。
 
 - `docker.io/redhat/ubi10`
@@ -313,3 +318,38 @@ NOTE: Webサービスへのアクセス確認をする場合、コンテナの�
 
 image::podman/container-id.png[]
 
+
+=== コンテナイメージのアーカイブ保存と読み込み
+
+前述の手順で作成したコンテナイメージを他のユーザーと共有できます。共有する方法は、以下のいずれかとなります。
+
+- https://hub.docker.com/[Docker Hub]や
+https://quay.io/[Quay.io]などのコンテナレジストリに保存して共有 (オンプレミス用のレジストリも存在)
+- アーカイブ形式で保存して共有
+
+前者は `podman push` コマンドで実行しますが、本演習では後者の手順をご紹介します。
+前述の手順で作成した `httpd-auto` イメージをアーカイブ形式で保存する場合は、左サイドメニューの「端末」から次のコマンドを実行します。
+
+[.console-input]
+[source,sh]
+----
+podman save -o httpd-auto.tar localhost/httpd-auto
+----
+
+image::podman/container-save.png[]
+
+`podman save` コマンドでカレントディレクトリに `httpd-auto.tar` という名前でtar形式のファイルとしてコンテナイメージが保存されます。
+このtarファイルを他のユーザーと共有することで、手元で開発したコンテナイメージを他の環境でも実行できるようになります。
+
+tarファイルとして保存したコンテナイメージを読み込むには、次のコマンドを実行します。
+
+[.console-input]
+[source,sh]
+----
+podman load httpd-auto.tar
+----
+
+image::podman/container-load.png[]
+
+`podman load` コマンドでコンテナイメージが読み込まれて、ローカルホストに保存されます。
+こうして保存されたコンテナイメージから、コンテナを実行できるようになります。

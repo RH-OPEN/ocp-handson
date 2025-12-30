@@ -4,7 +4,8 @@ include::_attributes.adoc[]
 
 
 == 演習の概要
-このモジュールでは、OpenShiftを利用して簡単なWebサーバをデプロイします。
+このモジュールでは、
+https://www.redhat.com/ja/technologies/cloud-computing/openshift/red-hat-openshift-kubernetes[OpenShift]を利用して簡単なWebサーバをデプロイします。
 
 ---
 
@@ -66,7 +67,7 @@ NOTE: OpenShiftではGitリポジトリのソースコードURLを指定する�
 OpenShiftに標準で備わっている専用コンテナを利用して、ユーザーアプリのコンテナイメージを自動作成してくれます。
 ====
 
-しばらく待つと、「php-hello-world-git-app」という名前のアプリケーションが作成されたことが、
+しばらく待つと、以下の画像の例では「php-hello-world-git-app」という名前のアプリケーションが作成されたことが、
 トポロジー画面から確認できます。
 
 image::trial/topology01.png[]
@@ -88,10 +89,58 @@ https://kubernetes.io/ja/docs/concepts/workloads/pods/[Kubernetes Pod])に、動
 OpenShiftでは、コンテナ間通信を行うためのネットワークが自動作成されて利用されます。
 ====
 
-トポロジー画面右にある「ログの表示」をクリックすると、「php-hello-wold」コンテナを作成した時のログを確認できます。
+「リソース」タブの `ビルド #1 は完了しました`の右横にある `ログの表示` をクリックすると、
+「php-hello-wold」コンテナを作成した時のログを確認できます。
 Podmanの演習の時に確認できた、Containerfileからのカスタムイメージ作成のようなログなどを確認できます。
 
 image::trial/build-log.png[]
+
+https://rh-open.github.io/ocp-handson/openshift-services/101-podman-cockpit.html[Podman Lab]で紹介した
+Containerfileを含んだGitリポジトリのソースコードからも、同様の手順でアプリケーションが作成できます。
+OpenShiftの「Gitからのインポート」メニューから次のリポジトリを指定します。
+このリポジトリのContainerfileでは `Hello World` メッセージを出力するだけの `app.py` を、
+無限実行するように指定しています。
+
+- GitリポジトリーURL:
+
+[.console-input]
+[source,sh]
+----
+https://github.com/h-kojima/python-hello-world
+----
+
+以下の画像の例では、このGitリポジトリから作成されるOpenShiftのリソースが、
+前述の手順で作成したpythonアプリケーションのグループに含まれないようにします。
+「アプリケーション」から「アプリケーションの作成」メニューを選択して、アプリケーション名として以下を指定します。
+
+[.console-input]
+[source,sh]
+----
+python-hello-world-app
+----
+
+こうすることで、以前に作成したPHPアプリケーションのグループと分けることができます。
+後述のアプリケーション削除の時に、アプリケーションのグループ単位で別々に自動削除できるようになるので便利です。
+これ以外は全てデフォルトのままにして、「作成」ボタンをクリックします。
+
+image::trial/git-import03.png[]
+
+トポロジー画面の「OpenShift」アイコン(以下の画像の例だと、黒い丸四角のアイコン)をクリックして、
+「リソース」タブの「Pods」の右横にある「ログの表示」をクリックすると、
+このアプリケーションで実行される `app.py` によって表示される `Hello World` メッセージが無限に出力されていることを確認できます。
+
+image::trial/topology02.png[]
+
+image::trial/pod-log.png[]
+
+なお、左サイドメニューの「Workloads」から「Pods」をクリックすることで、元のトポロジー画面表示に戻れます。
+
+[Note]
+====
+NOTE: このPythonアプリケーションの「Routes」で表示されるURLをクリックすると `Application is not available` といった
+メッセージが表示されます。このコンテナではWebアプリケーションに該当するソフトウェアを何も実行していないので、これは正常な表示です。
+====
+
 
 === OpenShiftでのアプリケーション削除
 
@@ -106,6 +155,7 @@ image::trial/app-delete01.png[]
 image::trial/app-delete02.png[]
 
 これによって、このアプリケーションに関連するリソース全てが自動削除されます。
+
 
 === OpenShiftでのアプリケーション更改
 
@@ -122,7 +172,7 @@ Gitリポジトリのソースコードを修正してコミットした場合�
 そして、アプリケーション作成時に参照するGitリポジトリ上のソースコードを編集した後に、
 トポロジー画面の対象のアプリケーションの「ビルドの開始」ボタンをクリックします。
 
-image::trial/topology02.png[]
+image::trial/topology03.png[]
 
 [Note]
 ====
