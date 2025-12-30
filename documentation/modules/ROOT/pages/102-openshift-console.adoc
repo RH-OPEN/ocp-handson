@@ -104,7 +104,7 @@ Containerfileを含んだGitリポジトリのソースコードからも、前�
 
 [Note]
 ====
-NOTE: OpenShiftでContainerfileやDockerfileを含んだGitリポジトリを指定する場合、ソースコードからのコンテナイメージ自動作成の際に、ContainerfileやDockerfileに記載されたイメージ作成手順が自動利用されます。
+NOTE: OpenShiftでContainerfileやDockerfileを含んだGitリポジトリを指定する場合、ソースコードからのコンテナイメージ自動作成の際に、ContainerfileやDockerfileに記載されたイメージ作成手順が自動利用されるようにデフォルトで指定されます。
 ====
 
 OpenShiftの「Gitからのインポート」メニューから次のリポジトリを指定します。
