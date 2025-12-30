@@ -91,7 +91,7 @@ OpenShiftでは、コンテナ間通信を行うためのネットワークが�
 
 「リソース」タブの `ビルド 1 は完了しました` の右横にある `ログの表示` をクリックすると、
 「php-hello-wold」コンテナを作成した時のログを確認できます。
-Podmanの演習の時に確認できた、Containerfileからのカスタムイメージ作成のようなログなどを確認できます。
+https://rh-open.github.io/ocp-handson/openshift-services/101-podman-cockpit.html[Podman Lab]の時に確認できた、Containerfileからのカスタムイメージ作成のようなログなどを確認できます。
 
 image::trial/build-log.png[]
 
