@@ -95,8 +95,18 @@ Podmanの演習の時に確認できた、Containerfileからのカスタムイ�
 
 image::trial/build-log.png[]
 
+
+=== Containerfileを含んだGitリポジトリの利用
+
+
 https://rh-open.github.io/ocp-handson/openshift-services/101-podman-cockpit.html[Podman Lab]で紹介した
-Containerfileを含んだGitリポジトリのソースコードからも、同様の手順でアプリケーションが作成できます。
+Containerfileを含んだGitリポジトリのソースコードからも、前述と同様の手順でアプリケーションが作成できます。
+
+[Note]
+====
+NOTE: OpenShiftでContainerfileやDockerfileを含んだGitリポジトリを指定する場合、ソースコードからのコンテナイメージ自動作成の際に、ContainerfileやDockerfileに記載されたイメージ作成手順が自動利用されます。
+====
+
 OpenShiftの「Gitからのインポート」メニューから次のリポジトリを指定します。
 このリポジトリのContainerfileでは `Hello World` メッセージを出力するだけの `app.py` を、
 無限実行するように指定しています。
