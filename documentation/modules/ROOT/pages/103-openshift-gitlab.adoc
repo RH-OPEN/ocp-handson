@@ -233,4 +233,3 @@ https://docs.gitlab.com/ja-jp/user/get_started/get_started_managing_code/[公式
 image::gitlab/gitlab-runner-console.png[]
 
 他にも様々な公式ガイドがGitLabから提供されているので、参考にしてください。
-
