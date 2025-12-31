@@ -84,7 +84,7 @@ spec:
               memory: 1500M
       global:
         hosts:
-          domain: <OpenShift環境で利用されているドメインを設定>
+          domain: <OpenShift環境で利用しているドメインを設定>
           hostSuffix: null
         ingress:
           annotations:
@@ -122,11 +122,21 @@ https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html/
 image::gitlab/gitlab-create02.png[]
 
 5~10分ほど待つと、GitLabインスタンスが `Running` 状態になります。
+この状態になると、GitLabのWebコンソールにアクセスできるようになります。
 
 image::gitlab/gitlab-running.png[]
 
-この状態になると、GitLabのWebコンソールにログインできるようになります。
-以下の画像の例ではURLがいくつか提示されていますが `gitlab` 文字列を含むURLを利用します。
+
+=== GitLab の利用
+
+以下の画像の例ではURLがいくつか提示されていますが、
+GitLabのWebコンソールにアクセスするには `gitlab` 文字列を含むURLを利用します。
+
+[.console-input]
+[source,sh]
+----
+https://gitlab.<OpenShift環境で利用しているドメイン>/
+----
 
 image::gitlab/gitlab-route.png[]
 
@@ -146,9 +156,6 @@ image::gitlab/gitlab-root-password.png[]
 変更保存することで、日本語への表示変更ができます。
 
 image::gitlab/gitlab-root-project.png[]
-
-
-=== GitLab の利用
 
 GitLabのログイン後の画面に表示される「人を追加」メニューからローカルユーザーアカウントを追加したり、
 「プロジェクトを作成」からコードのリポジトリを作成できるようになっています。GitLabでのコード管理については、
