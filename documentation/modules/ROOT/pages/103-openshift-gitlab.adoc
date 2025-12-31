@@ -134,7 +134,7 @@ https://docs.gitlab.com/ja-jp/runner/[GitLab Runner]もOperatorでインスト�
 
 前述の手順でGitLab OperatorのインストールとGitLab インスタンスの作成が完了した後に、
 「ソフトウェアカタログ」からCertified版のGitLab Runner Operatorを選択して、「インストール」ボタンをクリックして、
-インストールを完了します。インストール時のオプションは、全てデフォルト値を利用します。
+インストールを完了します。インストール時のオプションは、全てデフォルト値です。
 
 image::gitlab/gitlab-runner-install01.png[]
 image::gitlab/gitlab-runner-install02.png[]
@@ -179,7 +179,7 @@ spec:
 image::gitlab/gitlab-runner-create02.png[]
 
 これによってGitLab Runnerインスタンスが `Running` 状態になります。この状態になると、
-GitLabのWebコンソールなどからGitLab Runnerのエージェントとして利用できるようになります。
+GitLabのWebコンソールからGitLab Runnerのエージェントとして利用できるようになります。
 
 image::gitlab/gitlab-runner-running01.png[]
 
@@ -232,5 +232,5 @@ https://docs.gitlab.com/ja-jp/user/get_started/get_started_managing_code/[公式
 
 image::gitlab/gitlab-runner-console.png[]
 
-他にも様々なガイドがGitLabから提供されているので、参考にしてください。
+他にも様々な公式ガイドがGitLabから提供されているので、参考にしてください。
 
