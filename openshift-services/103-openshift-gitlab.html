@@ -540,16 +540,16 @@ spec:
 <div class="ulist">
 <ul>
 <li>
-<p><code>generateName: gitlab-runner-</code> を指定</p>
+<p><code>metadata.generateName: gitlab-runner-</code> を指定</p>
 </li>
 <li>
-<p>GitLab Runnerを利用するGitLabインスタンスのURLを <code>gitlabUrl</code> で指定</p>
+<p>GitLab Runnerを利用するGitLabインスタンスのURLを <code>spec.gitlabUrl</code> で指定</p>
 </li>
 <li>
-<p>前述のGitLabインスタンス作成時に自動作成されたシークレットを <code>token: gitlab-gitlab-runner-secret</code> で指定</p>
+<p>前述のGitLabインスタンス作成時に自動作成されたシークレットを <code>spec.token: gitlab-gitlab-runner-secret</code> で指定</p>
 </li>
 <li>
-<p>OpenShiftによって作成されたリソースであることを示す <code>tags: openshift</code> を指定</p>
+<p>OpenShiftによって作成されたリソースであることを示す <code>spec.tags: openshift</code> を指定</p>
 </li>
 </ul>
 </div>
@@ -571,10 +571,10 @@ GitLabのWebコンソールからGitLab Runnerのエージェントとして利�
 </div>
 </div>
 <div class="paragraph">
-<p>なお、上記YAMLでは <code>generateName</code> を指定しています。
-これによって、GitLab Runnerインスタンスに特定の名前を指定することなく、
+<p>上記YAMLでは <code>metadata.generateName</code> を指定しています。
+これにより GitLab Runnerインスタンスに特定の名前を指定することなく、
 上記YAMLからGitLab Runnerインスタンスを作成するという前述の手順を繰り返すだけで、
-GitLab Runnerを実行するエージェントの追加が可能になります。</p>
+GitLab Runnerのエージェント追加が可能になります。</p>
 </div>
 <div class="imageblock">
 <div class="content">
