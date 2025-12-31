@@ -127,6 +127,70 @@ image::gitlab/gitlab-create02.png[]
 image::gitlab/gitlab-running.png[]
 
 
+=== GitLab Runner Operatorのインストール
+
+GitLab CI/CDと連携してパイプラインでジョブを実行するアプリケーションである
+https://docs.gitlab.com/ja-jp/runner/[GitLab Runner]もOperatorでインストールと設定ができます。
+
+前述の手順でGitLab OperatorのインストールとGitLab インスタンスの作成が完了した後に、
+「ソフトウェアカタログ」からCertified版のGitLab Runner Operatorを選択して、「インストール」ボタンをクリックして、
+インストールを完了します。インストール時のオプションは、全てデフォルト値を利用します。
+
+image::gitlab/gitlab-runner-install01.png[]
+image::gitlab/gitlab-runner-install02.png[]
+
+これで、GitLab Runner利用に必要となるOperatorのインストールは完了です。
+
+
+=== GitLab Runner インスタンスの作成
+
+GitLab Runnerを利用するために必要となるインスタンスを作成します。
+「インストール済みのOperator」メニューから「GitLab Runner」を選択して、「インスタンスの作成」をクリックします。
+
+image::gitlab/gitlab-runner-create01.png[]
+
+GitLab Runnerインスタンスを作成するためのYAMLが表示されます。これを以下のように修正します。
+
+[.console-input]
+[source,sh]
+----
+kind: Runner
+apiVersion: apps.gitlab.com/v1beta2
+metadata:
+  generateName: gitlab-runner-
+  namespace: gitlab-system
+spec:
+  gitlabUrl: https://gitlab.<OpenShift環境で利用しているドメインを設定>/
+  token: gitlab-gitlab-runner-secret
+  tags: openshift
+  concurrent: 10
+  imagePullPolicy: IfNotPresent
+----
+
+デフォルトで表示されるYAMLからの変更点は次の通りです。
+
+- `generateName: gitlab-runner-` を指定
+- GitLab Runnerを利用するGitLabインスタンスのURLを `gitlabUrl` で指定
+- 前述のGitLabインスタンス作成時に自動作成されたシークレットを `token: gitlab-gitlab-runner-secret` で指定
+- OpenShiftによって作成されたリソースであることを示す `tags: openshift` を指定
+
+上記のYAMLをコピペしたら、「作成」ボタンをクリックしてGitLab Runnerインスタンスを作成します。
+
+image::gitlab/gitlab-runner-create02.png[]
+
+これによってGitLab Runnerインスタンスが `Running` 状態になります。この状態になると、
+GitLabのWebコンソールなどからGitLab Runnerのエージェントとして利用できるようになります。
+
+image::gitlab/gitlab-runner-running01.png[]
+
+なお、上記YAMLでは `generateName` を指定しています。
+これによって、GitLab Runnerインスタンスに特定の名前を指定することなく、
+上記YAMLからGitLab Runnerインスタンスを作成するという前述の手順を繰り返すだけで、
+GitLab Runnerを実行するエージェントの追加が可能になります。
+
+image::gitlab/gitlab-runner-running02.png[]
+
+
 === GitLab の利用
 
 以下の画像の例ではURLがいくつか提示されていますが、
@@ -161,6 +225,12 @@ GitLabのログイン後の画面に表示される「人を追加」メニュ�
 「プロジェクトを作成」からコードのリポジトリを作成できるようになっています。GitLabでのコード管理については、
 https://docs.gitlab.com/ja-jp/user/get_started/get_started_managing_code/[公式ガイド]の
 ステップ1とステップ2を最低限実施するといいでしょう。
+
+また、画面右上の「管理者」をクリックして「概要」→「CI/CD」→「Runner」を選択することで、
+前述の手順で作成したGitLab Runnerインスタンスが表示されていることを確認できます。
+以下の画像は、GitLab Runner Operatorを利用してGitLab Runnerインスタンスを2つ作成した例となります。
+
+image::gitlab/gitlab-runner-console.png[]
 
 他にも様々なガイドがGitLabから提供されているので、参考にしてください。
 
