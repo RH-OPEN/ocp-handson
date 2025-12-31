@@ -96,7 +96,7 @@ https://rh-open.github.io/ocp-handson/openshift-services/101-podman-cockpit.html
 image::trial/build-log.png[]
 
 
-=== Containerfileを含んだGitリポジトリの利用
+==== Containerfileを含んだGitリポジトリの利用
 
 
 https://rh-open.github.io/ocp-handson/openshift-services/101-podman-cockpit.html[Podman Lab]で紹介した
