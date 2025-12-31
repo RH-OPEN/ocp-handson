@@ -346,7 +346,7 @@ tarファイルとして保存したコンテナイメージを読み込むに�
 [.console-input]
 [source,sh]
 ----
-podman load httpd-auto.tar
+podman load -i httpd-auto.tar
 ----
 
 image::podman/container-load.png[]
