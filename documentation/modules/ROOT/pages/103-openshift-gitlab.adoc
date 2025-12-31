@@ -169,10 +169,10 @@ spec:
 
 デフォルトで表示されるYAMLからの変更点は次の通りです。
 
-- `generateName: gitlab-runner-` を指定
-- GitLab Runnerを利用するGitLabインスタンスのURLを `gitlabUrl` で指定
-- 前述のGitLabインスタンス作成時に自動作成されたシークレットを `token: gitlab-gitlab-runner-secret` で指定
-- OpenShiftによって作成されたリソースであることを示す `tags: openshift` を指定
+- `metadata.generateName: gitlab-runner-` を指定
+- GitLab Runnerを利用するGitLabインスタンスのURLを `spec.gitlabUrl` で指定
+- 前述のGitLabインスタンス作成時に自動作成されたシークレットを `spec.token: gitlab-gitlab-runner-secret` で指定
+- OpenShiftによって作成されたリソースであることを示す `spec.tags: openshift` を指定
 
 上記のYAMLをコピペしたら、「作成」ボタンをクリックしてGitLab Runnerインスタンスを作成します。
 
@@ -183,10 +183,10 @@ GitLabのWebコンソールからGitLab Runnerのエージェントとして利�
 
 image::gitlab/gitlab-runner-running01.png[]
 
-なお、上記YAMLでは `generateName` を指定しています。
-これによって、GitLab Runnerインスタンスに特定の名前を指定することなく、
+上記YAMLでは `metadata.generateName` を指定しています。
+これにより GitLab Runnerインスタンスに特定の名前を指定することなく、
 上記YAMLからGitLab Runnerインスタンスを作成するという前述の手順を繰り返すだけで、
-GitLab Runnerを実行するエージェントの追加が可能になります。
+GitLab Runnerのエージェント追加が可能になります。
 
 image::gitlab/gitlab-runner-running02.png[]
 
