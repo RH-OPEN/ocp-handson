@@ -481,6 +481,108 @@ spec:
 </div>
 </div>
 <div class="sect2">
+<h3 id="_gitlab_runner_operatorのインストール"><a class="anchor" href="#_gitlab_runner_operatorのインストール"></a>GitLab Runner Operatorのインストール</h3>
+<div class="paragraph">
+<p>GitLab CI/CDと連携してパイプラインでジョブを実行するアプリケーションである
+<a href="https://docs.gitlab.com/ja-jp/runner/">GitLab Runner</a>もOperatorでインストールと設定ができます。</p>
+</div>
+<div class="paragraph">
+<p>前述の手順でGitLab OperatorのインストールとGitLab インスタンスの作成が完了した後に、
+「ソフトウェアカタログ」からCertified版のGitLab Runner Operatorを選択して、「インストール」ボタンをクリックして、
+インストールを完了します。インストール時のオプションは、全てデフォルト値を利用します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-runner-install01.png" alt="gitlab runner install01">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-runner-install02.png" alt="gitlab runner install02">
+</div>
+</div>
+<div class="paragraph">
+<p>これで、GitLab Runner利用に必要となるOperatorのインストールは完了です。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gitlab_runner_インスタンスの作成"><a class="anchor" href="#_gitlab_runner_インスタンスの作成"></a>GitLab Runner インスタンスの作成</h3>
+<div class="paragraph">
+<p>GitLab Runnerを利用するために必要となるインスタンスを作成します。
+「インストール済みのOperator」メニューから「GitLab Runner」を選択して、「インスタンスの作成」をクリックします。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-runner-create01.png" alt="gitlab runner create01">
+</div>
+</div>
+<div class="paragraph">
+<p>GitLab Runnerインスタンスを作成するためのYAMLが表示されます。これを以下のように修正します。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">kind: Runner
+apiVersion: apps.gitlab.com/v1beta2
+metadata:
+  generateName: gitlab-runner-
+  namespace: gitlab-system
+spec:
+  gitlabUrl: https://gitlab.&lt;OpenShift環境で利用しているドメインを設定&gt;/
+  token: gitlab-gitlab-runner-secret
+  tags: openshift
+  concurrent: 10
+  imagePullPolicy: IfNotPresent</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>デフォルトで表示されるYAMLからの変更点は次の通りです。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>generateName: gitlab-runner-</code> を指定</p>
+</li>
+<li>
+<p>GitLab Runnerを利用するGitLabインスタンスのURLを <code>gitlabUrl</code> で指定</p>
+</li>
+<li>
+<p>前述のGitLabインスタンス作成時に自動作成されたシークレットを <code>token: gitlab-gitlab-runner-secret</code> で指定</p>
+</li>
+<li>
+<p>OpenShiftによって作成されたリソースであることを示す <code>tags: openshift</code> を指定</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>上記のYAMLをコピペしたら、「作成」ボタンをクリックしてGitLab Runnerインスタンスを作成します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-runner-create02.png" alt="gitlab runner create02">
+</div>
+</div>
+<div class="paragraph">
+<p>これによってGitLab Runnerインスタンスが <code>Running</code> 状態になります。この状態になると、
+GitLabのWebコンソールなどからGitLab Runnerのエージェントとして利用できるようになります。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-runner-running01.png" alt="gitlab runner running01">
+</div>
+</div>
+<div class="paragraph">
+<p>なお、上記YAMLでは <code>generateName</code> を指定しています。
+これによって、GitLab Runnerインスタンスに特定の名前を指定することなく、
+上記YAMLからGitLab Runnerインスタンスを作成するという前述の手順を繰り返すだけで、
+GitLab Runnerを実行するエージェントの追加が可能になります。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-runner-running02.png" alt="gitlab runner running02">
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_gitlab_の利用"><a class="anchor" href="#_gitlab_の利用"></a>GitLab の利用</h3>
 <div class="paragraph">
 <p>以下の画像の例ではURLがいくつか提示されていますが、
@@ -530,6 +632,16 @@ GitLabインスタンス作成時に自動作成される管理者アカウン�
 「プロジェクトを作成」からコードのリポジトリを作成できるようになっています。GitLabでのコード管理については、
 <a href="https://docs.gitlab.com/ja-jp/user/get_started/get_started_managing_code/">公式ガイド</a>の
 ステップ1とステップ2を最低限実施するといいでしょう。</p>
+</div>
+<div class="paragraph">
+<p>また、画面右上の「管理者」をクリックして「概要」→「CI/CD」→「Runner」を選択することで、
+前述の手順で作成したGitLab Runnerインスタンスが表示されていることを確認できます。
+以下の画像は、GitLab Runner Operatorを利用してGitLab Runnerインスタンスを2つ作成した例となります。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitlab/gitlab-runner-console.png" alt="gitlab runner console">
+</div>
 </div>
 <div class="paragraph">
 <p>他にも様々なガイドがGitLabから提供されているので、参考にしてください。</p>
