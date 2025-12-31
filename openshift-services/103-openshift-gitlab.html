@@ -415,7 +415,7 @@ spec:
               memory: 1500M
       global:
         hosts:
-          domain: &lt;OpenShift環境で利用されているドメインを設定&gt;
+          domain: &lt;OpenShift環境で利用しているドメインを設定&gt;
           hostSuffix: null
         ingress:
           annotations:
@@ -471,16 +471,25 @@ spec:
 </div>
 </div>
 <div class="paragraph">
-<p>5~10分ほど待つと、GitLabインスタンスが <code>Running</code> 状態になります。</p>
+<p>5~10分ほど待つと、GitLabインスタンスが <code>Running</code> 状態になります。
+この状態になると、GitLabのWebコンソールにアクセスできるようになります。</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="_images/gitlab/gitlab-running.png" alt="gitlab running">
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_gitlab_の利用"><a class="anchor" href="#_gitlab_の利用"></a>GitLab の利用</h3>
 <div class="paragraph">
-<p>この状態になると、GitLabのWebコンソールにログインできるようになります。
-以下の画像の例ではURLがいくつか提示されていますが <code>gitlab</code> 文字列を含むURLを利用します。</p>
+<p>以下の画像の例ではURLがいくつか提示されていますが、
+GitLabのWebコンソールにアクセスするには <code>gitlab</code> 文字列を含むURLを利用します。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">https://gitlab.&lt;OpenShift環境で利用しているドメイン&gt;/</code></pre>
+</div>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -516,9 +525,6 @@ GitLabインスタンス作成時に自動作成される管理者アカウン�
 <img src="_images/gitlab/gitlab-root-project.png" alt="gitlab root project">
 </div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_gitlab_の利用"><a class="anchor" href="#_gitlab_の利用"></a>GitLab の利用</h3>
 <div class="paragraph">
 <p>GitLabのログイン後の画面に表示される「人を追加」メニューからローカルユーザーアカウントを追加したり、
 「プロジェクトを作成」からコードのリポジトリを作成できるようになっています。GitLabでのコード管理については、
