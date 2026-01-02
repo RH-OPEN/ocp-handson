@@ -277,7 +277,7 @@ https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html/
 [.console-input]
 [source,sh]
 ----
-oc import-image image-registry.openshift-image-registry.svc:5000/test-project99/php-hello-world-01 --from=ghcr.io/h-kojima/php-hello-world:latest --confirm
+oc import-image image-registry.openshift-image-registry.svc:5000/<プロジェクト名>/php-hello-world-01 --from=ghcr.io/h-kojima/php-hello-world:latest --confirm
 ----
 ====
 
