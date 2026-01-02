@@ -271,7 +271,7 @@ Host IP: 10.128.0.253
 NOTE: コンテナレジストリのコンテナイメージを指定してアプリケーションを作成した場合、
 コンテナレジストリのコンテナイメージ更新後に、
 https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html/images/images-imagestream-import-images-image-streams#images-imagestream-import-images-private-registry_image-streams-managing[公式ガイド]
-にある OpenShift CLIの　`oc import-image` コマンドを利用して、アプリケーションを更新できます。
+にある OpenShift CLIの　`oc import-image` コマンドを利用して、アプリケーションを手動更新できます。
 以下のようなコマンド例を実行することで、更新後のコンテナイメージをインポートしてアプリケーションが再作成されます。
 
 [.console-input]
