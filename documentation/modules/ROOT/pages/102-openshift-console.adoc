@@ -12,6 +12,11 @@ https://www.redhat.com/ja/technologies/cloud-computing/openshift/red-hat-openshi
 === OpenShift環境へのログインとアプリケーション作成
 
 前の演習では、Podmanを利用した簡単なWebサーバをデプロイしました。本演習ではOpenShiftを利用して同様のことを実施してみます。
+OpenShiftでアプリケーションをデプロイする方法は、以下となります。これらの基礎を紹介します。
+
+- Gitリポジトリにあるソースコードを指定してデプロイ
+- OpenShift内部または外部コンテナレジストリにあるコンテナイメージを指定してデプロイ
+
 OpenShiftのWebコンソールにアクセスして、ログインします。
 OpenShiftのWebコンソールのURLとアカウント情報は、インストラクターから案内されます。
 
@@ -98,13 +103,13 @@ image::trial/build-log.png[]
 
 === Containerfileを含んだGitリポジトリの利用
 
-
 https://rh-open.github.io/ocp-handson/openshift-services/101-podman-cockpit.html[Podman Lab]で紹介した
 Containerfileを含んだGitリポジトリのソースコードからも、前述と同様の手順でアプリケーションが作成できます。
 
 [Note]
 ====
-NOTE: OpenShiftでContainerfileやDockerfileを含んだGitリポジトリを指定する場合、ソースコードからのコンテナイメージ自動作成の際に、ContainerfileやDockerfileに記載されたイメージ作成手順が自動利用されるようにデフォルトで指定されます。
+NOTE: OpenShiftでContainerfileやDockerfileを含んだGitリポジトリを指定する場合、ソースコードからのコンテナイメージ自動作成の際に、
+ContainerfileやDockerfileに記載されたイメージ作成手順が自動利用されるようにデフォルトで指定されます。
 ====
 
 OpenShiftの「Gitからのインポート」メニューから次のリポジトリを指定します。
@@ -156,6 +161,60 @@ NOTE: このPythonアプリケーションの「Routes」で表示されるURL�
 ====
 
 
+==== コンテナイメージを利用したアプリケーション作成
+
+OpenShiftではGitリポジトリだけでなく、コンテナイメージを利用してアプリケーションを作成できます。
+OpenShiftのWebコンソール右上の「+」アイコンをクリックして、「コンテナーイメージ」を選択します。
+
+image::trial/image-import01.png[]
+
+続いて、下記のテキストフィールドに以下を入力します。 
+このコンテナイメージは、前述の手順で指定したGitHubのPHPサンプルコードを含んだイメージです。
+
+- 外部レジストリーからのイメージ名:
+
+[.console-input]
+[source,sh]
+----
+ghcr.io/h-kojima/php-hello-world:latest
+----
+
+また、既存アプリケーショングループとは独立してアプリケーションを作成するために、
+「アプリケーション名」と「名前」のテキストフィールドで、以下を指定します。
+
+- アプリケーション名:
+
+[.console-input]
+[source,sh]
+----
+php-hello-world-app-01
+----
+
+- 名前:
+
+[.console-input]
+[source,sh]
+----
+php-hello-world-01
+----
+
+これ以外の値は全てデフォルトのままにして、「作成」ボタンをクリックします。
+
+image::trial/image-import02.png[]
+
+前述の手順と同様に、トポロジー画面の「OpenShift」アイコンをクリックして、「リソース」タブの「Routes」にあるURLから、
+PHPのサンプルWebアプリケーションにアクセスできます。アクセスすると、前述と同様に以下のようなメッセージが確認できます。
+
+image::trial/image-import03.png[]
+
+```
+Hello Podman 2025-12-25
+
+Host Name: php-hello-world-01-7488b9c45b-w7n4b
+Host IP: 10.128.0.104
+```
+
+
 === OpenShiftでのアプリケーション削除
 
 OpenShiftのWebコンソールから、作成したアプリケーションを削除できます。アプリケーションの名前の右横にある縦3点リーダーをクリックして、
@@ -171,7 +230,7 @@ image::trial/app-delete02.png[]
 これによって、このアプリケーションに関連するリソース全てが自動削除されます。
 
 
-=== OpenShiftでのアプリケーション更改
+=== OpenShiftでのアプリケーション更新
 
 [Note]
 ====
@@ -206,3 +265,18 @@ Hello Podman 2025-12-25 Changed
 Host Name: php-hello-world-6f678646-jvwc7
 Host IP: 10.128.0.253
 ```
+
+[Note]
+====
+NOTE: コンテナレジストリのコンテナイメージを指定してアプリケーションを作成した場合、
+コンテナレジストリのコンテナイメージ更新に沿って、
+https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html-single/images/index#images-imagestream-import-images-private-registry_image-streams-managing[公式ガイド]に
+あるように、OpenShift CLIの　`oc import-image` コマンドを利用して、アプリケーションを更新できます。
+以下のようなコマンド例を実行することで、更新されたコンテナイメージをインポートしてアプリケーションが再作成されます。
+
+[.console-input]
+[source,sh]
+----
+oc import-image image-registry.openshift-image-registry.svc:5000/test-project99/php-hello-world-01 --from=ghcr.io/h-kojima/php-hello-world:latest --confirm
+----
+====
