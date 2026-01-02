@@ -598,11 +598,12 @@ ContainerfileやDockerfileに記載されたイメージ作成手順が自動利
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_コンテナイメージを利用したアプリケーション作成"><a class="anchor" href="#_コンテナイメージを利用したアプリケーション作成"></a>コンテナイメージを利用したアプリケーション作成</h4>
+</div>
+<div class="sect2">
+<h3 id="_コンテナイメージを利用したアプリケーション作成"><a class="anchor" href="#_コンテナイメージを利用したアプリケーション作成"></a>コンテナイメージを利用したアプリケーション作成</h3>
 <div class="paragraph">
 <p>OpenShiftではGitリポジトリだけでなく、コンテナイメージを利用してアプリケーションを作成できます。
-OpenShiftのWebコンソール右上の「+」アイコンをクリックして、「コンテナーイメージ」を選択します。</p>
+Webコンソール右上の「+」アイコンをクリックして、「コンテナーイメージ」を選択します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -676,7 +677,6 @@ PHPのサンプルWebアプリケーションにアクセスできます。ア�
 
 Host Name: php-hello-world-01-7488b9c45b-w7n4b
 Host IP: 10.128.0.104</code></pre>
-</div>
 </div>
 </div>
 </div>
@@ -779,10 +779,10 @@ Host IP: 10.128.0.253</code></pre>
 </td>
 <td class="content">
 コンテナレジストリのコンテナイメージを指定してアプリケーションを作成した場合、
-コンテナレジストリのコンテナイメージ更新に沿って、
-<a href="https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html-single/images/index#images-imagestream-import-images-private-registry_image-streams-managing">公式ガイド</a>に
-あるように、OpenShift CLIの　<code>oc import-image</code> コマンドを利用して、アプリケーションを更新できます。
-以下のようなコマンド例を実行することで、更新されたコンテナイメージをインポートしてアプリケーションが再作成されます。
+コンテナレジストリのコンテナイメージ更新後に、
+<a href="https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html/images/images-imagestream-import-images-image-streams#images-imagestream-import-images-private-registry_image-streams-managing">公式ガイド</a>
+にある OpenShift CLIの　<code>oc import-image</code> コマンドを利用して、アプリケーションを更新できます。
+以下のようなコマンド例を実行することで、更新後のコンテナイメージをインポートしてアプリケーションが再作成されます。
 </td>
 </tr>
 </table>
