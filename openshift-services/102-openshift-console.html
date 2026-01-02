@@ -309,7 +309,20 @@
 <h3 id="_openshift環境へのログインとアプリケーション作成"><a class="anchor" href="#_openshift環境へのログインとアプリケーション作成"></a>OpenShift環境へのログインとアプリケーション作成</h3>
 <div class="paragraph">
 <p>前の演習では、Podmanを利用した簡単なWebサーバをデプロイしました。本演習ではOpenShiftを利用して同様のことを実施してみます。
-OpenShiftのWebコンソールにアクセスして、ログインします。
+OpenShiftでアプリケーションをデプロイする方法は、以下となります。これらの基礎を紹介します。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Gitリポジトリにあるソースコードを指定してデプロイ</p>
+</li>
+<li>
+<p>OpenShift内部または外部コンテナレジストリにあるコンテナイメージを指定してデプロイ</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>OpenShiftのWebコンソールにアクセスして、ログインします。
 OpenShiftのWebコンソールのURLとアカウント情報は、インストラクターから案内されます。</p>
 </div>
 <div class="exampleblock">
@@ -490,7 +503,8 @@ Containerfileを含んだGitリポジトリのソースコードからも、前�
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-OpenShiftでContainerfileやDockerfileを含んだGitリポジトリを指定する場合、ソースコードからのコンテナイメージ自動作成の際に、ContainerfileやDockerfileに記載されたイメージ作成手順が自動利用されるようにデフォルトで指定されます。
+OpenShiftでContainerfileやDockerfileを含んだGitリポジトリを指定する場合、ソースコードからのコンテナイメージ自動作成の際に、
+ContainerfileやDockerfileに記載されたイメージ作成手順が自動利用されるようにデフォルトで指定されます。
 </td>
 </tr>
 </table>
@@ -584,6 +598,87 @@ OpenShiftでContainerfileやDockerfileを含んだGitリポジトリを指定す
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_コンテナイメージを利用したアプリケーション作成"><a class="anchor" href="#_コンテナイメージを利用したアプリケーション作成"></a>コンテナイメージを利用したアプリケーション作成</h4>
+<div class="paragraph">
+<p>OpenShiftではGitリポジトリだけでなく、コンテナイメージを利用してアプリケーションを作成できます。
+OpenShiftのWebコンソール右上の「+」アイコンをクリックして、「コンテナーイメージ」を選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/trial/image-import01.png" alt="image import01">
+</div>
+</div>
+<div class="paragraph">
+<p>続いて、下記のテキストフィールドに以下を入力します。
+このコンテナイメージは、前述の手順で指定したGitHubのPHPサンプルコードを含んだイメージです。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>外部レジストリーからのイメージ名:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">ghcr.io/h-kojima/php-hello-world:latest</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>また、既存アプリケーショングループとは独立してアプリケーションを作成するために、
+「アプリケーション名」と「名前」のテキストフィールドで、以下を指定します。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>アプリケーション名:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">php-hello-world-app-01</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>名前:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">php-hello-world-01</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>これ以外の値は全てデフォルトのままにして、「作成」ボタンをクリックします。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/trial/image-import02.png" alt="image import02">
+</div>
+</div>
+<div class="paragraph">
+<p>前述の手順と同様に、トポロジー画面の「OpenShift」アイコンをクリックして、「リソース」タブの「Routes」にあるURLから、
+PHPのサンプルWebアプリケーションにアクセスできます。アクセスすると、前述と同様に以下のようなメッセージが確認できます。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/trial/image-import03.png" alt="image import03">
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Hello Podman 2025-12-25
+
+Host Name: php-hello-world-01-7488b9c45b-w7n4b
+Host IP: 10.128.0.104</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_openshiftでのアプリケーション削除"><a class="anchor" href="#_openshiftでのアプリケーション削除"></a>OpenShiftでのアプリケーション削除</h3>
@@ -610,7 +705,7 @@ OpenShiftでContainerfileやDockerfileを含んだGitリポジトリを指定す
 </div>
 </div>
 <div class="sect2">
-<h3 id="_openshiftでのアプリケーション更改"><a class="anchor" href="#_openshiftでのアプリケーション更改"></a>OpenShiftでのアプリケーション更改</h3>
+<h3 id="_openshiftでのアプリケーション更新"><a class="anchor" href="#_openshiftでのアプリケーション更新"></a>OpenShiftでのアプリケーション更新</h3>
 <div class="exampleblock">
 <div class="content">
 <div class="admonitionblock note">
@@ -672,6 +767,31 @@ OpenShiftでContainerfileやDockerfileを含んだGitリポジトリを指定す
 
 Host Name: php-hello-world-6f678646-jvwc7
 Host IP: 10.128.0.253</code></pre>
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+コンテナレジストリのコンテナイメージを指定してアプリケーションを作成した場合、
+コンテナレジストリのコンテナイメージ更新に沿って、
+<a href="https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html-single/images/index#images-imagestream-import-images-private-registry_image-streams-managing">公式ガイド</a>に
+あるように、OpenShift CLIの　<code>oc import-image</code> コマンドを利用して、アプリケーションを更新できます。
+以下のようなコマンド例を実行することで、更新されたコンテナイメージをインポートしてアプリケーションが再作成されます。
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">oc import-image image-registry.openshift-image-registry.svc:5000/test-project99/php-hello-world-01 --from=ghcr.io/h-kojima/php-hello-world:latest --confirm</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
