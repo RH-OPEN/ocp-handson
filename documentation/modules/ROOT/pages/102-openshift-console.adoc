@@ -161,10 +161,10 @@ NOTE: このPythonアプリケーションの「Routes」で表示されるURL�
 ====
 
 
-==== コンテナイメージを利用したアプリケーション作成
+=== コンテナイメージを利用したアプリケーション作成
 
 OpenShiftではGitリポジトリだけでなく、コンテナイメージを利用してアプリケーションを作成できます。
-OpenShiftのWebコンソール右上の「+」アイコンをクリックして、「コンテナーイメージ」を選択します。
+Webコンソール右上の「+」アイコンをクリックして、「コンテナーイメージ」を選択します。
 
 image::trial/image-import01.png[]
 
@@ -269,10 +269,10 @@ Host IP: 10.128.0.253
 [Note]
 ====
 NOTE: コンテナレジストリのコンテナイメージを指定してアプリケーションを作成した場合、
-コンテナレジストリのコンテナイメージ更新に沿って、
-https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html-single/images/index#images-imagestream-import-images-private-registry_image-streams-managing[公式ガイド]に
-あるように、OpenShift CLIの　`oc import-image` コマンドを利用して、アプリケーションを更新できます。
-以下のようなコマンド例を実行することで、更新されたコンテナイメージをインポートしてアプリケーションが再作成されます。
+コンテナレジストリのコンテナイメージ更新後に、
+https://docs.redhat.com/ja/documentation/openshift_container_platform/4.20/html/images/images-imagestream-import-images-image-streams#images-imagestream-import-images-private-registry_image-streams-managing[公式ガイド]
+にある OpenShift CLIの　`oc import-image` コマンドを利用して、アプリケーションを更新できます。
+以下のようなコマンド例を実行することで、更新後のコンテナイメージをインポートしてアプリケーションが再作成されます。
 
 [.console-input]
 [source,sh]
