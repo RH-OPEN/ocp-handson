@@ -282,3 +282,9 @@ oc import-image image-registry.openshift-image-registry.svc:5000/<プロジェ�
 ====
 
 image::trial/oc-image-import.png[]
+
+[Note]
+====
+NOTE: OpenShiftの標準機能として、OpenShiftのWeb コンソール上で実行できる
+https://rh-open.github.io/ocp-handson/openshift-services/54-1-rosa-web-terminal.html[OpenShift Web Terminal]を利用できます。
+====
