@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>DataScience Project の作成と探検 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/113-2_Explore-DataScience-Project.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img src="../_/img/NewRHDFullLogo_4-color_white-wordmark.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="https://rh-open.github.io/ocp-handson">OpenShift Handson</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://developers.redhat.com/ebooks/" target="_blank">Books</a>
+        <a class="navbar-item" href="https://developers.redhat.com/cheatsheets/" target="_blank">Cheat Sheets</a>
+        <a class="navbar-item" href="https://developers.redhat.com/events/" target="_blank">Upcoming Events</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">More Tutorials</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/kubernetes-tutorial/" target="_blank">Kubernetes</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/istio-tutorial/" target="_blank">Istio</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/quarkus-tutorial/" target="_blank">Quarkus</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/knative-tutorial/" target="_blank">Knative</a>
+            <a class="navbar-item" href="https://redhat-developer-demos.github.io/tekton-tutorial/" target="_blank">Tekton</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="openshift-services" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html"></a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">01. OpenShift 基礎</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-mgmt-basics.html">1. コンテナデプロイと管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="01_app-deployment.html">2. Web コンソールの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="02_app-storage-basics.html">3. 永続ストレージ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="03_machinesets.html">4. ノードの動的管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="04_infra-nodes.html">5. Infra ノードの作成</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="06_template-quota-limits.html">6. Project のクオータ/制限</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="07_clusterresourcequota.html">7. クラスタのクオータ設定</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">20. OpenShift Pipeline Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="10-pipeline-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="11-pipelines.html">1. Pipelines -1/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="12-add-task.html">2. Pipelines -2/2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="13-triggers.html">3. Tekton Triggers</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">21. OpenShift GitOps Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="20-GitOps-install.html">インストール</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="21-GitOps.html">1. OpenShift GitOps</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="22-Kustomize.html">2. Kustomizeインテグレーション</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="23-Helm.html">3. Helmインテグレーション</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">51. Red Hat OpenShift Service on AWS (ROSA) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="50-rosa-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="51-rosa-hcp-create.html">1. ROSA HCPクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="52-rosa-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="53-rosa-ebs.html">3. Amazon EBSの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-1-rosa-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="54-2-rosa-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="58-rosa-bedrock.html">6. Amazon Bedrockアプリケーションの実行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-01.html">7. ロギング設定 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-1-rosa-log-02.html">8. OpenShiftコンソールでのログ確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-2-rosa-monitoring.html">9. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-3-rosa-project-metrics.html">10. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="55-4-rosa-alert.html">11. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="56-rosa-nodes.html">12. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="57-rosa-upgrade.html">13. ROSA HCPクラスターの更新</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">61. Azure Red Hat OpenShift (ARO) Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="60-aro-info.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="61-aro-create.html">1. AROクラスターの作成 [デモ]</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="62-aro-app-deploy.html">2. サンプルアプリケーションのデプロイ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="63-aro-storage.html">3. Azure DiskとAzure Filesの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="64-aro-web-terminal.html">4. Web Terminalの利用</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="65-aro-dev-spaces.html">5. Web IDEを利用した開発</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="66-aro-logging.html">6. ロギング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-1-aro-monitoring.html">7. モニタリング</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-2-aro-project-metrics.html">8. プロジェクトのメトリクスデータの確認</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="67-3-aro-alert.html">9. アラート設定</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="68-aro-nodes.html">10. ワーカーノードの追加と削除</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="69-aro-upgrade.html">11. AROクラスターの更新[デモ]</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">71. OpenShift Virtualization Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="70-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="71-module-01-intro.html">1. 仮想マシン管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="72-module-02-mtv.html">2. 既存の仮想マシンの移行</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="73-module-04-storage.html">3. ストレージ管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="74-module-05-bcdr.html">4. 仮想マシンのバックアップとリカバリ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="75-module-07-tempinst.html">5. テンプレートとインスタンスタイプの管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="76-module-08-workingvms.html">6. 仮想マシンとアプリケーションの操作</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="78-module-09-networking.html">7. 仮想マシンのネットワーク管理</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="79-conclusion.html">8. 追加情報</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">81. Day 2 Operations and Automation with OpenShift Virtualization</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="80-index.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="81-module-01-day-to-day.html">1. 日々の基本的な操作の有効化</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="82-module-02-real-world-scaling.html">2. 実環境でのスケーリングシナリオ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="83-module-03-to-the-moon.html">3. 無限の可能性へ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="84-conclusion.html">4. 追加情報</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">101. Podman/OpenShift Basic Lab</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="101-podman-cockpit.html">1. Podman Lab</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="102-openshift-console.html">2. OpenShift Lab</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="103-openshift-gitlab.html">Appendix. Install the GitLab on OpenShift</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">110. OpenShift AI 3 を試す（建設中）</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="110_OpenShift-AI-3.html">0. はじめに</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="111_Installing-OpenShift-IPI.html">1. Installing OpenShift (IPI)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="112_Deploying-OpenShift-AI-3.0.html">2. Deploying OpenShift AI 3.0</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="83-module-03-to-the-moon.html">3. OpenShift AI 3 を試す</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">OpenShift Handson</a></li>
+    <li><a href="113-2_Explore-DataScience-Project.html">DataScience Project の作成と探検</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/113-2_Explore-DataScience-Project.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">DataScience Project の作成と探検</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>ここでは、DataScience Project を作成し、その中を確認していきます。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_datascience_project_の作成"><a class="anchor" href="#_datascience_project_の作成"></a>DataScience Project の作成</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><mark>Create project</mark> を選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/connect/console.png" target="blank"><img src="_images/rhoai3/connect/console.png" alt="console" width="100%"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>プロジェクト名はユーザー名と同じ（<mark>user&lt;xx&gt;</mark>）にします。<mark>Create</mark> を選択してプロジェクトを作成します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/createproject.png" target="blank"><img src="_images/rhoai3/project/createproject.png" alt="createproject" width="100%"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>作成後：</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/project.png" target="blank"><img src="_images/rhoai3/project/project.png" alt="project" width="100%"></a>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_datascience_project"><a class="anchor" href="#_datascience_project"></a>DataScience Project</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>DataScience Projectには以下が含まれます。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Workbenches:</strong>
+マシーンラーニング、データサイエンスのための開発環境</p>
+</li>
+<li>
+<p><strong>Pipelines:</strong>
+マシーンラーニング、データサイエンスのためのパイプラインを設定</p>
+</li>
+<li>
+<p><strong>Deployments:</strong>
+モデルランタイムとモデルのデプロイの設定</p>
+</li>
+<li>
+<p><strong>Cluster storage:</strong>
+Workbenchで中間ファイルなどの共有情報を保持するために使用する、永続ボリュームの設定</p>
+</li>
+<li>
+<p><strong>Connections:</strong>
+モデルなどを保存じたりするためのオブジェクトストレージへのアクセス情報（実態は OpenShift の Secret）</p>
+</li>
+<li>
+<p><strong>Permissions:</strong>
+アクセス件を設定</p>
+</li>
+<li>
+<p><strong>Settings:</strong>
+プロジェクトの設定</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_connection_の作成"><a class="anchor" href="#_connection_の作成"></a>Connection の作成</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Connections タブから、<mark>Create connection</mark> を選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/connectionstab.png" target="blank"><img src="_images/rhoai3/project/connectionstab.png" alt="connectionstab" width="100%"></a>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Connection type</strong> に <mark>URI - v1</mark> を選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/connectiontype.png" target="blank"><img src="_images/rhoai3/project/connectiontype.png" alt="connectiontype" width="100%"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>以下を入力して、<mark>Create</mark> を選択します。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Connection details :</strong> llama-32-3b-instruct</p>
+</li>
+<li>
+<p><strong>URI :</strong> oci://quay.io/redhat-ai-services/modelcar-catalog:llama-3.2-3b-instruct</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/createconnection.png" target="blank"><img src="_images/rhoai3/project/createconnection.png" alt="createconnection" width="100%"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>作成後：</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/connection.png" target="blank"><img src="_images/rhoai3/project/connection.png" alt="connection" width="100%"></a>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_モデルのランタイムの作成とモデルのデプロイ"><a class="anchor" href="#_モデルのランタイムの作成とモデルのデプロイ"></a>モデルのランタイムの作成とモデルのデプロイ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Deployments タブから、<mark>Deploy model</mark> を選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/deploymentstab.png" target="blank"><img src="_images/rhoai3/project/deploymentstab.png" alt="deploymentstab" width="100%"></a>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Model location</strong> に <mark>Existing connection</mark> 、を <strong>Model type</strong> に <mark>Generative AI model (Example, LLM)</mark> 選択（<strong>Connection</strong> は1つしか存在しないので自動で選択されます。）し、<mark>Next</mark> を選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/modeldetails.png" target="blank"><img src="_images/rhoai3/project/modeldetails.png" alt="modeldetails" width="100%"></a>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Model deployment name</strong> を llama-32-3b-instruct
+とし、<strong>Hardware profie</strong> に <mark>gpu-profile</mark> を選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/modeldeployment.png" target="blank"><img src="_images/rhoai3/project/modeldeployment.png" alt="modeldeployment" width="100%"></a>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="blue">Customize resource request and limits</span> を開いて以下を設定します。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>CPU requests :</strong> 1 Cores</p>
+</li>
+<li>
+<p><strong>CPU limits :</strong> 4 Cores</p>
+</li>
+<li>
+<p><strong>Memory requests :</strong> 6 GiB</p>
+</li>
+<li>
+<p><strong>Memory limits :</strong> 16 GiB</p>
+</li>
+<li>
+<p><strong>GPU requests :</strong> 1</p>
+</li>
+<li>
+<p><strong>GPU limits :</strong> 1</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/customizeresource.png" target="blank"><img src="_images/rhoai3/project/customizeresource.png" alt="customizeresource" width="100%"></a>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Service runtime</strong> は <mark>Auto-select the best runtime for my model based on model type, model format, and hardware profile</mark> にして、<mark>Next</mark> を選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/servingruntime.png" target="blank"><img src="_images/rhoai3/project/servingruntime.png" alt="servingruntime" width="100%"></a>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Model playground availability</strong> の <strong>Add as AI asset endopoint</strong> と <strong>Configure parameters</strong> の <strong>Add custom runtime arguments</strong> をチェックします。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/advancedsettings.png" target="blank"><img src="_images/rhoai3/project/advancedsettings.png" alt="advancedsettings" width="100%"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>パラメーターに以下を入力して、<strong>Next</strong> を選択します。</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">--dtype=half
+--max-model-len=20000
+--gpu-memory-utilization=0.95
+--enable-auto-tool-choice
+--tool-call-parser=llama3_json
+--chat-template=/opt/app-root/template/tool_chat_template_llama3.2_json.jinja</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/runtimearguments.png" target="blank"><img src="_images/rhoai3/project/runtimearguments.png" alt="runtimearguments" width="100%"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>Review 画面で入力を確認して、<mark>Deploy model</mark> を選択します。</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/deploymodel.png" target="blank"><img src="_images/rhoai3/project/deploymodel.png" alt="deploymodel" width="100%"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>Deploy中：
+image::rhoai3/project/deploying.png[link=self, window=blank, width=100%]</p>
+</div>
+<div class="paragraph">
+<p>Deploy 完了後：
+image::rhoai3/project/deployed.png[link=self, window=blank, width=100%]</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+共有環境のため、モデルを1つ以上デプロイしないでください。GPUを確保してしまい、他の方がリソース不足になってしまいます。
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>その他のタブの中も見てみてください。
+（補足）Workbenchについては後のパートで触れます。</p>
+</div>
+<hr>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
