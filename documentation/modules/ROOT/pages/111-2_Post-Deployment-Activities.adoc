@@ -1,0 +1,44 @@
+= Post-SNO Configuration
+include::_attributes.adoc[]
+
+SNOクラスターが起動して稼働したら、OpenShift AIに移行する前に、いくつかの追加コンポーネントをインストールする必要があります。
+
+== 必要な操作
+OpenShift AI をプロビジョニングする前に、以下のオペレーターをインストールする必要があります。これらのオペレーターはすべて、#latest# または同等のチャネルを使用できます。
+
+* Certificate Manager
+* Node Feature Discovery
+* NVIDIA GPU Operator
+* Authorino
+* OpenShift Pipelines
+* OpenShift Serverless
+
+以下はllm-d に必須：
+
+* Leader Worker Set
+* Red Hat Connectivity Link Operator
+** DNS Operator (installed with RHCL)
+** Limitador Operator (installed with RHCL)
+** Authorino Operator (installed with RHCL)
+
+[Note]
+---
+NOTE: Service Mesh 3とKueueは、DataScienceCluster CRを介して自動的にインストールされます。
+---
+
+== UserWorkloadMonitoring の有効化
+[.console-input]
+[source,yaml]
+----
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-monitoring-config
+  namespace: openshift-monitoring
+data:
+  config.yaml: |
+    enableUserWorkload: true
+    alertmanagerMain:
+      enableUserAlertmanagerConfig: true
+----
+---

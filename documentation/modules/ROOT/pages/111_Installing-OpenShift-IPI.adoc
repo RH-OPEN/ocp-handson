@@ -1,0 +1,8 @@
+= Installing OpenShift (IPI)
+include::_attributes.adoc[]
+
+[Note]
+====
+NOTE: RHPDSから環境をオーダーした場合は、これらの手順を実行する必要はありません。SNOクラスタは既にデプロイ済みです。インストールされている Operator や各リソースをご確認ください。
+====
+---

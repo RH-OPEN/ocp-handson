@@ -1,0 +1,12 @@
+= OpenShift AI 3 を試す
+include::_attributes.adoc[]
+
+では、ここから OpenShift AI 3.0 を使ってみましょう。
+本ワークショップでは以下を体験します。
+
+. OpenShift AIのコンソールにログイン
+. DataScience Projectの作成と探検
+. Playgroundで遊ぶ
+. Workbenchの作成とJupyter Notebookでの実行
+
+---

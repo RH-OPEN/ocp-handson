@@ -1,0 +1,64 @@
+= Installing Single Node OpenShift (SNO)
+include::_attributes.adoc[]
+
+OpenShift AI は SNO クラスターにデプロイできます。これは多くの場合、テスト、調査、およびデモンストレーションの目的に対しては十分です。
+
+. 以下のサンプル #install-config.yaml# を使用して、シングルノード OpenShift (SNO) をデプロイします。
+
+[.console-input]
+[source,yaml]
+----
+apiVersion: v1
+baseDomain: rhoai.rh-aiservices-bu.com
+compute:
+  - architecture: amd64
+    hyperthreading: Enabled
+    name: worker
+    platform:
+      aws:
+        type: m6i.4xlarge
+    replicas: 0
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  platform:
+    aws:
+      type: g6.12xlarge
+      rootVolume:
+        size: 1000
+  replicas: 1
+metadata:
+  name: test-rc2
+networking:
+  clusterNetwork:
+    - cidr: 10.128.0.0/14
+      hostPrefix: 23
+  machineNetwork:
+    - cidr: 10.0.0.0/16
+  networkType: OVNKubernetes
+  serviceNetwork:
+    - 172.30.0.0/16
+platform:
+  aws:
+    region: us-west-2
+publish: External
+pullSecret: "<your pull secret>"
+sshKey: "<your ssh Key>"
+----
+
+[start=2]
+. https://console.redhat.com/openshift/downloads#tool-x86_64-openshift-install からOpenShiftインストーラーをダウンロードします。
+
+. #install-config.yaml# ファイルを使用してインストールを実行してください。
+
+[.console-input]
+[source,bash]
+----
+./openshift-install create cluster --dir . --log-level=info
+----
+
+[start=4]
+. インストールが完了したら、#kubeadmin# の認証情報を使用してクラスターにログインできます。
+
+---

@@ -1,0 +1,96 @@
+= OpenShift AI のコンソールにログイン
+include::_attributes.adoc[]
+
+
+== 接続情報
+
+RHDPを使用したハンズオンの場合は、講師から接続情報を入手してください。#<># の中は講師から入手した情報に置き換えてください。
+
+* OpenShift AI コンソール URL
+
+[.console-input]
+[source]
+----
+https://data-science-gateway.apps.ocp.<xxxxx>.sandbox<xxxx>.opentlc.com
+----
+
+* OpenShift コンソール URL
+
+[.console-input]
+[source]
+----
+https://console-openshift-console.apps.ocp.<xxxxx>.sandbox<xxxx>.opentlc.com
+----
+
+* ユーザー
+
+[.console-input]
+[source]
+----
+user<xx>
+----
+
+* パスワード
+
+[.console-input]
+[source]
+----
+user<xx>
+----
+
+
+== ラボユーザーの登録とコンソールへのログイン
+
+ブラウザで OpenShift AI のコンソールを開き、[blue]#Register# を選択します。
+
+image::rhoai3/connect/start.png[link=self, window=blank, width=100%]
+
+ユーザー名、パスワードの設定と、メールアドレス（会社で使用しているもの）を入力して #Register# を選択します。
+
+image::rhoai3/connect/register.png[link=self, window=blank, width=100%]
+
+OpenShift AI にログインして、コンソールが表示されます。
+
+image::rhoai3/connect/console.png[link=self, window=blank, width=100%]
+
+（参考）同じユーザー名とパスワードで OpenShift のコンソールにもログインできるので、OpenShift でのリソースの見え方なども確認できます。
+
+OpenShift コンソールから OpenShift AI のコンソールに移行するには、右上の #?# 左のメニューから #Red Hat OpenShift AI# を選択します。
+
+image::rhoai3/connect/openshift.png[link=self, window=blank, width=100%]
+
+
+== OpenShift AI コンソールを散歩
+
+左に次のメニューがあります。各メニューの中を覗いてみてください。
+
+* *Projects:*
+あああ
+
+* *AI hub:*
+いいい
+モデルのカタログやレジストリのを表示します。展開されたモデルの情報も表示します。
+
+* *Gen AI studio:*
+ううう
+Gen AI を試してみるための環境で、モデルの動作や MCP Server への説などを確認できます。接続先のエンドポイントも確認できます。
+
+* *Develop & train:*
+えええ
+Feature store や Pipelines、Evaluations のメニューがあり、トレーニングやモデルの評価を実行できます。
+
+* *Learning resources:*
+えええ
+OpenShift AIや AI 開発を学習するためのチュートリアルが準備されています。
+
+* *Applications:*
+えええ
+Ecosystem ソフトウェアのカタログを表示します。
+
+* *Settings:*
+えええ
+TiersはTech Previewです。
+
+（補足）Project, Workbench, Playgound は後のハンズオンで触れます。
+
+---

@@ -1,0 +1,41 @@
+= Deploy OpenShift 3.0 DataScienceCluster
+include::_attributes.adoc[]
+
+オペレーターのインストールと実行が完了したので、いよいよOpenShift AI自体をデプロイする段階です！
+
+. コンソールの右上にある #+# を使用して、DataScienceClusterを作成します。
+
+[.console-input]
+[source,yaml]
+----
+kind: DataScienceCluster
+apiVersion: datasciencecluster.opendatahub.io/v2
+metadata:
+ name: default-dsc
+spec:
+ components:
+   dashboard:
+     managementState: Managed
+   aipipelines:
+     managementState: Managed
+   feastoperator:
+     managementState: Managed
+   kserve:
+     managementState: Managed
+   llamastackoperator:
+     managementState: Managed
+   kueue:
+     managementState: Removed
+   modelregistry:
+     managementState: Managed
+     registriesNamespace: rhoai-model-registries
+   ray:
+     managementState: Managed
+   workbenches:
+     managementState: Managed
+   trainingoperator:
+     managementState: Managed
+   trustyai:
+     managementState: Managed
+----
+---

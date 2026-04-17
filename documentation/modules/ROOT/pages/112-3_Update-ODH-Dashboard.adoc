@@ -1,0 +1,31 @@
+= Update the ODH Dashboard
+include::_attributes.adoc[]
+
+[Note]
+====
+NOTE: RHPDSから環境をオーダーした場合は、これらの手順を実行する必要はありません。OpenShift AI は既にデプロイ済みです。
+====
+
+[.console-input]
+[source,yaml]
+----
+apiVersion: opendatahub.io/v1alpha
+kind: OdhDashboardConfig
+metadata:
+ name: odh-dashboard-config
+ namespace: redhat-ods-applications
+spec:
+ dashboardConfig:
+   disableTracking: false
+   disableModelRegistry: false
+   disableModelCatalog: false
+   disableKServeMetrics: false
+   genAiStudio: true
+   modelAsService: true
+   disableLMEval: false
+ notebookController:
+   enabled: true
+   notebookNamespace: rhods-notebooks
+   pvcSize: 20Gi
+----
+---

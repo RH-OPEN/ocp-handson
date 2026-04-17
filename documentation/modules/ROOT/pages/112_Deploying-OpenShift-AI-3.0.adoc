@@ -1,0 +1,8 @@
+= Deploying OpenShift AI 3.0
+include::_attributes.adoc[]
+
+[Note]
+====
+NOTE: RHPDSから環境をオーダーした場合は、これらの手順を実行する必要はありません。OpenShift AI は既にデプロイ済みです。インストールされている Operator や各リソースをご確認ください。
+====
+---

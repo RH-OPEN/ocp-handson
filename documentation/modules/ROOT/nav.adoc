@@ -78,3 +78,9 @@
 ** xref:101-podman-cockpit.adoc[1. Podman Lab]
 ** xref:102-openshift-console.adoc[2. OpenShift Lab]
 ** xref:103-openshift-gitlab.adoc[Appendix. Install the GitLab on OpenShift]
+
+* 110. OpenShift AI 3 を試す（建設中）
+** xref:110_OpenShift-AI-3.adoc[0. はじめに]
+** xref:111_Installing-OpenShift-IPI.adoc[1. Installing OpenShift (IPI)]
+** xref:112_Deploying-OpenShift-AI-3.0.adoc[2. Deploying OpenShift AI 3.0]
+** xref:83-module-03-to-the-moon.adoc[3. OpenShift AI 3 を試す]
