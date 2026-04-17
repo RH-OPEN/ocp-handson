@@ -81,6 +81,6 @@
 
 * 110. OpenShift AI 3 を試す（建設中）
 ** xref:110_OpenShift-AI-3.adoc[0. はじめに]
-** xref:111_Installing-OpenShift-IPI.adoc[1. Installing OpenShift (IPI)]
-** xref:112_Deploying-OpenShift-AI-3.0.adoc[2. Deploying OpenShift AI 3.0]
-** xref:83-module-03-to-the-moon.adoc[3. OpenShift AI 3 を試す]
+** xref:111-0_Installing-OpenShift-IPI.adoc[1. Installing OpenShift (IPI)]
+** xref:112-0_Deploying-OpenShift-AI-3.0.adoc[2. Deploying OpenShift AI 3.0]
+** xref:113-0_Play-with-OpenShift-AI-3.adoc[3. OpenShift AI 3 を試す]
