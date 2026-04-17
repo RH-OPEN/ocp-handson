@@ -6,11 +6,11 @@ include::_attributes.adoc[]
 
 == DataScience Project の作成
 
-#Create project# を選択します。
+`Create project` を選択します。
 
 image::rhoai3/connect/console.png[link=self, window=blank, width=100%]
 
-プロジェクト名はユーザー名と同じ（#user<xx>#）にします。#Create# を選択してプロジェクトを作成します。
+プロジェクト名はユーザー名と同じ（`user<xx>`）にします。`Create` を選択してプロジェクトを作成します。
 
 image::rhoai3/project/createproject.png[link=self, window=blank, width=100%]
 
@@ -47,18 +47,31 @@ Workbenchで中間ファイルなどの共有情報を保持するために使�
 
 == Connection の作成
 
-Connections タブから、#Create connection# を選択します。
+Connections タブから、`Create connection` を選択します。
 
 image::rhoai3/project/connectionstab.png[link=self, window=blank, width=100%]
 
-*Connection type* に #URI - v1# を選択します。
+*Connection type* に `URI - v1` を選択します。
 
 image::rhoai3/project/connectiontype.png[link=self, window=blank, width=100%]
 
-以下を入力して、#Create# を選択します。
+以下を入力して、`Create` を選択します。
 
-* *Connection details :* llama-32-3b-instruct
-* *URI :* oci://quay.io/redhat-ai-services/modelcar-catalog:llama-3.2-3b-instruct
+* *Connection details :*
+
+[.console-input]
+[source]
+----
+llama-32-3b-instruct
+----
+
+* *URI :*
+
+[.console-input]
+[source]
+----
+oci://quay.io/redhat-ai-services/modelcar-catalog:llama-3.2-3b-instruct
+----
 
 image::rhoai3/project/createconnection.png[link=self, window=blank, width=100%]
 
@@ -69,16 +82,16 @@ image::rhoai3/project/connection.png[link=self, window=blank, width=100%]
 
 == モデルのランタイムの作成とモデルのデプロイ
 
-Deployments タブから、#Deploy model# を選択します。
+Deployments タブから、`Deploy model` を選択します。
 
 image::rhoai3/project/deploymentstab.png[link=self, window=blank, width=100%]
 
-*Model location* に #Existing connection# 、を *Model type* に #Generative AI model (Example, LLM)# 選択（*Connection* は1つしか存在しないので自動で選択されます。）し、#Next# を選択します。
+*Model location* に `Existing connection` を *Model type* に `Generative AI model (Example, LLM)` を選択（*Connection* は1つしか存在しないので自動で選択されます。）し、`Next` を選択します。
 
 image::rhoai3/project/modeldetails.png[link=self, window=blank, width=100%]
 
 *Model deployment name* を llama-32-3b-instruct
-とし、*Hardware profie* に #gpu-profile# を選択します。
+とし、*Hardware profie* に `gpu-profile` を選択します。
 
 image::rhoai3/project/modeldeployment.png[link=self, window=blank, width=100%]
 
@@ -93,7 +106,7 @@ image::rhoai3/project/modeldeployment.png[link=self, window=blank, width=100%]
 
 image::rhoai3/project/customizeresource.png[link=self, window=blank, width=100%]
 
-*Service runtime* は #Auto-select the best runtime for my model based on model type, model format, and hardware profile# にして、#Next# を選択します。
+*Service runtime* は `Auto-select the best runtime for my model based on model type, model format, and hardware profile` にして、`Next` を選択します。
 
 image::rhoai3/project/servingruntime.png[link=self, window=blank, width=100%]
 
@@ -116,14 +129,16 @@ image::rhoai3/project/advancedsettings.png[link=self, window=blank, width=100%]
 
 image::rhoai3/project/runtimearguments.png[link=self, window=blank, width=100%]
 
-Review 画面で入力を確認して、#Deploy model# を選択します。
+Review 画面で入力を確認して、`Deploy model` を選択します。
 
 image::rhoai3/project/deploymodel.png[link=self, window=blank, width=100%]
 
 Deploy中：
+
 image::rhoai3/project/deploying.png[link=self, window=blank, width=100%]
 
 Deploy 完了後：
+
 image::rhoai3/project/deployed.png[link=self, window=blank, width=100%]
 
 [Note]
@@ -133,5 +148,3 @@ NOTE: 共有環境のため、モデルを1つ以上デプロイしないでく�
 
 その他のタブの中も見てみてください。
 （補足）Workbenchについては後のパートで触れます。
-
----

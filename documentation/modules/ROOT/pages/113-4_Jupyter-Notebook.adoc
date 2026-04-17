@@ -5,15 +5,15 @@ include::_attributes.adoc[]
 
 == Workbenchの作成
 
-左のメニューの #Projects# を選択して、ハンズオンの最初で作成した自分のプロジェクト [blue]#user<xx># を選択します。
+左のメニューの `Projects` を選択して、ハンズオンの最初で作成した自分のプロジェクト [blue]#user<xx># を選択します。
 
 image::rhoai3/workbench/projects.png[link=self, window=blank, width=100%]
 
-#Create a workbench# を選択します。
+`Create a workbench` を選択します。
 
 image::rhoai3/workbench/userproject.png[link=self, window=blank, width=100%]
 
-*Name* に適当な名前を入力（例：#My Workbench#）し、*Workbench image* の *Image selection* で #Jupyter|Minimal|CPU|Python 3.12# を選択します。
+*Name* に適当な名前を入力（例：`My Workbench`）し、*Workbench image* の *Image selection* で `Jupyter|Minimal|CPU|Python 3.12` を選択します。
 
 image::rhoai3/workbench/nameanddescription.png[link=self, window=blank, width=100%]
 
@@ -21,17 +21,17 @@ image::rhoai3/workbench/nameanddescription.png[link=self, window=blank, width=10
 
 image::rhoai3/workbench/imageselection.png[link=self, window=blank, width=100%]
 
-残りの項目はデフォルトのままで #Create workbench# を選択します。
+残りの項目はデフォルトのままで `Create workbench` を選択します。
 
 image::rhoai3/workbench/createworkbench.png[link=self, window=blank, width=100%]
 
 （補足）
 
-. Storage Class から Cluster storage が作成されます。右端のドットのメニューから #Edit# を選んで設定を確認してください。事前に Cluster storage タブから作成することも可能です。
+. Storage Class から Cluster storage が作成されます。右端のドットのメニューから `Edit` を選んで設定を確認してください。事前に Cluster storage タブから作成することも可能です。
 
 image::rhoai3/workbench/editclusterstorage.png[link=self, window=blank, width=100%]
 
-#Cancel# を選択して元の画面に戻ります。
+`Cancel` を選択して元の画面に戻ります。
 
 image::rhoai3/workbench/clusterstorage.png[link=self, window=blank, width=100%]
 
@@ -47,7 +47,7 @@ Workbenchの作成には1〜2分かかることがあります。
 
 image::rhoai3/workbench/startingworkbench.png[link=self, window=blank, width=100%]
 
-*Starus* が #Running# になったら、ワークベンチ名の横の矢印から、Workbenchに接続します。
+*Starus* が `Running` になったら、ワークベンチ名の横の矢印から、Workbenchに接続します。
 
 image::rhoai3/workbench/runningworkbench.png[link=self, window=blank, width=100%]
 
@@ -135,5 +135,3 @@ image::rhoai3/workbench/editednotebook.png[link=self, window=blank, width=100%]
 image::rhoai3/workbench/result.png[link=self, window=blank, width=100%]
 
 以上で本日のワークショップは終了です。お疲れ様でした。
-
----

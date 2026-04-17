@@ -28,4 +28,3 @@ spec:
    notebookNamespace: rhods-notebooks
    pvcSize: 20Gi
 ----
----

@@ -5,15 +5,16 @@ OpenShift 3 の新規機能の Generative AI Playground を試してみましょ
 
 == Playground の作成と実行
 
-左の *Gen AI studio* の *Playground* メニューから、#Create playground# を選択してください。
+左の *Gen AI studio* の *Playground* メニューから、`Create playground` を選択してください。
 
 image::rhoai3/playground/genaistudio.png[link=self, window=blank, width=100%]
 
-*Available models* に先ほどDeployした llama-32-3b-instruct が表示、チェックされていることを確認して、#Create# を選択します。
+*Available models* に先ほどDeployした llama-32-3b-instruct が表示、チェックされていることを確認して、`Create` を選択します。
 
 image::rhoai3/playground/configureplayground.png[link=self, window=blank, width=100%]
 
 作成中：
+
 image::rhoai3/playground/creating.png[link=self, window=blank, width=100%]
 
 作成には数分かかることがあります。
@@ -24,8 +25,8 @@ NOTE: 5分たっても画面が切り替わらない場合は、ブラウザの�
 ====
 
 作成後：
-image::rhoai3/playground/playground.png[link=self, window=blank, width=100%]
 
+image::rhoai3/playground/playground.png[link=self, window=blank, width=100%]
 
 これで llama stack 経由でモデルにつながっているので、プロンプトやSystem instructionsやTemperatureを変更して、結果を試してみてください。
 
@@ -33,7 +34,7 @@ image::rhoai3/playground/letsplay.png[link=self, window=blank, width=100%]
 
 == 次のハンズオンの準備
 
-. 次のハンズオンで使うため、右上の #View Code# を選択してコードを出力します。
+. 次のハンズオンで使うため、右上の `View Code` を選択してコードを出力します。
 
 例：
 [.console-input]
@@ -99,11 +100,11 @@ print("agent>", response.output_text)
 
 [start=2]
 . 次にllama stack server の URL を確認します。
-右上の #?# の左のアプリケーションメニューから OpenShift のコンソールを起動します。
+右上の `?` の左のアプリケーションメニューから OpenShift のコンソールを起動します。
 
 image::rhoai3/playground/lunchopenshift.png[link=self, window=blank, width=100%]
 
-左のメニューの #ネットワーク# > #Service# からプロジェクトをハンズオンの最初で作成した自分のプロジェクト #user<xx># に設定します。
+左のメニューの `ネットワーク` > `Service` からプロジェクトをハンズオンの最初で作成した自分のプロジェクト `user<xx>` に設定します。
 
 image::rhoai3/playground/service.png[link=self, window=blank, width=100%]
 
@@ -115,17 +116,18 @@ image::rhoai3/playground/playgroundservice.png[link=self, window=blank, width=10
 
 または、lsd-genai-playground という名前の LlamaStackDistribution (LSD) というリソースに設定が保存されているのでそちらから Service URLが確認できます。
 
-左のメニューの #ホーム# > #検索# で検索できます。
+左のメニューの `ホーム` > `検索` で検索できます。
 
 image::rhoai3/playground/search.png[link=self, window=blank, width=100%]
 
 LlamaStackDistribution の詳細：
+
 image::rhoai3/playground/lsdgenaiplayground.png[link=self, window=blank, width=100%]
 
 [start=3]
 . Playground を作成すると、同時に NeworkPolicyが作成され、他のアプリケーションから llama stack server にアクセスできないので、それを上書きする NetworkPolicyを作成します。
 
-左のメニューの #ネットワーク# > #NetworkPolocies# からプロジェクトをハンズオンの最初で作成した自分のプロジェクト #user<xx># に設定します。
+左のメニューの `ネットワーク` > `NetworkPolocies` からプロジェクトをハンズオンの最初で作成した自分のプロジェクト `user<xx>` に設定します。
 
 image::rhoai3/playground/networkpolicy.png[link=self, window=blank, width=100%]
 
@@ -133,7 +135,7 @@ lsd-genai-playground-network-policy というのが Playground 作成時に自�
 
 image::rhoai3/playground/playgroundnetworkpolicy.png[link=self, window=blank, width=100%]
 
-#NetworkPoicy の作成# を選択して、YAML ビューに切り替え、以下を入力して、#作成# を選択します。
+`NetworkPoicy の作成` を選択して、YAML ビューに切り替え、以下を入力して、`作成` を選択します。
 
 [.console-input]
 [source,yaml]
@@ -157,5 +159,3 @@ spec:
 ----
 
 image::rhoai3/playground/mynetworkpolicy.png[link=self, window=blank, width=100%]
-
----

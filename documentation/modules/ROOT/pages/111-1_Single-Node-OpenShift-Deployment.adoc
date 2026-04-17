@@ -3,7 +3,7 @@ include::_attributes.adoc[]
 
 OpenShift AI は SNO クラスターにデプロイできます。これは多くの場合、テスト、調査、およびデモンストレーションの目的に対しては十分です。
 
-. 以下のサンプル #install-config.yaml# を使用して、シングルノード OpenShift (SNO) をデプロイします。
+. 以下のサンプル `install-config.yaml` を使用して、シングルノード OpenShift (SNO) をデプロイします。
 
 [.console-input]
 [source,yaml]
@@ -50,7 +50,7 @@ sshKey: "<your ssh Key>"
 [start=2]
 . https://console.redhat.com/openshift/downloads#tool-x86_64-openshift-install からOpenShiftインストーラーをダウンロードします。
 
-. #install-config.yaml# ファイルを使用してインストールを実行してください。
+. `install-config.yaml` ファイルを使用してインストールを実行してください。
 
 [.console-input]
 [source,bash]
@@ -59,6 +59,6 @@ sshKey: "<your ssh Key>"
 ----
 
 [start=4]
-. インストールが完了したら、#kubeadmin# の認証情報を使用してクラスターにログインできます。
+. インストールが完了したら、`kubeadmin` の認証情報を使用してクラスターにログインできます。
 
 ---

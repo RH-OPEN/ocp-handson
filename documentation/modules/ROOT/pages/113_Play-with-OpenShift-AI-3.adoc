@@ -8,5 +8,3 @@ include::_attributes.adoc[]
 . DataScience Projectの作成と探検
 . Playgroundで遊ぶ
 . Workbenchの作成とJupyter Notebookでの実行
-
----

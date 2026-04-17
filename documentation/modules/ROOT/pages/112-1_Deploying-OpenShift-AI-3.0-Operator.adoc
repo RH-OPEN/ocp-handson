@@ -3,7 +3,6 @@ include::_attributes.adoc[]
 
 OpenShift AI 3.0 は Operator Hub から一般提供が開始されました。
 
-#fast-3.x# チャネルから Operator をインストールし、すべてのデフォルトオプションをそのまま使用してください。
+`fast-3.x` チャネルから Operator をインストールし、すべてのデフォルトオプションをそのまま使用してください。
 
 //TODO: スクリーンショット
----

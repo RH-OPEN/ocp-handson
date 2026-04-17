@@ -3,7 +3,7 @@ include::_attributes.adoc[]
 
 オペレーターのインストールと実行が完了したので、いよいよOpenShift AI自体をデプロイする段階です！
 
-. コンソールの右上にある #+# を使用して、DataScienceClusterを作成します。
+. コンソールの右上にある `+` を使用して、DataScienceClusterを作成します。
 
 [.console-input]
 [source,yaml]
@@ -38,4 +38,3 @@ spec:
    trustyai:
      managementState: Managed
 ----
----
