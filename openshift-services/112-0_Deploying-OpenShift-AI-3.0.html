@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Playground で遊ぶ :: OpenShift Handson</title>
-    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/113-3_Try-Playgournd.html">
+    <title>Deploying OpenShift AI 3.0 :: OpenShift Handson</title>
+    <link rel="canonical" href="https://rh-open.github.io/ocp-handson/openshift-services/112-0_Deploying-OpenShift-AI-3.0.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
   </head>
@@ -304,47 +304,14 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">OpenShift Handson</a></li>
-    <li><a href="113-3_Try-Playgournd.html">Playground で遊ぶ</a></li>
+    <li><a href="112-0_Deploying-OpenShift-AI-3.0.html">Deploying OpenShift AI 3.0</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/113-3_Try-Playgournd.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/RH-OPEN/ocp-handson/edit/master/documentation/modules/ROOT/pages/112-0_Deploying-OpenShift-AI-3.0.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Playground で遊ぶ</h1>
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>OpenShift 3 の新規機能の Generative AI Playground を試してみましょう。</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_playground_の作成と実行"><a class="anchor" href="#_playground_の作成と実行"></a>Playground の作成と実行</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>左の <strong>Gen AI studio</strong> の <strong>Playground</strong> メニューから、<mark>Create playground</mark> を選択してください。</p>
-</div>
-<div class="imageblock unresolved">
-<div class="content">
-<a class="image" href="rhoai3/playground/genaistudio.png" target="blank"><img src="rhoai3/playground/genaistudio.png" alt="genaistudio" width="100%"></a>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>Available models</strong> に先ほどDeployした llama-32-3b-instruct が表示、チェックされていることを確認して、<mark>Create</mark> を選択します。</p>
-</div>
-<div class="imageblock unresolved">
-<div class="content">
-<a class="image" href="rhoai3/playground/configureplayground.png" target="blank"><img src="rhoai3/playground/configureplayground.png" alt="configureplayground" width="100%"></a>
-</div>
-</div>
-<div class="paragraph">
-<p>作成中：
-image::rhoai3/playground/creating.png[link=self, window=blank, width=100%]</p>
-</div>
-<div class="paragraph">
-<p>作成には数分かかることがあります。</p>
-</div>
+<h1 class="page">Deploying OpenShift AI 3.0</h1>
 <div class="exampleblock">
 <div class="content">
 <div class="admonitionblock note">
@@ -354,202 +321,14 @@ image::rhoai3/playground/creating.png[link=self, window=blank, width=100%]</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-5分たっても画面が切り替わらない場合は、ブラウザの画面をリロードしてください。
+RHPDSから環境をオーダーした場合は、これらの手順を実行する必要はありません。OpenShift AI は既にデプロイ済みです。インストールされている Operator や各リソースをご確認ください。
 </td>
 </tr>
 </table>
 </div>
 </div>
 </div>
-<div class="paragraph">
-<p>作成後：
-image::rhoai3/playground/playground.png[link=self, window=blank, width=100%]</p>
-</div>
-<div class="paragraph">
-<p>これで llama stack 経由でモデルにつながっているので、プロンプトやSystem instructionsやTemperatureを変更して、結果を試してみてください。</p>
-</div>
-<div class="imageblock unresolved">
-<div class="content">
-<a class="image" href="rhoai3/playground/letsplay.png" target="blank"><img src="rhoai3/playground/letsplay.png" alt="letsplay" width="100%"></a>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_次のハンズオンの準備"><a class="anchor" href="#_次のハンズオンの準備"></a>次のハンズオンの準備</h2>
-<div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>次のハンズオンで使うため、右上の <mark>View Code</mark> を選択してコードを出力します。</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>例：</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python"># Llama Stack Quickstart Script
-#
-# README:
-# This example shows how to configure an assistant using the Llama Stack client.
-# Before using this code, make sure of the following:
-#
-# 1. Required Packages:
-#    - Install the required dependencies using pip:
-#      pip install llama-stack-client
-#    - NOTE: Verify the correct llama-stack-client version for your Llama Stack server instance,
-#      then install that version as needed.
-#
-# 2. Llama Stack Server:
-#    - Your Llama Stack instance must be running and accessible
-#    - Set the LLAMA_STACK_URL variable to the base URL of your Llama Stack server
-#
-# 3. Model Configuration:
-#    - The selected model (e.g., "llama3.2:3b") must be available in your Llama Stack deployment.
-#
-# 4. Tools (MCP Integration):
-#    - Any tools used must be properly pre-configured in your Llama Stack setup.
-
-# Configuration adjust as needed:
-LLAMA_STACK_URL = ""
-FILES_BASE_PATH = ""
-input_text = "OpenShift AIのすばらしいところを5つあげてください。"
-model_name = "vllm-inference-1/llama-32-3b-instruct"
-vector_store_name = "0a041b9462caa4a31bac3567e0b6e6fd"
-system_instructions = """You are a helpful AI assistant. You are designed to answer questions in a concise and professional manner.
-"""
-
-import os
-
-from llama_stack_client import LlamaStackClient
-
-client = LlamaStackClient(base_url=LLAMA_STACK_URL)
-
-# Create vector store
-vector_store = client.vector_stores.create(
-    name=vector_store_name,
-    extra_body={
-        "provider_id": "milvus"
-    }
-)
-
-config = {
-    "input": input_text,
-    "model": model_name,
-    "instructions": system_instructions
-}
-
-response = client.responses.create(**config)
-
-print("agent&gt;", response.output_text)</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>これをどこかに保存しておいてください。</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="2">
-<li>
-<p>次にllama stack server の URL を確認します。
-右上の <mark>?</mark> の左のアプリケーションメニューから OpenShift のコンソールを起動します。</p>
-</li>
-</ol>
-</div>
-<div class="imageblock unresolved">
-<div class="content">
-<a class="image" href="rhoai3/playground/lunchopenshift.png" target="blank"><img src="rhoai3/playground/lunchopenshift.png" alt="lunchopenshift" width="100%"></a>
-</div>
-</div>
-<div class="paragraph">
-<p>左のメニューの <mark>ネットワーク</mark> &gt; <mark>Service</mark> からプロジェクトをハンズオンの最初で作成した自分のプロジェクト <mark>user&lt;xx&gt;</mark> に設定します。</p>
-</div>
-<div class="imageblock unresolved">
-<div class="content">
-<a class="image" href="rhoai3/playground/service.png" target="blank"><img src="rhoai3/playground/service.png" alt="service" width="100%"></a>
-</div>
-</div>
-<div class="paragraph">
-<p>Service: <span class="blue">lsd-genai-playground-service</span> が先ほどの Playground で作成した llam stack server です。選択して中を確認してください。次のハンズオンではこのサービス名かホスト名にポート8321でアクセスします。</p>
-</div>
-<div class="imageblock unresolved">
-<div class="content">
-<a class="image" href="rhoai3/playground/playgroundservice.png" target="blank"><img src="rhoai3/playground/playgroundservice.png" alt="playgroundservice" width="100%"></a>
-</div>
-</div>
-<div class="paragraph">
-<p>このサービス名もしくはホスト名をどこかに保存しておいてください。</p>
-</div>
-<div class="paragraph">
-<p>または、lsd-genai-playground という名前の LlamaStackDistribution (LSD) というリソースに設定が保存されているのでそちらから Service URLが確認できます。</p>
-</div>
-<div class="paragraph">
-<p>左のメニューの <mark>ホーム</mark> &gt; <mark>検索</mark> で検索できます。</p>
-</div>
-<div class="imageblock unresolved">
-<div class="content">
-<a class="image" href="rhoai3/playground/search.png" target="blank"><img src="rhoai3/playground/search.png" alt="search" width="100%"></a>
-</div>
-</div>
-<div class="paragraph">
-<p>LlamaStackDistribution の詳細：
-image::rhoai3/playground/lsdgenaiplayground.png[link=self, window=blank, width=100%]</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="3">
-<li>
-<p>Playground を作成すると、同時に NeworkPolicyが作成され、他のアプリケーションから llama stack server にアクセスできないので、それを上書きする NetworkPolicyを作成します。</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>左のメニューの <mark>ネットワーク</mark> &gt; <mark>NetworkPolocies</mark> からプロジェクトをハンズオンの最初で作成した自分のプロジェクト <mark>user&lt;xx&gt;</mark> に設定します。</p>
-</div>
-<div class="imageblock unresolved">
-<div class="content">
-<a class="image" href="rhoai3/playground/networkpolicy.png" target="blank"><img src="rhoai3/playground/networkpolicy.png" alt="networkpolicy" width="100%"></a>
-</div>
-</div>
-<div class="paragraph">
-<p>lsd-genai-playground-network-policy というのが Playground 作成時に自動で作られた Network Policy です。redhat-ods-applications という Namespaceからか、同じ Namespaceの llama-stack というアプリケーションからしかアクセスできなくなっています。</p>
-</div>
-<div class="imageblock unresolved">
-<div class="content">
-<a class="image" href="rhoai3/playground/playgroundnetworkpolicy.png" target="blank"><img src="rhoai3/playground/playgroundnetworkpolicy.png" alt="playgroundnetworkpolicy" width="100%"></a>
-</div>
-</div>
-<div class="paragraph">
-<p><mark>NetworkPoicy の作成</mark> を選択して、YAML ビューに切り替え、以下を入力して、<mark>作成</mark> を選択します。</p>
-</div>
-<div class="listingblock console-input">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kind: NetworkPolicy
-apiVersion: networking.k8s.io/v1
-metadata:
- name: allow-from-my-app-to-llama-stack
- namespace: user1
-spec:
- podSelector:
-   matchLabels:
-     app: llama-stack
- ingress:
-   - from:
-       - namespaceSelector:
-           matchLabels:
-             kubernetes.io/metadata.name: user1
- policyTypes:
-   - Ingress</code></pre>
-</div>
-</div>
-<div class="imageblock unresolved">
-<div class="content">
-<a class="image" href="rhoai3/playground/mynetworkpolicy.png" target="blank"><img src="rhoai3/playground/mynetworkpolicy.png" alt="mynetworkpolicy" width="100%"></a>
-</div>
-</div>
 <hr>
-</div>
-</div>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
