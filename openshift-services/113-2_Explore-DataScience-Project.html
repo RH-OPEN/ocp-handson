@@ -366,7 +366,7 @@
 <h2 id="_datascience_project_の作成"><a class="anchor" href="#_datascience_project_の作成"></a>DataScience Project の作成</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><mark>Create project</mark> を選択します。</p>
+<p><code>Create project</code> を選択します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -374,7 +374,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>プロジェクト名はユーザー名と同じ（<mark>user&lt;xx&gt;</mark>）にします。<mark>Create</mark> を選択してプロジェクトを作成します。</p>
+<p>プロジェクト名はユーザー名と同じ（<code>user&lt;xx&gt;</code>）にします。<code>Create</code> を選択してプロジェクトを作成します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -435,7 +435,7 @@ Workbenchで中間ファイルなどの共有情報を保持するために使�
 <h2 id="_connection_の作成"><a class="anchor" href="#_connection_の作成"></a>Connection の作成</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Connections タブから、<mark>Create connection</mark> を選択します。</p>
+<p>Connections タブから、<code>Create connection</code> を選択します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -443,7 +443,7 @@ Workbenchで中間ファイルなどの共有情報を保持するために使�
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Connection type</strong> に <mark>URI - v1</mark> を選択します。</p>
+<p><strong>Connection type</strong> に <code>URI - v1</code> を選択します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -451,17 +451,31 @@ Workbenchで中間ファイルなどの共有情報を保持するために使�
 </div>
 </div>
 <div class="paragraph">
-<p>以下を入力して、<mark>Create</mark> を選択します。</p>
+<p>以下を入力して、<code>Create</code> を選択します。</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Connection details :</strong> llama-32-3b-instruct</p>
-</li>
-<li>
-<p><strong>URI :</strong> oci://quay.io/redhat-ai-services/modelcar-catalog:llama-3.2-3b-instruct</p>
+<p><strong>Connection details :</strong></p>
 </li>
 </ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">llama-32-3b-instruct</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>URI :</strong></p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">oci://quay.io/redhat-ai-services/modelcar-catalog:llama-3.2-3b-instruct</code></pre>
+</div>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -482,7 +496,7 @@ Workbenchで中間ファイルなどの共有情報を保持するために使�
 <h2 id="_モデルのランタイムの作成とモデルのデプロイ"><a class="anchor" href="#_モデルのランタイムの作成とモデルのデプロイ"></a>モデルのランタイムの作成とモデルのデプロイ</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Deployments タブから、<mark>Deploy model</mark> を選択します。</p>
+<p>Deployments タブから、<code>Deploy model</code> を選択します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -490,7 +504,7 @@ Workbenchで中間ファイルなどの共有情報を保持するために使�
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Model location</strong> に <mark>Existing connection</mark> 、を <strong>Model type</strong> に <mark>Generative AI model (Example, LLM)</mark> 選択（<strong>Connection</strong> は1つしか存在しないので自動で選択されます。）し、<mark>Next</mark> を選択します。</p>
+<p><strong>Model location</strong> に <code>Existing connection</code> を <strong>Model type</strong> に <code>Generative AI model (Example, LLM)</code> を選択（<strong>Connection</strong> は1つしか存在しないので自動で選択されます。）し、<code>Next</code> を選択します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -499,7 +513,7 @@ Workbenchで中間ファイルなどの共有情報を保持するために使�
 </div>
 <div class="paragraph">
 <p><strong>Model deployment name</strong> を llama-32-3b-instruct
-とし、<strong>Hardware profie</strong> に <mark>gpu-profile</mark> を選択します。</p>
+とし、<strong>Hardware profie</strong> に <code>gpu-profile</code> を選択します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -537,7 +551,7 @@ Workbenchで中間ファイルなどの共有情報を保持するために使�
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Service runtime</strong> は <mark>Auto-select the best runtime for my model based on model type, model format, and hardware profile</mark> にして、<mark>Next</mark> を選択します。</p>
+<p><strong>Service runtime</strong> は <code>Auto-select the best runtime for my model based on model type, model format, and hardware profile</code> にして、<code>Next</code> を選択します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -571,7 +585,7 @@ Workbenchで中間ファイルなどの共有情報を保持するために使�
 </div>
 </div>
 <div class="paragraph">
-<p>Review 画面で入力を確認して、<mark>Deploy model</mark> を選択します。</p>
+<p>Review 画面で入力を確認して、<code>Deploy model</code> を選択します。</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -579,12 +593,20 @@ Workbenchで中間ファイルなどの共有情報を保持するために使�
 </div>
 </div>
 <div class="paragraph">
-<p>Deploy中：
-image::rhoai3/project/deploying.png[link=self, window=blank, width=100%]</p>
+<p>Deploy中：</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/deploying.png" target="blank"><img src="_images/rhoai3/project/deploying.png" alt="deploying" width="100%"></a>
+</div>
 </div>
 <div class="paragraph">
-<p>Deploy 完了後：
-image::rhoai3/project/deployed.png[link=self, window=blank, width=100%]</p>
+<p>Deploy 完了後：</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/project/deployed.png" target="blank"><img src="_images/rhoai3/project/deployed.png" alt="deployed" width="100%"></a>
+</div>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -606,7 +628,6 @@ image::rhoai3/project/deployed.png[link=self, window=blank, width=100%]</p>
 <p>その他のタブの中も見てみてください。
 （補足）Workbenchについては後のパートで触れます。</p>
 </div>
-<hr>
 </div>
 </div>
 <nav class="pagination">

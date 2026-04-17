@@ -366,7 +366,7 @@
 <h2 id="_playground_の作成と実行"><a class="anchor" href="#_playground_の作成と実行"></a>Playground の作成と実行</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>左の <strong>Gen AI studio</strong> の <strong>Playground</strong> メニューから、<mark>Create playground</mark> を選択してください。</p>
+<p>左の <strong>Gen AI studio</strong> の <strong>Playground</strong> メニューから、<code>Create playground</code> を選択してください。</p>
 </div>
 <div class="imageblock unresolved">
 <div class="content">
@@ -374,7 +374,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Available models</strong> に先ほどDeployした llama-32-3b-instruct が表示、チェックされていることを確認して、<mark>Create</mark> を選択します。</p>
+<p><strong>Available models</strong> に先ほどDeployした llama-32-3b-instruct が表示、チェックされていることを確認して、<code>Create</code> を選択します。</p>
 </div>
 <div class="imageblock unresolved">
 <div class="content">
@@ -382,8 +382,12 @@
 </div>
 </div>
 <div class="paragraph">
-<p>作成中：
-image::rhoai3/playground/creating.png[link=self, window=blank, width=100%]</p>
+<p>作成中：</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<a class="image" href="rhoai3/playground/creating.png" target="blank"><img src="rhoai3/playground/creating.png" alt="creating" width="100%"></a>
+</div>
 </div>
 <div class="paragraph">
 <p>作成には数分かかることがあります。</p>
@@ -405,8 +409,12 @@ image::rhoai3/playground/creating.png[link=self, window=blank, width=100%]</p>
 </div>
 </div>
 <div class="paragraph">
-<p>作成後：
-image::rhoai3/playground/playground.png[link=self, window=blank, width=100%]</p>
+<p>作成後：</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<a class="image" href="rhoai3/playground/playground.png" target="blank"><img src="rhoai3/playground/playground.png" alt="playground" width="100%"></a>
+</div>
 </div>
 <div class="paragraph">
 <p>これで llama stack 経由でモデルにつながっているので、プロンプトやSystem instructionsやTemperatureを変更して、結果を試してみてください。</p>
@@ -424,7 +432,7 @@ image::rhoai3/playground/playground.png[link=self, window=blank, width=100%]</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>次のハンズオンで使うため、右上の <mark>View Code</mark> を選択してコードを出力します。</p>
+<p>次のハンズオンで使うため、右上の <code>View Code</code> を選択してコードを出力します。</p>
 </li>
 </ol>
 </div>
@@ -496,29 +504,29 @@ print("agent&gt;", response.output_text)</code></pre>
 <ol class="arabic" start="2">
 <li>
 <p>次にllama stack server の URL を確認します。
-右上の <mark>?</mark> の左のアプリケーションメニューから OpenShift のコンソールを起動します。</p>
+右上の <code>?</code> の左のアプリケーションメニューから OpenShift のコンソールを起動します。</p>
 </li>
 </ol>
 </div>
-<div class="imageblock unresolved">
+<div class="imageblock">
 <div class="content">
-<a class="image" href="rhoai3/playground/lunchopenshift.png" target="blank"><img src="rhoai3/playground/lunchopenshift.png" alt="lunchopenshift" width="100%"></a>
+<a class="image" href="_images/rhoai3/playground/lunchopenshift.png" target="blank"><img src="_images/rhoai3/playground/lunchopenshift.png" alt="lunchopenshift" width="100%"></a>
 </div>
 </div>
 <div class="paragraph">
-<p>左のメニューの <mark>ネットワーク</mark> &gt; <mark>Service</mark> からプロジェクトをハンズオンの最初で作成した自分のプロジェクト <mark>user&lt;xx&gt;</mark> に設定します。</p>
+<p>左のメニューの <code>ネットワーク</code> &gt; <code>Service</code> からプロジェクトをハンズオンの最初で作成した自分のプロジェクト <code>user&lt;xx&gt;</code> に設定します。</p>
 </div>
-<div class="imageblock unresolved">
+<div class="imageblock">
 <div class="content">
-<a class="image" href="rhoai3/playground/service.png" target="blank"><img src="rhoai3/playground/service.png" alt="service" width="100%"></a>
+<a class="image" href="_images/rhoai3/playground/service.png" target="blank"><img src="_images/rhoai3/playground/service.png" alt="service" width="100%"></a>
 </div>
 </div>
 <div class="paragraph">
 <p>Service: <span class="blue">lsd-genai-playground-service</span> が先ほどの Playground で作成した llam stack server です。選択して中を確認してください。次のハンズオンではこのサービス名かホスト名にポート8321でアクセスします。</p>
 </div>
-<div class="imageblock unresolved">
+<div class="imageblock">
 <div class="content">
-<a class="image" href="rhoai3/playground/playgroundservice.png" target="blank"><img src="rhoai3/playground/playgroundservice.png" alt="playgroundservice" width="100%"></a>
+<a class="image" href="_images/rhoai3/playground/playgroundservice.png" target="blank"><img src="_images/rhoai3/playground/playgroundservice.png" alt="playgroundservice" width="100%"></a>
 </div>
 </div>
 <div class="paragraph">
@@ -528,16 +536,20 @@ print("agent&gt;", response.output_text)</code></pre>
 <p>または、lsd-genai-playground という名前の LlamaStackDistribution (LSD) というリソースに設定が保存されているのでそちらから Service URLが確認できます。</p>
 </div>
 <div class="paragraph">
-<p>左のメニューの <mark>ホーム</mark> &gt; <mark>検索</mark> で検索できます。</p>
+<p>左のメニューの <code>ホーム</code> &gt; <code>検索</code> で検索できます。</p>
 </div>
-<div class="imageblock unresolved">
+<div class="imageblock">
 <div class="content">
-<a class="image" href="rhoai3/playground/search.png" target="blank"><img src="rhoai3/playground/search.png" alt="search" width="100%"></a>
+<a class="image" href="_images/rhoai3/playground/search.png" target="blank"><img src="_images/rhoai3/playground/search.png" alt="search" width="100%"></a>
 </div>
 </div>
 <div class="paragraph">
-<p>LlamaStackDistribution の詳細：
-image::rhoai3/playground/lsdgenaiplayground.png[link=self, window=blank, width=100%]</p>
+<p>LlamaStackDistribution の詳細：</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<a class="image" href="_images/rhoai3/playground/lsdgenaiplayground.png" target="blank"><img src="_images/rhoai3/playground/lsdgenaiplayground.png" alt="lsdgenaiplayground" width="100%"></a>
+</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="3">
@@ -547,23 +559,23 @@ image::rhoai3/playground/lsdgenaiplayground.png[link=self, window=blank, width=1
 </ol>
 </div>
 <div class="paragraph">
-<p>左のメニューの <mark>ネットワーク</mark> &gt; <mark>NetworkPolocies</mark> からプロジェクトをハンズオンの最初で作成した自分のプロジェクト <mark>user&lt;xx&gt;</mark> に設定します。</p>
+<p>左のメニューの <code>ネットワーク</code> &gt; <code>NetworkPolocies</code> からプロジェクトをハンズオンの最初で作成した自分のプロジェクト <code>user&lt;xx&gt;</code> に設定します。</p>
 </div>
-<div class="imageblock unresolved">
+<div class="imageblock">
 <div class="content">
-<a class="image" href="rhoai3/playground/networkpolicy.png" target="blank"><img src="rhoai3/playground/networkpolicy.png" alt="networkpolicy" width="100%"></a>
+<a class="image" href="_images/rhoai3/playground/networkpolicy.png" target="blank"><img src="_images/rhoai3/playground/networkpolicy.png" alt="networkpolicy" width="100%"></a>
 </div>
 </div>
 <div class="paragraph">
 <p>lsd-genai-playground-network-policy というのが Playground 作成時に自動で作られた Network Policy です。redhat-ods-applications という Namespaceからか、同じ Namespaceの llama-stack というアプリケーションからしかアクセスできなくなっています。</p>
 </div>
-<div class="imageblock unresolved">
+<div class="imageblock">
 <div class="content">
-<a class="image" href="rhoai3/playground/playgroundnetworkpolicy.png" target="blank"><img src="rhoai3/playground/playgroundnetworkpolicy.png" alt="playgroundnetworkpolicy" width="100%"></a>
+<a class="image" href="_images/rhoai3/playground/playgroundnetworkpolicy.png" target="blank"><img src="_images/rhoai3/playground/playgroundnetworkpolicy.png" alt="playgroundnetworkpolicy" width="100%"></a>
 </div>
 </div>
 <div class="paragraph">
-<p><mark>NetworkPoicy の作成</mark> を選択して、YAML ビューに切り替え、以下を入力して、<mark>作成</mark> を選択します。</p>
+<p><code>NetworkPoicy の作成</code> を選択して、YAML ビューに切り替え、以下を入力して、<code>作成</code> を選択します。</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
@@ -585,12 +597,11 @@ spec:
    - Ingress</code></pre>
 </div>
 </div>
-<div class="imageblock unresolved">
+<div class="imageblock">
 <div class="content">
-<a class="image" href="rhoai3/playground/mynetworkpolicy.png" target="blank"><img src="rhoai3/playground/mynetworkpolicy.png" alt="mynetworkpolicy" width="100%"></a>
+<a class="image" href="_images/rhoai3/playground/mynetworkpolicy.png" target="blank"><img src="_images/rhoai3/playground/mynetworkpolicy.png" alt="mynetworkpolicy" width="100%"></a>
 </div>
 </div>
-<hr>
 </div>
 </div>
 <nav class="pagination">

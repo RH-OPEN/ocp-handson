@@ -366,7 +366,7 @@
 <h2 id="_必要な操作"><a class="anchor" href="#_必要な操作"></a>必要な操作</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>OpenShift AI をプロビジョニングする前に、以下のオペレーターをインストールする必要があります。これらのオペレーターはすべて、<mark>latest</mark> または同等のチャネルを使用できます。</p>
+<p>OpenShift AI をプロビジョニングする前に、以下のオペレーターをインストールする必要があります。これらのオペレーターはすべて、<code>latest</code> または同等のチャネルを使用できます。</p>
 </div>
 <div class="ulist">
 <ul>
@@ -416,7 +416,8 @@
 </li>
 </ul>
 </div>
-<hr>
+<div class="exampleblock">
+<div class="content">
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -425,10 +426,11 @@
 </td>
 <td class="content">
 Service Mesh 3とKueueは、DataScienceCluster CRを介して自動的にインストールされます。
----
 </td>
 </tr>
 </table>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -449,7 +451,6 @@ data:
       enableUserAlertmanagerConfig: true</code></pre>
 </div>
 </div>
-<hr>
 </div>
 </div>
 <nav class="pagination">
