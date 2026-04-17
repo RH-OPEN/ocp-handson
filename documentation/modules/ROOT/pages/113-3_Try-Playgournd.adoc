@@ -1,4 +1,4 @@
-= Playground で遊ぶ
+= GenAI Studio Playground で遊ぶ
 include::_attributes.adoc[]
 
 OpenShift 3 の新規機能の Generative AI Playground を試してみましょう。
